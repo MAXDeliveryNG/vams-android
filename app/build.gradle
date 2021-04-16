@@ -1,0 +1,122 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "ng.max.vams"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            manifestPlaceholders.appNameSuffix = "-DBG"
+            debuggable true
+        }
+        release {
+            manifestPlaceholders.appNameSuffix = ""
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        dev {
+            dimension "default"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-DEV"
+            buildConfigField "boolean", "IS_DEV", "true"
+            resValue 'string', 'app_name', 'VAMS-DEV'
+        }
+
+        staging {
+            dimension "default"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-STAGING"
+            buildConfigField "boolean", "IS_DEV", "false"
+            resValue 'string', 'app_name', 'VAMS-STG'
+        }
+
+        production {
+            dimension "default"
+            buildConfigField "boolean", "IS_DEV", "false"
+            resValue 'string', 'app_name', 'VAMS'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName = 'VAMS'
+            def flavor = ''
+            def buildType = ''
+            def formattedDate = "-${(new Date()).format('yyyyMMdd-HHmm')}"
+            def version = ''
+
+            switch (variant.flavorName) {
+                case "production":
+                    flavor = '-PROD'
+                    version = "-v${defaultConfig.versionName}".replaceAll("\\.", "_")
+                    if (variant.buildType.name == 'debug') {
+                        buildType = '-Dbg'
+                    }
+                    break
+                case "staging":
+                    flavor = '-Stg'
+                    switch (variant.buildType.name) {
+                        case "debug":
+                            buildType = '-Dbg'
+                            break
+                        case "release":
+                            buildType = '-Rel'
+                            break
+                    }
+                    break
+                case "dev":
+                    flavor = '-Dev'
+                    switch (variant.buildType.name) {
+                        case "debug":
+                            buildType = '-Dbg'
+                            break
+                        case "release":
+                            buildType = '-Rel'
+                            break
+                    }
+                    break
+            }
+
+            outputFileName = fileName + flavor + buildType + version + formattedDate + ".apk"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
