@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion "30.0.3"
 
     defaultConfig {
@@ -48,12 +48,14 @@ android {
             dimension "default"
             applicationIdSuffix ".staging"
             versionNameSuffix "-STAGING"
+            buildConfigField "String", "BASE_URL", "\"https://api.staging.max.ng/\""
             buildConfigField "boolean", "IS_DEV", "false"
             resValue 'string', 'app_name', 'VAMS-STG'
         }
 
         production {
             dimension "default"
+            buildConfigField "String", "BASE_URL", "\"https://api.max.ng/\""
             buildConfigField "boolean", "IS_DEV", "false"
             resValue 'string', 'app_name', 'VAMS'
         }
@@ -114,6 +116,10 @@ android {
     kapt {
         correctErrorTypes true
     }
+
+    buildFeatures {
+        dataBinding true
+    }
 }
 
 dependencies {
@@ -131,9 +137,32 @@ dependencies {
     //Navigation Component
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    //Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+    //gson
+    implementation "com.google.code.gson:gson:$gson_version"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // define a BOM and its version
+    implementation "com.squareup.okhttp3:okhttp-bom:$okhttp_version"
+
+    // define any required OkHttp artifacts without version
+    implementation "com.squareup.okhttp3:okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor"
+
+    // <chuck>
+    // chuck release implementation
+    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuck_version"
+    // chuck debug implementations
+    debugImplementation "com.readystatesoftware.chuck:library:$chuck_version"
+    // </chuck>
 
     //HILT
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.legacy:legacy-support-v4:$legacy_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     // For instrumentation tests
