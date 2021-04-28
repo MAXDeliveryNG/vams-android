@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.login.LoginFragment">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/loginGuidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/dimen_16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/loginGuidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/dimen_16dp" />
+
+        <LinearLayout
+            android:id="@+id/vams_bg"
+            android:layout_width="@dimen/dimen_80dp"
+            android:layout_height="@dimen/dimen_45dp"
+            android:layout_marginTop="@dimen/dimen_54dp"
+            android:background="@color/very_dark_gray"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="@id/loginGuidelineStart"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/vams_label"
+                android:textColor="@color/vivid_yellow"
+                android:textSize="@dimen/dimen_16sp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/vamsLabel"
+            android:layout_width="@dimen/dimen_227dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_45dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/vams_full_label"
+            android:textColor="@color/very_dark_gray"
+            android:textSize="@dimen/dimen_24sp"
+            app:layout_constraintStart_toStartOf="@+id/loginGuidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/vams_bg" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameInputLayout"
+            style="@style/textInputLayout"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_45dp"
+            app:layout_constraintEnd_toStartOf="@+id/loginGuidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/loginGuidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/vamsLabel">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernameEditText"
+                style="@style/textInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email_hint"
+                android:textSize="@dimen/dimen_12sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordInputLayout"
+            style="@style/textInputLayout"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_24dp"
+            app:layout_constraintEnd_toStartOf="@+id/loginGuidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/loginGuidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/usernameInputLayout"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEditText"
+                style="@style/textInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ng.max.vams.customview.ProgressButton
+            android:id="@+id/loginButton"
+            style="@style/button"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="@dimen/dimen_55dp"
+            android:layout_marginTop="@dimen/dimen_24dp"
+            app:bgColor="@color/vivid_yellow"
+            app:text="@string/login_label"
+            app:textColor="@color/very_dark_gray"
+            app:layout_constraintEnd_toStartOf="@+id/loginGuidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/loginGuidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout" />
+
+        <TextView
+            android:id="@+id/forgotPasswordTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_32dp"
+            android:text="@string/forgot_password_label"
+            android:textColor="@color/orange"
+            app:layout_constraintEnd_toStartOf="@+id/loginGuidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/loginGuidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
