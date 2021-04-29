@@ -1,2 +1,10 @@
 <resources>
+    <string name="email_hint">Email address</string>
+    <string name="password">Password</string>
+    <string name="login_label">Login to my account</string>
+    <string name="vams_label">VAMS</string>
+    <string name="vams_full_label">Vehicle Activation Management system (VAMS)</string>
+    <string name="forgot_password_label"><u>Forgot password</u></string>
+    <string name="ok_label">Ok</string>
+    <string name="cancel_label">Cancel</string>
 </resources>
