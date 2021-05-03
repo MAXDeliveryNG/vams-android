@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F4F6FA"
-        tools:context=".ui.home.AssetFragment">
+        tools:context=".ui.asset.AssetFragment">
 
         <ng.max.vams.customview.CheckCardView
             android:id="@+id/checkInCard"

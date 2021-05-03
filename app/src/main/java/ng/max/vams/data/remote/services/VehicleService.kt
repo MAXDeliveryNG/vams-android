@@ -1,6 +1,7 @@
 package ng.max.vams.data.remote.services
 
 import ng.max.vams.data.remote.request.LoginBody
+import ng.max.vams.data.remote.response.AssetReasonResponse
 import ng.max.vams.data.remote.response.LoginResponse
 import ng.max.vams.data.remote.response.VehicleListResponse
 import retrofit2.Response
@@ -17,5 +18,8 @@ interface VehicleService {
 
     @GET("vehicles/v1/vehicle")
     suspend fun getVehicleListCount(@Query("vehicle_availability") availability: String) : Response<VehicleListResponse>
+
+    @GET("vehicles/v1/vehicle/availability/reasons")
+    suspend fun getReasons() : Response<AssetReasonResponse>
 
 }

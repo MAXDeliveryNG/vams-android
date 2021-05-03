@@ -7,9 +7,12 @@ import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.components.ViewModelComponent
 import ng.max.vams.data.local.AppDatabase
+import ng.max.vams.data.local.ReasonDao
 import ng.max.vams.data.local.VehicleDao
 import ng.max.vams.data.remote.services.UserService
 import ng.max.vams.data.remote.services.VehicleService
+import ng.max.vams.usecase.assetreason.DownloadAssetReasonUseCaseImpl
+import ng.max.vams.usecase.assetreason.GetAssetReasonUseCaseImpl
 import ng.max.vams.usecase.login.LoginUseCaseImpl
 import ng.max.vams.usecase.vehiclelist.VehicleListUseCaseImpl
 import retrofit2.Retrofit
@@ -41,5 +44,20 @@ object DataSourceModule{
     @Provides
     fun provideVehicleListUseCaseImpl(vehicleDao: VehicleDao, vehicleService: VehicleService): VehicleListUseCaseImpl =
             VehicleListUseCaseImpl(vehicleDao, vehicleService)
+
+    @Provides
+    fun provideReasonDao(appDatabase: AppDatabase): ReasonDao {
+        return appDatabase.reasonDao()
+    }
+
+    @Provides
+    fun provideDownloadAssetReasonUseCaseImpl(reasonDao: ReasonDao, vehicleService: VehicleService): DownloadAssetReasonUseCaseImpl =
+        DownloadAssetReasonUseCaseImpl(reasonDao, vehicleService)
+
+    @Provides
+    fun provideGetAssetReasonUseCaseImpl(reasonDao: ReasonDao, downloadAssetReasonUseCaseImpl: DownloadAssetReasonUseCaseImpl): GetAssetReasonUseCaseImpl =
+        GetAssetReasonUseCaseImpl(reasonDao, downloadAssetReasonUseCaseImpl)
+
+
 
 }

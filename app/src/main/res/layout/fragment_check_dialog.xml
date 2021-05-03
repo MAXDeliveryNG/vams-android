@@ -5,9 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/checkCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_222dp"
+        app:cardElevation="@dimen/dimen_0dp"
+        app:cardMaxElevation="@dimen/dimen_0dp"
+        app:shapeAppearance="@style/ShapeAppearanceCardView"
         tools:context=".ui.shared.CheckDialogFragment">
 
 
@@ -15,15 +17,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <View
+                android:id="@+id/view"
+                android:layout_width="@dimen/dimen_36dp"
+                android:layout_height="5dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/very_light_gray_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ng.max.vams.customview.CheckStateView
                 android:id="@+id/checkInStateView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 app:icon="@drawable/ic_check_in"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view"
                 app:subTitle="Check in vehicles."
                 app:title="Check in">
 

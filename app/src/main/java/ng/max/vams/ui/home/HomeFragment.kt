@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.adapter.AssetAdapter
 import ng.max.vams.databinding.FragmentLoginBinding
@@ -15,11 +17,12 @@ import ng.max.vams.databinding.HomeFragmentBinding
 import ng.max.vams.ui.login.LoginViewModel
 import ng.max.vams.util.Helper
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var binding : HomeFragmentBinding
-    private lateinit var assetAdapter: AssetAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +41,8 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.loginFragment)
             }
         }
+
+        homeViewModel.actionGetAssetReasons()
     }
 
     private fun setupViews(){
