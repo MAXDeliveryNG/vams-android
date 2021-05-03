@@ -37,7 +37,12 @@
     <dialog
         android:id="@+id/checkDialogFragment"
         android:name="ng.max.vams.ui.shared.CheckDialogFragment"
-        android:label="CheckDialogFragment" />
+        android:label="CheckDialogFragment" >
+        <action
+            android:id="@+id/action_checkDialogFragment_to_assetReasonFragment"
+            app:destination="@id/assetReasonFragment"
+            app:popUpToInclusive="false" />
+    </dialog>
     <fragment
         android:id="@+id/vehicleListFragment"
         android:name="ng.max.vams.ui.vehiclelist.VehicleListFragment"
@@ -48,5 +53,23 @@
         <argument
             android:name="assetType"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/assetReasonFragment"
+        android:name="ng.max.vams.ui.assetreason.AssetReasonFragment"
+        android:label="AssetReasonFragment" >
+        <argument
+            android:name="checkType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_assetReasonFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_assetReasonFragment_to_checkDialogFragment"
+            app:destination="@id/checkDialogFragment"
+            app:popUpTo="@id/checkDialogFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

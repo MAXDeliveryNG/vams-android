@@ -1,24 +1,18 @@
 package ng.max.vams.ui.vehiclelist
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.vehicle_list_fragment.view.*
-import ng.max.vams.R
-import ng.max.vams.adapter.VehicleAdapter
+import ng.max.vams.adapter.BaseAdapter
 import ng.max.vams.data.wrapper.Result
-import ng.max.vams.databinding.FragmentLoginBinding
 import ng.max.vams.databinding.VehicleListFragmentBinding
-import ng.max.vams.ui.login.LoginViewModel
 import ng.max.vams.util.Helper
 
 @AndroidEntryPoint
@@ -49,7 +43,8 @@ class VehicleListFragment : Fragment() {
         binding.swipeRefresh.setOnRefreshListener {
             vehicleListViewModel.actionGetVehicles(args.availabilityType)
         }
-        val vehicleAdapter = VehicleAdapter()
+        val vehicleAdapter = BaseAdapter()
+        vehicleAdapter.viewType = 0
         binding.vehicleRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = vehicleAdapter
@@ -62,7 +57,7 @@ class VehicleListFragment : Fragment() {
                 is Result.Loading -> {}
                 is Result.Success -> {
                     binding.swipeRefresh.setRefreshing(false)
-                    vehicleAdapter.submitList(result.value)
+                    vehicleAdapter.adapterList = result.value
                 }
             }
         }

@@ -1,4 +1,4 @@
-package ng.max.vams.ui.home
+package ng.max.vams.ui.asset
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.AssetFragmentBinding
+import ng.max.vams.ui.home.HomeFragmentDirections
 import ng.max.vams.util.ARG_OBJECT
 import ng.max.vams.util.Helper
 
@@ -47,12 +48,18 @@ class AssetFragment : Fragment() {
         binding.checkOutCard.setDate(date)
 
         binding.checkInCard.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment("checked_in", assetType)
+            val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
+                "checked_in",
+                assetType
+            )
             findNavController().navigate(action)
         }
 
         binding.checkOutCard.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment("checked_out", assetType)
+            val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
+                "checked_out",
+                assetType
+            )
             findNavController().navigate(action)
         }
 //        binding.assetSwipeRefresh.setOnRefreshListener {

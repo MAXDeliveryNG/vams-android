@@ -13,4 +13,8 @@
     <string name="reason_label">Reason</string>
     <string name="checked_in_label">Checked in</string>
     <string name="checked_out_label">Checked out</string>
+    <string name="check_in_reason_header">Reason for check-in</string>
+    <string name="check_out_reason_header">Reason for check-out</string>
+    <string name="default_reason_subtitle">Monthly scheduled maintenance performed on various vehicle assets</string>
+    <string name="defualt_vehicle_reason_label">Maintenance</string>
 </resources>
