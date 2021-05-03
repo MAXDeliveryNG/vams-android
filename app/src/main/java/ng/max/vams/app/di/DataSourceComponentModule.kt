@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import ng.max.vams.BuildConfig
+import ng.max.vams.data.local.AppDatabase
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -28,6 +29,12 @@ object DataSourceComponentModule {
     @Singleton
     fun provideSharedPrefsManager(@ApplicationContext appContext: Context): SharedPrefsManager {
         return SharedPrefsManager(appContext)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        return AppDatabase.getInstance(appContext)!!
     }
 
     //Remote module

@@ -14,7 +14,14 @@
         android:id="@+id/homeFragment"
         android:name="ng.max.vams.ui.home.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_checkDialogFragment"
+            app:destination="@id/checkDialogFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_vehicleListFragment"
+            app:destination="@id/vehicleListFragment" />
+    </fragment>
     <dialog
         android:id="@+id/appDialogFragment"
         android:name="ng.max.vams.ui.shared.AppDialogFragment"
@@ -27,4 +34,19 @@
             android:name="message"
             app:argType="string" />
     </dialog>
+    <dialog
+        android:id="@+id/checkDialogFragment"
+        android:name="ng.max.vams.ui.shared.CheckDialogFragment"
+        android:label="CheckDialogFragment" />
+    <fragment
+        android:id="@+id/vehicleListFragment"
+        android:name="ng.max.vams.ui.vehiclelist.VehicleListFragment"
+        android:label="VehicleListFragment" >
+        <argument
+            android:name="availabilityType"
+            app:argType="string" />
+        <argument
+            android:name="assetType"
+            app:argType="string" />
+    </fragment>
 </navigation>

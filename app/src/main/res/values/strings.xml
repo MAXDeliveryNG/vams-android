@@ -7,4 +7,10 @@
     <string name="forgot_password_label"><u>Forgot password</u></string>
     <string name="ok_label">Ok</string>
     <string name="cancel_label">Cancel</string>
+    <string name="tab_vehicles">Vehicles</string>
+    <string name="tab_spare_parts">Spare parts</string>
+    <string name="tab_trackers">Trackers</string>
+    <string name="reason_label">Reason</string>
+    <string name="checked_in_label">Checked in</string>
+    <string name="checked_out_label">Checked out</string>
 </resources>

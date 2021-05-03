@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="title" format="string"/>
+    <attr name="subTitle" format="string"/>
+
     <declare-styleable name="ProgressButton">
         <attr name="text" format="string"/>
         <attr name="bgColor" format="color"/>
         <attr name="textColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="CheckStateView">
+        <attr name="title"/>
+        <attr name="subTitle"/>
+        <attr name="icon" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="CheckCardView">
+        <attr name="title"/>
+        <attr name="subTitle"/>
+        <attr name="count" format="string"/>
+        <attr name="countColor" format="color"/>
+    </declare-styleable>
+
 </resources>
