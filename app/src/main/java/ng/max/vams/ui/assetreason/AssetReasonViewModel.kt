@@ -20,6 +20,7 @@ class AssetReasonViewModel @Inject constructor(private val getAssetReasonUseCase
     val getReasonsResponse: LiveData<Result<List<Reason>>> = reasonResponse
 
     fun actionGetReasons(availability: String) {
+        reasonResponse.value = Result.Loading
         viewModelScope.launch {
             getAssetReasonUseCaseImpl.invoke(availability).collect {
                 reasonResponse.value = it

@@ -9,11 +9,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.adapter.BaseAdapter
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.VehicleListFragmentBinding
 import ng.max.vams.util.Helper
+import ng.max.vams.util.gone
+import ng.max.vams.util.show
 
 @AndroidEntryPoint
 class VehicleListFragment : Fragment() {
@@ -21,6 +24,9 @@ class VehicleListFragment : Fragment() {
     private val vehicleListViewModel: VehicleListViewModel by viewModels()
     private val args: VehicleListFragmentArgs by navArgs()
     private lateinit var binding: VehicleListFragmentBinding
+
+    private val vehicleAdapter = BaseAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,9 +37,15 @@ class VehicleListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(args.availabilityType == "checked_in"){
+        setupViews()
+        setupViewModel()
+
+    }
+
+    private fun setupViews() {
+        if (args.availabilityType == "checked_in") {
             binding.checkTypeHeader.text = "Checked-in (${args.assetType})"
-        }else{
+        } else {
             binding.checkTypeHeader.text = "Checked-out (${args.assetType})"
         }
         binding.dateTv.text = Helper.getFormattedDate()
@@ -43,26 +55,37 @@ class VehicleListFragment : Fragment() {
         binding.swipeRefresh.setOnRefreshListener {
             vehicleListViewModel.actionGetVehicles(args.availabilityType)
         }
-        val vehicleAdapter = BaseAdapter()
+
         vehicleAdapter.viewType = 0
         binding.vehicleRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = vehicleAdapter
             setHasFixedSize(true)
         }
-        vehicleListViewModel.getVehiclesResponse.observe(viewLifecycleOwner){ result->
+    }
 
-            when(result){
-                is Result.Error -> {}
-                is Result.Loading -> {}
+    private fun setupViewModel() {
+        vehicleListViewModel.getVehiclesResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Error -> {
+                    hideProgressBar()
+                    Snackbar.make(binding.vehicleRv, result.message, Snackbar.LENGTH_LONG)
+                }
+                is Result.Loading -> {
+                    binding.progressBar.show()
+                }
                 is Result.Success -> {
-                    binding.swipeRefresh.setRefreshing(false)
+                    hideProgressBar()
                     vehicleAdapter.adapterList = result.value
                 }
             }
         }
         vehicleListViewModel.actionGetVehicles(args.availabilityType)
+    }
 
+    private fun hideProgressBar() {
+        binding.progressBar.gone()
+        binding.swipeRefresh.isRefreshing = false
     }
 
 

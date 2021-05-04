@@ -33,6 +33,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCaseI
 
 
     fun actionLogin(username: String, password: String) {
+        loginResponse.value = Result.Loading
         val loginBody = LoginBody(username, password)
         viewModelScope.launch {
             when (val result = loginUseCase.invoke(loginBody)) {
@@ -46,7 +47,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCaseI
                     loginResponse.value = Result.Error(result.message)
                 }
                 is Result.Loading -> {
-                    loginResponse.value = Result.Loading(result.isLoading)
+                    loginResponse.value = Result.Loading
                 }
             }
         }

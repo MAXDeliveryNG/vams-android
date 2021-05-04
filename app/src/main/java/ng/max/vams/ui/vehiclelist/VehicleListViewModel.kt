@@ -18,6 +18,7 @@ class VehicleListViewModel @Inject constructor(private val vehicleListUseCase: V
     val getVehiclesResponse: LiveData<Result<List<DbVehicle>>> = vehicleListResponse
 
     fun actionGetVehicles(availability:String) {
+        vehicleListResponse.value = Result.Loading
         viewModelScope.launch {
             vehicleListUseCase.invoke(availability).collect {
                 vehicleListResponse.value = it

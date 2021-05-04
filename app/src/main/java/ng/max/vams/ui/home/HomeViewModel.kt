@@ -17,7 +17,7 @@ class HomeViewModel @Inject constructor(private val downloadAssetReasonUseCaseIm
 
     fun actionGetAssetReasons() {
         viewModelScope.launch {
-            downloadAssetReasonUseCaseImpl.invoke()
+            downloadAssetReasonUseCaseImpl.invoke() //silently download
         }
     }
 }

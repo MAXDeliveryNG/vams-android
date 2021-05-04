@@ -9,11 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.AssetReasonFragmentBinding
+import ng.max.vams.util.gone
 
 @AndroidEntryPoint
 class AssetReasonFragment : Fragment() {
@@ -45,6 +47,9 @@ class AssetReasonFragment : Fragment() {
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
+        binding.reasonSwipeRefresh.setOnRefreshListener {
+            assetReasonViewModel.actionGetReasons(args.checkType)
+        }
 
         val reasonAdapter = BaseAdapter()
         reasonAdapter.viewType = 1
@@ -54,11 +59,16 @@ class AssetReasonFragment : Fragment() {
             setHasFixedSize(true)
         }
         assetReasonViewModel.getReasonsResponse.observe(viewLifecycleOwner){ result->
-
-            when(result){
-                is Result.Error -> {}
-                is Result.Loading -> {}
+            when (result) {
+                is Result.Error -> {
+                    hideProgressBar()
+                    Snackbar.make(binding.reasonRv, result.message, Snackbar.LENGTH_LONG)
+                }
+                is Result.Loading -> {
+                    binding.progressBar.show()
+                }
                 is Result.Success -> {
+                    hideProgressBar()
                     reasonAdapter.adapterList = result.value
                 }
             }
@@ -66,4 +76,8 @@ class AssetReasonFragment : Fragment() {
         assetReasonViewModel.actionGetReasons(args.checkType)
     }
 
+    private fun hideProgressBar() {
+        binding.progressBar.gone()
+        binding.reasonSwipeRefresh.isRefreshing = false
+    }
 }
