@@ -15,14 +15,14 @@ class LoginUseCaseImpl @Inject constructor(private val userService: UserService)
         return try {
             val response = userService.login(loginBody)
             return if (response.isSuccessful){
-                Result.Success(response.body()?.loginData!!)
+                Result.Success(response.body()?.getData()!!)
             }else{
                 val errorResponse = response.errorBody()?.string()!!
                 try {
                     val message = Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
                     Result.Error(message)
                 }catch (ex: Exception){
-                    val message = Gson().fromJson(errorResponse, ErrorResponse::class.java).loginErrorData.first().message
+                    val message = Gson().fromJson(errorResponse, ErrorResponse::class.java).getData()?.first()?.message!!
                     Result.Error(message)
                 }
             }

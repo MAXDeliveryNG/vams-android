@@ -17,18 +17,21 @@ class DownloadAssetReasonUseCaseImpl @Inject constructor(
     private val vehicleService: VehicleService
 ) : DownloadAssetReasonUseCase {
 
-    override suspend fun invoke(){
-        try {
+    override suspend fun invoke(): Result<List<Reason>> {
+        return try {
             val response = vehicleService.getReasons()
             if (response.isSuccessful) {
-                val reasons = response.body()?.reasons
+                val reasons = response.body()?.getData()
                 withContext(Dispatchers.IO) {
                     saveReason(reasons!!)
                 }
+                Result.Success(reasons!!)
+            } else {
+                Result.Error(response.message())
             }
 
         } catch (ex: Exception) {
-            val error = ex.localizedMessage
+            Result.Error(ex.localizedMessage!!)
         }
     }
 

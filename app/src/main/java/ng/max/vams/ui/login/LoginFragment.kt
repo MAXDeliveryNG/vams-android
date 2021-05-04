@@ -61,9 +61,7 @@ class LoginFragment : Fragment() {
                     showDialog("Error", result.message)
                 }
                 is Result.Loading -> {
-                    if (!result.isLoading){
-                        fragmentLoginBinding.loginButton.loaded()
-                    }
+                    //Button is in loading state
                 }
                 is Result.Success -> {
                     fragmentLoginBinding.loginButton.loaded()

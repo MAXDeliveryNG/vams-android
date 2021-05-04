@@ -24,7 +24,7 @@ class AssetViewModel @Inject constructor(private val vehicleService: VehicleServ
             try {
                 val response = vehicleService.getVehicleListCount("checked_in")
                 if (response.isSuccessful){
-                    checkInCountResponse.value = Result.Success(response.body()?.vehicleListData?.vehicles?.count()!!)
+                    checkInCountResponse.value = Result.Success(response.body()?.getData()?.vehicles?.count()!!)
                 }
             }catch (ex: Exception){
 
@@ -33,7 +33,7 @@ class AssetViewModel @Inject constructor(private val vehicleService: VehicleServ
             try {
                 val response = vehicleService.getVehicleListCount("checked_out")
                 if (response.isSuccessful){
-                    checkOutCountResponse.value = Result.Success(response.body()?.vehicleListData?.vehicles?.count()!!)
+                    checkOutCountResponse.value = Result.Success(response.body()?.getData()?.vehicles?.count()!!)
                 }
             }catch (ex: Exception){
 

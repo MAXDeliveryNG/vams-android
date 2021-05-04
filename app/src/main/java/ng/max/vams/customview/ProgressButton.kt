@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import ng.max.vams.R
 import ng.max.vams.util.hide
 import ng.max.vams.util.show
@@ -15,7 +16,7 @@ class ProgressButton : FrameLayout {
 
     private lateinit var containerFrame: FrameLayout
     private lateinit var button: Button
-    private lateinit var progressView: ProgressBar
+    private lateinit var progressView: CircularProgressIndicator
 
     private var buttonText: CharSequence? = "OK"
     private var buttonTextColor: Int? = 0

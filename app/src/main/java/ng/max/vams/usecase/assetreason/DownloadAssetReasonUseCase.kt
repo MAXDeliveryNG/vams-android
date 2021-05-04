@@ -5,5 +5,5 @@ import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.wrapper.Result
 
 interface DownloadAssetReasonUseCase {
-    suspend operator fun invoke()
+    suspend operator fun invoke(): Result<List<Reason>>
 }

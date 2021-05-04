@@ -2,6 +2,7 @@ package ng.max.vams.usecase.vehiclelist
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import ng.max.vams.data.local.DbVehicle
@@ -16,13 +17,13 @@ class VehicleListUseCaseImpl @Inject constructor(private val vehicleDao: Vehicle
                                                  private val vehicleService: VehicleService) : VehicleListUseCase {
 
     override suspend fun invoke(availability: String): Flow<Result<List<DbVehicle>>> {
-        var dbData = vehicleDao.getAllVehicles(availability).map {
+        var dbData: Flow<Result<List<DbVehicle>>> = vehicleDao.getAllVehicles(availability).map {
             Result.Success(it)
         }
         try {
             val response = vehicleService.getVehicleList(availability)
             if (response.isSuccessful) {
-                val vehicles = response.body()?.vehicleListData?.vehicles?.map {
+                val vehicles = response.body()?.getData()?.vehicles?.map {
                     DbVehicle(
                             it.batchId, it.championId, it.chassisNo, it.createdAt, it.deviceImei,
                             it.devicePhone, it.documentsFileNamesCsv, it.engineNumber, it.hpvId, it.id,
@@ -39,9 +40,8 @@ class VehicleListUseCaseImpl @Inject constructor(private val vehicleDao: Vehicle
             }
 
         } catch (ex: Exception) {
-            val error = ex.localizedMessage
-            dbData = vehicleDao.getAllVehicles(availability).map {
-                Result.Success(it)
+            dbData = flow {
+                emit(Result.Error(ex.localizedMessage!!))
             }
         }
         return dbData

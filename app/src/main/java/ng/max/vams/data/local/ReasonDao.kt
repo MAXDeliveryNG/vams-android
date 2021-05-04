@@ -2,6 +2,7 @@ package ng.max.vams.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import ng.max.vams.data.remote.response.Reason
@@ -15,6 +16,6 @@ interface ReasonDao {
     @Query("SELECT * from Reason")
     fun getReasonsForCheckOut(): Flow<List<Reason>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveReasons(reasons: List<Reason>)
 }
