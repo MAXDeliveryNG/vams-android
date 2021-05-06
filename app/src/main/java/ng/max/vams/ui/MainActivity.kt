@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var activityMainBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_VAMS)
         super.onCreate(savedInstanceState)
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         handleNavController()
