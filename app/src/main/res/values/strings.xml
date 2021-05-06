@@ -17,4 +17,8 @@
     <string name="check_out_reason_header">Reason for check-out</string>
     <string name="default_reason_subtitle">Monthly scheduled maintenance performed on various vehicle assets</string>
     <string name="defualt_vehicle_reason_label">Maintenance</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="back_to_dashboard_label">back to dashboard</string>
+    <string name="you_have_successfully_label">You have successfully</string>
 </resources>

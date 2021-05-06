@@ -19,4 +19,7 @@
     <color name="not_transparent">#4D000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="very_light_gray_white">#F3F3F3</color>
+    <color name="gray_20">#33B4B4B4</color>
+    <color name="vivid_orange">#E88E15</color>
+    <color name="vivid_yellow_10">#1AFCDD18</color>
 </resources>
