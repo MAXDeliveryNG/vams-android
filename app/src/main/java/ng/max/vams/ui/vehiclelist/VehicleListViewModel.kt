@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ng.max.vams.data.local.DbVehicle
-import ng.max.vams.data.remote.response.User
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.usecase.vehiclelist.VehicleListUseCaseImpl
 import javax.inject.Inject
@@ -17,10 +16,10 @@ class VehicleListViewModel @Inject constructor(private val vehicleListUseCase: V
 
     val getVehiclesResponse: LiveData<Result<List<DbVehicle>>> = vehicleListResponse
 
-    fun actionGetVehicles(availability:String) {
+    fun actionGetVehicles(movementType:String) {
         vehicleListResponse.value = Result.Loading
         viewModelScope.launch {
-            vehicleListUseCase.invoke(availability).collect {
+            vehicleListUseCase.invoke(movementType).collect {
                 vehicleListResponse.value = it
             }
         }

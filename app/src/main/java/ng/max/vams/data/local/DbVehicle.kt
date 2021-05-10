@@ -33,7 +33,8 @@ data class DbVehicle(
         val simSerialNo: String?,
         val trimId: Int?,
         val updatedAt: String?,
-        val vehicleAvailability: String?,
+        val movementType: String?,
+        val movementReason: String?,
         val vehicleStatusId: String?,
         val vehicleTypeId: Int?,
         val year: String?

@@ -5,17 +5,16 @@
 
     <declare-styleable name="ProgressButton">
         <attr name="text" format="string"/>
-        <attr name="bgColor" format="color"/>
         <attr name="textColor" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="CheckStateView">
+    <declare-styleable name="MovementTypeStateView">
         <attr name="title"/>
         <attr name="subTitle"/>
         <attr name="icon" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="CheckCardView">
+    <declare-styleable name="MovementTypeCardView">
         <attr name="title"/>
         <attr name="subTitle"/>
         <attr name="count" format="string"/>

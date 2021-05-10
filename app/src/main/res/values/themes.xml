@@ -26,11 +26,11 @@
         <item name="hintTextColor">@color/very_dark_gray_50</item>
         <item name="android:textColor">@color/very_dark_gray</item>
         <item name="fontFamily">@font/circularstd_book</item>
-        <item name="android:textSize">@dimen/dimen_12sp</item>
+        <item name="android:textSize">@dimen/dimen_14sp</item>
     </style>
 
     <style name="button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:textSize">@dimen/dimen_12sp</item>
+        <item name="android:textSize">@dimen/dimen_14sp</item>
         <item name="cornerRadius">@dimen/dimen_5dp</item>
         <item name="android:insetTop">@dimen/dimen_0dp</item>
         <item name="android:insetBottom">@dimen/dimen_0dp</item>
@@ -47,12 +47,8 @@
 
     <style name="tabLayoutText" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/ttcommons_bold</item>
-        <item name="android:textSize">@dimen/dimen_12sp</item>
+        <item name="android:textSize">@dimen/dimen_14sp</item>
         <item name="textAllCaps">true</item>
-    </style>
-
-    <style name="checkCard" parent="Widget.MaterialComponents.CardView">
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearanceCardView</item>
     </style>
 
     <style name="ShapeAppearanceCardView" parent="ShapeAppearance.MaterialComponents.MediumComponent">
@@ -62,6 +58,33 @@
         <item name="cornerSizeTopRight">@dimen/dimen_10dp</item>
         <item name="cornerSizeBottomLeft">@dimen/dimen_0dp</item>
         <item name="cornerSizeBottomRight">@dimen/dimen_0dp</item>
+    </style>
+
+    <style name="formTextHint">
+        <item name="fontFamily">@font/ttcommons_regular</item>
+        <item name="android:textSize">@dimen/dimen_14sp</item>
+        <item name="textColor">@color/very_dark_gray_50</item>
+        <item name="android:layout_marginStart">@dimen/dimen_8dp</item>
+    </style>
+
+    <style name="formEditTextHint">
+        <item name="fontFamily">@font/ttcommons_regular</item>
+        <item name="android:textSize">@dimen/dimen_14sp</item>
+        <item name="textColor">@color/very_dark_gray_50</item>
+        <item name="android:layout_height">@dimen/dimen_50dp</item>
+        <item name="android:paddingStart">@dimen/dimen_16dp</item>
+    </style>
+
+    <style name="formEditText">
+        <item name="fontFamily">@font/ttcommons_regular</item>
+        <item name="android:textSize">@dimen/dimen_14sp</item>
+        <item name="textColor">@color/very_dark_gray_black</item>
+        <item name="android:paddingStart">@dimen/dimen_8dp</item>
+    </style>
+
+    <style name="textInputLayout.ExposedDroppedDown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/very_light_gray</item>
+        <item name="hintTextColor">@color/very_dark_gray_50</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">

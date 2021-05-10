@@ -1,12 +1,8 @@
 package ng.max.vams.usecase.assetreason
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import ng.max.vams.data.local.DbVehicle
-import ng.max.vams.data.local.ReasonDao
-import ng.max.vams.data.local.VehicleDao
+import ng.max.vams.data.local.dao.ReasonDao
 import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.remote.services.VehicleService
 import ng.max.vams.data.wrapper.Result

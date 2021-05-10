@@ -16,8 +16,8 @@
         android:label="home_fragment"
         tools:layout="@layout/home_fragment" >
         <action
-            android:id="@+id/action_homeFragment_to_checkDialogFragment"
-            app:destination="@id/checkDialogFragment" />
+            android:id="@+id/action_homeFragment_to_movementTypeDialogFragment"
+            app:destination="@id/movementTypeDialogFragment" />
         <action
             android:id="@+id/action_homeFragment_to_vehicleListFragment"
             app:destination="@id/vehicleListFragment" />
@@ -35,11 +35,11 @@
             app:argType="string" />
     </dialog>
     <dialog
-        android:id="@+id/checkDialogFragment"
-        android:name="ng.max.vams.ui.shared.CheckDialogFragment"
-        android:label="CheckDialogFragment" >
+        android:id="@+id/movementTypeDialogFragment"
+        android:name="ng.max.vams.ui.shared.MovementTypeDialogFragment"
+        android:label="MovementTypeDialogFragment" >
         <action
-            android:id="@+id/action_checkDialogFragment_to_assetReasonFragment"
+            android:id="@+id/action_movementTypeDialogFragment_to_assetReasonFragment"
             app:destination="@id/assetReasonFragment"
             app:popUpToInclusive="false" />
     </dialog>
@@ -48,7 +48,7 @@
         android:name="ng.max.vams.ui.vehiclelist.VehicleListFragment"
         android:label="VehicleListFragment" >
         <argument
-            android:name="availabilityType"
+            android:name="movementType"
             app:argType="string" />
         <argument
             android:name="assetType"
@@ -59,7 +59,7 @@
         android:name="ng.max.vams.ui.assetreason.AssetReasonFragment"
         android:label="AssetReasonFragment" >
         <argument
-            android:name="checkType"
+            android:name="movementType"
             app:argType="string" />
         <action
             android:id="@+id/action_assetReasonFragment_to_homeFragment"
@@ -67,10 +67,27 @@
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_assetReasonFragment_to_checkDialogFragment"
-            app:destination="@id/checkDialogFragment"
-            app:popUpTo="@id/checkDialogFragment"
+            android:id="@+id/action_assetReasonFragment_to_movementTypeDialogFragment"
+            app:destination="@id/movementTypeDialogFragment"
+            app:popUpTo="@id/movementTypeDialogFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_assetReasonFragment_to_registerVehicleFragment"
+            app:destination="@id/registerVehicleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerVehicleFragment"
+        android:name="ng.max.vams.ui.registervehilce.RegisterVehicleFragment"
+        android:label="register_vehicle_fragment"
+        tools:layout="@layout/register_vehicle_fragment" >
+        <argument
+            android:name="reasonId"
+            app:argType="integer" />
+        <argument android:name="movementType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_registerVehicleFragment_to_completeRegistrationFragment"
+            app:destination="@id/completeRegistrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/completeRegistrationFragment"

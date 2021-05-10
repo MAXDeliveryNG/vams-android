@@ -18,13 +18,13 @@ import ng.max.vams.util.Helper
 class AssetFragment : Fragment() {
 
     private val assetViewModel: AssetViewModel by viewModels()
-    private lateinit var binding : AssetFragmentBinding
+    private lateinit var bnd : AssetFragmentBinding
     private var assetType = "Vehicles"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View{
-        binding = AssetFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+        bnd = AssetFragmentBinding.inflate(inflater, container, false)
+        return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,50 +44,38 @@ class AssetFragment : Fragment() {
 
     private fun setupViews(){
         val date = Helper.getFormattedDate()
-        binding.checkInCard.setDate(date)
-        binding.checkOutCard.setDate(date)
+        bnd.entryCard.setDate(date)
+        bnd.exitCard.setDate(date)
 
-        binding.checkInCard.setOnClickListener {
+        bnd.entryCard.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
-                "checked_in",
+                "entry",
                 assetType
             )
             findNavController().navigate(action)
         }
 
-        binding.checkOutCard.setOnClickListener {
+        bnd.exitCard.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
-                "checked_out",
+                "exit",
                 assetType
             )
             findNavController().navigate(action)
         }
-//        binding.assetSwipeRefresh.setOnRefreshListener {
-//            assetViewModel.actionGetVehicleCounts()
-//        }
     }
 
     private fun setupViewModel(){
-        assetViewModel.getCheckInCountResponse.observe(viewLifecycleOwner){ result->
+        assetViewModel.getMovementStatResponse.observe(viewLifecycleOwner){ result->
             when(result){
                 is Result.Error -> {}
                 is Result.Loading -> {}
                 is Result.Success -> {
-                    binding.checkInCard.setCount(result.value)
+                    bnd.entryCard.setCount(result.value.totalEntry)
+                    bnd.exitCard.setCount(result.value.totalExit)
                 }
             }
         }
-
-        assetViewModel.getCheckOutCountResponse.observe(viewLifecycleOwner){result->
-            when(result){
-                is Result.Error -> {}
-                is Result.Loading -> {}
-                is Result.Success -> {
-                    binding.checkOutCard.setCount(result.value)
-                }
-            }
-        }
-        assetViewModel.actionGetVehicleCounts()
+        assetViewModel.actionGetMovementStat()
     }
 
 }

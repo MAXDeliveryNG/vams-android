@@ -1,7 +1,6 @@
 package ng.max.vams.ui.shared
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,22 +11,22 @@ import ng.max.vams.databinding.FragmentAppDialogBinding
 
 class AppDialogFragment : DialogFragment() {
 
-    private lateinit var binding: FragmentAppDialogBinding
+    private lateinit var bnd: FragmentAppDialogBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View{
-        binding = DataBindingUtil.inflate(
+        bnd = DataBindingUtil.inflate(
             inflater, R.layout.fragment_app_dialog, container, false
         )
-        return binding.root
+        return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.setOnShowListener {
-            binding.titleTextView.text = arguments?.getString("title") ?: "Info"
-            binding.messageTextView.text = arguments?.getString("message") ?: "Something went wrong!"
+            bnd.titleTextView.text = arguments?.getString("title") ?: "Info"
+            bnd.messageTextView.text = arguments?.getString("message") ?: "Something went wrong!"
 
             dialog?.window?.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -35,7 +34,7 @@ class AppDialogFragment : DialogFragment() {
             )
         }
 
-        binding.okButton.setOnClickListener {
+        bnd.okButton.setOnClickListener {
             dismiss()
         }
     }

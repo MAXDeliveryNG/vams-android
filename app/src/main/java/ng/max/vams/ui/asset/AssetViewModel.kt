@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import ng.max.vams.data.remote.response.MovementStat
 import ng.max.vams.data.remote.services.VehicleService
 import ng.max.vams.data.wrapper.Result
 import javax.inject.Inject
@@ -13,27 +14,16 @@ import javax.inject.Inject
 @HiltViewModel
 class AssetViewModel @Inject constructor(private val vehicleService: VehicleService): ViewModel() {
 
-    private val checkInCountResponse = MutableLiveData<Result<Int>>()
-    private val checkOutCountResponse = MutableLiveData<Result<Int>>()
+    private val movementStatResponse = MutableLiveData<Result<MovementStat>>()
 
-    val getCheckInCountResponse: LiveData<Result<Int>> = checkInCountResponse
-    val getCheckOutCountResponse: LiveData<Result<Int>> = checkOutCountResponse
+    val getMovementStatResponse: LiveData<Result<MovementStat>> = movementStatResponse
 
-    fun actionGetVehicleCounts() {
+    fun actionGetMovementStat() {
         viewModelScope.launch {
             try {
-                val response = vehicleService.getVehicleListCount("checked_in")
+                val response = vehicleService.getMovementStat()
                 if (response.isSuccessful){
-                    checkInCountResponse.value = Result.Success(response.body()?.getData()?.vehicles?.count()!!)
-                }
-            }catch (ex: Exception){
-
-            }
-
-            try {
-                val response = vehicleService.getVehicleListCount("checked_out")
-                if (response.isSuccessful){
-                    checkOutCountResponse.value = Result.Success(response.body()?.getData()?.vehicles?.count()!!)
+                    movementStatResponse.value = Result.Success(response.body()?.getData()!!)
                 }
             }catch (ex: Exception){
 

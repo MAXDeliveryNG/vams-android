@@ -56,8 +56,10 @@ data class Vehicle(
     val trimId: Int,
     @SerializedName("updated_at")
     val updatedAt: String?,
-    @SerializedName("vehicle_availability")
-    val vehicleAvailability: String?,
+    @SerializedName("vehicle_movement")
+    val movementType: String?,
+    @SerializedName("last_movement_reason")
+    val movementReason: String?,
     @SerializedName("vehicle_status_id")
     val vehicleStatusId: String?,
     @SerializedName("vehicle_type_id")

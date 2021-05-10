@@ -1,10 +1,10 @@
 package ng.max.vams.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,24 +12,22 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.adapter.AssetAdapter
-import ng.max.vams.databinding.FragmentLoginBinding
 import ng.max.vams.databinding.HomeFragmentBinding
 import ng.max.vams.ui.login.LoginViewModel
-import ng.max.vams.util.Helper
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
-    private lateinit var binding : HomeFragmentBinding
+    private lateinit var bnd : HomeFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = HomeFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+        bnd = HomeFragmentBinding.inflate(inflater, container, false)
+        return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,20 +37,22 @@ class HomeFragment : Fragment() {
         loginViewModel.getLoggedInUser().observe(viewLifecycleOwner){user ->
             if (user == null){
                 findNavController().navigate(R.id.loginFragment)
+            }else{
+                homeViewModel.actionGetAssetReasons()
+                homeViewModel.actionGetLocations()
+                homeViewModel.actionGetVehicleTypes()
             }
         }
-
-        homeViewModel.actionGetAssetReasons()
     }
 
     private fun setupViews(){
 
-        binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.checkDialogFragment)
+        bnd.fab.setOnClickListener {
+            findNavController().navigate(R.id.movementTypeDialogFragment)
         }
-        binding.viewPager.adapter = AssetAdapter(this)
+        bnd.viewPager.adapter = AssetAdapter(this)
 
-        TabLayoutMediator(binding.tabs, binding.viewPager){ tab, position ->
+        TabLayoutMediator(bnd.tabs, bnd.viewPager){ tab, position ->
             when (position) {
                 0 -> {
                     tab.text = "Vehicles"

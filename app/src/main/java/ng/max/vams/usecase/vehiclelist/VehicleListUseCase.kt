@@ -8,5 +8,5 @@ import ng.max.vams.data.remote.response.VehicleListData
 import ng.max.vams.data.wrapper.Result
 
 interface VehicleListUseCase {
-    suspend operator fun invoke(availability: String): Flow<Result<List<DbVehicle>>>
+    suspend operator fun invoke(movementType: String): Flow<Result<List<DbVehicle>>>
 }

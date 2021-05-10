@@ -19,10 +19,10 @@ class AssetReasonViewModel @Inject constructor(private val getAssetReasonUseCase
     private val reasonResponse = MutableLiveData<Result<List<Reason>>>()
     val getReasonsResponse: LiveData<Result<List<Reason>>> = reasonResponse
 
-    fun actionGetReasons(availability: String) {
+    fun actionGetReasons(movementType: String) {
         reasonResponse.value = Result.Loading
         viewModelScope.launch {
-            getAssetReasonUseCaseImpl.invoke(availability).collect {
+            getAssetReasonUseCaseImpl.invoke(movementType).collect {
                 reasonResponse.value = it
             }
         }

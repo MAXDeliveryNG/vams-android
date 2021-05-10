@@ -39,5 +39,8 @@
     <dimen name="dimen_132dp">132dp</dimen>
     <dimen name="dimen_20sp">20sp</dimen>
     <dimen name="dimen_77dp">77dp</dimen>
+    <dimen name="dimen_50dp">50dp</dimen>
+    <dimen name="dimen_20dp">20dp</dimen>
+    <dimen name="dimen_18dp">18dp</dimen>
 
 </resources>
