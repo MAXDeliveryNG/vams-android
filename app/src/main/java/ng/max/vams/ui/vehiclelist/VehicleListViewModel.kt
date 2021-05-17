@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.data.wrapper.Result
-import ng.max.vams.usecase.vehiclelist.VehicleListUseCaseImpl
+import ng.max.vams.usecase.vehiclelist.VehicleListUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class VehicleListViewModel @Inject constructor(private val vehicleListUseCase: VehicleListUseCaseImpl): ViewModel() {
+class VehicleListViewModel @Inject constructor(private val vehicleListUseCase: VehicleListUseCase): ViewModel() {
 
     private val vehicleListResponse = MutableLiveData<Result<List<DbVehicle>>>()
 

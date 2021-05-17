@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import ng.max.vams.data.remote.RemoteDataSource
 import ng.max.vams.data.remote.response.MovementStat
-import ng.max.vams.data.remote.services.VehicleService
 import ng.max.vams.data.wrapper.Result
 import javax.inject.Inject
 
 @HiltViewModel
-class AssetViewModel @Inject constructor(private val vehicleService: VehicleService): ViewModel() {
+class AssetViewModel @Inject constructor(private val remoteDataSource: RemoteDataSource): ViewModel() {
 
     private val movementStatResponse = MutableLiveData<Result<MovementStat>>()
 
@@ -20,14 +20,7 @@ class AssetViewModel @Inject constructor(private val vehicleService: VehicleServ
 
     fun actionGetMovementStat() {
         viewModelScope.launch {
-            try {
-                val response = vehicleService.getMovementStat()
-                if (response.isSuccessful){
-                    movementStatResponse.value = Result.Success(response.body()?.getData()!!)
-                }
-            }catch (ex: Exception){
-
-            }
+            movementStatResponse.value = remoteDataSource.getMovementStat()
         }
     }
 }
