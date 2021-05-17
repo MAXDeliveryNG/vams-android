@@ -10,11 +10,11 @@ import ng.max.vams.data.manager.UserManager
 import ng.max.vams.data.remote.request.LoginBody
 import ng.max.vams.data.remote.response.User
 import ng.max.vams.data.wrapper.Result
-import ng.max.vams.usecase.login.LoginUseCaseImpl
+import ng.max.vams.usecase.login.LoginUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCaseImpl) : ViewModel() {
+class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val loggedInUserResponse = MutableLiveData<User?>()
     private val loginResponse = MutableLiveData<Result<User>>()

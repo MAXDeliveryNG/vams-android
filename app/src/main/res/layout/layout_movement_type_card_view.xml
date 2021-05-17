@@ -6,14 +6,14 @@
     android:layout_height="@dimen/dimen_100dp">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/checkCardGuidelineStart"
+        android:id="@+id/cardGuidelineStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/dimen_24dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/checkCardGuidelineEnd"
+        android:id="@+id/cardGuidelineEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="start"
-        app:constraint_referenced_ids="checkCardCountTv"
+        app:constraint_referenced_ids="cardCountTv"
         tools:layout_editor_absoluteX="411dp" />
 
     <LinearLayout
@@ -32,12 +32,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkCardCountTv"
-        app:layout_constraintStart_toStartOf="@+id/checkCardGuidelineStart"
+        app:layout_constraintEnd_toStartOf="@+id/cardCountTv"
+        app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/checkCardTitleTv"
+            android:id="@+id/cardTitleTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_16dp"
@@ -46,7 +46,7 @@
             android:textSize="@dimen/dimen_16sp" />
 
         <TextView
-            android:id="@+id/checkCardSubtitleTv"
+            android:id="@+id/cardSubtitleTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dimen_16dp"
@@ -56,13 +56,13 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/checkCardCountTv"
+        android:id="@+id/cardCountTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
         android:textSize="@dimen/dimen_24sp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toStartOf="@+id/checkCardGuidelineEnd"
+        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
         app:layout_constraintTop_toTopOf="@+id/linearLayout"
         tools:text="2000" />
 
@@ -72,8 +72,8 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/checkCardCountTv"
-        app:layout_constraintEnd_toStartOf="@+id/checkCardGuidelineEnd"
+        app:layout_constraintBottom_toBottomOf="@+id/cardCountTv"
+        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="@+id/checkCardCountTv" />
+        app:layout_constraintTop_toTopOf="@+id/cardCountTv" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,8 +9,8 @@
         android:background="#F4F6FA"
         tools:context=".ui.asset.AssetFragment">
 
-        <ng.max.vams.customview.CheckCardView
-            android:id="@+id/checkInCard"
+        <ng.max.vams.customview.MovementTypeCardView
+            android:id="@+id/entryCard"
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_16dp"
@@ -19,10 +19,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/checked_in_label" />
+            app:title="@string/entry_label" />
 
-        <ng.max.vams.customview.CheckCardView
-            android:id="@+id/checkOutCard"
+        <ng.max.vams.customview.MovementTypeCardView
+            android:id="@+id/exitCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_16dp"
@@ -32,8 +32,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/checkInCard"
-            app:title="@string/checked_out_label" />
+            app:layout_constraintTop_toBottomOf="@id/entryCard"
+            app:title="@string/exit_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

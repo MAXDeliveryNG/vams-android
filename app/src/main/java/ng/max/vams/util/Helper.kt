@@ -7,6 +7,7 @@ class Helper {
 
     companion object {
 
+        val supportedLocation = listOf("Bodija", "Eleyele", "Oregun", "Akure", "Gbamu Gbamu")
         fun getFormattedDate(): String {
             var tmp = SimpleDateFormat("d", Locale.getDefault())
             val date = Calendar.getInstance()

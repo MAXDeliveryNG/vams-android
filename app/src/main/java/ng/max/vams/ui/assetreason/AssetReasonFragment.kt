@@ -1,10 +1,10 @@
 package ng.max.vams.ui.assetreason
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
+import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.AssetReasonFragmentBinding
 import ng.max.vams.util.gone
@@ -20,40 +21,45 @@ import ng.max.vams.util.gone
 @AndroidEntryPoint
 class AssetReasonFragment : Fragment() {
 
-   private lateinit var binding: AssetReasonFragmentBinding
+   private lateinit var bnd: AssetReasonFragmentBinding
    private val args: AssetReasonFragmentArgs by navArgs()
     private val assetReasonViewModel: AssetReasonViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = AssetReasonFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+    ): View {
+        bnd = AssetReasonFragmentBinding.inflate(inflater, container, false)
+        return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (args.checkType == "checked_in"){
-            binding.reasonHeader.text = getString(R.string.check_in_reason_header)
+        if (args.movementType == "entry"){
+            bnd.reasonHeader.text = getString(R.string.entry_reason_header)
         }else{
-            binding.reasonHeader.text = getString(R.string.check_out_reason_header)
+            bnd.reasonHeader.text = getString(R.string.exit_reason_header)
         }
-        binding.closeButton.setOnClickListener {
+        bnd.closeButton.setOnClickListener {
             findNavController().navigate(R.id.homeFragment)
         }
 
-        binding.backButton.setOnClickListener {
+        bnd.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
-        binding.reasonSwipeRefresh.setOnRefreshListener {
-            assetReasonViewModel.actionGetReasons(args.checkType)
+        bnd.reasonSwipeRefresh.setOnRefreshListener {
+            assetReasonViewModel.actionGetReasons(args.movementType)
         }
 
         val reasonAdapter = BaseAdapter()
+        reasonAdapter.setOnItemClickListener {position->
+            val reason = reasonAdapter.adapterList[position] as Reason
+            val action = AssetReasonFragmentDirections.actionAssetReasonFragmentToRegisterVehicleFragment(reason.id, args.movementType)
+            findNavController().navigate(action)
+        }
         reasonAdapter.viewType = 1
-        binding.reasonRv.apply {
+        bnd.reasonRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = reasonAdapter
             setHasFixedSize(true)
@@ -62,10 +68,10 @@ class AssetReasonFragment : Fragment() {
             when (result) {
                 is Result.Error -> {
                     hideProgressBar()
-                    Snackbar.make(binding.reasonRv, result.message, Snackbar.LENGTH_LONG)
+                    Snackbar.make(bnd.reasonRv, result.message, Snackbar.LENGTH_LONG)
                 }
                 is Result.Loading -> {
-                    binding.progressBar.show()
+                    bnd.progressBar.show()
                 }
                 is Result.Success -> {
                     hideProgressBar()
@@ -73,11 +79,11 @@ class AssetReasonFragment : Fragment() {
                 }
             }
         }
-        assetReasonViewModel.actionGetReasons(args.checkType)
+        assetReasonViewModel.actionGetReasons(args.movementType)
     }
 
     private fun hideProgressBar() {
-        binding.progressBar.gone()
-        binding.reasonSwipeRefresh.isRefreshing = false
+        bnd.progressBar.gone()
+        bnd.reasonSwipeRefresh.isRefreshing = false
     }
 }

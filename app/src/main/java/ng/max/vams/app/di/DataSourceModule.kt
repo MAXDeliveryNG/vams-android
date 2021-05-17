@@ -3,28 +3,25 @@ package ng.max.vams.app.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.components.ViewModelComponent
+import ng.max.vams.data.LocationRepository
+import ng.max.vams.data.MovementReasonRepository
+import ng.max.vams.data.VehicleTypeRepository
 import ng.max.vams.data.local.AppDatabase
-import ng.max.vams.data.local.ReasonDao
-import ng.max.vams.data.local.VehicleDao
+import ng.max.vams.data.local.dao.LocationDao
+import ng.max.vams.data.local.dao.ReasonDao
+import ng.max.vams.data.local.dao.VehicleDao
+import ng.max.vams.data.local.dao.VehicleTypeDao
+import ng.max.vams.data.remote.RemoteDataSource
 import ng.max.vams.data.remote.services.UserService
 import ng.max.vams.data.remote.services.VehicleService
-import ng.max.vams.usecase.assetreason.DownloadAssetReasonUseCaseImpl
-import ng.max.vams.usecase.assetreason.GetAssetReasonUseCaseImpl
-import ng.max.vams.usecase.login.LoginUseCaseImpl
-import ng.max.vams.usecase.vehiclelist.VehicleListUseCaseImpl
+import ng.max.vams.usecase.login.LoginUseCase
+import ng.max.vams.usecase.vehiclelist.VehicleListUseCase
 import retrofit2.Retrofit
 
 @Module
 @InstallIn(ViewModelComponent::class)
 object DataSourceModule{
-
-
-    @Provides
-    fun provideLoginUseCaseImpl(userService: UserService): LoginUseCaseImpl =
-            LoginUseCaseImpl(userService)
 
     @Provides
     fun provideUserService(retrofitClient: Retrofit): UserService {
@@ -37,13 +34,14 @@ object DataSourceModule{
     }
 
     @Provides
-    fun provideVehicleDao(appDatabase: AppDatabase): VehicleDao {
-        return appDatabase.vehicleDao()
+    fun provideRemoteDataSource(vehicleService: VehicleService): RemoteDataSource {
+        return RemoteDataSource(vehicleService)
     }
 
     @Provides
-    fun provideVehicleListUseCaseImpl(vehicleDao: VehicleDao, vehicleService: VehicleService): VehicleListUseCaseImpl =
-            VehicleListUseCaseImpl(vehicleDao, vehicleService)
+    fun provideVehicleDao(appDatabase: AppDatabase): VehicleDao {
+        return appDatabase.vehicleDao()
+    }
 
     @Provides
     fun provideReasonDao(appDatabase: AppDatabase): ReasonDao {
@@ -51,12 +49,37 @@ object DataSourceModule{
     }
 
     @Provides
-    fun provideDownloadAssetReasonUseCaseImpl(reasonDao: ReasonDao, vehicleService: VehicleService): DownloadAssetReasonUseCaseImpl =
-        DownloadAssetReasonUseCaseImpl(reasonDao, vehicleService)
+    fun provideLocationDao(appDatabase: AppDatabase): LocationDao {
+        return appDatabase.locationDao()
+    }
 
     @Provides
-    fun provideGetAssetReasonUseCaseImpl(reasonDao: ReasonDao, downloadAssetReasonUseCaseImpl: DownloadAssetReasonUseCaseImpl): GetAssetReasonUseCaseImpl =
-        GetAssetReasonUseCaseImpl(reasonDao, downloadAssetReasonUseCaseImpl)
+    fun provideVehicleTypeDao(appDatabase: AppDatabase): VehicleTypeDao {
+        return appDatabase.vehicleTypeDao()
+    }
+
+    @Provides
+    fun provideLoginUseCase(userService: UserService): LoginUseCase =
+        LoginUseCase(userService)
+
+    @Provides
+    fun provideVehicleListUseCase(vehicleDao: VehicleDao, vehicleService: VehicleService): VehicleListUseCase =
+            VehicleListUseCase(vehicleDao, vehicleService)
+
+    @Provides
+    fun provideMovementReasonRepository(reasonDao: ReasonDao, remoteData: RemoteDataSource): MovementReasonRepository =
+        MovementReasonRepository(reasonDao, remoteData)
+
+    @Provides
+    fun provideLocationRepository(locationDao: LocationDao, remoteDataSource: RemoteDataSource): LocationRepository =
+        LocationRepository(locationDao, remoteDataSource)
+
+
+    @Provides
+    fun provideVehicleTypeRepository(vehicleTypeDao: VehicleTypeDao, remoteDataSource: RemoteDataSource): VehicleTypeRepository =
+        VehicleTypeRepository(vehicleTypeDao, remoteDataSource)
+
+
 
 
 

@@ -1,4 +1,4 @@
-package ng.max.vams.data.local
+package ng.max.vams.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -18,4 +18,7 @@ interface ReasonDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveReasons(reasons: List<Reason>)
+
+    @Query("SELECT * from Reason WHERE id = :reasonId")
+    fun getReason(reasonId: Int): List<Reason>
 }
