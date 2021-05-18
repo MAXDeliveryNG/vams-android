@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.adapter.BaseAdapter
+import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.VehicleListFragmentBinding
 import ng.max.vams.util.Helper
@@ -56,6 +57,11 @@ class VehicleListFragment : Fragment() {
         }
 
         vehicleAdapter.viewType = 0
+        vehicleAdapter.setOnItemClickListener { position ->
+            val vehicle = vehicleAdapter.adapterList[position] as DbVehicle
+            val action = VehicleListFragmentDirections.actionVehicleListFragmentToVehicleDetailFragment(vehicle.id)
+            findNavController().navigate(action)
+        }
         bnd.vehicleRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = vehicleAdapter

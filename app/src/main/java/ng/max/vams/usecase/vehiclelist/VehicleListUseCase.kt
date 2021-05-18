@@ -22,14 +22,11 @@ class VehicleListUseCase @Inject constructor(private val vehicleDao: VehicleDao,
             val response = vehicleService.getVehicleList(movementType)
             if (response.isSuccessful) {
                 val vehicles = response.body()?.getData()?.vehicles?.map {
-                    DbVehicle(
-                            it.batchId, it.championId, it.chassisNo, it.createdAt, it.deviceImei,
-                            it.devicePhone, it.documentsFileNamesCsv, it.engineNumber, it.hpvId, it.id,
+                    DbVehicle(it.championId, it.createdAt, it.id,
                             it.isMaxVehicle, it.licenseExpirationDate, it.locationId, it.manufacturerId,
                             it.maxGlobalId, it.maxVehicleId, it.modelId, it.modelNumber, it.plateNumber,
-                            it.pricingTemplateId, it.pvId, it.serviceType, it.simNetworkId, it.simSerialNo,
-                            it.trimId, it.updatedAt, it.movementType, it.movementReason, it.vehicleStatusId, it.vehicleTypeId,
-                            it.year
+                            it.pricingTemplateId, it.serviceType, it.updatedAt, it.vehicleMovement, it.vehicleStatusId, it.vehicleTypeId,
+                            it.year, it.lastVehicleMovement
                     )
                 }
                 withContext(Dispatchers.IO){

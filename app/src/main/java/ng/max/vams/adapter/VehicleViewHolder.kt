@@ -19,6 +19,6 @@ class VehicleViewHolder (itemView: View, onItemClickListener: ((position: Int) -
 
     override fun bind(item: DbVehicle) {
         itemView.titleTv.text = item.maxVehicleId
-        itemView.reasonTv.text = item.movementReason?: "N/A"
+        itemView.reasonTv.text = item.lastVehicleMovement?.reason?: "N/A"
     }
 }

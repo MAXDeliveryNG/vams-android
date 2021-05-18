@@ -26,6 +26,8 @@ data class Vehicle(
     val id: String,
     @SerializedName("is_max_vehicle")
     val isMaxVehicle: Boolean,
+    @SerializedName("last_vehicle_movement")
+    val lastVehicleMovement: LastVehicleMovement?,
     @SerializedName("license_expiration_date")
     val licenseExpirationDate: String,
     @SerializedName("location_id")
@@ -45,11 +47,11 @@ data class Vehicle(
     @SerializedName("pricing_template_id")
     val pricingTemplateId: String?,
     @SerializedName("pv_id")
-    val pvId: String?,
+    val pvId: Int,
     @SerializedName("service_type")
     val serviceType: String,
     @SerializedName("sim_network_id")
-    val simNetworkId: String?,
+    val simNetworkId: Int,
     @SerializedName("sim_serial_no")
     val simSerialNo: String,
     @SerializedName("trim_id")
@@ -57,13 +59,11 @@ data class Vehicle(
     @SerializedName("updated_at")
     val updatedAt: String?,
     @SerializedName("vehicle_movement")
-    val movementType: String?,
-    @SerializedName("last_movement_reason")
-    val movementReason: String?,
+    val vehicleMovement: String?,
     @SerializedName("vehicle_status_id")
-    val vehicleStatusId: String?,
+    val vehicleStatusId: Int?,
     @SerializedName("vehicle_type_id")
     val vehicleTypeId: Int,
     @SerializedName("year")
-    val year: String?
+    val year: Int?
 )

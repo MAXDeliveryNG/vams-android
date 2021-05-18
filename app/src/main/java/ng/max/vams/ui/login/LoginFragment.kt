@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ng.max.vams.R
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.FragmentLoginBinding
+import ng.max.vams.util.showDialog
 
 
 @AndroidEntryPoint
@@ -71,10 +70,4 @@ class LoginFragment : Fragment() {
             }
         }
     }
-
-    private fun showDialog(title : String, message : String) {
-        val bundle = bundleOf("title" to title, "message" to message)
-        findNavController().navigate(R.id.appDialogFragment, bundle)
-    }
-
 }
