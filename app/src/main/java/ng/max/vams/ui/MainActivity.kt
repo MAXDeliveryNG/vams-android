@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var activityMainBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_VAMS)
         super.onCreate(savedInstanceState)
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         handleNavController()
@@ -27,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         val listener = NavController.OnDestinationChangedListener{ _, destination, _ ->
             if (destination.id == R.id.loginFragment || destination.id == R.id.appDialogFragment){
-                activityMainBinding.appToolbar.gone()
+//                activityMainBinding.appToolbar.gone()
             }else{
-                activityMainBinding.appToolbar.show()
+//                activityMainBinding.appToolbar.show()
             }
         }
         navController.addOnDestinationChangedListener(listener)

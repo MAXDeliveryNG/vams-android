@@ -10,11 +10,11 @@ import ng.max.vams.data.manager.UserManager
 import ng.max.vams.data.remote.request.LoginBody
 import ng.max.vams.data.remote.response.User
 import ng.max.vams.data.wrapper.Result
-import ng.max.vams.usecase.login.LoginUseCaseImpl
+import ng.max.vams.usecase.login.LoginUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCaseImpl) : ViewModel() {
+class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val loggedInUserResponse = MutableLiveData<User?>()
     private val loginResponse = MutableLiveData<Result<User>>()
@@ -33,6 +33,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCaseI
 
 
     fun actionLogin(username: String, password: String) {
+        loginResponse.value = Result.Loading
         val loginBody = LoginBody(username, password)
         viewModelScope.launch {
             when (val result = loginUseCase.invoke(loginBody)) {
@@ -46,7 +47,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCaseI
                     loginResponse.value = Result.Error(result.message)
                 }
                 is Result.Loading -> {
-                    loginResponse.value = Result.Loading(result.isLoading)
+                    loginResponse.value = Result.Loading
                 }
             }
         }

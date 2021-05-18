@@ -7,4 +7,43 @@
     <string name="forgot_password_label"><u>Forgot password</u></string>
     <string name="ok_label">Ok</string>
     <string name="cancel_label">Cancel</string>
+    <string name="tab_vehicles">Vehicles</string>
+    <string name="tab_spare_parts">Spare parts</string>
+    <string name="tab_trackers">Trackers</string>
+    <string name="reason_label">Reason</string>
+    <string name="entry_label">Entries</string>
+    <string name="exit_label">Exits</string>
+    <string name="entry_reason_header">Reason for entry</string>
+    <string name="exit_reason_header">Reason for exit</string>
+    <string name="default_reason_subtitle">Monthly scheduled maintenance performed on various vehicle assets</string>
+    <string name="defualt_vehicle_reason_label">Maintenance</string>
+    <string name="plate_number_label">Plate Number</string>
+    <string name="location_label">Location</string>
+    <string name="vehicle_type_label">Vehicle Type</string>
+    <string name="movement_type_label">Movement Type</string>
+    <string name="vehicle_id_label">Vehicle ID</string>
+    <string name="odometer_reading_label">Odometer Reading</string>
+    <string name="select_location_label">- Select Location -</string>
+    <string name="select_vehicle_type_label">- Select Vehicle Type -</string>
+    <string name="select_movement_type_label">- Select Movement Type -</string>
+    <string name="enter_vehicle_id_hint">Enter Vehicle ID</string>
+    <string name="enter_odometer_reading_hint">Enter Odometer Reading</string>
+    <string name="enter_reason_hint">Enter Reason</string>
+
+    <string-array name="movement_type">
+        <item>Entry</item>
+        <item>Exit</item>
+    </string-array>
+    <string name="back_to_dashboard_label">back to dashboard</string>
+    <string name="you_have_successfully_label">You have successfully %s</string>
+    <string name="dialog_entry_label">New Entry</string>
+    <string name="dialog_entry_sub_label">Check in vehicles.</string>
+    <string name="dialog_exit_sub_label">Check out vehicles.</string>
+    <string name="dialog_exit_label">Exit</string>
+    <string name="registered_by_label">Registered By</string>
+    <string name="odometer_label">Odometer</string>
+    <string name="time_of_entry_label">Time of entry</string>
+    <string name="live_action_label">Live action</string>
+    <string name="location_data">%1s(%2s)</string>
+    <string name="liveActionData">Undergoing Maintenance</string>
 </resources>

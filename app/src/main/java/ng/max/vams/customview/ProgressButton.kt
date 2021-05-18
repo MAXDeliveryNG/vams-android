@@ -4,20 +4,20 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
+import android.view.View.OnClickListener
 import android.widget.FrameLayout
-import android.widget.ProgressBar
+import androidx.core.content.ContextCompat
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import ng.max.vams.R
-import ng.max.vams.util.hide
-import ng.max.vams.util.show
 
 class ProgressButton : FrameLayout {
 
     private lateinit var containerFrame: FrameLayout
-    private lateinit var button: Button
-    private lateinit var progressView: ProgressBar
+    private lateinit var button: MaterialButton
+    private lateinit var progressView: CircularProgressIndicator
 
-    private var buttonText: CharSequence? = "OK"
+    private var buttonText: CharSequence? = "Submit"
     private var buttonTextColor: Int? = 0
     private var buttonBgColor: Int? = 0
 
@@ -34,7 +34,6 @@ class ProgressButton : FrameLayout {
             context.obtainStyledAttributes(attributeSet, R.styleable.ProgressButton)
         buttonText = ta.getString(R.styleable.ProgressButton_text)
         buttonTextColor = ta.getColor(R.styleable.ProgressButton_textColor, 0)
-        buttonBgColor = ta.getColor(R.styleable.ProgressButton_bgColor, 0)
 
 
         ta.recycle()
@@ -48,7 +47,8 @@ class ProgressButton : FrameLayout {
 
         button.text = buttonText
         button.setTextColor(buttonTextColor!!)
-        button.setBackgroundColor(buttonBgColor!!)
+        button.backgroundTintList = ContextCompat.getColorStateList(context,
+            R.color.button_state)
 
         loaded() // default state
     }
@@ -83,5 +83,9 @@ class ProgressButton : FrameLayout {
         }
 
         button.setOnClickListener(clickListener)
+    }
+
+    fun setButtonEnable(isCompleted: Boolean) {
+        button.isEnabled = isCompleted
     }
 }

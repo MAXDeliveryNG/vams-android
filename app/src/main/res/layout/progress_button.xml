@@ -1,35 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/containerFrame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent">
 
-    <LinearLayout
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button"
+        style="@style/button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button"
-            style="@style/button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/progressText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
-
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/dimen_18dp"
+        android:layout_height="@dimen/dimen_18dp"
         android:layout_gravity="center"
+        app:indicatorColor="@color/very_dark_gray_very_black"
         android:indeterminate="true"
-        android:indeterminateTint="@color/white"
         android:visibility="invisible" />
 
 </FrameLayout>

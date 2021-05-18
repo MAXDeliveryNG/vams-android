@@ -4,6 +4,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -41,6 +42,7 @@ android {
             dimension "default"
             applicationIdSuffix ".dev"
             versionNameSuffix "-DEV"
+            buildConfigField "String", "BASE_URL", "\"https://api.staging.max.ng/\""
             buildConfigField "boolean", "IS_DEV", "true"
             resValue 'string', 'app_name', 'VAMS-DEV'
         }
@@ -153,6 +155,16 @@ dependencies {
     // define any required OkHttp artifacts without version
     implementation "com.squareup.okhttp3:okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    //Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+
+    //Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+
 
     // <chuck>
     // chuck release implementation
