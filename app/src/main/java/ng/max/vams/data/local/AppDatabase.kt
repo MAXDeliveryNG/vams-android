@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import ng.max.vams.data.local.converter.Converters
 import ng.max.vams.data.local.dao.LocationDao
 import ng.max.vams.data.local.dao.ReasonDao
 import ng.max.vams.data.local.dao.VehicleDao
@@ -14,6 +16,7 @@ import ng.max.vams.data.remote.response.VehicleType
 
 @Database(version = 1, entities = [DbVehicle::class, Reason::class,
     Location::class, VehicleType::class], exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase(){
 
     abstract fun vehicleDao(): VehicleDao

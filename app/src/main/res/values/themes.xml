@@ -37,6 +37,11 @@
         <item name="fontFamily">@font/ttcommons_bold</item>
     </style>
 
+    <style name="textButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textSize">@dimen/dimen_14sp</item>
+        <item name="fontFamily">@font/ttcommons_bold</item>
+    </style>
+
     <style name="toolbarText" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/montserrat_bold</item>
     </style>
@@ -60,6 +65,19 @@
         <item name="cornerSizeBottomRight">@dimen/dimen_0dp</item>
     </style>
 
+    <style name="ShapeAppearanceDetailCardView" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/dimen_8dp</item>
+    </style>
+
+    <style name="DetailCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="strokeColor">@color/very_light_gray</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="cardElevation">@dimen/dimen_0dp</item>
+        <item name="cardMaxElevation">@dimen/dimen_0dp</item>
+        <item name="android:layout_marginStart">@dimen/dimen_36dp</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_36dp</item>
+    </style>
     <style name="formTextHint">
         <item name="fontFamily">@font/ttcommons_regular</item>
         <item name="android:textSize">@dimen/dimen_14sp</item>

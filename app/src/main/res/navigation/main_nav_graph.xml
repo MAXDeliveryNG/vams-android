@@ -53,6 +53,9 @@
         <argument
             android:name="assetType"
             app:argType="string" />
+        <action
+            android:id="@+id/action_vehicleListFragment_to_vehicleDetailFragment"
+            app:destination="@id/vehicleDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/assetReasonFragment"
@@ -104,5 +107,14 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/vehicleDetailFragment"
+        android:name="ng.max.vams.ui.vehicledetail.VehicleDetailFragment"
+        android:label="vehicle_detail_fragment"
+        tools:layout="@layout/vehicle_detail_fragment" >
+        <argument
+            android:name="vehicleId"
+            app:argType="string" />
     </fragment>
 </navigation>
