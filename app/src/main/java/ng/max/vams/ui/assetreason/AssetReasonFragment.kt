@@ -68,7 +68,7 @@ class AssetReasonFragment : Fragment() {
             when (result) {
                 is Result.Error -> {
                     hideProgressBar()
-                    Snackbar.make(bnd.reasonRv, result.message, Snackbar.LENGTH_LONG)
+                    Snackbar.make(bnd.reasonRv, result.message, Snackbar.LENGTH_LONG).show()
                 }
                 is Result.Loading -> {
                     bnd.progressBar.show()

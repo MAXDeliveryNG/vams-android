@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
 import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.data.wrapper.Result
@@ -44,9 +45,9 @@ class VehicleListFragment : Fragment() {
 
     private fun setupViews() {
         if (args.movementType == "entry") {
-            bnd.headerLabel.text = "Entry (${args.assetType})"
+            bnd.headerLabel.text = getString(R.string.entry_header_label, args.assetType)
         } else {
-            bnd.headerLabel.text = "Exit (${args.assetType})"
+            bnd.headerLabel.text = getString(R.string.exit_header_label, args.assetType)
         }
         bnd.dateTv.text = Helper.getFormattedDate()
         bnd.backButton.setOnClickListener {
@@ -74,7 +75,7 @@ class VehicleListFragment : Fragment() {
             when (result) {
                 is Result.Error -> {
                     hideProgressBar()
-                    Snackbar.make(bnd.vehicleRv, result.message, Snackbar.LENGTH_LONG)
+                    Snackbar.make(bnd.vehicleRv, result.message, Snackbar.LENGTH_LONG).show()
                 }
                 is Result.Loading -> {
                     bnd.progressBar.show()
