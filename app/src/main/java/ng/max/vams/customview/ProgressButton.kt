@@ -19,7 +19,6 @@ class ProgressButton : FrameLayout {
 
     private var buttonText: CharSequence? = "Submit"
     private var buttonTextColor: Int? = 0
-    private var buttonBgColor: Int? = 0
 
     private lateinit var clickListener: OnClickListener
 

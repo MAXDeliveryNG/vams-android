@@ -29,6 +29,7 @@ import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.RegisterVehicleFragmentBinding
 import ng.max.vams.util.Helper
 import ng.max.vams.util.gone
+import ng.max.vams.util.showDialog
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -122,6 +123,9 @@ class RegisterVehicleFragment : Fragment() {
                     this.movementType?.toLowerCase(Locale.getDefault())
                 }
                 registerVehicleViewModel.registerMovement(movementData, vehicleId!!)
+            }else{
+                bnd.submitButton.loaded()
+                Toast.makeText(requireContext(), "Missing Vehicle Id", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -263,10 +267,9 @@ class RegisterVehicleFragment : Fragment() {
             getVehicleTypeResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Error -> {
-
+                        Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG).show()
                     }
                     Result.Loading -> {
-
                     }
                     is Result.Success -> {
                         val vehicleType = result.value.name
@@ -279,11 +282,9 @@ class RegisterVehicleFragment : Fragment() {
             getLocationResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Error -> {
-
+                        Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG).show()
                     }
-                    Result.Loading -> {
-
-                    }
+                    Result.Loading -> { }
                     is Result.Success -> {
                         val location = result.value.name
                         validateLocation(location)
@@ -296,6 +297,7 @@ class RegisterVehicleFragment : Fragment() {
                 when (result) {
                     is Result.Error -> {
                         bnd.plateNumberProgressbar.gone()
+                        showDialog("Error", result.message)
                     }
                     Result.Loading -> {
                         bnd.plateNumberProgressbar.show()
@@ -310,9 +312,7 @@ class RegisterVehicleFragment : Fragment() {
             getLocationsResponse.observe(viewLifecycleOwner){result->
                 when(result){
                     is Result.Error -> {}
-                    Result.Loading -> {
-
-                    }
+                    Result.Loading -> {}
                     is Result.Success -> {
                         val adapter: ArrayAdapter<String> =
                             ArrayAdapter(
@@ -346,6 +346,7 @@ class RegisterVehicleFragment : Fragment() {
                 when(result){
                     is Result.Error -> {
                         bnd.submitButton.loaded()
+                        showDialog("Error", result.message)
                     }
                     Result.Loading -> {}
                     is Result.Success -> {

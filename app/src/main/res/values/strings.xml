@@ -46,4 +46,8 @@
     <string name="live_action_label">Live action</string>
     <string name="location_data">%1s(%2s)</string>
     <string name="liveActionData">Undergoing Maintenance</string>
+    <string name="entry_header_label">Entry (%s)</string>
+    <string name="exit_header_label">Exit (%s)</string>
+    <string name="overview_label">Overview</string>
+    <string name="profile_label">Profile</string>
 </resources>

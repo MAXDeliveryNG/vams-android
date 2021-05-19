@@ -23,7 +23,7 @@ data class User(
     @SerializedName("phone_verified")
     val phoneVerified: Boolean,
     @SerializedName("photo")
-    val photo: String,
+    val photo: String?,
     @SerializedName("role")
     val role: String,
     @SerializedName("status")

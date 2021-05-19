@@ -14,11 +14,12 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress"
-        android:layout_width="@dimen/dimen_18dp"
-        android:layout_height="@dimen/dimen_18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:indicatorColor="@color/very_dark_gray_very_black"
         android:indeterminate="true"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:indicatorColor="@color/very_dark_gray_very_black"
+        app:indicatorSize="@dimen/dimen_24dp" />
 
 </FrameLayout>
