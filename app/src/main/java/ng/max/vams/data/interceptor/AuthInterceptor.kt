@@ -1,12 +1,13 @@
 package ng.max.vams.data.interceptor
 
 import android.content.Context
-import okhttp3.Interceptor
-import okhttp3.Response
-import javax.inject.Inject
 import ng.max.vams.BuildConfig
 import ng.max.vams.data.manager.UserManager
 import ng.max.vams.util.notEmpty
+import okhttp3.Interceptor
+import okhttp3.Response
+import java.io.IOException
+import javax.inject.Inject
 
 class AuthInterceptor  @Inject constructor(private val context : Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -23,8 +24,14 @@ class AuthInterceptor  @Inject constructor(private val context : Context) : Inte
             }
         }.build()
 
-        return chain.proceed(request)
+        val response: Response
+        try{
+            response = chain.proceed(request)
+        }catch (ex: Exception){
+            throw IOException(ex.localizedMessage)
+        }
 
+        return response
     }
 
 }

@@ -1,5 +1,6 @@
 package ng.max.vams.data.remote
 
+import com.google.gson.Gson
 import ng.max.vams.data.remote.request.MovementBody
 import ng.max.vams.data.remote.response.*
 import ng.max.vams.data.remote.services.VehicleService
@@ -8,87 +9,164 @@ import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(private val vehicleService: VehicleService) {
 
-    suspend fun getVehicles(movementType: String): Result<VehicleListData>{
-        val response = vehicleService.getVehicleList(movementType)
-        if (response.isSuccessful) {
-            val body =  response.body()
-            if (body != null){
-                return Result.Success(body.getData()!!)
+    suspend fun getVehicles(movementType: String): Result<VehicleListData> {
+        try {
+            val response = vehicleService.getVehicleList(movementType)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()!!)
+                }
             }
-        }
 
-        return Result.Error("Error getting vehicles ${response.code()} ${response.message()}")
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                return Result.Error("Error getting vehicles ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
+        }
     }
 
-    suspend fun getLocations(): Result<List<Location>>{
-        val response = vehicleService.getLocations()
-        if (response.isSuccessful) {
-            val body =  response.body()
-            if (body != null){
-                return Result.Success(body.getData()!!)
+    suspend fun getLocations(): Result<List<Location>> {
+        try {
+            val response = vehicleService.getLocations()
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()!!)
+                }
             }
-        }
 
-        return Result.Error("Error getting Locations ${response.code()} ${response.message()}")
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                return Result.Error("Error getting Locations ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
+        }
     }
 
-    suspend fun getMovementStat(): Result<MovementStat>{
-        val response = vehicleService.getMovementStat()
-        if (response.isSuccessful) {
-            val body =  response.body()
-            if (body != null){
-                return Result.Success(body.getData()!!)
+    suspend fun getMovementStat(): Result<MovementStat> {
+        try {
+            val response = vehicleService.getMovementStat()
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()!!)
+                }
             }
+
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                return Result.Error("Error getting Stats ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
         }
 
-        return Result.Error("Error getting Stats ${response.code()} ${response.message()}")
     }
 
-    suspend fun getVehicleType(): Result<List<VehicleType>>{
-        val response = vehicleService.getVehicleType()
-        if (response.isSuccessful) {
-            val body =  response.body()
-            if (body != null){
-                return Result.Success(body.getData()!!)
+    suspend fun getVehicleType(): Result<List<VehicleType>> {
+        try {
+            val response = vehicleService.getVehicleType()
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()!!)
+                }
             }
-        }
 
-        return Result.Error("Error getting Vehicle Types ${response.code()} ${response.message()}")
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                Result.Error("Error getting Vehicle Types ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
+        }
     }
 
-    suspend fun getMovementReasons(): Result<List<Reason>>{
-        val response = vehicleService.getReasons()
-        if (response.isSuccessful) {
-            val body =  response.body()
-            if (body != null){
-                return Result.Success(body.getData()!!)
+    suspend fun getMovementReasons(): Result<List<Reason>> {
+        try {
+            val response = vehicleService.getReasons()
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()!!)
+                }
             }
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                Result.Error("Error getting movement seasons ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
         }
-
-        return Result.Error("Error getting movement seasons ${response.code()} ${response.message()}")
     }
 
-    suspend fun getSearchResult(term: String): Result<VehicleListData>{
-        val response = vehicleService.search(term)
-        if (response.isSuccessful) {
-            val body =  response.body()
-            if (body != null){
-                return Result.Success(body.getData()!!)
+    suspend fun getSearchResult(term: String): Result<List<Vehicle>> {
+        try {
+            val response = vehicleService.search(term)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()?.vehicles!!)
+                }
             }
-        }
 
-        return Result.Error("Error getting search result ${response.code()} ${response.message()}")
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                Result.Error("Error getting search result ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
+        }
     }
 
-    suspend fun registerMovement(movementBody: MovementBody): Result<Vehicle>{
-        val response = vehicleService.registerVehicleMovement(movementBody)
-        if (response.isSuccessful) {
-            val body =  response.body()
-            if (body != null){
-                return Result.Success(body.getData()!!)
+    suspend fun registerMovement(movementBody: MovementBody): Result<Vehicle> {
+        try {
+            val response = vehicleService.registerVehicleMovement(movementBody)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()!!)
+                }
             }
-        }
 
-        return Result.Error("Error registering movement ${response.code()} ${response.message()}")
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                Result.Error("Error registering movement ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
+        }
     }
 }
