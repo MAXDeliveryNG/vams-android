@@ -1,9 +1,15 @@
 package ng.max.vams.ui.home
 
+import android.annotation.SuppressLint
+import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -19,12 +25,14 @@ import ng.max.vams.ui.login.LoginViewModel
 import ng.max.vams.util.Helper
 import ng.max.vams.util.showDialog
 
+
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var bnd : HomeFragmentBinding
+    private var user = UserManager.getUser()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +44,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginViewModel.getLoggedInUser().observe(viewLifecycleOwner){user ->
+        loginViewModel.getLoggedInUser().observe(viewLifecycleOwner){ user ->
             if (user == null){
                 findNavController().navigate(R.id.loginFragment)
             }else{
@@ -47,7 +55,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupViews(){
-        UserManager.getUser()?.let { user->
+        user?.let { user->
             if (user.photo != null){
                 bnd.profileIcon.load(user.photo){
                     placeholder(R.drawable.ic_icon_placeholder)
@@ -62,7 +70,7 @@ class HomeFragment : Fragment() {
         }
 
         bnd.profileIcon.setOnClickListener {
-            findNavController().navigate(R.id.profileFragment)
+            displayPopup()
         }
         bnd.fab.setOnClickListener {
             findNavController().navigate(R.id.movementTypeDialogFragment)
@@ -73,16 +81,16 @@ class HomeFragment : Fragment() {
 
         bnd.entryCard.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
-                    "entry",
-                    "Vehicle"
+                "entry",
+                "Vehicle"
             )
             findNavController().navigate(action)
         }
 
         bnd.exitCard.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
-                    "exit",
-                    "Vehicle"
+                "exit",
+                "Vehicle"
             )
             findNavController().navigate(action)
         }
@@ -103,13 +111,49 @@ class HomeFragment : Fragment() {
 //        }.attach()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun displayPopup() {
+        val inflater =
+            requireContext().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView: View = inflater.inflate(R.layout.layout_profile_popup_view, null)
+
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+
+        //Create a popup window
+        val popupWindow = PopupWindow(popupView, width, height, true)
+
+        popupWindow.showAsDropDown(bnd.profileIcon, 0, 0, Gravity.BOTTOM)
+
+        val usernameTextView = popupView.findViewById<TextView>(R.id.profileUsernameTV)
+        val emailTextView = popupView.findViewById<TextView>(R.id.profileEmailTv)
+        val roleTextView = popupView.findViewById<TextView>(R.id.profileRoleTv)
+        val viewProfileTextView = popupView.findViewById<TextView>(R.id.viewProfileTv)
+
+
+        usernameTextView.text = user?.fullName
+        emailTextView.text = user?.email
+        roleTextView.text = user?.role?.capitalize()
+
+        viewProfileTextView.setOnClickListener {
+            popupWindow.dismiss()
+            findNavController().navigate(R.id.profileFragment)
+        }
+
+        popupView.setOnTouchListener { v, event ->
+            popupWindow.dismiss()
+            true
+        }
+    }
+
     private fun setupViewModel(){
         homeViewModel.getMovementStatResponse.observe(viewLifecycleOwner){ result->
             when(result){
                 is Result.Error -> {
                     showDialog("Error", result.message)
                 }
-                is Result.Loading -> {}
+                is Result.Loading -> {
+                }
                 is Result.Success -> {
                     bnd.entryCard.setCount(result.value.totalEntry)
                     bnd.exitCard.setCount(result.value.totalExit)

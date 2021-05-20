@@ -52,4 +52,6 @@
     <string name="profile_label">Profile</string>
     <string name="settings_label">Application Settings</string>
     <string name="sign_out_label">Sign out</string>
+    <string name="view_profile_label">View Profile</string>
+    <string name="update_password_label">Change Password</string>
 </resources>
