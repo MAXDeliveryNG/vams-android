@@ -44,5 +44,11 @@ class UserManager {
             return getUser() != null
         }
 
+        fun clearUserData() {
+            for (key in keys.keys) {
+                prefsManager.remove(key)
+            }
+        }
+
     }
 }

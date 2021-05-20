@@ -6,12 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import ng.max.vams.R
+import ng.max.vams.data.manager.AppManager
 import ng.max.vams.databinding.FragmentAppDialogBinding
+import ng.max.vams.util.gone
+import ng.max.vams.util.show
 
 class AppDialogFragment : DialogFragment() {
 
     private lateinit var bnd: FragmentAppDialogBinding
+    private var shouldLogout: Boolean = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -19,6 +24,7 @@ class AppDialogFragment : DialogFragment() {
         bnd = DataBindingUtil.inflate(
             inflater, R.layout.fragment_app_dialog, container, false
         )
+        shouldLogout = arguments?.getBoolean("shouldLogOut") ?: false
         return bnd.root
     }
 
@@ -32,9 +38,23 @@ class AppDialogFragment : DialogFragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
+            if (shouldLogout){
+                bnd.cancelButton.show()
+                bnd.okButton.text = getString(R.string.sign_out_label)
+            }else{
+                bnd.cancelButton.gone()
+                bnd.okButton.text = getString(R.string.ok_label)
+            }
         }
 
         bnd.okButton.setOnClickListener {
+            if (shouldLogout){
+                AppManager.logout(findNavController())
+            }
+            dismiss()
+        }
+
+        bnd.cancelButton.setOnClickListener {
             dismiss()
         }
     }

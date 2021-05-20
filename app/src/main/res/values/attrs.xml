@@ -2,6 +2,7 @@
 <resources>
     <attr name="title" format="string"/>
     <attr name="subTitle" format="string"/>
+    <attr name="icon" format="reference"/>
 
     <declare-styleable name="ProgressButton">
         <attr name="text" format="string"/>
@@ -11,7 +12,7 @@
     <declare-styleable name="MovementTypeStateView">
         <attr name="title"/>
         <attr name="subTitle"/>
-        <attr name="icon" format="reference"/>
+        <attr name="icon"/>
     </declare-styleable>
 
     <declare-styleable name="MovementTypeCardView">
@@ -19,6 +20,11 @@
         <attr name="subTitle"/>
         <attr name="count" format="string"/>
         <attr name="countColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ProfileOptionView">
+        <attr name="title"/>
+        <attr name="icon"/>
     </declare-styleable>
 
 </resources>
