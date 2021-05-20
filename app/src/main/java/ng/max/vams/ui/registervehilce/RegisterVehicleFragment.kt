@@ -120,7 +120,7 @@ class RegisterVehicleFragment : Fragment() {
         bnd.submitButton.setOnClickListener {
             if (vehicleId != null) {
                 movementData.apply {
-                    this.movementType?.toLowerCase(Locale.getDefault())
+                    movementType = this.movementType?.toLowerCase(Locale.getDefault())
                 }
                 registerVehicleViewModel.registerMovement(movementData, vehicleId!!)
             }else{
