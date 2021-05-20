@@ -61,6 +61,9 @@ class HomeFragment : Fragment() {
 
         }
 
+        bnd.profileIcon.setOnClickListener {
+            findNavController().navigate(R.id.profileFragment)
+        }
         bnd.fab.setOnClickListener {
             findNavController().navigate(R.id.movementTypeDialogFragment)
         }

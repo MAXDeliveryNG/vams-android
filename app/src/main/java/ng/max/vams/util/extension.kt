@@ -23,7 +23,7 @@ fun View.hide(){
     this.visibility = View.INVISIBLE
 }
 
-fun Fragment.showDialog(title : String, message : String) {
-    val bundle = bundleOf("title" to title, "message" to message)
+fun Fragment.showDialog(title : String, message : String, shouldLogout: Boolean = false) {
+    val bundle = bundleOf("title" to title, "message" to message, "shouldLogOut" to shouldLogout)
     findNavController().navigate(R.id.appDialogFragment, bundle)
 }
