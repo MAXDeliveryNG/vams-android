@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import ng.max.vams.data.DataMapper
 import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.data.local.dao.VehicleDao
 import ng.max.vams.data.remote.RemoteDataSource
@@ -28,12 +29,7 @@ class VehicleListUseCase @Inject constructor(private val vehicleDao: VehicleDao,
             }
             is Result.Success -> {
                 val vehicles = response.value.vehicles.map {
-                    DbVehicle(it.championId, it.createdAt, it.id,
-                        it.isMaxVehicle, it.licenseExpirationDate, it.locationId, it.manufacturerId,
-                        it.maxGlobalId, it.maxVehicleId, it.modelId, it.modelNumber, it.plateNumber,
-                        it.pricingTemplateId, it.serviceType, it.updatedAt, it.vehicleMovement, it.vehicleStatusId, it.vehicleTypeId,
-                        it.year, it.lastVehicleMovement
-                    )
+                    DataMapper().invoke(it)
                 }
                 withContext(Dispatchers.IO){
                     saveVehicles(vehicles)

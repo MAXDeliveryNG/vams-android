@@ -1,6 +1,8 @@
 package ng.max.vams.ui.vehiclelist
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableStateFlow
 import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
 import ng.max.vams.data.local.DbVehicle
@@ -18,6 +21,7 @@ import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.VehicleListFragmentBinding
 import ng.max.vams.util.Helper
 import ng.max.vams.util.gone
+import ng.max.vams.util.show
 
 @AndroidEntryPoint
 class VehicleListFragment : Fragment() {
@@ -27,6 +31,7 @@ class VehicleListFragment : Fragment() {
     private lateinit var bnd: VehicleListFragmentBinding
 
     private val vehicleAdapter = BaseAdapter()
+    val searchQuery = MutableStateFlow("")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +49,7 @@ class VehicleListFragment : Fragment() {
     }
 
     private fun setupViews() {
+        resetSearch()
         if (args.movementType == "entry") {
             bnd.headerLabel.text = getString(R.string.entry_header_label, args.assetType)
         } else {
@@ -52,6 +58,20 @@ class VehicleListFragment : Fragment() {
         bnd.dateTv.text = Helper.getFormattedDate()
         bnd.backButton.setOnClickListener {
             findNavController().popBackStack()
+        }
+        bnd.searchBtn.setOnClickListener {
+            bnd.searchContainer.show()
+            bnd.headerContainer.gone()
+            bnd.searchEditText.requestFocus()
+        }
+        bnd.clearBtn.setOnClickListener {
+            if (bnd.searchEditText.text.toString().isEmpty()){
+                bnd.searchContainer.gone()
+                 bnd.headerContainer.show()
+            }else{
+                bnd.searchEditText.text  = null
+                vehicleListViewModel.actionGetVehicles(args.movementType)
+            }
         }
         bnd.swipeRefresh.setOnRefreshListener {
             vehicleListViewModel.actionGetVehicles(args.movementType)
@@ -68,24 +88,66 @@ class VehicleListFragment : Fragment() {
             adapter = vehicleAdapter
             setHasFixedSize(true)
         }
+        bnd.searchEditText.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(input: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(input: CharSequence?, start: Int, before: Int, count: Int) {
+                if (input.toString().isNotEmpty()){
+                    searchQuery.value = input.toString()
+                    vehicleListViewModel.search(searchQuery, args.movementType)
+                }
+            }
+
+            override fun afterTextChanged(input: Editable?) {
+
+            }
+
+        })
+    }
+
+    private fun resetSearch() {
+        bnd.searchEditText.text = null
+        bnd.searchContainer.gone()
+        bnd.headerContainer.show()
     }
 
     private fun setupViewModel() {
-        vehicleListViewModel.getVehiclesResponse.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Error -> {
-                    hideProgressBar()
-                    Snackbar.make(bnd.vehicleRv, result.message, Snackbar.LENGTH_LONG).show()
+        with(vehicleListViewModel){
+            getVehiclesResponse.observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Result.Error -> {
+                        hideProgressBar()
+                        Snackbar.make(bnd.vehicleRv, result.message, Snackbar.LENGTH_LONG).show()
+                    }
+                    is Result.Loading -> {
+                        bnd.progressBar.show()
+                    }
+                    is Result.Success -> {
+                        hideProgressBar()
+                        vehicleAdapter.adapterList = result.value
+                    }
                 }
-                is Result.Loading -> {
-                    bnd.progressBar.show()
-                }
-                is Result.Success -> {
-                    hideProgressBar()
-                    vehicleAdapter.adapterList = result.value
+            }
+
+            getSearchResponse.observe(viewLifecycleOwner){ result ->
+                when (result) {
+                    is Result.Error -> {
+                        hideProgressBar()
+                        Snackbar.make(bnd.vehicleRv, result.message, Snackbar.LENGTH_LONG).show()
+                    }
+                    is Result.Loading -> {
+                        bnd.progressBar.show()
+                    }
+                    is Result.Success -> {
+                        hideProgressBar()
+                        vehicleAdapter.adapterList = result.value
+                    }
                 }
             }
         }
+
         vehicleListViewModel.actionGetVehicles(args.movementType)
     }
 
