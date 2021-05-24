@@ -8,8 +8,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_movement_type_dialog.*
 import ng.max.vams.R
+import ng.max.vams.databinding.FragmentCompleteRegistrationBinding
+import ng.max.vams.databinding.FragmentMovementTypeDialogBinding
 
 class MovementTypeDialogFragment : BottomSheetDialogFragment() {
+
+    private lateinit var bnd: FragmentMovementTypeDialogBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +24,8 @@ class MovementTypeDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_movement_type_dialog, container, false)
+        bnd = FragmentMovementTypeDialogBinding.inflate(inflater, container, false)
+        return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
