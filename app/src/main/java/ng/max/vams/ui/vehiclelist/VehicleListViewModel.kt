@@ -42,27 +42,28 @@ class VehicleListViewModel @Inject constructor(
     fun search(term: StateFlow<String>, movementType: String) {
         searchResponse.value = Result.Loading
         viewModelScope.launch {
-            term.debounce(200)
+            term.debounce(300)
                 .filter { query ->
-                    return@filter query.isNotEmpty()
+                    return@filter query.isNotBlank()
                 }
                 .distinctUntilChanged()
                 .flatMapLatest { query ->
                     remoteDataSource.getSearchResult(query)
 
-                }.collect {result->
-                when(result){
-                    is Result.Error -> {
-                        searchResponse.value = result
+                }.collect { result ->
+                    when (result) {
+                        is Result.Error -> {
+                            searchResponse.value = result
+                        }
+                        is Result.Success -> {
+                            searchResponse.value = Result.Success(result.value.map {
+                                DataMapper().invoke(it)
+                            }.filter { it.movementType == movementType })
+                        }
+                        Result.Loading -> {
+                        }
                     }
-                    is Result.Success -> {
-                        searchResponse.value = Result.Success(result.value.map {
-                            DataMapper().invoke(it)
-                        }.filter { it.movementType == movementType })
-                    }
-                    Result.Loading -> {}
                 }
-            }
 
         }
     }

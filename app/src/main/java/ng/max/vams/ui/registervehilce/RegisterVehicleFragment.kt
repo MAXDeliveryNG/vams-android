@@ -20,6 +20,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableStateFlow
 import ng.max.vams.BR
 import ng.max.vams.R
 import ng.max.vams.adapter.SearchResultsAdapter
@@ -50,7 +51,8 @@ class RegisterVehicleFragment : Fragment() {
     private var exitSearch: Boolean = false
     private var vehicleId: String? = null
     private var valueMap: HashMap<String, String> = HashMap()
-    var atvToggleMap: HashMap<MaterialAutoCompleteTextView, Boolean> = HashMap()
+    private var atvToggleMap: HashMap<MaterialAutoCompleteTextView, Boolean> = HashMap()
+    private val searchQuery = MutableStateFlow("")
 
 
     override fun onCreateView(
@@ -88,10 +90,15 @@ class RegisterVehicleFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 s?.let { term ->
-                    if (!exitSearch) {
-                        registerVehicleViewModel.actionSearch(term.toString())
+                    if (exitSearch) {
+                        exitSearch = false
+                    }else{
+                        if (term.length <= 15){ //HACK for preventing search query with vehilce object
+                            searchQuery.value = term.toString()
+                            registerVehicleViewModel.actionSearch(searchQuery)
+                        }
                     }
-                    exitSearch = false
+
                 }
             }
 
@@ -273,7 +280,7 @@ class RegisterVehicleFragment : Fragment() {
                     }
                     is Result.Success -> {
                         val vehicleType = result.value.name
-                        bnd.vehicleTypeEditText.setText(vehicleType)
+                        validateVehicleType(vehicleType)
                     }
                 }
 
@@ -366,17 +373,34 @@ class RegisterVehicleFragment : Fragment() {
 
     private fun validateLocation(location: String) {
         if (Helper.supportedLocation.contains(location)){
-            bnd.locationEditText.setText(location)
-            bnd.locationEditText.isEnabled = false
+            bnd.locationInputLaout.postDelayed({
+                bnd.locationEditText.setText(location)
+                bnd.locationEditText.setSelection(bnd.locationEditText.text.count())
+                bnd.locationEditText.isEnabled = false
+                bnd.locationInputLaout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+            }, 10)
         }else{
             bnd.locationEditText.text = null
             bnd.vehicleIdEditText.text = null
-            bnd.vehicleTypeEditText.text = null
             bnd.plateNumberEditText.text = null
 
             bnd.locationEditText.isEnabled = true
-            bnd.vehicleTypeEditText.isEnabled = true
             bnd.vehicleIdEditText.isEnabled = true
+
+        }
+    }
+
+    private fun validateVehicleType(vehicleType: String) {
+        if (Helper.supportedVehicleType.contains(vehicleType)){
+            bnd.vehicleTypeInputLayout.postDelayed({
+                bnd.vehicleTypeEditText.setText(vehicleType)
+                bnd.vehicleTypeEditText.setSelection(bnd.vehicleTypeEditText.text.count())
+                bnd.vehicleTypeEditText.isEnabled = false
+                bnd.vehicleTypeInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+            }, 10)
+        }else{
+            bnd.vehicleTypeEditText.text = null
+            bnd.vehicleTypeEditText.isEnabled = true
 
         }
     }
@@ -432,6 +456,7 @@ class RegisterVehicleFragment : Fragment() {
             }
             bnd.movementTypeEditText.setSelection(bnd.movementTypeEditText.text.count())
             bnd.movementTypeEditText.isEnabled = false
+            bnd.movementTypeInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
         }, 10)
     }
 

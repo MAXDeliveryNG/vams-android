@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:viewBindingIgnore="true">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -164,8 +163,7 @@
                             style="@style/formEditTextHint"
                             android:layout_width="match_parent"
                             android:hint="@string/select_location_label"
-                            android:text="@={formModel.location}"
-                            android:textColor="@color/very_dark_gray" />
+                            android:text="@={formModel.location}"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 

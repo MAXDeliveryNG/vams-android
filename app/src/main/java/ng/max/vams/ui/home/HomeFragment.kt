@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var bnd : HomeFragmentBinding
     private var user: User? = null
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,9 +46,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
         loginViewModel.getLoggedInUser().observe(viewLifecycleOwner){ _user ->
             if (_user == null){
-                findNavController().navigate(R.id.loginFragment)
+                navController.navigate(R.id.loginFragment)
             }else{
                 user = _user
                 setupViews()
@@ -74,7 +77,7 @@ class HomeFragment : Fragment() {
             displayPopup()
         }
         bnd.fab.setOnClickListener {
-            findNavController().navigate(R.id.movementTypeDialogFragment)
+            navController.navigate(R.id.movementTypeDialogFragment)
         }
         val date = Helper.getFormattedDate()
         bnd.entryCard.setDate(date)
@@ -85,7 +88,7 @@ class HomeFragment : Fragment() {
                 "entry",
                 "Vehicle"
             )
-            findNavController().navigate(action)
+            navController.navigate(action)
         }
 
         bnd.exitCard.setOnClickListener {
@@ -93,7 +96,7 @@ class HomeFragment : Fragment() {
                 "exit",
                 "Vehicle"
             )
-            findNavController().navigate(action)
+            navController.navigate(action)
         }
 //        bnd.viewPager.adapter = AssetAdapter(this)
 //
@@ -138,7 +141,7 @@ class HomeFragment : Fragment() {
 
         viewProfileTextView.setOnClickListener {
             popupWindow.dismiss()
-            findNavController().navigate(R.id.profileFragment)
+            navController.navigate(R.id.profileFragment)
         }
 
         popupView.setOnTouchListener { v, event ->

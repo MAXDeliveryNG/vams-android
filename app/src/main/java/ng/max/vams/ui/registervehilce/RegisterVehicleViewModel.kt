@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementData
@@ -22,11 +24,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterVehicleViewModel @Inject constructor(
-        private val movementReasonRepo: MovementReasonRepository,
-        private val searchUseCase: SearchUseCase,
-        private val locationRepo: LocationRepository,
-        private val vehicleTypeRepo: VehicleTypeRepository,
-        private val registerVehicleMovementUseCase: RegisterVehicleMovementUseCase
+    private val movementReasonRepo: MovementReasonRepository,
+    private val searchUseCase: SearchUseCase,
+    private val locationRepo: LocationRepository,
+    private val vehicleTypeRepo: VehicleTypeRepository,
+    private val registerVehicleMovementUseCase: RegisterVehicleMovementUseCase
 ) : ViewModel() {
 
     private val reasonResponse = MutableLiveData<Result<Reason>>()
@@ -53,12 +55,22 @@ class RegisterVehicleViewModel @Inject constructor(
         }
     }
 
-    fun actionSearch(term: String){
+    @ExperimentalCoroutinesApi
+    @FlowPreview
+    fun actionSearch(term: StateFlow<String>) {
         searchResponse.value = Result.Loading
         viewModelScope.launch {
-            searchUseCase.invoke(term).collect { result->
-                searchResponse.value = result
-            }
+            term.debounce(300)
+                .filter { query ->
+                    return@filter query.isNotBlank()
+                }
+                .distinctUntilChanged()
+                .flatMapLatest { query ->
+                    searchUseCase.invoke(query)
+
+                }.collect { result ->
+                    searchResponse.value = result
+                }
         }
     }
 
@@ -100,12 +112,12 @@ class RegisterVehicleViewModel @Inject constructor(
         viewModelScope.launch {
             val movementBody = movementData.toMovementBody()
 
-            movementBody.locationId = movementData.location?.let {name->
+            movementBody.locationId = movementData.location?.let { name ->
                 locationRepo.getLocationByName(name)
             }?.id
             movementBody.vehicleId = vehicleId
 
-             registerMovementResponse.value = registerVehicleMovementUseCase.invoke(movementBody)
+            registerMovementResponse.value = registerVehicleMovementUseCase.invoke(movementBody)
 
         }
     }
