@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import ng.max.vams.R
@@ -21,8 +20,8 @@ class AppDialogFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View{
-        bnd = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_app_dialog, container, false
+        bnd = FragmentAppDialogBinding.inflate(
+            inflater, container, false
         )
         shouldLogout = arguments?.getBoolean("shouldLogOut") ?: false
         return bnd.root

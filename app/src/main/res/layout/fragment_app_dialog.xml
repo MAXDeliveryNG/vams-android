@@ -1,81 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="@dimen/dimen_250dp"
-        android:layout_height="@dimen/dimen_200dp"
-        android:layout_gravity="center_horizontal"
-        app:cardCornerRadius="@dimen/dimen_5dp"
-        tools:context=".ui.shared.AppDialogFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/dimen_250dp"
+    android:layout_height="@dimen/dimen_200dp"
+    android:layout_gravity="center_horizontal"
+    app:cardCornerRadius="@dimen/dimen_5dp"
+    tools:context=".ui.shared.AppDialogFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/dialogGuidelineStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/dimen_16dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/dialogGuidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/dimen_16dp" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/dialogGuidelineEnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/dimen_16dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/dialogGuidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/dimen_16dp" />
 
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_16dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_18sp"
-                app:layout_constraintStart_toStartOf="@+id/dialogGuidelineStart"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Error" />
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/very_dark_gray"
+            android:textSize="@dimen/dimen_18sp"
+            app:layout_constraintStart_toStartOf="@+id/dialogGuidelineStart"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Error" />
 
-            <TextView
-                android:id="@+id/messageTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_medium"
-                android:textSize="@dimen/dimen_16sp"
-                app:layout_constraintEnd_toStartOf="@+id/dialogGuidelineEnd"
-                app:layout_constraintStart_toStartOf="@+id/dialogGuidelineStart"
-                app:layout_constraintTop_toBottomOf="@+id/titleTextView"
-                tools:text="Failed to connectFailed to connectFailed to connectFailed to connect" />
+        <TextView
+            android:id="@+id/messageTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="@dimen/dimen_16sp"
+            app:layout_constraintEnd_toStartOf="@+id/dialogGuidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/dialogGuidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+            tools:text="Failed to connectFailed to connectFailed to connectFailed to connect" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelButton"
-                style="@style/textButton"
-                android:layout_width="@dimen/dimen_0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen_16dp"
-                android:text="@string/cancel_label"
-                android:textColor="@color/very_dark_gray"
-                app:layout_constraintBottom_toBottomOf="@+id/okButton"
-                app:layout_constraintEnd_toStartOf="@+id/okButton"
-                app:layout_constraintTop_toTopOf="@+id/okButton" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelButton"
+            style="@style/textButton"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_16dp"
+            android:text="@string/cancel_label"
+            android:textColor="@color/very_dark_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/okButton"
+            app:layout_constraintEnd_toStartOf="@+id/okButton"
+            app:layout_constraintTop_toTopOf="@+id/okButton" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/okButton"
-                style="@style/textButton"
-                android:layout_width="@dimen/dimen_0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_24dp"
-                android:layout_marginBottom="@dimen/dimen_16dp"
-                android:text="@string/ok_label"
-                android:textColor="@color/very_dark_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/dialogGuidelineEnd"
-                app:layout_constraintTop_toBottomOf="@+id/messageTextView" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/okButton"
+            style="@style/textButton"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_24dp"
+            android:layout_marginBottom="@dimen/dimen_16dp"
+            android:text="@string/ok_label"
+            android:textColor="@color/very_dark_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dialogGuidelineEnd"
+            app:layout_constraintTop_toBottomOf="@+id/messageTextView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
-</layout>
+</com.google.android.material.card.MaterialCardView>
