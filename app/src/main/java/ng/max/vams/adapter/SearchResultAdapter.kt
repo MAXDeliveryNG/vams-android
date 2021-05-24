@@ -34,11 +34,6 @@ class SearchResultsAdapter(
         notifyDataSetChanged()
     }
 
-    fun clearItems() {
-        this.items = ArrayList()
-        notifyDataSetChanged()
-    }
-
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: TextView =

@@ -14,7 +14,7 @@ class AppManager {
 
         fun logout(navController: NavController) {
             UserManager.clearUserData()
-            navController.navigate(R.id.homeFragment)
+            navController.popBackStack(R.id.homeFragment, false)
         }
 
     }

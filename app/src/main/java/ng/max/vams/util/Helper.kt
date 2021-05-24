@@ -7,6 +7,8 @@ class Helper {
 
     companion object {
 
+        val supportedVehicleType = listOf("Motorcycle", "Car", "Tricycle", "Minibus", "Gbamu Gbamu",
+            "eMotorcycle", "eTricycle", "Van")
         val supportedLocation = listOf("Bodija", "Eleyele", "Oregun", "Akure", "Gbamu Gbamu")
         fun getFormattedDate(): String {
             var tmp = SimpleDateFormat("d", Locale.getDefault())

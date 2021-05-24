@@ -130,33 +130,33 @@
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="@dimen/dimen_0dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
 
-            <TextView
-                android:id="@+id/history"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_history"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:textAllCaps="false" />
+<!--            <TextView-->
+<!--                android:id="@+id/history"-->
+<!--                style="?android:attr/borderlessButtonStyle"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:drawableTop="@drawable/ic_history"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="vertical"-->
+<!--                android:textAllCaps="false" />-->
 
-            <TextView
-                android:id="@+id/wall_share"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_stack"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:textAllCaps="false" />
+<!--            <TextView-->
+<!--                android:id="@+id/wall_share"-->
+<!--                style="?android:attr/borderlessButtonStyle"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:drawableTop="@drawable/ic_stack"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="vertical"-->
+<!--                android:textAllCaps="false" />-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
