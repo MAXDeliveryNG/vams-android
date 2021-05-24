@@ -9,7 +9,11 @@
         android:id="@+id/loginFragment"
         android:name="ng.max.vams.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="ng.max.vams.ui.home.HomeFragment"
@@ -70,13 +74,7 @@
         <action
             android:id="@+id/action_assetReasonFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_assetReasonFragment_to_movementTypeDialogFragment"
-            app:destination="@id/movementTypeDialogFragment"
-            app:popUpTo="@id/movementTypeDialogFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_assetReasonFragment_to_registerVehicleFragment"
             app:destination="@id/registerVehicleFragment" />
@@ -93,7 +91,9 @@
             app:argType="string" />
         <action
             android:id="@+id/action_registerVehicleFragment_to_completeRegistrationFragment"
-            app:destination="@id/completeRegistrationFragment" />
+            app:destination="@id/completeRegistrationFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/completeRegistrationFragment"
@@ -108,8 +108,7 @@
         <action
             android:id="@+id/action_completeRegistrationFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/vehicleDetailFragment"
@@ -123,5 +122,23 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="ng.max.vams.ui.profile.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_homeFragment3"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="ng.max.vams.ui.forgotpassword.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="ng.max.vams.ui.resetpassword.ResetPasswordFragment"
+        android:label="reset_password_fragment"
+        tools:layout="@layout/reset_password_fragment" />
 </navigation>

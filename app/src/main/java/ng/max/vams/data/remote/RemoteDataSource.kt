@@ -3,11 +3,67 @@ package ng.max.vams.data.remote
 import com.google.gson.Gson
 import ng.max.vams.data.remote.request.MovementBody
 import ng.max.vams.data.remote.response.*
+import ng.max.vams.data.remote.services.UserService
 import ng.max.vams.data.remote.services.VehicleService
 import ng.max.vams.data.wrapper.Result
 import javax.inject.Inject
 
-class RemoteDataSource @Inject constructor(private val vehicleService: VehicleService) {
+class RemoteDataSource @Inject constructor(private val userService: UserService,
+                                           private val vehicleService: VehicleService) {
+
+    suspend fun forgotPasswordRequest(email: String): Result<ApiEmpty> {
+        try {
+            val requestBody = java.util.HashMap<String, String>().apply {
+                this["username"] = email
+            }
+            val response = userService.requestForgotPassword(requestBody)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()!!)
+                }
+            }
+
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                return Result.Error("Error sending temp password ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
+        }
+    }
+
+    suspend fun resetPasswordRequest(userEmail: String, tempPassword: String, newPassword: String): Result<ApiEmpty> {
+        try {
+            val requestBody = java.util.HashMap<String, String>().apply {
+                this["username"] = userEmail
+                this["temporary_password"] = tempPassword
+                this["new_password"] = newPassword
+            }
+            val response = userService.requestPasswordReset(requestBody)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()!!)
+                }
+            }
+
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                return Result.Error("Error resetting password ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
+        }
+    }
 
     suspend fun getVehicles(movementType: String): Result<VehicleListData> {
         try {
