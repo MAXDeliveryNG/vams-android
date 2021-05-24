@@ -1,9 +1,10 @@
 package ng.max.vams.ui
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.databinding.ActivityMainBinding
@@ -35,4 +36,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener(listener)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.nav_host_fragment).navigateUp()
+    }
 }

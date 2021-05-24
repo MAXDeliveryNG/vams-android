@@ -36,8 +36,8 @@ object DataSourceModule{
     }
 
     @Provides
-    fun provideRemoteDataSource(vehicleService: VehicleService): RemoteDataSource {
-        return RemoteDataSource(vehicleService)
+    fun provideRemoteDataSource(userService: UserService, vehicleService: VehicleService): RemoteDataSource {
+        return RemoteDataSource(userService, vehicleService)
     }
 
     @Provides
