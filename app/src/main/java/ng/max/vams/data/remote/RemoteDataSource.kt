@@ -1,6 +1,8 @@
 package ng.max.vams.data.remote
 
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import ng.max.vams.data.remote.request.MovementBody
 import ng.max.vams.data.remote.response.*
 import ng.max.vams.data.remote.services.VehicleService
@@ -124,13 +126,13 @@ class RemoteDataSource @Inject constructor(private val vehicleService: VehicleSe
         }
     }
 
-    suspend fun getSearchResult(term: String): Result<List<Vehicle>> {
+    suspend fun getSearchResult(term: String): Flow<Result<List<Vehicle>>> {
         try {
             val response = vehicleService.search(term)
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    return Result.Success(body.getData()?.vehicles!!)
+                    return flow { emit(Result.Success(body.getData()?.vehicles!!)) }
                 }
             }
 
@@ -138,12 +140,12 @@ class RemoteDataSource @Inject constructor(private val vehicleService: VehicleSe
             return try {
                 val message =
                     Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
-                Result.Error(message)
+                flow { emit(Result.Error(message)) }
             } catch (ex: Exception) {
-                Result.Error("Error getting search result ${response.code()}")
+                flow { emit(Result.Error("Error getting search result ${response.code()}")) }
             }
         } catch (ex: Exception) {
-            return Result.Error(ex.localizedMessage!!)
+            return flow { emit(Result.Error(ex.localizedMessage!!)) }
         }
     }
 

@@ -54,4 +54,5 @@
     <string name="sign_out_label">Sign out</string>
     <string name="view_profile_label">View Profile</string>
     <string name="update_password_label">Change Password</string>
+    <string name="search_hint_label">Enter vehicle ID</string>
 </resources>
