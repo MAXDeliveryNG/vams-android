@@ -18,7 +18,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
-import ng.max.vams.data.manager.UserManager
+import ng.max.vams.data.remote.response.User
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.HomeFragmentBinding
 import ng.max.vams.ui.login.LoginViewModel
@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
     private val loginViewModel: LoginViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var bnd : HomeFragmentBinding
-    private var user = UserManager.getUser()
+    private var user: User? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +44,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginViewModel.getLoggedInUser().observe(viewLifecycleOwner){ user ->
-            if (user == null){
+        loginViewModel.getLoggedInUser().observe(viewLifecycleOwner){ _user ->
+            if (_user == null){
                 findNavController().navigate(R.id.loginFragment)
             }else{
+                user = _user
                 setupViews()
                 setupViewModel()
             }

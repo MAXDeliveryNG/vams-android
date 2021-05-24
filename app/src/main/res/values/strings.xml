@@ -55,4 +55,8 @@
     <string name="view_profile_label">View Profile</string>
     <string name="update_password_label">Change Password</string>
     <string name="search_hint_label">Enter vehicle ID</string>
+    <string name="email_label">Email Address</string>
+    <string name="log_in_label"><u>Log into my account</u></string>
+    <string name="tempPassword_label">Temp Password</string>
+    <string name="newPassword_label">New Password</string>
 </resources>

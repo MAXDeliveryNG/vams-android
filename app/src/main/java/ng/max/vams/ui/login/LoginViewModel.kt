@@ -11,14 +11,14 @@ import ng.max.vams.data.remote.request.LoginBody
 import ng.max.vams.data.remote.response.User
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.usecase.login.LoginUseCase
+import ng.max.vams.util.SingleLiveEvent
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val loggedInUserResponse = MutableLiveData<User?>()
-    private val loginResponse = MutableLiveData<Result<User>>()
-    private val validateResponse = MutableLiveData<Result<Boolean>>()
+    private val loginResponse = SingleLiveEvent<Result<User>>()
 
     fun getLoggedInUser() : LiveData<User?>{
         loggedInUserResponse.value = if (UserManager.getUser() != null){
@@ -29,7 +29,6 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
         return loggedInUserResponse
     }
     val getLoginResponse: LiveData<Result<User>> = loginResponse
-    val getValidateResponse: LiveData<Result<Boolean>> = validateResponse
 
 
     fun actionLogin(username: String, password: String) {
@@ -50,14 +49,6 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
                     loginResponse.value = Result.Loading
                 }
             }
-        }
-    }
-
-    fun actionValidate(username: String, password: String) {
-        if (username.isEmpty() || password.isEmpty()){
-            validateResponse.value = Result.Error("Email or password cannot be empty!")
-        }else{
-            validateResponse.value = Result.Success(true)
         }
     }
 }
