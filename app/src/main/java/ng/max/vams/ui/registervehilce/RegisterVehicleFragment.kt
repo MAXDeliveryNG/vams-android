@@ -1,6 +1,7 @@
 package ng.max.vams.ui.registervehilce
 
 import android.annotation.SuppressLint
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -28,7 +30,6 @@ import ng.max.vams.data.MovementData
 import ng.max.vams.data.remote.response.Vehicle
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.RegisterVehicleFragmentBinding
-import ng.max.vams.util.Helper
 import ng.max.vams.util.gone
 import ng.max.vams.util.showDialog
 import java.util.*
@@ -53,6 +54,7 @@ class RegisterVehicleFragment : Fragment() {
     private var valueMap: HashMap<String, String> = HashMap()
     private var atvToggleMap: HashMap<MaterialAutoCompleteTextView, Boolean> = HashMap()
     private val searchQuery = MutableStateFlow("")
+    private var isMovementValid: Boolean = false
 
 
     override fun onCreateView(
@@ -114,7 +116,8 @@ class RegisterVehicleFragment : Fragment() {
         bnd.plateNumberEditText.setAdapter(suggestionsAdapter)
 
         bnd.plateNumberEditText.onItemClickListener =
-            AdapterView.OnItemClickListener { p0, p1, position, p3 ->
+            AdapterView.OnItemClickListener { _, _, position, _ ->
+                hideKeypad(bnd.plateNumberEditText)
                 exitSearch = true
                 val vehicle = suggestionsAdapter?.getItem(position)
 
@@ -200,7 +203,7 @@ class RegisterVehicleFragment : Fragment() {
                         }
 
                     }
-                    isCompleted = passesValidation && isRequiredFieldsProvided()
+                    isCompleted = passesValidation && isRequiredFieldsProvided() && isMovementValid
                 }
 
                 bnd.submitButton.setButtonEnable(isCompleted)
@@ -280,21 +283,12 @@ class RegisterVehicleFragment : Fragment() {
                     }
                     is Result.Success -> {
                         val vehicleType = result.value.name
-                        validateVehicleType(vehicleType)
-                    }
-                }
-
-            }
-
-            getLocationResponse.observe(viewLifecycleOwner) { result ->
-                when (result) {
-                    is Result.Error -> {
-                        Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG).show()
-                    }
-                    Result.Loading -> { }
-                    is Result.Success -> {
-                        val location = result.value.name
-                        validateLocation(location)
+                        bnd.vehicleTypeInputLayout.postDelayed({
+                            bnd.vehicleTypeEditText.setText(vehicleType)
+                            bnd.vehicleTypeEditText.setSelection(bnd.vehicleTypeEditText.text.count())
+                            bnd.vehicleTypeEditText.isEnabled = false
+                            bnd.vehicleTypeInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+                        }, 10)
                     }
                 }
 
@@ -371,38 +365,10 @@ class RegisterVehicleFragment : Fragment() {
         registerVehicleViewModel.actionGetAllVehicleType()
     }
 
-    private fun validateLocation(location: String) {
-        if (Helper.supportedLocation.contains(location)){
-            bnd.locationInputLaout.postDelayed({
-                bnd.locationEditText.setText(location)
-                bnd.locationEditText.setSelection(bnd.locationEditText.text.count())
-                bnd.locationEditText.isEnabled = false
-                bnd.locationInputLaout.endIconMode = TextInputLayout.END_ICON_CUSTOM
-            }, 10)
-        }else{
-            bnd.locationEditText.text = null
-            bnd.vehicleIdEditText.text = null
-            bnd.plateNumberEditText.text = null
 
-            bnd.locationEditText.isEnabled = true
-            bnd.vehicleIdEditText.isEnabled = true
-
-        }
-    }
-
-    private fun validateVehicleType(vehicleType: String) {
-        if (Helper.supportedVehicleType.contains(vehicleType)){
-            bnd.vehicleTypeInputLayout.postDelayed({
-                bnd.vehicleTypeEditText.setText(vehicleType)
-                bnd.vehicleTypeEditText.setSelection(bnd.vehicleTypeEditText.text.count())
-                bnd.vehicleTypeEditText.isEnabled = false
-                bnd.vehicleTypeInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
-            }, 10)
-        }else{
-            bnd.vehicleTypeEditText.text = null
-            bnd.vehicleTypeEditText.isEnabled = true
-
-        }
+    private fun hideKeypad(view: View) {
+        val inputMethodManager = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.applicationWindowToken, 0)
     }
 
     private fun populateForm(vehicle: Vehicle) {
@@ -410,7 +376,20 @@ class RegisterVehicleFragment : Fragment() {
         bnd.vehicleIdEditText.isEnabled = false
         bnd.plateNumberEditText.setText(vehicle.plateNumber)
 
-        registerVehicleViewModel.actionGetLocation(vehicle.locationId)
+        if(vehicle.vehicleMovement != null
+            && args.movementType == vehicle.vehicleMovement){
+            isMovementValid = false
+            val errorMessage = if(vehicle.vehicleMovement == "entry"){
+                getString(R.string.movement_error_message, "Checked in")
+            }else{
+                getString(R.string.movement_error_message, "Checked out")
+            }
+            bnd.plateNumberInputLayout.error = errorMessage
+        }else{
+            bnd.plateNumberInputLayout.error = null
+            isMovementValid = true
+        }
+
         registerVehicleViewModel.actionGetVehicleType(vehicle.vehicleTypeId)
     }
 

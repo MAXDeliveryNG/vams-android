@@ -32,7 +32,6 @@ class RegisterVehicleViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val reasonResponse = MutableLiveData<Result<Reason>>()
-    private val locationResponse = MutableLiveData<Result<Location>>()
     private val locationsResponse = MutableLiveData<Result<List<Location>>>()
     private val vehicleTypeResponse = MutableLiveData<Result<VehicleType>>()
     private val vehicleTypesResponse = MutableLiveData<Result<List<VehicleType>>>()
@@ -40,7 +39,6 @@ class RegisterVehicleViewModel @Inject constructor(
     private val registerMovementResponse = MutableLiveData<Result<Vehicle>>()
 
     val getReasonResponse: LiveData<Result<Reason>> = reasonResponse
-    val getLocationResponse: LiveData<Result<Location>> = locationResponse
     val getLocationsResponse: LiveData<Result<List<Location>>> = locationsResponse
     val getVehicleTypeResponse: LiveData<Result<VehicleType>> = vehicleTypeResponse
     val getVehiclesTypeResponse: LiveData<Result<List<VehicleType>>> = vehicleTypesResponse
@@ -71,13 +69,6 @@ class RegisterVehicleViewModel @Inject constructor(
                 }.collect { result ->
                     searchResponse.value = result
                 }
-        }
-    }
-
-    fun actionGetLocation(locationId: Int) {
-        viewModelScope.launch {
-            locationResponse.value = locationRepo.getLocationById(locationId)
-
         }
     }
 
