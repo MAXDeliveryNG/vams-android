@@ -16,7 +16,7 @@ interface LocationDao {
     @Query("SELECT * from location WHERE name = :name")
     fun getLocationByName(name: String): List<Location>
 
-    @Query("SELECT * from location WHERE code != 'KA' AND code != 'EK' AND code != 'BI' AND code != 'IB' AND code != 'LA'")
+    @Query("SELECT * from location ")
     fun getAllLocation(): Flow<List<Location>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
