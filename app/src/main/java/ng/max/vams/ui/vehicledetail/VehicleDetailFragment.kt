@@ -77,7 +77,7 @@ class VehicleDetailFragment : Fragment() {
             bnd.emailTv.text = vehicle.lastVehicleMovement.creatorEmail?: "N/A"
             bnd.plateNumberTv.text = vehicle.lastVehicleMovement.plateNumber
             bnd.vehicleTypeTv.text = vehicle.lastVehicleMovement.vehicleType
-            bnd.odometerTv.text = vehicle.lastVehicleMovement.odometer.toString()
+            bnd.odometerTv.text = getString(R.string.odometer_data, vehicle.lastVehicleMovement.odometer.toString())
         }
 
     }

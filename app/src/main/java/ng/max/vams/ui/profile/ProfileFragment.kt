@@ -53,7 +53,7 @@ class ProfileFragment : Fragment() {
             showDialog("Info", "Sign out from VAMS?", true)
         }
         bnd.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
+            findNavController().popBackStack()
         }
     }
     companion object {

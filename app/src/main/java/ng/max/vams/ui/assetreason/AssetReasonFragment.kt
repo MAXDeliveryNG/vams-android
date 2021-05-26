@@ -42,7 +42,7 @@ class AssetReasonFragment : Fragment() {
             bnd.reasonHeader.text = getString(R.string.exit_reason_header)
         }
         bnd.closeButton.setOnClickListener {
-            findNavController().navigate(R.id.action_assetReasonFragment_to_homeFragment)
+            findNavController().popBackStack()
         }
 
         bnd.backButton.setOnClickListener {
