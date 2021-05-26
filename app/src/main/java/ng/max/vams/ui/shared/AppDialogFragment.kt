@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import ng.max.vams.R
+import ng.max.vams.data.manager.AppManager
 import ng.max.vams.databinding.FragmentAppDialogBinding
-import ng.max.vams.ui.profile.SharedLogoutViewModel
 import ng.max.vams.util.gone
 import ng.max.vams.util.show
 
@@ -16,7 +16,6 @@ class AppDialogFragment : DialogFragment() {
 
     private lateinit var bnd: FragmentAppDialogBinding
     private var shouldLogout: Boolean = false
-    private val sharedLogoutViewModel: SharedLogoutViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,12 +48,14 @@ class AppDialogFragment : DialogFragment() {
         }
 
         bnd.okButton.setOnClickListener {
-            sharedLogoutViewModel.actionLogout(shouldLogout)
+            if(shouldLogout){
+                AppManager.logout()
+                findNavController().navigate(R.id.action_appDialogFragment_to_homeFragment)
+            }
             dismiss()
         }
 
         bnd.cancelButton.setOnClickListener {
-            sharedLogoutViewModel.actionLogout(false) //always false
             dismiss()
         }
     }

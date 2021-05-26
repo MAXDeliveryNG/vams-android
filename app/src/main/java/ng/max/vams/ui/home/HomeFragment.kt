@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
             displayPopup()
         }
         bnd.fab.setOnClickListener {
-            navController.navigate(R.id.movementTypeDialogFragment)
+            navController.navigate(R.id.action_homeFragment_to_movementTypeDialogFragment)
         }
         val date = Helper.getFormattedDate()
         bnd.entryCard.setDate(date)
@@ -146,10 +146,10 @@ class HomeFragment : Fragment() {
 
         viewProfileTextView.setOnClickListener {
             popupWindow.dismiss()
-            navController.navigate(R.id.profileFragment)
+            navController.navigate(R.id.action_homeFragment_to_profileFragment)
         }
 
-        popupView.setOnTouchListener { v, event ->
+        popupView.setOnTouchListener { _, _ ->
             popupWindow.dismiss()
             true
         }

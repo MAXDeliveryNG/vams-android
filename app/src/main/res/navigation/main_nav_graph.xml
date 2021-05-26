@@ -5,6 +5,9 @@
     android:id="@+id/main_nav"
     app:startDestination="@id/homeFragment">
 
+    <action android:id="@+id/action_global_appDialog_Fragment"
+        app:destination="@id/appDialogFragment"/>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="ng.max.vams.ui.login.LoginFragment"
@@ -46,6 +49,10 @@
         <argument
             android:name="message"
             app:argType="string" />
+        <action
+            android:id="@+id/action_appDialogFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
     </dialog>
     <dialog
         android:id="@+id/movementTypeDialogFragment"
@@ -53,8 +60,7 @@
         android:label="MovementTypeDialogFragment" >
         <action
             android:id="@+id/action_movementTypeDialogFragment_to_assetReasonFragment"
-            app:destination="@id/assetReasonFragment"
-            app:popUpToInclusive="false" />
+            app:destination="@id/assetReasonFragment" />
     </dialog>
     <fragment
         android:id="@+id/vehicleListFragment"
@@ -81,8 +87,7 @@
             app:argType="string" />
         <action
             android:id="@+id/action_assetReasonFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment" />
+            app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_assetReasonFragment_to_registerVehicleFragment"
             app:destination="@id/registerVehicleFragment"
@@ -136,7 +141,7 @@
         android:name="ng.max.vams.ui.profile.ProfileFragment"
         android:label="ProfileFragment" >
         <action
-            android:id="@+id/action_profileFragment_to_homeFragment3"
+            android:id="@+id/action_profileFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment" />
     </fragment>
