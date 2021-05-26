@@ -1,10 +1,10 @@
 package ng.max.vams.ui.shared
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ng.max.vams.R
@@ -30,7 +30,7 @@ class CompleteRegistrationFragment : Fragment() {
         bnd.vehicleIdTv.text = args.vehicleId
 
         bnd.backToDashboardBtn.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment)
+            findNavController().popBackStack()
         }
     }
 }

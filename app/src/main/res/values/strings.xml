@@ -60,4 +60,5 @@
     <string name="tempPassword_label">Temp Password</string>
     <string name="newPassword_label">New Password</string>
     <string name="movement_error_message">Vehicle is already %s</string>
+    <string name="odometer_data">%skm</string>
 </resources>

@@ -1,8 +1,5 @@
 package ng.max.vams.data.manager
 
-import androidx.navigation.NavController
-import ng.max.vams.R
-
 class AppManager {
 
     companion object{
@@ -12,9 +9,8 @@ class AppManager {
             prefsManager = pref
         }
 
-        fun logout(navController: NavController) {
+        fun logout() {
             UserManager.clearUserData()
-            navController.popBackStack(R.id.homeFragment, false)
         }
 
     }

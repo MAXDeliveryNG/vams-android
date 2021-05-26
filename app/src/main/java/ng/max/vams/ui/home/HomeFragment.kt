@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -49,7 +50,11 @@ class HomeFragment : Fragment() {
         navController = findNavController()
         loginViewModel.getLoggedInUser().observe(viewLifecycleOwner){ _user ->
             if (_user == null){
-                navController.navigate(R.id.loginFragment)
+                val options = NavOptions.Builder()
+                    .setEnterAnim(R.anim.slide_in_right)
+                    .setExitAnim(R.anim.slide_out_left)
+                    .build()
+                navController.navigate(R.id.loginFragment, null, options)
             }else{
                 user = _user
                 setupViews()
@@ -77,7 +82,7 @@ class HomeFragment : Fragment() {
             displayPopup()
         }
         bnd.fab.setOnClickListener {
-            navController.navigate(R.id.movementTypeDialogFragment)
+            navController.navigate(R.id.action_homeFragment_to_movementTypeDialogFragment)
         }
         val date = Helper.getFormattedDate()
         bnd.entryCard.setDate(date)
@@ -141,10 +146,10 @@ class HomeFragment : Fragment() {
 
         viewProfileTextView.setOnClickListener {
             popupWindow.dismiss()
-            navController.navigate(R.id.profileFragment)
+            navController.navigate(R.id.action_homeFragment_to_profileFragment)
         }
 
-        popupView.setOnTouchListener { v, event ->
+        popupView.setOnTouchListener { _, _ ->
             popupWindow.dismiss()
             true
         }

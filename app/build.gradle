@@ -10,6 +10,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        vamsConfig {
+            storeFile file(rootDir.absolutePath + '/keystore/vams.ks')
+            storePassword 'secure@vams'
+            keyAlias 'max-vams-ks'
+            keyPassword 'secure@vams'
+        }
+    }
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion "30.0.3"
 
@@ -34,6 +42,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.vamsConfig
         }
     }
 

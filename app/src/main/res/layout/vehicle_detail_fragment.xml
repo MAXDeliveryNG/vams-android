@@ -14,8 +14,8 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/backButton"
-            android:layout_width="@dimen/dimen_24dp"
-            android:layout_height="@dimen/dimen_24dp"
+            android:layout_width="@dimen/dimen_32dp"
+            android:layout_height="@dimen/dimen_32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="37dp"
             android:background="@null"
@@ -169,39 +169,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/currentStateRowTwo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/currentStateRowOne">
-
-                        <TextView
-                            android:id="@+id/liveActionLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/ttcommons_regular"
-                            android:text="@string/live_action_label"
-                            android:textColor="@color/dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-
-                        <TextView
-                            android:id="@+id/liveActionTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:fontFamily="@font/ttcommons_demibold"
-                            android:gravity="end"
-                            android:textColor="@color/very_dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
                         android:id="@+id/currentStateRowThree"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -211,7 +178,7 @@
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/currentStateRowTwo">
+                        app:layout_constraintTop_toBottomOf="@+id/currentStateRowOne">
 
                         <TextView
                             android:id="@+id/timeStampLabel"

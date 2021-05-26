@@ -5,6 +5,9 @@
     android:id="@+id/main_nav"
     app:startDestination="@id/homeFragment">
 
+    <action android:id="@+id/action_global_appDialog_Fragment"
+        app:destination="@id/appDialogFragment"/>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="ng.max.vams.ui.login.LoginFragment"
@@ -12,7 +15,11 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
-            app:destination="@id/forgotPasswordFragment" />
+            app:destination="@id/forgotPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -21,13 +28,23 @@
         tools:layout="@layout/home_fragment" >
         <action
             android:id="@+id/action_homeFragment_to_movementTypeDialogFragment"
-            app:destination="@id/movementTypeDialogFragment" />
+            app:destination="@id/movementTypeDialogFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down" />
         <action
             android:id="@+id/action_homeFragment_to_vehicleListFragment"
-            app:destination="@id/vehicleListFragment" />
+            app:destination="@id/vehicleListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <dialog
         android:id="@+id/appDialogFragment"
@@ -40,6 +57,10 @@
         <argument
             android:name="message"
             app:argType="string" />
+        <action
+            android:id="@+id/action_appDialogFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
     </dialog>
     <dialog
         android:id="@+id/movementTypeDialogFragment"
@@ -48,7 +69,10 @@
         <action
             android:id="@+id/action_movementTypeDialogFragment_to_assetReasonFragment"
             app:destination="@id/assetReasonFragment"
-            app:popUpToInclusive="false" />
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down"
+            app:popEnterAnim="@anim/slide_up"
+            app:popExitAnim="@anim/slide_down" />
     </dialog>
     <fragment
         android:id="@+id/vehicleListFragment"
@@ -62,7 +86,11 @@
             app:argType="string" />
         <action
             android:id="@+id/action_vehicleListFragment_to_vehicleDetailFragment"
-            app:destination="@id/vehicleDetailFragment" />
+            app:destination="@id/vehicleDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/assetReasonFragment"
@@ -72,12 +100,12 @@
             android:name="movementType"
             app:argType="string" />
         <action
-            android:id="@+id/action_assetReasonFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment" />
-        <action
             android:id="@+id/action_assetReasonFragment_to_registerVehicleFragment"
-            app:destination="@id/registerVehicleFragment" />
+            app:destination="@id/registerVehicleFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/registerVehicleFragment"
@@ -92,6 +120,10 @@
         <action
             android:id="@+id/action_registerVehicleFragment_to_completeRegistrationFragment"
             app:destination="@id/completeRegistrationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_up"
+            app:popExitAnim="@anim/slide_down"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
     </fragment>
@@ -105,10 +137,6 @@
         <argument
             android:name="vehicleId"
             app:argType="string" />
-        <action
-            android:id="@+id/action_completeRegistrationFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/vehicleDetailFragment"
@@ -122,19 +150,16 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="ng.max.vams.ui.profile.ProfileFragment"
-        android:label="ProfileFragment" >
-        <action
-            android:id="@+id/action_profileFragment_to_homeFragment3"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment" />
-    </fragment>
+        android:label="ProfileFragment" />
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="ng.max.vams.ui.forgotpassword.ForgotPasswordFragment"
         android:label="ForgotPasswordFragment" >
         <action
             android:id="@+id/action_forgotPasswordFragment_to_resetPasswordFragment"
-            app:destination="@id/resetPasswordFragment" />
+            app:destination="@id/resetPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/resetPasswordFragment"
