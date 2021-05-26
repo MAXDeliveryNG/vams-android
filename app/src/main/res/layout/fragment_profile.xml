@@ -78,14 +78,16 @@
                 android:id="@+id/settingsOption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:icon="@drawable/ic_settings"
-                app:title="@string/update_password_label"/>
+                app:title="@string/update_password_label" />
 
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                android:background="?android:attr/listDivider"
+                android:visibility="gone" />
 
             <ng.max.vams.customview.ProfileOptionView
                 android:id="@+id/signOutOption"
