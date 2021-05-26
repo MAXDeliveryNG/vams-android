@@ -73,7 +73,6 @@ class VehicleDetailFragment : Fragment() {
         }else{
             bnd.reasonTv.text = vehicle.lastVehicleMovement.reason
             bnd.locationTv.text = getString(R.string.location_data, vehicle.lastVehicleMovement.locationName, vehicle.movementType)
-            bnd.liveActionTv.text = getString(R.string.liveActionData)
             bnd.timeStampTv.text = getFormattedDate(vehicle.lastVehicleMovement.createdAt)
             bnd.emailTv.text = vehicle.lastVehicleMovement.creatorEmail?: "N/A"
             bnd.plateNumberTv.text = vehicle.lastVehicleMovement.plateNumber
