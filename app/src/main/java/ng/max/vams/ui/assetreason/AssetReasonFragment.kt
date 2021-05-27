@@ -41,9 +41,6 @@ class AssetReasonFragment : Fragment() {
         }else{
             bnd.reasonHeader.text = getString(R.string.exit_reason_header)
         }
-        bnd.closeButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
 
         bnd.backButton.setOnClickListener {
             findNavController().popBackStack()

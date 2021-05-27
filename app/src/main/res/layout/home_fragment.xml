@@ -22,7 +22,17 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/dimen_36dp">
+                android:layout_marginEnd="@dimen/dimen_16dp">
+
+                <ImageView
+                    android:id="@+id/profileIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_icon_placeholder"
+                    android:clickable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -35,16 +45,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/profileIcon"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/profileIcon"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/ic_icon_placeholder"
-                    android:clickable="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -82,7 +82,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F4F6FA"
+        android:background="@color/light_grayish_blue"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,7 +95,7 @@
                 android:id="@+id/entryCard"
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_16dp"
+                android:layout_marginTop="8dp"
                 app:count="0"
                 app:countColor="@color/very_light_green"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +107,7 @@
                 android:id="@+id/exitCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 app:count="0"
                 app:countColor="@color/very_light_red"
@@ -124,49 +124,50 @@
         android:id="@+id/bottomAppBar"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:layout_width="match_parent"
-        android:layout_height="98dp"
+        android:layout_height="75dp"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/transparent"
+        app:backgroundTint="@color/white"
+        app:elevation="1dp"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="@dimen/dimen_0dp">
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content">-->
 
-<!--            <TextView-->
-<!--                android:id="@+id/history"-->
-<!--                style="?android:attr/borderlessButtonStyle"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:drawableTop="@drawable/ic_history"-->
-<!--                android:gravity="center"-->
-<!--                android:orientation="vertical"-->
-<!--                android:textAllCaps="false" />-->
+        <!--            <TextView-->
+        <!--                android:id="@+id/history"-->
+        <!--                style="?android:attr/borderlessButtonStyle"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:drawableTop="@drawable/ic_history"-->
+        <!--                android:gravity="center"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:textAllCaps="false" />-->
 
-<!--            <TextView-->
-<!--                android:id="@+id/wall_share"-->
-<!--                style="?android:attr/borderlessButtonStyle"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:drawableTop="@drawable/ic_stack"-->
-<!--                android:gravity="center"-->
-<!--                android:orientation="vertical"-->
-<!--                android:textAllCaps="false" />-->
+        <!--            <TextView-->
+        <!--                android:id="@+id/wall_share"-->
+        <!--                style="?android:attr/borderlessButtonStyle"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:drawableTop="@drawable/ic_stack"-->
+        <!--                android:gravity="center"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:textAllCaps="false" />-->
 
-<!--        </LinearLayout>-->
+        <!--        </LinearLayout>-->
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="94dp"
-        android:layout_height="94dp"
+        android:layout_width="@dimen/dimen_80dp"
+        android:layout_height="@dimen/dimen_80dp"
         android:src="@drawable/ic_arrow_up"
         app:backgroundTint="@color/vivid_yellow"
-        app:fabCustomSize="94dp"
+        app:fabCustomSize="@dimen/dimen_80dp"
         app:fabSize="normal"
-        app:tint="#3c3c3c"
-        app:layout_anchor="@id/bottomAppBar" />
+        app:layout_anchor="@id/bottomAppBar"
+        app:tint="#3c3c3c" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
