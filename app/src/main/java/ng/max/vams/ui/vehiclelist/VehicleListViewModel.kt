@@ -48,7 +48,7 @@ class VehicleListViewModel @Inject constructor(
                 }
                 .distinctUntilChanged()
                 .flatMapLatest { query ->
-                    remoteDataSource.getSearchResult(query)
+                    remoteDataSource.getSearchVehicleWithReasonResult(query, movementType)
 
                 }.collect { result ->
                     when (result) {
@@ -58,7 +58,7 @@ class VehicleListViewModel @Inject constructor(
                         is Result.Success -> {
                             searchResponse.value = Result.Success(result.value.map {
                                 DataMapper().invoke(it)
-                            }.filter { it.movementType == movementType })
+                            })
                         }
                         Result.Loading -> {
                         }

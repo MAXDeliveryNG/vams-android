@@ -17,7 +17,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_138dp"
+            android:layout_height="@dimen/dimen_80dp"
             app:cardCornerRadius="@dimen/dimen_0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,13 +26,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/registerGuidelineStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/dimen_36dp" />
 
                 <TextView
                     android:id="@+id/registerHeader"
@@ -53,11 +46,20 @@
                     android:id="@+id/closeButton"
                     android:layout_width="@dimen/dimen_32dp"
                     android:layout_height="@dimen/dimen_32dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginBottom="@dimen/dimen_32dp"
                     android:background="@null"
                     android:src="@drawable/ic_close"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/registerGuidelineEnd" />
+                    app:layout_constraintEnd_toStartOf="@+id/registerGuidelineEnd"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/registerGuidelineStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/dimen_36dp" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/registerGuidelineEnd"

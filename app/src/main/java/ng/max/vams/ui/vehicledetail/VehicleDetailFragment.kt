@@ -85,8 +85,13 @@ class VehicleDetailFragment : Fragment() {
     private fun getFormattedDate(dateString: String): String{
         val dateFormatIn = SimpleDateFormat(DATETIME_FORMAT_API, Locale.getDefault())
         return dateFormatIn.parse(dateString)?.let { dateIn ->
+            val offset = TimeZone.getDefault().getOffset(dateIn.time)
+            val cal = Calendar.getInstance().apply {
+                time = dateIn
+                add(Calendar.MILLISECOND, offset)
+            }
             val dateFormatOut = SimpleDateFormat(DATETIME_FORMAT_DETAIL, Locale.getDefault())
-            dateFormatOut.format(dateIn)
+            dateFormatOut.format(cal.time)
         } ?: "N/A"
     }
 
