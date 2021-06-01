@@ -17,5 +17,7 @@ data class Reason(
     @SerializedName("slug")
     val slug: String,
     @SerializedName("updated_at")
-    val updatedAt: String?
+    val updatedAt: String?,
+    @SerializedName("explanation")
+    val explanation: String?
 )
