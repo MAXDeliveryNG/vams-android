@@ -70,7 +70,7 @@ class LoginFragment : Fragment(){
                 }
                 is Result.Success -> {
                     bnd.loginButton.loaded()
-                    findNavController().popBackStack(R.id.homeFragment, true)
+                    findNavController().popBackStack(R.id.homeFragment, false)
 
                 }
             }
