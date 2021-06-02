@@ -15,32 +15,13 @@ import javax.inject.Inject
 class ResetPasswordViewModel @Inject constructor(private val remoteDataSource: RemoteDataSource): ViewModel() {
 
     private val responseLiveData: MutableLiveData<Result<ApiEmpty>> = MutableLiveData()
-    private val validateResponse = MutableLiveData<Result<Boolean>>()
 
     val getResetPasswordResponse: LiveData<Result<ApiEmpty>> = responseLiveData
-    val getValidateResponse: LiveData<Result<Boolean>> = validateResponse
 
     fun actionResetPassword(userEmail: String, tempPassword: String, newPassword: String) {
         responseLiveData.value = Result.Loading
         viewModelScope.launch {
             responseLiveData.value = remoteDataSource.resetPasswordRequest(userEmail, tempPassword, newPassword)
-        }
-    }
-
-    fun actionValidate(email: String, tempPassword: String, password: String) {
-        when {
-            email.isEmpty() -> {
-                validateResponse.value = Result.Error("Please enter your email")
-            }
-            tempPassword.isEmpty() -> {
-                validateResponse.value = Result.Error("Please enter your temp password")
-            }
-            password.isEmpty() -> {
-                validateResponse.value = Result.Error("Please enter your password")
-            }
-            else -> {
-                validateResponse.value = Result.Success(true)
-            }
         }
     }
 }

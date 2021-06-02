@@ -18,4 +18,7 @@ interface UserService {
 
     @POST("accounts/auth/reset-password")
     suspend fun requestPasswordReset(@Body body: HashMap<String, String>): Response<ApiResponse<ApiEmpty>>
+
+    @POST("accounts/auth/change-password")
+    suspend fun requestPasswordChange(@Body requestBody: HashMap<String, String>): Response<ApiResponse<ApiEmpty>>
 }

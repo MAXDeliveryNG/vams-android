@@ -75,10 +75,9 @@
             android:orientation="vertical">
 
             <ng.max.vams.customview.ProfileOptionView
-                android:id="@+id/settingsOption"
+                android:id="@+id/changePasswordOption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 app:icon="@drawable/ic_settings"
                 app:title="@string/update_password_label" />
 
@@ -86,8 +85,7 @@
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="gone" />
+                android:background="?android:attr/listDivider" />
 
             <ng.max.vams.customview.ProfileOptionView
                 android:id="@+id/signOutOption"
