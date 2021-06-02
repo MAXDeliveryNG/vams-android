@@ -150,7 +150,15 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="ng.max.vams.ui.profile.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="ng.max.vams.ui.forgotpassword.ForgotPasswordFragment"
@@ -166,4 +174,9 @@
         android:name="ng.max.vams.ui.resetpassword.ResetPasswordFragment"
         android:label="reset_password_fragment"
         tools:layout="@layout/reset_password_fragment" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="ng.max.vams.ui.changepassword.ChangePasswordFragment"
+        android:label="change_password_fragment"
+        tools:layout="@layout/change_password_fragment" />
 </navigation>

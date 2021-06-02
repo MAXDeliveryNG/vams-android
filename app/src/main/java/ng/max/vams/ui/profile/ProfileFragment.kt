@@ -46,8 +46,8 @@ class ProfileFragment : Fragment() {
             bnd.roleTv.text = user.role.capitalize(Locale.getDefault())
         }
 
-        bnd.settingsOption.setOnClickListener {
-
+        bnd.changePasswordOption.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_changePasswordFragment)
         }
         bnd.signOutOption.setOnClickListener {
             showDialog("Info", "Sign out from VAMS?", true)

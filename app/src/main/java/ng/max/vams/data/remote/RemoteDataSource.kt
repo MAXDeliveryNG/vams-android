@@ -250,4 +250,33 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
             return Result.Error(ex.localizedMessage!!)
         }
     }
+
+    suspend fun changePasswordRequest(userEmail: String, currentPassword: String, newPassword: String, confirmNewPassword: String): Result<ApiEmpty> {
+        try {
+            val requestBody = java.util.HashMap<String, String>().apply {
+                this["email"] = userEmail
+                this["old_password"] = currentPassword
+                this["new_password"] = newPassword
+                this["new_password_confirm"] = confirmNewPassword
+            }
+            val response = userService.requestPasswordChange(requestBody)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.getData()!!)
+                }
+            }
+
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            } catch (ex: Exception) {
+                return Result.Error("Error changing password ${response.code()}")
+            }
+        } catch (ex: Exception) {
+            return Result.Error(ex.localizedMessage!!)
+        }
+    }
 }

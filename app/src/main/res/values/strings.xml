@@ -61,4 +61,8 @@
     <string name="newPassword_label">New Password</string>
     <string name="movement_error_message">Vehicle is already %s</string>
     <string name="odometer_data">%skm</string>
+    <string name="confirmPassword_label">Confirm Password</string>
+    <string name="currentPassword_label">Current Password</string>
+    <string name="tempPassword_hint">Temp password</string>
+    <string name="newPassword_hint">New password</string>
 </resources>
