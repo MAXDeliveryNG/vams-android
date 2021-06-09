@@ -100,7 +100,7 @@
                 tools:listitem="@layout/layout_vehicle_list_item">
 
                 <LinearLayout
-                    android:id="@+id/plateNumberLayout"
+                    android:id="@+id/locationLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -108,6 +108,42 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
                     app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/location_label" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/textInputLayout.ExposedDroppedDown"
+                        android:id="@+id/locationInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:hintEnabled="false"
+                        android:tag="@{formModel.keyLocation}">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/locationEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/select_location_label"
+                            android:inputType="none"
+                            android:text="@={formModel.location}"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/plateNumberLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@+id/locationLayout">
 
                     <TextView
                         style="@style/formTextHint"
@@ -135,41 +171,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/locationLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                    app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toBottomOf="@+id/plateNumberLayout">
-
-                    <TextView
-                        style="@style/formTextHint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/location_label" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/textInputLayout.ExposedDroppedDown"
-                        android:id="@+id/locationInputLaout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:hintEnabled="false"
-                        android:tag="@{formModel.keyLocation}">
-
-                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                            android:id="@+id/locationEditText"
-                            style="@style/formEditTextHint"
-                            android:layout_width="match_parent"
-                            android:hint="@string/select_location_label"
-                            android:text="@={formModel.location}"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/vehicleTypeLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -177,7 +178,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toBottomOf="@+id/locationLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/plateNumberLayout">
 
                     <TextView
                         style="@style/formTextHint"
@@ -200,7 +201,8 @@
                             style="@style/formEditTextHint"
                             android:layout_width="match_parent"
                             android:hint="@string/select_vehicle_type_label"
-                            android:text="@={formModel.vehicleType}" />
+                            android:text="@={formModel.vehicleType}"
+                            android:inputType="none"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -222,7 +224,7 @@
                         android:text="@string/movement_type_label" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/textInputLayout.ExposedDroppedDown"
+                        style="@style/textInputLayout"
                         android:id="@+id/movementTypeInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -230,7 +232,7 @@
                         app:hintEnabled="false"
                         android:tag="@{formModel.keyMovementType}">
 
-                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/movementTypeEditText"
                             style="@style/formEditTextHint"
                             android:layout_width="match_parent"

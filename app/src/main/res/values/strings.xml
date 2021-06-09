@@ -30,10 +30,6 @@
     <string name="enter_odometer_reading_hint">Enter Odometer Reading</string>
     <string name="enter_reason_hint">Enter Reason</string>
 
-    <string-array name="movement_type">
-        <item>Entry</item>
-        <item>Exit</item>
-    </string-array>
     <string name="back_to_dashboard_label">back to dashboard</string>
     <string name="you_have_successfully_label">You have successfully %s</string>
     <string name="dialog_entry_label">New Entry</string>
@@ -65,4 +61,10 @@
     <string name="currentPassword_label">Current Password</string>
     <string name="tempPassword_hint">Temp password</string>
     <string name="newPassword_hint">New password</string>
+    <string name="location_string">location</string>
+    <string name="vehicleType_string">vehicleType</string>
+    <string-array name="movement_type">
+        <item>Entry</item>
+        <item>Exit</item>
+    </string-array>
 </resources>

@@ -126,6 +126,11 @@
             app:popExitAnim="@anim/slide_down"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_registerVehicleFragment_to_listBottomSheetFragment"
+            app:destination="@id/listBottomSheetFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down" />
     </fragment>
     <fragment
         android:id="@+id/completeRegistrationFragment"
@@ -179,4 +184,20 @@
         android:name="ng.max.vams.ui.changepassword.ChangePasswordFragment"
         android:label="change_password_fragment"
         tools:layout="@layout/change_password_fragment" />
+    <dialog
+        android:id="@+id/listBottomSheetFragment"
+        android:name="ng.max.vams.ui.shared.ListBottomSheetFragment"
+        android:label="fragment_list_bottom_sheet"
+        tools:layout="@layout/fragment_list_bottom_sheet" >
+        <argument
+            android:name="listType"
+            app:argType="string" />
+        <argument
+            android:name="selectedItem"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="dropDownList"
+            app:argType="string[]" />
+    </dialog>
 </navigation>
