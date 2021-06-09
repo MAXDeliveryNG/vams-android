@@ -26,7 +26,13 @@ class CompleteRegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bnd.successMessageTv.text = getString(R.string.you_have_successfully_label, args.movementType)
+        bnd.successMessageTv.text = getString(
+            R.string.you_have_successfully_label, if (args.movementType == "entry") {
+                "checked in"
+            } else {
+                "checked out"
+            }
+        )
         bnd.vehicleIdTv.text = args.vehicleId
 
         bnd.backToDashboardBtn.setOnClickListener {

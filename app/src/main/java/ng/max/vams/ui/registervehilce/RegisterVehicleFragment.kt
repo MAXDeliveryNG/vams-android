@@ -1,25 +1,22 @@
 package ng.max.vams.ui.registervehilce
 
-import android.annotation.SuppressLint
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +27,7 @@ import ng.max.vams.data.MovementData
 import ng.max.vams.data.remote.response.Vehicle
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.RegisterVehicleFragmentBinding
+import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.util.gone
 import ng.max.vams.util.showDialog
 import java.util.*
@@ -46,13 +44,15 @@ class RegisterVehicleFragment : Fragment() {
     private var requiredFieldsValidationEnabledStates: HashMap<String, Boolean> = HashMap()
     private lateinit var bnd: RegisterVehicleFragmentBinding
     private val registerVehicleViewModel: RegisterVehicleViewModel by viewModels()
+    private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
     private val args: RegisterVehicleFragmentArgs by navArgs()
     private var movementData = MovementData()
     private var suggestionsAdapter: SearchResultsAdapter? = null
     private var exitSearch: Boolean = false
     private var vehicleId: String? = null
     private var valueMap: HashMap<String, String> = HashMap()
-    private var atvToggleMap: HashMap<MaterialAutoCompleteTextView, Boolean> = HashMap()
+    private var locations: Array<String> = arrayOf()
+    private var vehicleTypes: Array<String> = arrayOf()
     private val searchQuery = MutableStateFlow("")
     private var isMovementValid: Boolean = false
 
@@ -81,11 +81,18 @@ class RegisterVehicleFragment : Fragment() {
         }
 
         populateMovementType()
+        bnd.locationEditText.setOnClickListener {
+            val selected = bnd.locationEditText.text.toString()
+            val action = RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(getString(R.string.location_string), selected, locations)
+            findNavController().navigate(action)
+        }
 
+        bnd.vehicleTypeEditText.setOnClickListener {
+            val selected = bnd.vehicleTypeEditText.text.toString()
+            val action = RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(getString(R.string.vehicleType_string), selected, vehicleTypes)
+            findNavController().navigate(action)
+        }
 
-        hackFixForDropdownClickBehaviour(bnd.locationEditText, bnd.locationInputLaout)
-        hackFixForDropdownClickBehaviour(bnd.vehicleTypeEditText, bnd.vehicleTypeInputLayout)
-        hackFixForDropdownClickBehaviour(bnd.movementTypeEditText, bnd.movementTypeInputLayout)
         bnd.plateNumberEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -155,7 +162,7 @@ class RegisterVehicleFragment : Fragment() {
                         value = movementData.plateNumber
                     }
                     BR.location -> {
-                        field = bnd.locationInputLaout
+                        field = bnd.locationInputLayout
                         value = movementData.location
                     }
                     BR.vehicleType -> {
@@ -282,13 +289,9 @@ class RegisterVehicleFragment : Fragment() {
                     Result.Loading -> {
                     }
                     is Result.Success -> {
-                        val vehicleType = result.value.name
-                        bnd.vehicleTypeInputLayout.postDelayed({
-                            bnd.vehicleTypeEditText.setText(vehicleType)
-                            bnd.vehicleTypeEditText.setSelection(bnd.vehicleTypeEditText.text.count())
-                            bnd.vehicleTypeEditText.isEnabled = false
-                            bnd.vehicleTypeInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
-                        }, 10)
+                        bnd.vehicleTypeEditText.setText(result.value.name)
+                        bnd.vehicleTypeEditText.isEnabled = false
+                        bnd.vehicleTypeInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
                     }
                 }
 
@@ -315,13 +318,7 @@ class RegisterVehicleFragment : Fragment() {
                     is Result.Error -> {}
                     Result.Loading -> {}
                     is Result.Success -> {
-                        val adapter: ArrayAdapter<String> =
-                            ArrayAdapter(
-                                requireContext(),
-                                android.R.layout.simple_spinner_dropdown_item,
-                                result.value.map { location -> location.name }
-                            )
-                        bnd.locationEditText.setAdapter(adapter)
+                        locations = result.value.map { location -> location.name }.toTypedArray()
                     }
                 }
             }
@@ -332,13 +329,7 @@ class RegisterVehicleFragment : Fragment() {
                     Result.Loading -> {
                     }
                     is Result.Success -> {
-                        val adapter: ArrayAdapter<String> =
-                            ArrayAdapter(
-                                requireContext(),
-                                android.R.layout.simple_spinner_dropdown_item,
-                                result.value.map { vehicleType -> vehicleType.name }
-                            )
-                        bnd.vehicleTypeEditText.setAdapter(adapter)
+                        vehicleTypes = result.value.map { vehicleType -> vehicleType.name }.toTypedArray()
                     }
                 }
             }
@@ -358,11 +349,19 @@ class RegisterVehicleFragment : Fragment() {
                 }
 
             }
+            actionGetReason(args.reasonId)
+            actionGetAllLocation()
+            actionGetAllVehicleType()
         }
 
-        registerVehicleViewModel.actionGetReason(args.reasonId)
-        registerVehicleViewModel.actionGetAllLocation()
-        registerVehicleViewModel.actionGetAllVehicleType()
+        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner){selectedItem ->
+
+            if (selectedItem.keys.first() == getString(R.string.location_string)){
+                bnd.locationEditText.setText(selectedItem[getString(R.string.location_string)])
+            }else{
+                bnd.vehicleTypeEditText.setText(selectedItem[getString(R.string.vehicleType_string)])
+            }
+        }
     }
 
 
@@ -379,10 +378,9 @@ class RegisterVehicleFragment : Fragment() {
         if(vehicle.vehicleMovement != null
             && args.movementType == vehicle.vehicleMovement){
             isMovementValid = false
-            val errorMessage = if(vehicle.vehicleMovement == "entry"){
-                getString(R.string.movement_error_message, "Checked in")
+            val errorMessage = if(vehicle.vehicleMovement == "entry"){ getString(R.string.movement_error_message, " checked in")
             }else{
-                getString(R.string.movement_error_message, "Checked out")
+                getString(R.string.movement_error_message, "checked out")
             }
             bnd.plateNumberInputLayout.error = errorMessage
         }else{
@@ -393,49 +391,11 @@ class RegisterVehicleFragment : Fragment() {
         registerVehicleViewModel.actionGetVehicleType(vehicle.vehicleTypeId)
     }
 
-    @Suppress("ObjectLiteralToLambda")
-    @SuppressLint("ClickableViewAccessibility")
-    private fun hackFixForDropdownClickBehaviour(
-        atv: MaterialAutoCompleteTextView,
-        textInputLayout: TextInputLayout
-    ) {
-        atvToggleMap[atv] = false
-
-        atv.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
-                if (motionEvent?.action == MotionEvent.ACTION_UP) {
-                    textInputLayout.performClick()
-                    if (atvToggleMap[atv]!!) {
-                        atv.dismissDropDown()
-                        atvToggleMap[atv] = false
-                    } else {
-                        atv.showDropDown()
-                        atvToggleMap[atv] = true
-                    }
-                }
-                return false
-            }
-        })
-    }
-
     private fun populateMovementType(){
-        val movementType = arrayListOf("Entry", "Exit")
-        val adapter: ArrayAdapter<String> =
-            ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                movementType
-            )
-        bnd.movementTypeEditText.setAdapter(adapter)
+
         bnd.movementTypeEditText.postDelayed({
-            if (args.movementType == "entry"){
-                bnd.movementTypeEditText.setText(movementType[0], false)
-            }else{
-                bnd.movementTypeEditText.setText(movementType[1], false)
-            }
-            bnd.movementTypeEditText.setSelection(bnd.movementTypeEditText.text.count())
+            bnd.movementTypeEditText.setText(args.movementType.capitalize(Locale.getDefault()))
             bnd.movementTypeEditText.isEnabled = false
-            bnd.movementTypeInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
         }, 10)
     }
 
