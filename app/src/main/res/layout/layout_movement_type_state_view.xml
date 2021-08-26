@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/typeIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:layout_marginBottom="@dimen/dimen_16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/typeTitleTv"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_16dp"
+        android:layout_marginEnd="@dimen/dimen_32dp"
+        android:textSize="@dimen/dimen_14sp"
+        android:fontFamily="@font/montserrat_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/typeIcon"
+        app:layout_constraintTop_toTopOf="@+id/typeIcon" />
+
+    <TextView
+        android:id="@+id/typeSubtitleTv"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_0dp"
+        android:layout_marginEnd="@dimen/dimen_32dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/very_dark_gray_black_50"
+        android:textSize="@dimen/dimen_13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/typeIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/typeTitleTv"
+        app:layout_constraintTop_toBottomOf="@+id/typeTitleTv" />
+</androidx.constraintlayout.widget.ConstraintLayout>

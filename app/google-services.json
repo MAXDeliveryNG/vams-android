@@ -1,0 +1,655 @@
+{
+  "project_info": {
+    "project_number": "839233885945",
+    "firebase_url": "https://max-v2.firebaseio.com",
+    "project_id": "max-v2",
+    "storage_bucket": "max-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:d5fd8ff9cad7466f",
+        "android_client_info": {
+          "package_name": "ng.max.champion.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-ahj19rodgv09t7ao39e0csg9hnrh4j8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ng.max.champion.staging",
+            "certificate_hash": "dfb7f1020b6f79394fed892db7827d753a39769a"
+          }
+        },
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:4b5d1be39a8c4132",
+        "android_client_info": {
+          "package_name": "ng.max.champion.staging.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-h4rmdgon5ig87bkp0r9if04648tlpgp1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ng.max.champion.staging.debug",
+            "certificate_hash": "dfb7f1020b6f79394fed892db7827d753a39769a"
+          }
+        },
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:de0f506758b22319c67428",
+        "android_client_info": {
+          "package_name": "ng.max.championlite.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:33fc679c164d09d8c67428",
+        "android_client_info": {
+          "package_name": "ng.max.championlite.staging.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:1bca280336dd8a2d",
+        "android_client_info": {
+          "package_name": "ng.max.go.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:e7b32ed8bc455425",
+        "android_client_info": {
+          "package_name": "ng.max.go.staging.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-gk1g9j4a8htva5q9d2autf05283g6eq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ng.max.go.staging.debug",
+            "certificate_hash": "dfb7f1020b6f79394fed892db7827d753a39769a"
+          }
+        },
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:bc3b4414dcf34113c67428",
+        "android_client_info": {
+          "package_name": "ng.max.maxcollections.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:ad7a957e37c5cf70c67428",
+        "android_client_info": {
+          "package_name": "ng.max.onboarding"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:1778bfe9782c5844c67428",
+        "android_client_info": {
+          "package_name": "ng.max.onboarding.dev.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:8c2c9e4f079b0079c67428",
+        "android_client_info": {
+          "package_name": "ng.max.onboarding.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:ead92d65acbd7257c67428",
+        "android_client_info": {
+          "package_name": "ng.max.onboarding.staging.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:322e544e825bf962c67428",
+        "android_client_info": {
+          "package_name": "ng.max.sms.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:3d04ac41cd68021bc67428",
+        "android_client_info": {
+          "package_name": "ng.max.vams"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:d9c121cf6611f0f2c67428",
+        "android_client_info": {
+          "package_name": "ng.max.vams.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:7385245f6e015d1bc67428",
+        "android_client_info": {
+          "package_name": "ng.max.vams.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:6b75bb72012de55bc67428",
+        "android_client_info": {
+          "package_name": "ng.max.vams.staging.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839233885945:android:f5a26fe03b225027",
+        "android_client_info": {
+          "package_name": "ng.max.virtualchampions.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839233885945-2pgp8p0r0ll8f6i06hgu9mgg2a65vvgc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ng.max.virtualchampions.staging",
+            "certificate_hash": "dfb7f1020b6f79394fed892db7827d753a39769a"
+          }
+        },
+        {
+          "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhg61A27q2Z-lnblDWoyiYnDIoVPOf0IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839233885945-cits6gjppg5gesn76kvrk3qufhnerhth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839233885945-0t56mqbeaevub1iothc4v0vbd0aq4qit.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ng.max.go.staging"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

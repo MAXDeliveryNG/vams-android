@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/homeFragment">
+
+    <action android:id="@+id/action_global_appDialog_Fragment"
+        app:destination="@id/appDialogFragment"/>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ng.max.vams.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="ng.max.vams.ui.home.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_movementTypeDialogFragment"
+            app:destination="@id/movementTypeDialogFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down" />
+        <action
+            android:id="@+id/action_homeFragment_to_vehicleListFragment"
+            app:destination="@id/vehicleListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <dialog
+        android:id="@+id/appDialogFragment"
+        android:name="ng.max.vams.ui.shared.AppDialogFragment"
+        android:label="fragment_app_dialog"
+        tools:layout="@layout/fragment_app_dialog" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="message"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_appDialogFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/movementTypeDialogFragment"
+        android:name="ng.max.vams.ui.shared.MovementTypeDialogFragment"
+        android:label="MovementTypeDialogFragment" >
+        <action
+            android:id="@+id/action_movementTypeDialogFragment_to_assetReasonFragment"
+            app:destination="@id/assetReasonFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down"
+            app:popEnterAnim="@anim/slide_up"
+            app:popExitAnim="@anim/slide_down" />
+    </dialog>
+    <fragment
+        android:id="@+id/vehicleListFragment"
+        android:name="ng.max.vams.ui.vehiclelist.VehicleListFragment"
+        android:label="VehicleListFragment" >
+        <argument
+            android:name="movementType"
+            app:argType="string" />
+        <argument
+            android:name="assetType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_vehicleListFragment_to_vehicleDetailFragment"
+            app:destination="@id/vehicleDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/assetReasonFragment"
+        android:name="ng.max.vams.ui.assetreason.AssetReasonFragment"
+        android:label="AssetReasonFragment" >
+        <argument
+            android:name="movementType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_assetReasonFragment_to_registerVehicleFragment"
+            app:destination="@id/registerVehicleFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerVehicleFragment"
+        android:name="ng.max.vams.ui.registervehilce.RegisterVehicleFragment"
+        android:label="register_vehicle_fragment"
+        tools:layout="@layout/register_vehicle_fragment" >
+        <argument
+            android:name="reasonId"
+            app:argType="integer" />
+        <argument android:name="movementType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_registerVehicleFragment_to_completeRegistrationFragment"
+            app:destination="@id/completeRegistrationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_up"
+            app:popExitAnim="@anim/slide_down"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_registerVehicleFragment_to_listBottomSheetFragment"
+            app:destination="@id/listBottomSheetFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down" />
+    </fragment>
+    <fragment
+        android:id="@+id/completeRegistrationFragment"
+        android:name="ng.max.vams.ui.shared.CompleteRegistrationFragment"
+        android:label="CompleteRegistrationFragment" >
+        <argument
+            android:name="movementType"
+            app:argType="string" />
+        <argument
+            android:name="vehicleId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/vehicleDetailFragment"
+        android:name="ng.max.vams.ui.vehicledetail.VehicleDetailFragment"
+        android:label="vehicle_detail_fragment"
+        tools:layout="@layout/vehicle_detail_fragment" >
+        <argument
+            android:name="vehicleId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="ng.max.vams.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="ng.max.vams.ui.forgotpassword.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="ng.max.vams.ui.resetpassword.ResetPasswordFragment"
+        android:label="reset_password_fragment"
+        tools:layout="@layout/reset_password_fragment" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="ng.max.vams.ui.changepassword.ChangePasswordFragment"
+        android:label="change_password_fragment"
+        tools:layout="@layout/change_password_fragment" />
+    <dialog
+        android:id="@+id/listBottomSheetFragment"
+        android:name="ng.max.vams.ui.shared.ListBottomSheetFragment"
+        android:label="fragment_list_bottom_sheet"
+        tools:layout="@layout/fragment_list_bottom_sheet" >
+        <argument
+            android:name="listType"
+            app:argType="string" />
+        <argument
+            android:name="selectedItem"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="dropDownList"
+            app:argType="string[]" />
+    </dialog>
+</navigation>
