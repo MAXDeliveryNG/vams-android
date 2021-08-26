@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_100dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/cardGuidelineStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/dimen_24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/cardGuidelineEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/dimen_24dp" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="cardCountTv"
+        tools:layout_editor_absoluteX="411dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardCountTv"
+        app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cardTitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/very_dark_gray"
+            android:textSize="@dimen/dimen_16sp" />
+
+        <TextView
+            android:id="@+id/cardSubtitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_16dp"
+            android:fontFamily="@font/ttcommons_regular"
+            android:textColor="@color/very_dark_gray_50"
+            android:textSize="@dimen/dimen_14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cardCountTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="@dimen/dimen_24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        tools:text="2000" />
+
+    <ProgressBar
+        android:id="@+id/countProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/cardCountTv"
+        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/cardCountTv" />
+</androidx.constraintlayout.widget.ConstraintLayout>

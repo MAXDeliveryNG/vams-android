@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_80dp"
+            android:background="#FFFFFF"
+            app:layout_scrollFlags="noScroll"
+            app:titleTextAppearance="@style/toolbarText">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/dimen_16dp">
+
+                <ImageView
+                    android:id="@+id/profileIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_icon_placeholder"
+                    android:clickable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="@string/overview_label"
+                    android:textColor="@color/very_dark_gray_very_black"
+                    android:textSize="@dimen/dimen_18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/profileIcon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <!--            <com.google.android.material.tabs.TabLayout-->
+        <!--                android:id="@+id/tabs"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:tabBackground="@drawable/tab_bg"-->
+        <!--                app:tabIndicatorColor="@null"-->
+        <!--                app:tabMaxWidth="@dimen/dimen_0dp"-->
+        <!--                app:tabMode="fixed"-->
+        <!--                app:tabSelectedTextColor="@color/very_dark_gray_black"-->
+        <!--                app:tabTextAppearance="@style/tabLayoutText"-->
+        <!--                app:tabTextColor="@color/very_dark_gray_black_30">-->
+
+        <!--                <com.google.android.material.tabs.TabItem-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="@string/tab_vehicles" />-->
+
+        <!--                <com.google.android.material.tabs.TabItem-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="@string/tab_spare_parts" />-->
+
+        <!--                <com.google.android.material.tabs.TabItem-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="@string/tab_trackers" />-->
+        <!--            </com.google.android.material.tabs.TabLayout>-->
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_grayish_blue"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            tools:context=".ui.asset.AssetFragment">
+
+            <ng.max.vams.customview.MovementTypeCardView
+                android:id="@+id/entryCard"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:count="0"
+                app:countColor="@color/very_light_green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="@string/entry_label" />
+
+            <ng.max.vams.customview.MovementTypeCardView
+                android:id="@+id/exitCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                app:count="0"
+                app:countColor="@color/very_light_red"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/entryCard"
+                app:title="@string/exit_label" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/white"
+        app:elevation="1dp"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="@dimen/dimen_0dp">
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content">-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/history"-->
+        <!--                style="?android:attr/borderlessButtonStyle"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:drawableTop="@drawable/ic_history"-->
+        <!--                android:gravity="center"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:textAllCaps="false" />-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/wall_share"-->
+        <!--                style="?android:attr/borderlessButtonStyle"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:drawableTop="@drawable/ic_stack"-->
+        <!--                android:gravity="center"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:textAllCaps="false" />-->
+
+        <!--        </LinearLayout>-->
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="@dimen/dimen_80dp"
+        android:layout_height="@dimen/dimen_80dp"
+        android:src="@drawable/ic_arrow_up"
+        app:backgroundTint="@color/vivid_yellow"
+        app:fabCustomSize="@dimen/dimen_80dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/bottomAppBar"
+        app:tint="#3c3c3c" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

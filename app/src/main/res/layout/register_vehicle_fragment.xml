@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="formModel"
+            type="ng.max.vams.data.MovementData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F4F6FA">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_80dp"
+            app:cardCornerRadius="@dimen/dimen_0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/registerHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/very_dark_gray_very_black"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/closeButton"
+                    app:layout_constraintEnd_toStartOf="@+id/closeButton"
+                    app:layout_constraintStart_toStartOf="@+id/registerGuidelineStart"
+                    app:layout_constraintTop_toTopOf="@+id/closeButton"
+                    tools:text="Scheduled Maintenance" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/closeButton"
+                    android:layout_width="@dimen/dimen_32dp"
+                    android:layout_height="@dimen/dimen_32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="@dimen/dimen_32dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/registerGuidelineEnd"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/registerGuidelineStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/dimen_36dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/registerGuidelineEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/dimen_36dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/plateNumberProgressbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:indicatorColor="@color/very_dark_gray_very_black"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plateNumberProgressbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/dimen_16dp"
+                android:paddingTop="@dimen/dimen_16dp"
+                android:paddingEnd="@dimen/dimen_16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/layout_vehicle_list_item">
+
+                <LinearLayout
+                    android:id="@+id/locationLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/location_label" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/textInputLayout.ExposedDroppedDown"
+                        android:id="@+id/locationInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:hintEnabled="false"
+                        android:tag="@{formModel.keyLocation}">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/locationEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/select_location_label"
+                            android:inputType="none"
+                            android:text="@={formModel.location}"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/plateNumberLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@+id/locationLayout">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/plate_number_label" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/textInputLayout"
+                        android:id="@+id/plateNumberInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:hintEnabled="false"
+                        android:tag="@{formModel.keyVehiclePlateNumber}">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/plateNumberEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="Enter Plate Number"
+                            android:text="@={formModel.plateNumber}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/vehicleTypeLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@+id/plateNumberLayout">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/vehicle_type_label" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/textInputLayout.ExposedDroppedDown"
+                        android:id="@+id/vehicleTypeInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:hintEnabled="false"
+                        android:tag="@{formModel.keyVehicleType}">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/vehicleTypeEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/select_vehicle_type_label"
+                            android:text="@={formModel.vehicleType}"
+                            android:inputType="none"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/movementTypeLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@id/vehicleTypeLayout">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/movement_type_label" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/textInputLayout"
+                        android:id="@+id/movementTypeInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:hintEnabled="false"
+                        android:tag="@{formModel.keyMovementType}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/movementTypeEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/select_movement_type_label"
+                            android:text="@={formModel.movementType}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/vehicleIdLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@+id/movementTypeLayout">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/vehicle_id_label" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/textInputLayout"
+                        android:id="@+id/vehicleIdInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:hintEnabled="false"
+                        android:tag="@{formModel.keyVehicleId}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/vehicleIdEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/enter_vehicle_id_hint"
+                            android:text="@={formModel.vehicleId}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/odometerLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@+id/vehicleIdLayout">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/odometer_reading_label" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/textInputLayout"
+                        android:id="@+id/odometerReadingInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:hintEnabled="false"
+                        android:tag="@{formModel.keyOdometer}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/odometerReadingEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/enter_odometer_reading_hint"
+                            android:inputType="number|numberDecimal"
+                            android:text="@={formModel.odometerReading}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/reasonLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@+id/odometerLayout">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/reason_label" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/textInputLayout"
+                        android:id="@+id/reasonInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:hintEnabled="false"
+                        android:tag="@{formModel.keyReason}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/reasonEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/enter_reason_hint"
+                            android:text="@={formModel.reason}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="20dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="20dp" />
+
+                <ng.max.vams.customview.ProgressButton
+                    android:id="@+id/submitButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen_55dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@id/reasonLayout"
+                    app:text="Submit"
+                    app:textColor="@color/very_dark_gray" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
