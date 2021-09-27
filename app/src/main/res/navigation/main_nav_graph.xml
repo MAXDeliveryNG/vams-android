@@ -73,6 +73,13 @@
             app:exitAnim="@anim/slide_down"
             app:popEnterAnim="@anim/slide_up"
             app:popExitAnim="@anim/slide_down" />
+        <action
+            android:id="@+id/action_movementTypeDialogFragment_to_plateNumberSearchFragment"
+            app:destination="@id/plateNumberSearchFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down"
+            app:popEnterAnim="@anim/slide_up"
+            app:popExitAnim="@anim/slide_down"/>
     </dialog>
     <fragment
         android:id="@+id/vehicleListFragment"
@@ -200,4 +207,13 @@
             android:name="dropDownList"
             app:argType="string[]" />
     </dialog>
+    <fragment
+        android:id="@+id/plateNumberSearchFragment"
+        android:name="ng.max.vams.ui.vehiclesearch.PlateNumberSearchFragment"
+        android:label="fragment_plate_number_search"
+        tools:layout="@layout/fragment_plate_number_search" >
+        <argument
+            android:name="movementType"
+            app:argType="string" />
+    </fragment>
 </navigation>

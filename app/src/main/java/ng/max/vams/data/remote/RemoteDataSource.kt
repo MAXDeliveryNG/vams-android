@@ -182,13 +182,13 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
         }
     }
 
-    suspend fun getSearchResult(term: String): Flow<Result<List<Vehicle>>> {
+    suspend fun getSearchResult(term: String): Result<List<Vehicle>> {
         try {
             val response = vehicleService.search(term)
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    return flow { emit(Result.Success(body.getData()?.vehicles!!)) }
+                    return Result.Success(body.getData()?.vehicles!!)
                 }
             }
 
@@ -196,12 +196,12 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
             return try {
                 val message =
                     Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
-                flow { emit(Result.Error(message)) }
+                Result.Error(message)
             } catch (ex: Exception) {
-                flow { emit(Result.Error("Error getting search result ${response.code()}")) }
+                Result.Error("Error getting search result ${response.code()}")
             }
         } catch (ex: Exception) {
-            return flow { emit(Result.Error(ex.localizedMessage!!)) }
+            return Result.Error(ex.localizedMessage!!)
         }
     }
 
