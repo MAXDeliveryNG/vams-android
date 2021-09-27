@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementData
@@ -42,7 +40,7 @@ class RegisterVehicleViewModel @Inject constructor(
     val getLocationsResponse: LiveData<Result<List<Location>>> = locationsResponse
     val getVehicleTypeResponse: LiveData<Result<VehicleType>> = vehicleTypeResponse
     val getVehiclesTypeResponse: LiveData<Result<List<VehicleType>>> = vehicleTypesResponse
-    val getSearchResponse: LiveData<Result<List<Vehicle>>> = searchResponse
+//    val getSearchResponse: LiveData<Result<List<Vehicle>>> = searchResponse
     val getRegisterMovementResponse: LiveData<Result<Vehicle>> = registerMovementResponse
 
     fun actionGetReason(reasonId: Int) {
@@ -53,24 +51,24 @@ class RegisterVehicleViewModel @Inject constructor(
         }
     }
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    fun actionSearch(term: StateFlow<String>) {
-        searchResponse.value = Result.Loading
-        viewModelScope.launch {
-            term.debounce(300)
-                .filter { query ->
-                    return@filter query.isNotBlank()
-                }
-                .distinctUntilChanged()
-                .flatMapLatest { query ->
-                    searchUseCase.invoke(query)
-
-                }.collect { result ->
-                    searchResponse.value = result
-                }
-        }
-    }
+//    @ExperimentalCoroutinesApi
+//    @FlowPreview
+//    fun actionSearch(term: StateFlow<String>) {
+//        searchResponse.value = Result.Loading
+//        viewModelScope.launch {
+//            term.debounce(300)
+//                .filter { query ->
+//                    return@filter query.isNotBlank()
+//                }
+//                .distinctUntilChanged()
+//                .flatMapLatest { query ->
+//                    searchUseCase.invoke(query)
+//
+//                }.collect { result ->
+//                    searchResponse.value = result
+//                }
+//        }
+//    }
 
     fun actionGetVehicleType(vehicleTypeId: Int) {
         viewModelScope.launch {

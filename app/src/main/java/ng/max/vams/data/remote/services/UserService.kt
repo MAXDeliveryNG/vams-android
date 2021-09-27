@@ -10,7 +10,7 @@ import retrofit2.http.POST
 
 interface UserService {
 
-    @POST("v1/auths/login")
+    @POST("accounts/auth/login")
     suspend fun login(@Body loginBody: LoginBody) : Response<ApiResponse<LoginData>>
 
     @POST("accounts/auth/forgot-password")

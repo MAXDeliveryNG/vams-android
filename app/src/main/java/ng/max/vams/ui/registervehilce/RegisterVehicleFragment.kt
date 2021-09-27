@@ -28,7 +28,6 @@ import ng.max.vams.data.remote.response.Vehicle
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.RegisterVehicleFragmentBinding
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
-import ng.max.vams.util.gone
 import ng.max.vams.util.showDialog
 import java.util.*
 import kotlin.collections.ArrayList
@@ -104,7 +103,7 @@ class RegisterVehicleFragment : Fragment() {
                     }else{
                         if (term.length <= 15){ //HACK for preventing search query with vehilce object
                             searchQuery.value = term.toString()
-                            registerVehicleViewModel.actionSearch(searchQuery)
+//                            registerVehicleViewModel.actionSearch(searchQuery)
                         }
                     }
 
@@ -297,21 +296,21 @@ class RegisterVehicleFragment : Fragment() {
 
             }
 
-            getSearchResponse.observe(viewLifecycleOwner) { result ->
-                when (result) {
-                    is Result.Error -> {
-                        bnd.plateNumberProgressbar.gone()
-                        showDialog("Error", result.message)
-                    }
-                    Result.Loading -> {
-                        bnd.plateNumberProgressbar.show()
-                    }
-                    is Result.Success -> {
-                        bnd.plateNumberProgressbar.gone()
-                        suggestionsAdapter?.update(ArrayList(result.value))
-                    }
-                }
-            }
+//            getSearchResponse.observe(viewLifecycleOwner) { result ->
+//                when (result) {
+//                    is Result.Error -> {
+//                        bnd.plateNumberProgressbar.gone()
+//                        showDialog("Error", result.message)
+//                    }
+//                    Result.Loading -> {
+//                        bnd.plateNumberProgressbar.show()
+//                    }
+//                    is Result.Success -> {
+//                        bnd.plateNumberProgressbar.gone()
+//                        suggestionsAdapter?.update(ArrayList(result.value))
+//                    }
+//                }
+//            }
 
             getLocationsResponse.observe(viewLifecycleOwner){result->
                 when(result){
