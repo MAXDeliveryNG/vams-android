@@ -27,4 +27,9 @@
         <attr name="icon"/>
     </declare-styleable>
 
+    <declare-styleable name="VehicleDataView">
+        <attr name="title"/>
+        <attr name="subtitle"/>
+    </declare-styleable>
+
 </resources>

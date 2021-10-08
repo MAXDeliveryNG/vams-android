@@ -166,7 +166,7 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    return Result.Success(body.getData()!!)
+                    return Result.Success(body.getData()?: emptyList())
                 }
             }
             val errorResponse = response.errorBody()?.string()!!

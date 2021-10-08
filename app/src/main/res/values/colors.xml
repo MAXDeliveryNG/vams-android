@@ -24,4 +24,15 @@
     <color name="vivid_orange">#E88E15</color>
     <color name="vivid_yellow_10">#1AFCDD18</color>
     <color name="light_grayish_blue">#F4F6FA</color>
+    <color name="just_gray">#EEEEEE</color>
+    <color name="active_status">#45C6DD</color>
+    <color name="inactive_status">#FF6E6E</color>
+    <color name="missing_status">#9094A0</color>
+    <color name="scrapped_status">#D89E5A</color>
+    <color name="hp_completed_status">#7DA0F0</color>
+    <color name="active_status_bg">#1A45C6DD</color>
+    <color name="inactive_status_bg">#1AFF6E6E</color>
+    <color name="missing_status_bg">#1A9094A0</color>
+    <color name="scrapped_status_bg">#1AD89E5A</color>
+    <color name="hp_completed_status_bg">#1A7DA0F0</color>
 </resources>
