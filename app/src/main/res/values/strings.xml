@@ -64,12 +64,20 @@
     <string name="location_string">location</string>
     <string name="vehicleType_string">vehicleType</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="vehicle_plate_number_label">Vehicle Plate Number</string>
-    <string name="enter_plate_number_header">ENTER PLATE NUMBER</string>
-    <string name="enter_plate_number_label">Enter Plate Number</string>
+    <string name="vehicle_plate_number_label">Vehicle Plate Number/Max ID</string>
+    <string name="enter_plate_number_header">ENTER PLATE NUMBER/MAX ID</string>
+    <string name="enter_plate_number_label">Enter Plate Number/Max ID</string>
     <string name="back_button_label">Back Button</string>
     <string name="loading_vehicle_details_label">Loading vehicle details</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="enter_reason_title">Enter %s reason</string>
+    <string name="select_destination_label">-Select Destination-</string>
+    <string name="default_name">%1s %2s</string>
+    <string name="confirm_label">Confirm</string>
+    <string name="vehicle_detail_title">%s  Detail</string>
+    <string name="confirm_movement_label">Confirm %s</string>
+    <string name="vehicle_max_id_label">Vehicle Max ID</string>
+    <string name="champion_label">Champion</string>
+    <string name="close_button">close button</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>

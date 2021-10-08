@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -47,10 +48,14 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         formListItemAdapter.setOnItemClickListener { position ->
+            findNavController().navigateUp()
             val selectedItem = formListItemAdapter.adapterList[position] as String
-            val item = mapOf(args.listType to selectedItem)
-            sharedBottomSheetViewModel.submitSelectedItem(item)
-            dialog?.dismiss()
+            if (args.fromSource == "TRANSFER_LOCATION"){
+                sharedBottomSheetViewModel.submitSelectedItemForTransferLocation(selectedItem)
+            }else{
+                sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
+            }
+
         }
         bnd.listRv.apply {
             layoutManager = LinearLayoutManager(requireContext())

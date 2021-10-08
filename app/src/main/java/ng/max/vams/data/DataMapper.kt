@@ -10,7 +10,7 @@ class DataMapper {
             vehicle.isMaxVehicle, vehicle.licenseExpirationDate, vehicle.locationId, vehicle.manufacturerId,
             vehicle.maxGlobalId, vehicle.maxVehicleId, vehicle.modelId, vehicle.modelNumber, vehicle.plateNumber,
             vehicle.pricingTemplateId, vehicle.serviceType, vehicle.updatedAt, vehicle.vehicleMovement, vehicle.vehicleStatusId, vehicle.vehicleTypeId,
-            vehicle.year, vehicle.lastVehicleMovement
+            vehicle.year, vehicle.lastVehicleMovement, vehicle.champion, vehicle.status
         )
     }
 }

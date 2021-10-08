@@ -1,4 +1,4 @@
-package ng.max.vams.ui.vehiclesearch
+package ng.max.vams.ui.registervehilce
 
 import android.os.Bundle
 import android.text.Editable
@@ -7,21 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_plate_number_search.*
 import ng.max.vams.R
+import ng.max.vams.data.CaptureMovementData
+import ng.max.vams.data.remote.response.Vehicle
 import ng.max.vams.data.wrapper.Result
-import ng.max.vams.util.gone
-import ng.max.vams.util.hide
-import ng.max.vams.util.show
-import ng.max.vams.util.showDialog
+import ng.max.vams.ui.shared.SharedRegistrationViewModel
+import ng.max.vams.util.*
 
 @AndroidEntryPoint
 class PlateNumberSearchFragment : Fragment() {
 
     private val plateNumberSearchViewModel: PlateNumberSearchViewModel by viewModels()
+    private val sharedViewModel: SharedRegistrationViewModel by activityViewModels()
+    private val args: PlateNumberSearchFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,24 +48,25 @@ class PlateNumberSearchFragment : Fragment() {
         plateNumberSearchViewModel.getSearchResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Error -> {
-                    manageContentViews(false, result.message)
+                    manageContentViews(false)
+                    showDialog("Error", result.message)
                 }
                 Result.Loading -> {
                     manageContentViews()
                 }
                 is Result.Success -> {
                     if(result.value.isEmpty()){
-                        manageContentViews(false, "Vehicle with ${plateNumberEditText.text.toString()} not found.")
+                        manageContentViews(false)
+                        showDialog("Error", "Vehicle with ${plateNumberEditText.text.toString()} not found.")
                     }else{
-                        manageContentViews()
-                        navigateToVehicleDetail()
+                        navigateToVehicleDetail(result.value.first())
                     }
                 }
             }
         }
     }
 
-    private fun manageContentViews(isLoading: Boolean = true, message: String = "") {
+    private fun manageContentViews(isLoading: Boolean = true) {
         if (isLoading){
             loadingContent.show()
             mainContent.gone()
@@ -70,12 +75,23 @@ class PlateNumberSearchFragment : Fragment() {
             loadingContent.gone()
             mainContent.show()
             backBtn.show()
-            showDialog("Error", message)
+
         }
     }
 
-    private fun navigateToVehicleDetail() {
-
+    private fun navigateToVehicleDetail(vehicle: Vehicle) {
+        if(vehicle.vehicleMovement != null && vehicle.vehicleMovement == args.movementType){
+            manageContentViews(false)
+            val errorMessage = if(vehicle.vehicleMovement == "entry"){ getString(R.string.movement_error_message, " checked in")
+            }else{
+                getString(R.string.movement_error_message, "checked out")
+            }
+            showDialog("Error", errorMessage)
+        }else{
+            manageContentViews(true)
+            sharedViewModel.submitData(CaptureMovementData(args.movementType, vehicle))
+            findNavController().navigate(R.id.selectMovementReasonFragment)
+        }
     }
 
     private fun setupView() {
@@ -98,6 +114,7 @@ class PlateNumberSearchFragment : Fragment() {
         })
 
         submitButton.setOnClickListener {
+            hideKeypad(requireActivity(), plateNumberEditText)
             plateNumberSearchViewModel.actionSearch(plateNumberEditText.text.toString())
         }
     }
