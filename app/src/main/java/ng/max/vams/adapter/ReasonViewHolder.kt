@@ -30,10 +30,10 @@ class ReasonViewHolder (itemView: View, onItemClickListener: ((position: Int) ->
             "time_off" -> {
                 R.drawable.ic_timeoff
             }
-            "retrieval" -> {
+            "retrieved" -> {
                 R.drawable.ic_retreival
             }
-            "hp_complete" -> {
+            "completed_hp" -> {
                 R.drawable.ic_hp_complete
             }
             else -> {

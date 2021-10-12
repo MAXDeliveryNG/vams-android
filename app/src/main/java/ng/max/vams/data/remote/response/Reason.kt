@@ -14,9 +14,11 @@ data class Reason(
     val createdAt: String,
     @SerializedName("id")
     @PrimaryKey
-    val id: Int,
-    @SerializedName("name")
+    val id: String,
+    @SerializedName("reason")
     val name: String,
+    @SerializedName("definition")
+    val definition: String,
     @SerializedName("slug")
     val slug: String,
     @SerializedName("subReasons")

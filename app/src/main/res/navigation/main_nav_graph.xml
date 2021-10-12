@@ -119,7 +119,7 @@
             app:argType="string" />
         <argument
             android:name="subReasonId"
-            app:argType="integer" />
+            app:argType="string" />
         <argument
             android:name="locationToId"
             app:argType="integer"
