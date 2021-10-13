@@ -206,7 +206,7 @@ class RegisterVehicleFragment : Fragment() {
                         bnd.submitButton.loaded()
                         val action = RegisterVehicleFragmentDirections
                             .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
-                                args.vehicleMovement, args.vehicleId
+                                args.vehicleMovement, result.value.maxVehicleId
                             )
                         findNavController().navigate(action)
                     }

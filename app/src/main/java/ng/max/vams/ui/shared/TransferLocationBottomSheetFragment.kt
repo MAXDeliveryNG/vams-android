@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -18,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_transfer_location_bottom_sheet.*
 import ng.max.vams.R
+import ng.max.vams.adapter.SpinnerAdapter
 import ng.max.vams.data.remote.response.Location
 import ng.max.vams.data.wrapper.Result
 
@@ -88,9 +88,9 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    fun populateLocationDropdown(){
-        val adapter: ArrayAdapter<String> =
-            ArrayAdapter(
+    private fun populateLocationDropdown(){
+        val adapter: SpinnerAdapter<String> =
+            SpinnerAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 locations.map { location -> location.name }.toTypedArray()
@@ -99,8 +99,8 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
 
         locationEditText.setAdapter(adapter)
         locationEditText.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view, position, id ->
-                locationEditText.setText(locations[position].name)
+            AdapterView.OnItemClickListener { _, _, position, _ ->
+                locationEditText.setText(adapter.getItem(position))
                 submitButton.isEnabled = true
             }
 
