@@ -37,7 +37,7 @@ class RegisterVehicleViewModel @Inject constructor(
     }
 
 
-    fun registerMovement(movementData: MovementData, vehicleId: String, subReasonId: Int, locationToId: Int,
+    fun registerMovement(movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: Int,
                          movementType: String) {
         registerMovementResponse.value = Result.Loading
         viewModelScope.launch {

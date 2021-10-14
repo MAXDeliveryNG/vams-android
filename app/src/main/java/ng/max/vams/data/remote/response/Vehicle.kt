@@ -61,7 +61,7 @@ data class Vehicle(
     @SerializedName("vehicle_movement")
     val vehicleMovement: String?,
     @SerializedName("vehicle_status_id")
-    val vehicleStatusId: Int?,
+    val vehicleStatusId: String?,
     @SerializedName("vehicle_type_id")
     val vehicleTypeId: Int,
     @SerializedName("year")

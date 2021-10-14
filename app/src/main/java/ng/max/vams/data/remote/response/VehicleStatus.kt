@@ -7,11 +7,11 @@ data class VehicleStatus(
     @SerializedName("created_at")
     val createdAt: String,
     @SerializedName("id")
-    val id: Int,
+    val id: String,
     @SerializedName("name")
     val name: String,
     @SerializedName("slug")
     val slug: String,
     @SerializedName("updated_at")
-    val updatedAt: Any
+    val updatedAt: String?
 )

@@ -9,10 +9,10 @@ import kotlinx.android.parcel.Parcelize
 data class SubReason(
     @SerializedName("created_at")
     val createdAt: String,
-    @SerializedName("explanation")
-    val explanation: String,
+    @SerializedName("definition")
+    val definition: String,
     @SerializedName("id")
-    val id: Int,
+    val id: String,
     @SerializedName("name")
     val name: String,
     @SerializedName("parent_id")

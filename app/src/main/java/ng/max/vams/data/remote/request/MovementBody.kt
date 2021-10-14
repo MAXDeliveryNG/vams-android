@@ -14,4 +14,4 @@ data class MovementBody (
     @SerializedName("odometer")
     var odormeter: Double?,
     @SerializedName("sub_reason_id")
-    var subReasonId: Int)
+    var subReasonId: String)

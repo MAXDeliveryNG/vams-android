@@ -25,7 +25,7 @@ data class DbVehicle(
         val serviceType: String?,
         val updatedAt: String?,
         val movementType: String?,
-        val vehicleStatusId: Int?,
+        val vehicleStatusId: String?,
         val vehicleTypeId: Int?,
         val year: Int?,
         val lastVehicleMovement: LastVehicleMovement?,
