@@ -25,7 +25,7 @@ data class LastVehicleMovement(
     @SerializedName("movement_type_from")
     val movementTypeFrom: String?,
     @SerializedName("odometer")
-    val odometer: Int,
+    val odometer: Double,
     @SerializedName("plate_numer")
     val plateNumber: String,
     @SerializedName("reason")
