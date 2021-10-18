@@ -14,7 +14,8 @@ interface VehicleService {
     suspend fun getVehicleList(
         @Query("vehicle_movement") movementType: String,
         @Query("size") size: Int = 50,
-        @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true
+        @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
+        @Query("include_defined_relations") relations: String = "champion,vehicle_status"
     ): Response<ApiResponse<VehicleListData>>
 
     @GET("vehicles/v1/vehicle/movement/summary/count")
@@ -29,13 +30,15 @@ interface VehicleService {
     @GET("vehicles/v1/vehicle-type")
     suspend fun getVehicleType(): Response<ApiResponse<List<VehicleType>>>
 
-    @GET("vehicles/v1/vehicle/search")
-    suspend fun search(@Query("search_query") term: String): Response<ApiResponse<VehicleListData>>
+    @GET("vehicles/v1/vehicle")
+    suspend fun search(@Query("search_query") term: String,
+                       @Query("include_defined_relations") relations: String = "champion,vehicle_status"): Response<ApiResponse<VehicleListData>>
 
     @GET("vehicles/v1/vehicle")
     suspend fun searchVehicleWithReason(@Query("search_query") term: String,
                                         @Query("vehicle_movement") movementType: String,
-                                        @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true): Response<ApiResponse<VehicleListData>>
+                                        @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
+                                        @Query("include_defined_relations") relations: String = "champion,vehicle_status"): Response<ApiResponse<VehicleListData>>
 
     @POST("vehicles/v1/vehicle/movement/change")
     suspend fun registerVehicleMovement(@Body movementBody: MovementBody): Response<ApiResponse<Vehicle>>

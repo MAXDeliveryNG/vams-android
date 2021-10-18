@@ -1,4 +1,4 @@
-package ng.max.vams.ui.assetreason
+package ng.max.vams.ui.registervehilce
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +13,7 @@ import ng.max.vams.data.wrapper.Result
 import javax.inject.Inject
 
 @HiltViewModel
-class AssetReasonViewModel @Inject constructor(private val movementReasonRepo: MovementReasonRepository): ViewModel() {
+class SelectMovementReasonViewModel @Inject constructor(private val movementReasonRepo: MovementReasonRepository): ViewModel() {
 
     private val reasonResponse = MutableLiveData<Result<List<Reason>>>()
     val getReasonsResponse: LiveData<Result<List<Reason>>> = reasonResponse

@@ -67,12 +67,12 @@
         android:name="ng.max.vams.ui.shared.MovementTypeDialogFragment"
         android:label="MovementTypeDialogFragment" >
         <action
-            android:id="@+id/action_movementTypeDialogFragment_to_assetReasonFragment"
-            app:destination="@id/assetReasonFragment"
+            android:id="@+id/action_movementTypeDialogFragment_to_plateNumberSearchFragment"
+            app:destination="@id/plateNumberSearchFragment"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/slide_down"
             app:popEnterAnim="@anim/slide_up"
-            app:popExitAnim="@anim/slide_down" />
+            app:popExitAnim="@anim/slide_down"/>
     </dialog>
     <fragment
         android:id="@+id/vehicleListFragment"
@@ -93,30 +93,10 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/assetReasonFragment"
-        android:name="ng.max.vams.ui.assetreason.AssetReasonFragment"
-        android:label="AssetReasonFragment" >
-        <argument
-            android:name="movementType"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_assetReasonFragment_to_registerVehicleFragment"
-            app:destination="@id/registerVehicleFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
         android:id="@+id/registerVehicleFragment"
         android:name="ng.max.vams.ui.registervehilce.RegisterVehicleFragment"
         android:label="register_vehicle_fragment"
         tools:layout="@layout/register_vehicle_fragment" >
-        <argument
-            android:name="reasonId"
-            app:argType="integer" />
-        <argument android:name="movementType"
-            app:argType="string" />
         <action
             android:id="@+id/action_registerVehicleFragment_to_completeRegistrationFragment"
             app:destination="@id/completeRegistrationFragment"
@@ -131,6 +111,31 @@
             app:destination="@id/listBottomSheetFragment"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/slide_down" />
+        <argument
+            android:name="vehicleId"
+            app:argType="string" />
+        <argument
+            android:name="vehicleMovement"
+            app:argType="string" />
+        <argument
+            android:name="subReasonId"
+            app:argType="string" />
+        <argument
+            android:name="locationToId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="subReasonName"
+            app:argType="string" />
+        <argument
+            android:name="champion"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_registerVehicleFragment_to_vehicleConfirmationFragment"
+            app:destination="@id/vehicleConfirmationFragment" />
+        <argument
+            android:name="vehicleMaxId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/completeRegistrationFragment"
@@ -190,14 +195,75 @@
         android:label="fragment_list_bottom_sheet"
         tools:layout="@layout/fragment_list_bottom_sheet" >
         <argument
-            android:name="listType"
-            app:argType="string" />
-        <argument
             android:name="selectedItem"
             app:argType="string"
             app:nullable="true" />
         <argument
             android:name="dropDownList"
             app:argType="string[]" />
+        <argument
+            android:name="fromSource"
+            app:argType="string" />
+    </dialog>
+    <fragment
+        android:id="@+id/plateNumberSearchFragment"
+        android:name="ng.max.vams.ui.registervehilce.PlateNumberSearchFragment"
+        android:label="fragment_plate_number_search"
+        tools:layout="@layout/fragment_plate_number_search" >
+        <argument
+            android:name="movementType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_plateNumberSearchFragment_to_selectMovementReasonFragment"
+            app:destination="@id/selectMovementReasonFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/selectMovementReasonFragment"
+        android:name="ng.max.vams.ui.registervehilce.SelectMovementReasonFragment"
+        android:label="SelectMovementReasonFragment">
+
+        <action
+            android:id="@+id/action_selectMovementReasonFragment_to_registerVehicleFragment"
+            app:destination="@id/registerVehicleFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_selectMovementReasonFragment_to_listBottomSheetFragment"
+            app:destination="@id/listBottomSheetFragment" />
+        <action
+            android:id="@+id/action_selectMovementReasonFragment_to_transferLocationBottomSheetFragment"
+            app:destination="@id/transferLocationBottomSheetFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/transferLocationBottomSheetFragment"
+        android:name="ng.max.vams.ui.shared.TransferLocationBottomSheetFragment"
+        android:label="fragment_transfer_location_bottom_sheet"
+        tools:layout="@layout/fragment_transfer_location_bottom_sheet" >
+        <argument
+            android:name="transferType"
+            app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/vehicleConfirmationFragment"
+        android:name="ng.max.vams.ui.assetreason.VehicleConfirmationFragment"
+        android:label="VehicleConfirmationFragment" >
+        <argument
+            android:name="vehicleMaxId"
+            app:argType="string" />
+        <argument
+            android:name="reason"
+            app:argType="string" />
+        <argument
+            android:name="champion"
+            app:argType="string" />
+        <argument
+            android:name="movementType"
+            app:argType="string" />
     </dialog>
 </navigation>

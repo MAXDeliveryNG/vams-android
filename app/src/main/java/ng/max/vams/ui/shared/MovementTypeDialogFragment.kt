@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_movement_type_dialog.*
 import ng.max.vams.R
-import ng.max.vams.databinding.FragmentCompleteRegistrationBinding
 import ng.max.vams.databinding.FragmentMovementTypeDialogBinding
 
 class MovementTypeDialogFragment : BottomSheetDialogFragment() {
@@ -31,13 +30,13 @@ class MovementTypeDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         entryView.setOnClickListener {
-            val action = MovementTypeDialogFragmentDirections.actionMovementTypeDialogFragmentToAssetReasonFragment("entry")
+            val action = MovementTypeDialogFragmentDirections.actionMovementTypeDialogFragmentToPlateNumberSearchFragment("entry")
             findNavController().navigate(action)
 
         }
 
         exitView.setOnClickListener {
-            val action = MovementTypeDialogFragmentDirections.actionMovementTypeDialogFragmentToAssetReasonFragment("exit")
+            val action = MovementTypeDialogFragmentDirections.actionMovementTypeDialogFragmentToPlateNumberSearchFragment("exit")
             findNavController().navigate(action)
 
         }
