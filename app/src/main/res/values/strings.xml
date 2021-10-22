@@ -78,6 +78,7 @@
     <string name="vehicle_max_id_label">Vehicle Max ID</string>
     <string name="champion_label">Champion</string>
     <string name="close_button">close button</string>
+    <string name="error_message">Something went wrong.</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>
