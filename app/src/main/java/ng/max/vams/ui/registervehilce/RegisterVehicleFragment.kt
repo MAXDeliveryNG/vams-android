@@ -203,6 +203,7 @@ class RegisterVehicleFragment : Fragment() {
                     Result.Loading -> {
                     }
                     is Result.Success -> {
+                        cleanVehicleTable(result.value.id)
                         bnd.submitButton.loaded()
                         val action = RegisterVehicleFragmentDirections
                             .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
@@ -228,6 +229,10 @@ class RegisterVehicleFragment : Fragment() {
         sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
             bnd.locationEditText.setText(selectedItem)
         }
+    }
+
+    private fun cleanVehicleTable(id: String) {
+        registerVehicleViewModel.deleteVehicle(id)
     }
 
 

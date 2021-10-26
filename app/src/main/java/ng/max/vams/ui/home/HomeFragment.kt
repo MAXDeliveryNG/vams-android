@@ -20,6 +20,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
+import ng.max.vams.data.manager.AppManager
 import ng.max.vams.data.remote.response.User
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.HomeFragmentBinding
@@ -172,6 +173,11 @@ class HomeFragment : Fragment() {
         homeViewModel.actionGetAssetReasons()
         homeViewModel.actionGetLocations()
         homeViewModel.actionGetVehicleTypes()
+
+        if (AppManager.getVehicleTableFlag() == 0){
+            homeViewModel.clearVehicleTable()
+            AppManager.setVehicleTableFlag(-1)
+        }
     }
 
     private fun showErrorView(isError: Boolean) {

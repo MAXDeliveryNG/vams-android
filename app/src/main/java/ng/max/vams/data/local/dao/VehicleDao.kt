@@ -18,4 +18,10 @@ interface VehicleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveVehicles(vehicles: List<DbVehicle>)
+
+        @Query("DELETE from DbVehicle WHERE id = :id")
+    suspend fun deleteVehicle(id: String)
+
+    @Query("DELETE from DbVehicle")
+    suspend fun deleteVehicles()
 }
