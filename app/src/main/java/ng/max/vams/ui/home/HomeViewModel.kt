@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ng.max.vams.data.VehicleRepository
 import ng.max.vams.data.remote.RemoteDataSource
 import ng.max.vams.data.remote.response.MovementStat
 import ng.max.vams.data.wrapper.Result
@@ -13,7 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val remoteDataSource:
-                                        RemoteDataSource) :
+                                        RemoteDataSource,
+                                        private val vehicleRepo: VehicleRepository
+) :
     ViewModel() {
 
     private val movementStatResponse = MutableLiveData<Result<MovementStat>>()
@@ -41,6 +45,12 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
     fun actionGetVehicleTypes() {
         viewModelScope.launch {
             remoteDataSource.getVehicleType() //silently download
+        }
+    }
+
+    fun clearVehicleTable() {
+        viewModelScope.launch(Dispatchers.IO) {
+            vehicleRepo.deleteVehicleData()
         }
     }
 }

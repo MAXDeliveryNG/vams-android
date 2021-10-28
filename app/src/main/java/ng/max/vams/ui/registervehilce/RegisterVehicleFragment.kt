@@ -124,8 +124,14 @@ class RegisterVehicleFragment : Fragment() {
                                 field?.error = "Please enter $fieldKey"
                                 false
                             } else {
-                                field?.error = null
-                                true
+                                if (fieldKey == "odometer" && value!!.toDoubleOrNull() == null){
+                                    field?.error = "Please enter $fieldKey"
+                                    false
+                                }else{
+                                    field?.error = null
+                                    true
+                                }
+
                             }
                         }
 
@@ -203,7 +209,9 @@ class RegisterVehicleFragment : Fragment() {
                     Result.Loading -> {
                     }
                     is Result.Success -> {
+                        cleanVehicleTable(result.value.id)
                         bnd.submitButton.loaded()
+                        //TODO BUGGY SEE : https://console.firebase.google.com/project/max-v2/crashlytics/app/android:ng.max.vams/issues/911c072b6f325531954d7250a9d19506?time=last-seven-days&sessionEventKey=6177DD9B007600014D26708AD5E1202E_1601780252919286962
                         val action = RegisterVehicleFragmentDirections
                             .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
                                 args.vehicleMovement, result.value.maxVehicleId
@@ -228,6 +236,10 @@ class RegisterVehicleFragment : Fragment() {
         sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
             bnd.locationEditText.setText(selectedItem)
         }
+    }
+
+    private fun cleanVehicleTable(id: String) {
+        registerVehicleViewModel.deleteVehicle(id)
     }
 
 

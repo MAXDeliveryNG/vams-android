@@ -20,10 +20,12 @@ import ng.max.vams.R
 import ng.max.vams.adapter.SpinnerAdapter
 import ng.max.vams.data.remote.response.Location
 import ng.max.vams.data.wrapper.Result
+import ng.max.vams.databinding.FragmentTransferLocationBottomSheetBinding
 
 @AndroidEntryPoint
 class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
 
+    private lateinit var bnd: FragmentTransferLocationBottomSheetBinding
     private val transferLocationViewModel: TransferLocationViewModel by viewModels()
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
     private val args: TransferLocationBottomSheetFragmentArgs by navArgs()
@@ -38,9 +40,9 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transfer_location_bottom_sheet, container, false)
+    ): View {
+        bnd = FragmentTransferLocationBottomSheetBinding.inflate(inflater, container, false)
+        return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,10 +53,10 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun setupView() {
 
-        transferTitleTv.text = args.transferType
+        bnd.transferTitleTv.text = args.transferType
         hackFixForDropdownClickBehaviour(locationEditText, locationInputLayout)
 
-        submitButton.setOnClickListener {
+        bnd.submitButton.setOnClickListener {
             findNavController().navigateUp()
             val locationName = locationEditText.text.toString()
             val locationId = locations.first { _location ->
@@ -83,8 +85,8 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         sharedBottomSheetViewModel.getSelectedTransferLocationResponse.observe(viewLifecycleOwner){selectedItem ->
-            locationEditText.setText(selectedItem)
-            submitButton.isEnabled = true
+            bnd.locationEditText.setText(selectedItem)
+            bnd.submitButton.isEnabled = true
         }
     }
 
@@ -97,8 +99,8 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
             )
 
 
-        locationEditText.setAdapter(adapter)
-        locationEditText.onItemClickListener =
+        bnd.locationEditText.setAdapter(adapter)
+        bnd.locationEditText.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
                 locationEditText.setText(adapter.getItem(position))
                 submitButton.isEnabled = true

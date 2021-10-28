@@ -20,6 +20,7 @@ import ng.max.vams.data.CaptureMovementData
 import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.remote.response.SubReason
 import ng.max.vams.data.wrapper.Result
+import ng.max.vams.databinding.SelectMovementReasonFragmentBinding
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
 import ng.max.vams.util.GridSpacingItemDecoration
@@ -28,10 +29,7 @@ import ng.max.vams.util.show
 @AndroidEntryPoint
 class SelectMovementReasonFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SelectMovementReasonFragment()
-    }
-
+    private lateinit var bnd: SelectMovementReasonFragmentBinding
     private val viewModel: SelectMovementReasonViewModel by viewModels()
     private val sharedViewModel: SharedRegistrationViewModel by activityViewModels()
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
@@ -44,8 +42,9 @@ class SelectMovementReasonFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.select_movement_reason_fragment, container, false)
+    ): View{
+        bnd = SelectMovementReasonFragmentBinding.inflate(inflater, container, false)
+        return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,33 +126,33 @@ class SelectMovementReasonFragment : Fragment() {
 
     private fun populateView(_captureData: CaptureMovementData) {
         if (_captureData.movementType == "entry") {
-            vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-in")
+            bnd.vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-in")
         } else {
-            vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-out")
+            bnd.vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-out")
 
         }
-        vehicleMaxId.text = _captureData.vehicle.maxVehicleId
-        plateNumberView.setSubtitle(_captureData.vehicle.plateNumber)
+        bnd.vehicleMaxId.text = _captureData.vehicle.maxVehicleId
+        bnd.plateNumberView.setSubtitle(_captureData.vehicle.plateNumber)
         val champion = _captureData.vehicle.champion?.let {
             getString(
                 R.string.default_name, it.firstName,
                 it.lastName
             )
         } ?: "N/A"
-        championView.setSubtitle(champion)
+        bnd.championView.setSubtitle(champion)
 
         _captureData.vehicle.status?.let {
-            vehicleStatusContainer.show()
-            vehicleStatus.text = it.name
+            bnd.vehicleStatusContainer.show()
+            bnd.vehicleStatus.text = it.name
             when (it.slug) {
                 "active" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.active_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.active_status_bg
@@ -161,13 +160,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 "in_active" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.inactive_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.inactive_status_bg
@@ -175,13 +174,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 "hp_completed" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.hp_completed_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.hp_completed_status_bg
@@ -189,13 +188,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 "missing" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.missing_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.missing_status_bg
@@ -203,13 +202,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 "scrapped" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.scrapped_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.scrapped_status_bg
@@ -217,13 +216,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 else -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.active_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.active_status_bg
@@ -238,12 +237,12 @@ class SelectMovementReasonFragment : Fragment() {
 
     private fun setupView() {
 
-        backBtn.setOnClickListener {
+        bnd.backBtn.setOnClickListener {
             findNavController().popBackStack()
         }
 
         reasonAdapter.viewType = 1
-        reasonRv.apply {
+        bnd.reasonRv.apply {
             layoutManager =
                 GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
             adapter = reasonAdapter
