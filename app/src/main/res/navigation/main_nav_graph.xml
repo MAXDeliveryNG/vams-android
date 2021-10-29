@@ -202,9 +202,6 @@
             app:argType="string"
             app:nullable="true" />
         <argument
-            android:name="dropDownList"
-            app:argType="string[]" />
-        <argument
             android:name="fromSource"
             app:argType="string" />
     </dialog>
@@ -250,6 +247,10 @@
         tools:layout="@layout/fragment_transfer_location_bottom_sheet" >
         <argument
             android:name="transferType"
+            app:argType="string" />
+
+        <argument
+            android:name="locationId"
             app:argType="string" />
     </dialog>
     <dialog

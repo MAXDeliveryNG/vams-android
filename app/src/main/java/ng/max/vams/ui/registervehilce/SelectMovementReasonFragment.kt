@@ -85,7 +85,7 @@ class SelectMovementReasonFragment : Fragment() {
 
             (reasonAdapter.adapterList as List<Reason>).forEach { reason ->
                 reason.subReasons?.forEach { _subReason ->
-                    if (_subReason.name == it) {
+                    if (_subReason.slug == it) {
                         subReason = _subReason
                     }
                 }
@@ -94,7 +94,7 @@ class SelectMovementReasonFragment : Fragment() {
             if (selectedReason == "transfer") {
                 val action =
                     SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToTransferLocationBottomSheetFragment(
-                        subReason!!.name
+                        subReason!!.name, captureMovementData.vehicle.locationId
                     )
                 findNavController().navigate(action)
             } else {
@@ -254,22 +254,20 @@ class SelectMovementReasonFragment : Fragment() {
         reasonAdapter.setOnItemClickListener { position ->
             val reason = (reasonAdapter.adapterList[position] as Reason)
             selectedReason = reason.slug
-            val subReasons = if (reason.slug == "hp_complete") {
+            val subReasons : List<SubReason> = if (reason.slug == "completed_hp") {
                 val subReason = if (captureMovementData.movementType == "entry") {
                     reason.subReasons?.find { it.slug == "pick_up_papers" }!!
                 } else {
                     reason.subReasons?.find { it.slug == "completed_hp" }!!
                 }
-                arrayOf(subReason.name)
+                listOf(subReason)
             } else {
-                reason.subReasons?.map {
-                    it.name
-                }!!.toTypedArray()
+                reason.subReasons!!
             }
+            sharedBottomSheetViewModel.submitSubReasons(subReasons)
             val action =
                 SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToListBottomSheetFragment(
                     selectedItem,
-                    subReasons,
                     "REASON"
                 )
             findNavController().navigate(action)

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
+import ng.max.vams.data.remote.response.SubReason
 import ng.max.vams.databinding.FragmentListBottomSheetBinding
 
 class ListBottomSheetFragment : BottomSheetDialogFragment() {
@@ -36,23 +37,22 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupView()
+        setupViewModel()
     }
 
 
     private fun setupView() {
 
         formListItemAdapter.viewType = 2
-        formListItemAdapter.adapterList = args.dropDownList.asList()
-        if (!args.selectedItem.isNullOrEmpty()){
-            formListItemAdapter.selectedItemPosition = args.dropDownList.indexOf(args.selectedItem)
-        }
 
         formListItemAdapter.setOnItemClickListener { position ->
             findNavController().navigateUp()
-            val selectedItem = formListItemAdapter.adapterList[position] as String
+
             if (args.fromSource == "TRANSFER_LOCATION"){
+                val selectedItem = formListItemAdapter.adapterList[position] as String
                 sharedBottomSheetViewModel.submitSelectedItemForTransferLocation(selectedItem)
             }else{
+                val selectedItem = (formListItemAdapter.adapterList[position] as SubReason).slug
                 sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
             }
 
@@ -62,6 +62,17 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
             adapter = formListItemAdapter
             setHasFixedSize(true)
         }
+    }
+
+    private fun setupViewModel(){
+        sharedBottomSheetViewModel.getSubReasonsResponse.observe(viewLifecycleOwner, {subReasons->
+            formListItemAdapter.adapterList = subReasons
+            if (!args.selectedItem.isNullOrEmpty()){
+                formListItemAdapter.selectedItemPosition = subReasons.indexOf(subReasons.find {subreason->
+                    subreason.slug == args.selectedItem
+                })
+            }
+        })
     }
 
     companion object {
