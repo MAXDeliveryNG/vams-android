@@ -98,18 +98,19 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 findNavController().navigate(action)
             } else {
-                navigateToRegisterVehicle(subReason)
+                navigateToRegisterVehicle(subReason, null)
             }
         })
 
     }
 
-    private fun navigateToRegisterVehicle(subReason: SubReason?, _locationToId: Int = 0) {
+    private fun navigateToRegisterVehicle(subReason: SubReason?, _locationToId: String?) {
         val action =
             SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToRegisterVehicleFragment(
                 vehicleId = captureMovementData.vehicle.id,
                 vehicleMaxId = captureMovementData.vehicle.maxVehicleId,
                 vehicleMovement = captureMovementData.movementType,
+                locationId = captureMovementData.vehicle.locationId,
                 locationToId = _locationToId,
                 subReasonId = subReason!!.id,
                 subReasonName = subReason.name,

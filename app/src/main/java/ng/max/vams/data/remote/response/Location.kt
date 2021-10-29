@@ -13,9 +13,11 @@ data class Location(
     val createdAt: String,
     @PrimaryKey
     @SerializedName("id")
-    val id: Int,
+    val id: String,
     @SerializedName("name")
     val name: String,
+    @SerializedName("city_id")
+    val cityId: String,
     @SerializedName("slug")
     val slug: String,
     @SerializedName("updated_at")

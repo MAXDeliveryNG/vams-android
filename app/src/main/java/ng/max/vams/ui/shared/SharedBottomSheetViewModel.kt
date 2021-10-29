@@ -8,10 +8,10 @@ class SharedBottomSheetViewModel : ViewModel() {
 
     private val selectedItemResponse = SingleLiveEvent<String>()
     private val selectedTransferLocationResponse = SingleLiveEvent<String>()
-    private val selectedTransferLocationIdResponse = SingleLiveEvent<Int>()
+    private val selectedTransferLocationIdResponse = SingleLiveEvent<String>()
 
     val getSelectedItemResponse: LiveData<String> = selectedItemResponse
-    val getSelectedTransferLocationIdResponse: LiveData<Int> = selectedTransferLocationIdResponse
+    val getSelectedTransferLocationIdResponse: LiveData<String> = selectedTransferLocationIdResponse
     val getSelectedTransferLocationResponse: LiveData<String> = selectedTransferLocationResponse
 
 
@@ -20,7 +20,7 @@ class SharedBottomSheetViewModel : ViewModel() {
     }
 
 
-    fun submitSelectedTransferLocationId(selectedItem: Int) {
+    fun submitSelectedTransferLocationId(selectedItem: String) {
         selectedTransferLocationIdResponse.value  = selectedItem
     }
 

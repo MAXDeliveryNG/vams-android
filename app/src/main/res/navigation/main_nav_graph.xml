@@ -122,8 +122,11 @@
             app:argType="string" />
         <argument
             android:name="locationToId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="locationId"
+            app:argType="string" />
         <argument
             android:name="subReasonName"
             app:argType="string" />

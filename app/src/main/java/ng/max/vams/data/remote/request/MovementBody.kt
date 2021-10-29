@@ -6,9 +6,9 @@ data class MovementBody (
     @SerializedName("vehicle_id")
     var vehicleId : String,
     @SerializedName("location_from_id")
-    var locationFromId: Int?,
+    var locationFromId: String?,
     @SerializedName("location_to_id")
-    var locationToId: Int? = null,
+    var locationToId: String?,
     @SerializedName("vehicle_movement")
     var movementType: String,
     @SerializedName("odometer")
