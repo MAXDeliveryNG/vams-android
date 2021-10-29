@@ -74,7 +74,7 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
                     is Result.Error -> {}
                     Result.Loading -> {}
                     is Result.Success -> {
-                        locations = result.value
+                        locations = result.value.filter { args.locationId != it.id }
                         populateLocationDropdown()
                     }
                 }

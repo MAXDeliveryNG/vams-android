@@ -56,7 +56,7 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
             }
             is FormListItemVieHolder -> {
                 holder.isItemSelected = selectedItemPosition == position
-                holder.bind(item as String)
+                holder.bind(item)
             }
         }
     }
