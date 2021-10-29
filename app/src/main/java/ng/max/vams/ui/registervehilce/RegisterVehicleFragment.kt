@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.register_vehicle_fragment.*
 import ng.max.vams.BR
 import ng.max.vams.data.MovementData
 import ng.max.vams.data.wrapper.Result
@@ -36,7 +37,6 @@ class RegisterVehicleFragment : Fragment() {
     private val args: RegisterVehicleFragmentArgs by navArgs()
     private var movementData = MovementData()
     private var valueMap: HashMap<String, String> = HashMap()
-    private var locations: Array<String> = arrayOf()
 
 
     override fun onCreateView(
@@ -64,16 +64,16 @@ class RegisterVehicleFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        bnd.locationEditText.setOnClickListener {
-            val selected = bnd.locationEditText.text.toString()
-            val action =
-                RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
-                    selected,
-                    locations,
-                    "REGISTER"
-                )
-            findNavController().navigate(action)
-        }
+//        bnd.locationEditText.setOnClickListener {
+//            val selected = bnd.locationEditText.text.toString()
+//            val action =
+//                RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
+//                    selected,
+//                    locations,
+//                    "REGISTER"
+//                )
+//            findNavController().navigate(action)
+//        }
 
 
         bnd.submitButton.setOnClickListener {
@@ -187,14 +187,15 @@ class RegisterVehicleFragment : Fragment() {
     private fun setupViewModel() {
         with(registerVehicleViewModel) {
 
-            getLocationsResponse.observe(viewLifecycleOwner) { result ->
+            getLocationResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Error -> {
                     }
                     Result.Loading -> {
                     }
                     is Result.Success -> {
-                        locations = result.value.map { location -> location.name }.toTypedArray()
+                        locationEditText.setText(result.value.name)
+                        locationEditText.isEnabled = false
                     }
                 }
             }
@@ -230,7 +231,7 @@ class RegisterVehicleFragment : Fragment() {
                     )
                 }
             })
-            actionGetAllLocation()
+            actionGetLocationById(args.locationId)
         }
 
         sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->

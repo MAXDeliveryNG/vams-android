@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementData
@@ -23,24 +22,22 @@ class RegisterVehicleViewModel @Inject constructor(
     private val vehicleRepo: VehicleRepository,
     private val registerVehicleMovementUseCase: RegisterVehicleMovementUseCase
 ) : ViewModel() {
-    private val locationsResponse = MutableLiveData<Result<List<Location>>>()
+    private val locationResponse = MutableLiveData<Result<Location>>()
     private val registerMovementResponse = MutableLiveData<Result<Vehicle>>()
 
-    val getLocationsResponse: LiveData<Result<List<Location>>> = locationsResponse
+    val getLocationResponse: LiveData<Result<Location>> = locationResponse
     val getRegisterMovementResponse: LiveData<Result<Vehicle>> = registerMovementResponse
 
 
-    fun actionGetAllLocation() {
-        locationsResponse.value = Result.Loading
+    fun actionGetLocationById(locationId: String) {
+        locationResponse.value = Result.Loading
         viewModelScope.launch {
-            locationRepo.getLocations().collect {
-                locationsResponse.value = it
-            }
+            locationResponse.value = locationRepo.getLocationById(locationId)
         }
     }
 
 
-    fun registerMovement(movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: Int,
+    fun registerMovement(movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: String?,
                          movementType: String) {
         registerMovementResponse.value = Result.Loading
         viewModelScope.launch {
@@ -51,9 +48,7 @@ class RegisterVehicleViewModel @Inject constructor(
             }?.id
             movementBody.vehicleId = vehicleId
             movementBody.subReasonId = subReasonId
-            if (locationToId != 0){
-                movementBody.locationToId = locationToId
-            }
+            movementBody.locationToId = locationToId
             movementBody.movementType = movementType
 
             registerMovementResponse.value = registerVehicleMovementUseCase.invoke(movementBody)

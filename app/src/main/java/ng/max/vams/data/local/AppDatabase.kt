@@ -14,7 +14,7 @@ import ng.max.vams.data.remote.response.Location
 import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.remote.response.VehicleType
 
-@Database(version = 2, entities = [DbVehicle::class, Reason::class,
+@Database(version = 3, entities = [DbVehicle::class, Reason::class,
     Location::class, VehicleType::class], exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase(){
@@ -36,7 +36,7 @@ abstract class AppDatabase : RoomDatabase(){
                             applicationContext,
                             AppDatabase::class.java,
                             DB_NAME
-                    ).addMigrations(MIGRATION_1_2)
+                    ).addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                         .build()
                 }
             }

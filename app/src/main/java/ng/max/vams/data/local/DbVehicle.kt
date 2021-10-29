@@ -14,7 +14,7 @@ data class DbVehicle(
         val id: String,
         val isMaxVehicle: Boolean,
         val licenseExpirationDate: String?,
-        val locationId: Int?,
+        val locationId: String,
         val manufacturerId: Int?,
         val maxGlobalId: String?,
         val maxVehicleId: String?,

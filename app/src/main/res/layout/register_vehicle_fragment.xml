@@ -103,14 +103,14 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/locationInputLayout"
-                    style="@style/textInputLayout.ExposedDroppedDown"
+                    style="@style/textInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:tag="@{formModel.keyLocation}"
                     app:hintEnabled="false">
 
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/locationEditText"
                         style="@style/formEditTextHint"
                         android:layout_width="match_parent"
