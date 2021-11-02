@@ -82,7 +82,11 @@ class PlateNumberSearchFragment : Fragment() {
     }
 
     private fun navigateToVehicleDetail(vehicle: Vehicle) {
-        if (vehicle.vehicleMovement != null && vehicle.vehicleMovement == args.movementType) {
+        if(vehicle.vehicleMovement == null && args.movementType == "exit"){
+            manageContentViews(false)
+            val errorMessage = getString(R.string.mo_movement_error_message)
+            showDialog("Error", errorMessage)
+        } else if (vehicle.vehicleMovement != null && vehicle.vehicleMovement == args.movementType) {
             manageContentViews(false)
             val errorMessage = if (vehicle.vehicleMovement == "entry") {
                 getString(R.string.movement_error_message, " checked in")
