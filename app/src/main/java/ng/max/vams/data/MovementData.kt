@@ -11,6 +11,7 @@ class MovementData : BaseObservable() {
 
     val keyLocation: String = "location"
     val keyOdometer: String = "odometer"
+    val keyRetrievalAgent: String = "retrieval_agent"
 
 
     @Bindable
@@ -26,6 +27,22 @@ class MovementData : BaseObservable() {
         set(value) {
             field = value
             notifyPropertyChanged(BR.odometerReading)
+        }
+
+    @Bindable
+    @SerializedName("retrieval_agent")
+    var retrievalAgent: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.retrievalAgent)
+        }
+
+    @Bindable
+    @SerializedName("recovered_items")
+    var recoveredItems: ArrayList<String> = ArrayList()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.recoveredItems)
         }
 
     fun toMovementBody(): MovementBody {

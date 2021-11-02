@@ -14,4 +14,9 @@ data class MovementBody (
     @SerializedName("odometer")
     var odormeter: Double?,
     @SerializedName("sub_reason_id")
-    var subReasonId: String)
+    var subReasonId: String,
+    @SerializedName("recovered_items")
+    var recoveredItems: List<String>,
+    @SerializedName("retrieval_agent")
+    var retrievalAgent: String?,
+    )
