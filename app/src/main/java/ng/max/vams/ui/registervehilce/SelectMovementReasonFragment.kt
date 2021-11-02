@@ -39,6 +39,7 @@ class SelectMovementReasonFragment : Fragment() {
     private lateinit var captureMovementData: CaptureMovementData
     var subReason: SubReason? = null
     var lastMovementSubReason: String? = null
+    lateinit var retrievedReason: Reason
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +71,7 @@ class SelectMovementReasonFragment : Fragment() {
                 is Result.Loading -> {
                 }
                 is Result.Success -> {
+                    retrievedReason = result.value.find { it.slug == "retrieved" }!!
                     reasonAdapter.adapterList = if (captureMovementData.movementType == "entry") {
                         result.value.filter { it.slug != "activated" }
                     } else {
@@ -135,7 +137,8 @@ class SelectMovementReasonFragment : Fragment() {
                         R.string.default_name, it.firstName,
                         it.lastName
                     )
-                } ?: "N/A"
+                } ?: "N/A",
+                retrievedSubReasonIds = retrievedReason.subReasons!!.map { it.id }.toTypedArray()
             )
 
         findNavController().navigate(action)

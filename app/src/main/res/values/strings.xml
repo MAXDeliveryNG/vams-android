@@ -80,8 +80,21 @@
     <string name="close_button">close button</string>
     <string name="error_message">Something went wrong.</string>
     <string name="mo_movement_error_message">Please check in this vehicle first.</string>
+    <string name="retrieval_agent_label">Retrieval Agent</string>
+    <string name="enter_retrieval_agent_hint">Enter retrieval agent</string>
+    <string name="items_to_retrieve_label">Items to retrieve</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>
+    </string-array>
+    <string-array name="recovered_items">
+        <item>Complete side mirror</item>
+        <item>Helmet</item>
+        <item>Spare tyres</item>
+        <item>Tracker</item>
+        <item>Plate number</item>
+        <item>Complete vehicle tyre</item>
+        <item>Vehicle keys</item>
+        <item>Battery</item>
     </string-array>
 </resources>

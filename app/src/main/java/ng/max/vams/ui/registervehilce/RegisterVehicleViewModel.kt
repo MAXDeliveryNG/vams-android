@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementData
@@ -32,7 +33,9 @@ class RegisterVehicleViewModel @Inject constructor(
     fun actionGetLocationById(locationId: String) {
         locationResponse.value = Result.Loading
         viewModelScope.launch {
-            locationResponse.value = locationRepo.getLocationById(locationId)
+            locationRepo.getLocationById(locationId).collect {
+                locationResponse.value = it
+            }
         }
     }
 

@@ -11,7 +11,7 @@ import ng.max.vams.data.remote.response.Location
 interface LocationDao {
 
     @Query("SELECT * from location WHERE id = :id")
-    suspend fun getLocationById(id: String): Location
+    fun getLocationById(id: String): Flow<Location>
 
     @Query("SELECT * from location WHERE name = :name")
     fun getLocationByName(name: String): List<Location>
