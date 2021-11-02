@@ -14,7 +14,7 @@ class MovementReasonRepository @Inject constructor(
         private val reasonDao: ReasonDao,
         private val remoteDataSource: RemoteDataSource) {
 
-    suspend fun getMovementReasons(movementType: String): Flow<Result<List<Reason>>> {
+    suspend fun getMovementReasons(): Flow<Result<List<Reason>>> {
         var dbData = reasonDao.getReasons().map {
             Result.Success(it)
         }

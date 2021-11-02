@@ -7,7 +7,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ng.max.vams.data.LocationRepository
+import ng.max.vams.data.MovementReasonRepository
 import ng.max.vams.data.VehicleRepository
+import ng.max.vams.data.VehicleTypeRepository
 import ng.max.vams.data.remote.RemoteDataSource
 import ng.max.vams.data.remote.response.MovementStat
 import ng.max.vams.data.wrapper.Result
@@ -16,7 +19,10 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val remoteDataSource:
                                         RemoteDataSource,
-                                        private val vehicleRepo: VehicleRepository
+                                        private val vehicleRepo: VehicleRepository,
+                                        private val locationRepo: LocationRepository,
+                                        private val vehicleTypeRepo: VehicleTypeRepository,
+                                        private val movementReasonRepo: MovementReasonRepository
 ) :
     ViewModel() {
 
@@ -32,19 +38,19 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
 
     fun actionGetAssetReasons() {
         viewModelScope.launch {
-            remoteDataSource.getMovementReasons() //silently download
+            movementReasonRepo.getMovementReasons() //silently download
         }
     }
 
     fun actionGetLocations() {
         viewModelScope.launch {
-            remoteDataSource.getLocations() //silently download
+            locationRepo.getLocations() //silently download
         }
     }
 
     fun actionGetVehicleTypes() {
         viewModelScope.launch {
-            remoteDataSource.getVehicleType() //silently download
+            vehicleTypeRepo.getVehicleTypes() //silently download
         }
     }
 

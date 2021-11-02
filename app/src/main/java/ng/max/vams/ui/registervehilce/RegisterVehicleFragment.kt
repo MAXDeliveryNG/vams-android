@@ -64,18 +64,6 @@ class RegisterVehicleFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-//        bnd.locationEditText.setOnClickListener {
-//            val selected = bnd.locationEditText.text.toString()
-//            val action =
-//                RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
-//                    selected,
-//                    locations,
-//                    "REGISTER"
-//                )
-//            findNavController().navigate(action)
-//        }
-
-
         bnd.submitButton.setOnClickListener {
             bnd.submitButton.loaded()
             val action =

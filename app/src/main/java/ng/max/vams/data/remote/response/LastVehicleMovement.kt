@@ -16,8 +16,10 @@ data class LastVehicleMovement(
     val creatorName: String?,
     @SerializedName("id")
     val id: String,
-    @SerializedName("location_id")
-    val locationId: Int,
+    @SerializedName("location_to_id")
+    val locationToId: String?,
+    @SerializedName("location_from_id")
+    val locationFromId: String?,
     @SerializedName("location_name")
     val locationName: String,
     @SerializedName("movement_type")
@@ -29,7 +31,9 @@ data class LastVehicleMovement(
     @SerializedName("plate_numer")
     val plateNumber: String,
     @SerializedName("reason")
-    val reason: String,
+    val reason: LastVehicleMovementReason,
+    @SerializedName("checklist_items")
+    val checkListItems: List<String>?,
     @SerializedName("updated_at")
     val updatedAt: String?,
     @SerializedName("vehicle_id")
