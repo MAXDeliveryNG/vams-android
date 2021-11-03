@@ -95,7 +95,7 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
             SpinnerAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                locations.map { location -> location.name }.toTypedArray()
+                locations.map { location -> location.name }.sorted().toTypedArray()
             )
 
 
