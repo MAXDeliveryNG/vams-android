@@ -24,21 +24,31 @@ class RegisterVehicleViewModel @Inject constructor(
     private val registerVehicleMovementUseCase: RegisterVehicleMovementUseCase
 ) : ViewModel() {
     private val locationResponse = MutableLiveData<Result<Location>>()
+    private val locationsResponse = MutableLiveData<Result<List<Location>>>()
     private val registerMovementResponse = MutableLiveData<Result<Vehicle>>()
 
     val getLocationResponse: LiveData<Result<Location>> = locationResponse
+    val getLocationsResponse: LiveData<Result<List<Location>>> = locationsResponse
     val getRegisterMovementResponse: LiveData<Result<Vehicle>> = registerMovementResponse
 
 
-    fun actionGetLocationById(locationId: String) {
-        locationResponse.value = Result.Loading
+//    fun actionGetLocationById(locationId: String) {
+//        locationResponse.value = Result.Loading
+//        viewModelScope.launch {
+//            locationRepo.getLocationById(locationId).collect {
+//                locationResponse.value = it
+//            }
+//        }
+//    }
+
+    fun actionGetAllLocation() {
+        locationsResponse.value = Result.Loading
         viewModelScope.launch {
-            locationRepo.getLocationById(locationId).collect {
-                locationResponse.value = it
+            locationRepo.getLocations().collect {
+                locationsResponse.value = it
             }
         }
     }
-
 
     fun registerMovement(movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: String?,
                          movementType: String) {

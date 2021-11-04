@@ -27,8 +27,10 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
         setStyle(STYLE_NO_FRAME, R.style.dialogBackground)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         bnd = FragmentListBottomSheetBinding.inflate(inflater, container, false)
         return bnd.root
     }
@@ -48,13 +50,13 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
         formListItemAdapter.setOnItemClickListener { position ->
             findNavController().navigateUp()
 
-            if (args.fromSource == "TRANSFER_LOCATION"){
-                val selectedItem = formListItemAdapter.adapterList[position] as String
-                sharedBottomSheetViewModel.submitSelectedItemForTransferLocation(selectedItem)
-            }else{
-                val selectedItem = (formListItemAdapter.adapterList[position] as SubReason).slug
-                sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
+            val selectedItem = if (args.fromSource != "REASON") {
+                formListItemAdapter.adapterList[position] as String
+            } else {
+                (formListItemAdapter.adapterList[position] as SubReason).slug
             }
+
+            sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
 
         }
         bnd.listRv.apply {
@@ -64,15 +66,30 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setupViewModel(){
-        sharedBottomSheetViewModel.getSubReasonsResponse.observe(viewLifecycleOwner, {subReasons->
-            formListItemAdapter.adapterList = subReasons
-            if (!args.selectedItem.isNullOrEmpty()){
-                formListItemAdapter.selectedItemPosition = subReasons.indexOf(subReasons.find {subreason->
-                    subreason.slug == args.selectedItem
+    private fun setupViewModel() {
+        with(sharedBottomSheetViewModel) {
+            if (args.fromSource == "REASON") {
+                getSubReasonsResponse.observe(viewLifecycleOwner, { subReasons ->
+                    formListItemAdapter.adapterList = subReasons
+                    if (!args.selectedItem.isNullOrEmpty()) {
+                        formListItemAdapter.selectedItemPosition =
+                            subReasons.indexOf(subReasons.find { subreason ->
+                                subreason.slug == args.selectedItem
+                            })
+                    }
                 })
+            } else {
+                getLocationsResponse.observe(viewLifecycleOwner) { locations ->
+                    formListItemAdapter.adapterList = locations.map { it.name }.sorted()
+                    if (!args.selectedItem.isNullOrEmpty()) {
+                        formListItemAdapter.selectedItemPosition =
+                            locations.indexOf(locations.find { location ->
+                                location.name == args.selectedItem
+                            })
+                    }
+                }
             }
-        })
+        }
     }
 
     companion object {
