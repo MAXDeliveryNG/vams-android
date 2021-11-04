@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -20,6 +19,7 @@ import ng.max.vams.data.CaptureMovementData
 import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.remote.response.SubReason
 import ng.max.vams.data.wrapper.Result
+import ng.max.vams.databinding.SelectMovementReasonFragmentBinding
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
 import ng.max.vams.util.GridSpacingItemDecoration
@@ -28,24 +28,24 @@ import ng.max.vams.util.show
 @AndroidEntryPoint
 class SelectMovementReasonFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SelectMovementReasonFragment()
-    }
-
+    private lateinit var bnd: SelectMovementReasonFragmentBinding
     private val viewModel: SelectMovementReasonViewModel by viewModels()
     private val sharedViewModel: SharedRegistrationViewModel by activityViewModels()
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
     private val reasonAdapter = BaseAdapter()
     private var selectedItem: String? = null
-    private var selectedReason: String? = null
+    private var selectedReasonSlug: String? = null
     private lateinit var captureMovementData: CaptureMovementData
     var subReason: SubReason? = null
+    var lastMovementSubReason: String? = null
+    lateinit var retrievedReason: Reason
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.select_movement_reason_fragment, container, false)
+    ): View {
+        bnd = SelectMovementReasonFragmentBinding.inflate(inflater, container, false)
+        return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +70,12 @@ class SelectMovementReasonFragment : Fragment() {
                 is Result.Loading -> {
                 }
                 is Result.Success -> {
-                    reasonAdapter.adapterList = result.value
+                    retrievedReason = result.value.find { it.slug == "retrieved" }!!
+                    reasonAdapter.adapterList = if (captureMovementData.movementType == "entry") {
+                        result.value.filter { it.slug != "activated" }
+                    } else {
+                        result.value.filter { it.slug != "new" }
+                    }
                 }
             }
         })
@@ -81,36 +86,49 @@ class SelectMovementReasonFragment : Fragment() {
                 navigateToRegisterVehicle(subReason, _locationToId)
             })
 
-        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner, Observer {
+        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner, {
             selectedItem = it
 
             (reasonAdapter.adapterList as List<Reason>).forEach { reason ->
                 reason.subReasons?.forEach { _subReason ->
-                    if (_subReason.name == it) {
+                    if (_subReason.slug == it) {
+
                         subReason = _subReason
+//                        if (captureMovementData.movementType == "exit" &&
+//                            lastMovementSubReason != null && lastMovementSubReason != _subReason.name) {
+//                            Toast.makeText(
+//                                requireContext(),
+//                                "Please select $lastMovementSubReason and try again.",
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//                            return@observe
+//                        } else {
+//                            subReason = _subReason
+//                        }
                     }
                 }
             }
 
-            if (selectedReason == "transfer") {
+            if (selectedReasonSlug == "transfer") {
                 val action =
                     SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToTransferLocationBottomSheetFragment(
-                        subReason!!.name
+                        subReason!!.name, captureMovementData.vehicle.locationId
                     )
                 findNavController().navigate(action)
             } else {
-                navigateToRegisterVehicle(subReason)
+                navigateToRegisterVehicle(subReason, null)
             }
         })
 
     }
 
-    private fun navigateToRegisterVehicle(subReason: SubReason?, _locationToId: Int = 0) {
+    private fun navigateToRegisterVehicle(subReason: SubReason?, _locationToId: String?) {
         val action =
             SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToRegisterVehicleFragment(
                 vehicleId = captureMovementData.vehicle.id,
                 vehicleMaxId = captureMovementData.vehicle.maxVehicleId,
                 vehicleMovement = captureMovementData.movementType,
+                locationId = captureMovementData.vehicle.locationId,
                 locationToId = _locationToId,
                 subReasonId = subReason!!.id,
                 subReasonName = subReason.name,
@@ -119,7 +137,8 @@ class SelectMovementReasonFragment : Fragment() {
                         R.string.default_name, it.firstName,
                         it.lastName
                     )
-                } ?: "N/A"
+                } ?: "N/A",
+                retrievedSubReasonIds = retrievedReason.subReasons!!.map { it.id }.toTypedArray()
             )
 
         findNavController().navigate(action)
@@ -127,33 +146,33 @@ class SelectMovementReasonFragment : Fragment() {
 
     private fun populateView(_captureData: CaptureMovementData) {
         if (_captureData.movementType == "entry") {
-            vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-in")
+            bnd.vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-in")
         } else {
-            vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-out")
+            bnd.vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-out")
 
         }
-        vehicleMaxId.text = _captureData.vehicle.maxVehicleId
-        plateNumberView.setSubtitle(_captureData.vehicle.plateNumber)
+        bnd.vehicleMaxId.text = _captureData.vehicle.maxVehicleId
+        bnd.plateNumberView.setSubtitle(_captureData.vehicle.plateNumber)
         val champion = _captureData.vehicle.champion?.let {
             getString(
                 R.string.default_name, it.firstName,
                 it.lastName
             )
         } ?: "N/A"
-        championView.setSubtitle(champion)
+        bnd.championView.setSubtitle(champion)
 
         _captureData.vehicle.status?.let {
-            vehicleStatusContainer.show()
-            vehicleStatus.text = it.name
+            bnd.vehicleStatusContainer.show()
+            bnd.vehicleStatus.text = it.name
             when (it.slug) {
                 "active" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.active_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.active_status_bg
@@ -161,13 +180,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 "in_active" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.inactive_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.inactive_status_bg
@@ -175,13 +194,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 "hp_completed" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.hp_completed_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.hp_completed_status_bg
@@ -189,13 +208,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 "missing" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.missing_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.missing_status_bg
@@ -203,13 +222,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 "scrapped" -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.scrapped_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.scrapped_status_bg
@@ -217,13 +236,13 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 }
                 else -> {
-                    vehicleStatus.setTextColor(
+                    bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.active_status
                         )
                     )
-                    vehicleStatusContainer.setBackgroundColor(
+                    bnd.vehicleStatusContainer.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.active_status_bg
@@ -232,18 +251,19 @@ class SelectMovementReasonFragment : Fragment() {
                 }
             }
         }
-        viewModel.actionGetReasons(_captureData.movementType)
+        viewModel.actionGetReasons()
+        viewModel.actionGetLocations()
 
     }
 
     private fun setupView() {
 
-        backBtn.setOnClickListener {
+        bnd.backBtn.setOnClickListener {
             findNavController().popBackStack()
         }
 
         reasonAdapter.viewType = 1
-        reasonRv.apply {
+        bnd.reasonRv.apply {
             layoutManager =
                 GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
             adapter = reasonAdapter
@@ -252,27 +272,57 @@ class SelectMovementReasonFragment : Fragment() {
         }
 
         reasonAdapter.setOnItemClickListener { position ->
-            val reason = (reasonAdapter.adapterList[position] as Reason)
-            selectedReason = reason.slug
-            val subReasons = if (reason.slug == "hp_complete") {
-                val subReason = if (captureMovementData.movementType == "entry") {
-                    reason.subReasons?.find { it.slug == "pick_up_papers" }!!
+            val selectedReason = (reasonAdapter.adapterList[position] as Reason)
+            selectedReasonSlug = selectedReason.slug
+            displaySubReasons(selectedReason)
+
+            /*if (captureMovementData.movementType == "exit") {
+                val lastMovement = captureMovementData.vehicle.lastVehicleMovement!!
+                val lastMovementReason = lastMovement.reason
+                val reason =
+                    (reasonAdapter.adapterList as List<Reason>).find { it.id == lastMovementReason.parentReasonId }!!
+
+                if (selectedReason.id != lastMovementReason.parentReasonId && selectedReasonSlug != "activated") {
+                    Toast.makeText(
+                        requireContext(),
+                        "Please check out with ${reason.name}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
-                    reason.subReasons?.find { it.slug == "completed_hp" }!!
+                    if (selectedReasonSlug == "activated" && reason.slug != "new") {
+                        Toast.makeText(
+                            requireContext(),
+                            "Please check out with ${reason.name}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        lastMovementSubReason = lastMovementReason.name
+                        displaySubReasons(selectedReason)
+                    }
                 }
-                arrayOf(subReason.name)
             } else {
-                reason.subReasons?.map {
-                    it.name
-                }!!.toTypedArray()
-            }
-            val action =
-                SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToListBottomSheetFragment(
-                    selectedItem,
-                    subReasons,
-                    "REASON"
-                )
-            findNavController().navigate(action)
+                displaySubReasons(selectedReason)
+            }*/
         }
+    }
+
+    private fun displaySubReasons(selectedReason: Reason) {
+        val subReasons: List<SubReason> = if (selectedReason.slug == "completed_hp") {
+            val _subReason = if (captureMovementData.movementType == "entry") {
+                selectedReason.subReasons?.find { it.slug == "pick_up_papers" }!!
+            } else {
+                selectedReason.subReasons?.find { it.slug == "completed_hp" }!!
+            }
+            listOf(_subReason)
+        } else {
+            selectedReason.subReasons!!
+        }
+        sharedBottomSheetViewModel.submitSubReasons(subReasons)
+        val action =
+            SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToListBottomSheetFragment(
+                selectedItem,
+                "REASON"
+            )
+        findNavController().navigate(action)
     }
 }

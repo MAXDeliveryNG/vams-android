@@ -10,7 +10,7 @@ class ReasonViewHolder (itemView: View, onItemClickListener: ((position: Int) ->
     BaseViewHolder<Reason>(itemView, onItemClickListener){
 
     init {
-        containerView.setOnClickListener {
+        itemView.setOnClickListener {
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 onItemClickListener?.invoke(position)
@@ -35,6 +35,12 @@ class ReasonViewHolder (itemView: View, onItemClickListener: ((position: Int) ->
             }
             "completed_hp" -> {
                 R.drawable.ic_hp_complete
+            }
+            "new" -> {
+                R.drawable.ic_new
+            }
+            "activated" -> {
+                R.drawable.ic_activated
             }
             else -> {
                 R.drawable.ic_bike

@@ -9,7 +9,7 @@ class VehicleViewHolder (itemView: View, onItemClickListener: ((position: Int) -
     BaseViewHolder<DbVehicle>(itemView, onItemClickListener){
 
     init {
-        containerView.setOnClickListener {
+        itemView.setOnClickListener {
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 onItemClickListener?.invoke(position)
@@ -19,6 +19,6 @@ class VehicleViewHolder (itemView: View, onItemClickListener: ((position: Int) -
 
     override fun bind(item: DbVehicle) {
         itemView.titleTv.text = item.maxVehicleId
-        itemView.reasonTv.text = item.lastVehicleMovement?.reason?: "N/A"
+        itemView.reasonTv.text = item.lastVehicleMovement?.reason?.name
     }
 }

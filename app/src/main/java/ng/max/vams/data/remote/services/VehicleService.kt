@@ -25,13 +25,14 @@ interface VehicleService {
     suspend fun getReasons(): Response<ApiResponse<List<Reason>>>
 
     @GET("vehicles/v1/location")
-    suspend fun getLocations(): Response<ApiResponse<List<Location>>>
+    suspend fun getLocations(): Response<ApiResponse<LocationObject>>
 
     @GET("vehicles/v1/vehicle-type")
     suspend fun getVehicleType(): Response<ApiResponse<List<VehicleType>>>
 
     @GET("vehicles/v1/vehicle")
     suspend fun search(@Query("search_query") term: String,
+                       @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
                        @Query("include_defined_relations") relations: String = "champion,vehicle_status"): Response<ApiResponse<VehicleListData>>
 
     @GET("vehicles/v1/vehicle")

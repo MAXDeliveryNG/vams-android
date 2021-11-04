@@ -14,7 +14,10 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.BR
+import ng.max.vams.R
+import ng.max.vams.adapter.RetrievedItemsAdapter
 import ng.max.vams.data.MovementData
+import ng.max.vams.data.remote.response.Location
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.RegisterVehicleFragmentBinding
 import ng.max.vams.ui.assetreason.VehicleConfirmationViewModel
@@ -36,7 +39,8 @@ class RegisterVehicleFragment : Fragment() {
     private val args: RegisterVehicleFragmentArgs by navArgs()
     private var movementData = MovementData()
     private var valueMap: HashMap<String, String> = HashMap()
-    private var locations: Array<String> = arrayOf()
+    private val recoveredItemList: ArrayList<String> = ArrayList()
+    private var locations = listOf<Location>()
 
 
     override fun onCreateView(
@@ -59,6 +63,7 @@ class RegisterVehicleFragment : Fragment() {
     private fun setupView() {
 
         bnd.registerHeader.text = args.subReasonName
+        populateRecoveredItemsCheckBoxes()
         bnd.submitButton.setButtonEnable(false)
         bnd.closeButton.setOnClickListener {
             findNavController().popBackStack()
@@ -66,15 +71,14 @@ class RegisterVehicleFragment : Fragment() {
 
         bnd.locationEditText.setOnClickListener {
             val selected = bnd.locationEditText.text.toString()
+            sharedBottomSheetViewModel.submitLocations(locations.toList())
             val action =
                 RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
                     selected,
-                    locations,
                     "REGISTER"
                 )
             findNavController().navigate(action)
         }
-
 
         bnd.submitButton.setOnClickListener {
             bnd.submitButton.loaded()
@@ -105,6 +109,10 @@ class RegisterVehicleFragment : Fragment() {
                         field = bnd.odometerReadingInputLayout
                         value = movementData.odometerReading
                     }
+                    BR.retrievalAgent -> {
+                        field = bnd.retrievalAgentInputLayout
+                        value = movementData.retrievalAgent
+                    }
                     else -> {
                         ignoreProperty = true
                     }
@@ -124,13 +132,20 @@ class RegisterVehicleFragment : Fragment() {
                                 field?.error = "Please enter $fieldKey"
                                 false
                             } else {
-                                field?.error = null
-                                true
+                                if (fieldKey == "odometer" && value!!.toDoubleOrNull() == null){
+                                    field?.error = "Please enter $fieldKey"
+                                    false
+                                }else{
+                                    field?.error = null
+                                    true
+                                }
+
                             }
                         }
 
                     }
                     isCompleted = passesValidation && isRequiredFieldsProvided()
+                            && recoveredItemList.count() != 0
                 }
 
                 bnd.submitButton.setButtonEnable(isCompleted)
@@ -171,15 +186,38 @@ class RegisterVehicleFragment : Fragment() {
 
     private fun getRequiredKeys(): List<String> {
         return movementData.let { movementData ->
-            listOf(
-                movementData.keyLocation,
-                movementData.keyOdometer
-            )
+            val retrievedSubReasonId = args.retrievedSubReasonIds.find { it == args.subReasonId }
+            if(retrievedSubReasonId == null){
+                listOf(
+                    movementData.keyLocation,
+                    movementData.keyOdometer
+                )
+            }else{
+                listOf(
+                    movementData.keyLocation,
+                    movementData.keyOdometer,
+                    movementData.keyRetrievalAgent
+                )
+            }
+
         }
     }
 
     private fun setupViewModel() {
         with(registerVehicleViewModel) {
+
+//            getLocationResponse.observe(viewLifecycleOwner) { result ->
+//                when (result) {
+//                    is Result.Error -> {
+//                    }
+//                    Result.Loading -> {
+//                    }
+//                    is Result.Success -> {
+//                        locationEditText.setText(result.value.name)
+//                        locationEditText.isEnabled = false
+//                    }
+//                }
+//            }
 
             getLocationsResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
@@ -188,7 +226,7 @@ class RegisterVehicleFragment : Fragment() {
                     Result.Loading -> {
                     }
                     is Result.Success -> {
-                        locations = result.value.map { location -> location.name }.toTypedArray()
+                        locations = result.value
                     }
                 }
             }
@@ -203,7 +241,9 @@ class RegisterVehicleFragment : Fragment() {
                     Result.Loading -> {
                     }
                     is Result.Success -> {
+                        cleanVehicleTable(result.value.id)
                         bnd.submitButton.loaded()
+                        //TODO BUGGY SEE : https://console.firebase.google.com/project/max-v2/crashlytics/app/android:ng.max.vams/issues/911c072b6f325531954d7250a9d19506?time=last-seven-days&sessionEventKey=6177DD9B007600014D26708AD5E1202E_1601780252919286962
                         val action = RegisterVehicleFragmentDirections
                             .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
                                 args.vehicleMovement, result.value.maxVehicleId
@@ -222,12 +262,39 @@ class RegisterVehicleFragment : Fragment() {
                     )
                 }
             })
+//            actionGetLocationById(args.locationId)
             actionGetAllLocation()
         }
 
         sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
             bnd.locationEditText.setText(selectedItem)
         }
+    }
+
+    private fun populateRecoveredItemsCheckBoxes() {
+
+        val adapter = RetrievedItemsAdapter()
+        val recoveredItems = resources.getStringArray(R.array.recovered_items).toList()
+        adapter.setOnItemClickListener { position, isChecked ->
+            val name = adapter.recoveredItems[position]
+            if (isChecked) {
+                recoveredItemList.add(name)
+            } else {
+                recoveredItemList.remove(name)
+            }
+            movementData.recoveredItems = recoveredItemList
+            val retrievedSubReasonId = args.retrievedSubReasonIds.find { it == args.subReasonId }
+            if (retrievedSubReasonId == null){
+                bnd.submitButton.setButtonEnable(isRequiredFieldsProvided()
+                        && recoveredItemList.count() != 0)
+            }
+        }
+        bnd.retrievedItemsRv.adapter =  adapter
+        adapter.recoveredItems = recoveredItems
+    }
+
+    private fun cleanVehicleTable(id: String) {
+        registerVehicleViewModel.deleteVehicle(id)
     }
 
 

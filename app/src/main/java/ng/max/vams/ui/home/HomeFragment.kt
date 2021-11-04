@@ -20,12 +20,15 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
+import ng.max.vams.data.manager.AppManager
 import ng.max.vams.data.remote.response.User
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.HomeFragmentBinding
 import ng.max.vams.ui.login.LoginViewModel
 import ng.max.vams.util.Helper
-import ng.max.vams.util.showDialog
+import ng.max.vams.util.gone
+import ng.max.vams.util.show
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -105,21 +108,10 @@ class HomeFragment : Fragment() {
             )
             navController.navigate(action)
         }
-//        bnd.viewPager.adapter = AssetAdapter(this)
-//
-//        TabLayoutMediator(bnd.tabs, bnd.viewPager){ tab, position ->
-//            when (position) {
-//                0 -> {
-//                    tab.text = "Vehicles"
-//                }
-//                1 -> {
-//                    tab.text = "Spare Parts"
-//                }
-//                else -> {
-//                    tab.text = "Trackers"
-//                }
-//            }
-//        }.attach()
+
+        bnd.retryButton.setOnClickListener {
+            homeViewModel.actionGetMovementStat()
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -144,7 +136,9 @@ class HomeFragment : Fragment() {
 
         usernameTextView.text = user?.fullName
         emailTextView.text = user?.email
-        roleTextView.text = user?.role?.capitalize()
+        roleTextView.text = user?.role?.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+        }
 
         viewProfileTextView.setOnClickListener {
             popupWindow.dismiss()
@@ -161,11 +155,15 @@ class HomeFragment : Fragment() {
         homeViewModel.getMovementStatResponse.observe(viewLifecycleOwner){ result->
             when(result){
                 is Result.Error -> {
-                    showDialog("Error", result.message)
+                    bnd.errorTv.text = getString(R.string.error_message)
+                    showErrorView(true)
+//                    showDialog("Error", result.message)
                 }
                 is Result.Loading -> {
+                    showErrorView(false)
                 }
                 is Result.Success -> {
+                    showErrorView(false)
                     bnd.entryCard.setCount(result.value.totalEntry)
                     bnd.exitCard.setCount(result.value.totalExit)
                 }
@@ -175,6 +173,23 @@ class HomeFragment : Fragment() {
         homeViewModel.actionGetAssetReasons()
         homeViewModel.actionGetLocations()
         homeViewModel.actionGetVehicleTypes()
+
+        if (AppManager.getVehicleTableFlag() == 0){
+            homeViewModel.clearVehicleTable()
+            AppManager.setVehicleTableFlag(-1)
+        }
+    }
+
+    private fun showErrorView(isError: Boolean) {
+        if (isError){
+            bnd.errorView.show()
+            bnd.dataView.gone()
+            bnd.bottomView.gone()
+        }else{
+            bnd.errorView.gone()
+            bnd.dataView.show()
+            bnd.bottomView.show()
+        }
     }
 
 }

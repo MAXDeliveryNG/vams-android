@@ -6,12 +6,17 @@ data class MovementBody (
     @SerializedName("vehicle_id")
     var vehicleId : String,
     @SerializedName("location_from_id")
-    var locationFromId: Int?,
+    var locationFromId: String?,
     @SerializedName("location_to_id")
-    var locationToId: Int? = null,
+    var locationToId: String?,
     @SerializedName("vehicle_movement")
     var movementType: String,
     @SerializedName("odometer")
     var odormeter: Double?,
     @SerializedName("sub_reason_id")
-    var subReasonId: String)
+    var subReasonId: String,
+    @SerializedName("recovered_items")
+    var recoveredItems: List<String>,
+    @SerializedName("retrieval_agent")
+    var retrievalAgent: String?,
+    )
