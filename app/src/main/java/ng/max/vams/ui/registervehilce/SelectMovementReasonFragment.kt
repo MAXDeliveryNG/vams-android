@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -94,17 +93,18 @@ class SelectMovementReasonFragment : Fragment() {
                 reason.subReasons?.forEach { _subReason ->
                     if (_subReason.slug == it) {
 
-                        if (captureMovementData.movementType == "exit" &&
-                            lastMovementSubReason != null && lastMovementSubReason != _subReason.name) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Please select $lastMovementSubReason and try again.",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            return@observe
-                        } else {
-                            subReason = _subReason
-                        }
+                        subReason = _subReason
+//                        if (captureMovementData.movementType == "exit" &&
+//                            lastMovementSubReason != null && lastMovementSubReason != _subReason.name) {
+//                            Toast.makeText(
+//                                requireContext(),
+//                                "Please select $lastMovementSubReason and try again.",
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//                            return@observe
+//                        } else {
+//                            subReason = _subReason
+//                        }
                     }
                 }
             }
@@ -274,8 +274,9 @@ class SelectMovementReasonFragment : Fragment() {
         reasonAdapter.setOnItemClickListener { position ->
             val selectedReason = (reasonAdapter.adapterList[position] as Reason)
             selectedReasonSlug = selectedReason.slug
+            displaySubReasons(selectedReason)
 
-            if (captureMovementData.movementType == "exit") {
+            /*if (captureMovementData.movementType == "exit") {
                 val lastMovement = captureMovementData.vehicle.lastVehicleMovement!!
                 val lastMovementReason = lastMovement.reason
                 val reason =
@@ -301,7 +302,7 @@ class SelectMovementReasonFragment : Fragment() {
                 }
             } else {
                 displaySubReasons(selectedReason)
-            }
+            }*/
         }
     }
 
