@@ -2,8 +2,8 @@ package ng.max.vams.data.manager
 
 import android.content.Context
 import android.content.SharedPreferences
-import javax.inject.Inject
 import ng.max.vams.BuildConfig
+import javax.inject.Inject
 
 class SharedPrefsManager @Inject constructor(context: Context) {
 
@@ -28,5 +28,9 @@ class SharedPrefsManager @Inject constructor(context: Context) {
     fun saveString(key: String, value: String) = edit().putString(key, value).apply()
 
     fun getString(key: String): String? = sharedPref.getString(key, null)
+
+    fun saveInt(key: String, value: Int) = edit().putInt(key, value).apply()
+
+    fun getInt(key: String): Int = sharedPref.getInt(key, 0)
 
 }

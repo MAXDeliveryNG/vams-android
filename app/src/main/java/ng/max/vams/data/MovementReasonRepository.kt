@@ -14,27 +14,15 @@ class MovementReasonRepository @Inject constructor(
         private val reasonDao: ReasonDao,
         private val remoteDataSource: RemoteDataSource) {
 
-    suspend fun getMovementReasons(movementType: String): Flow<Result<List<Reason>>> {
-        var dbData = if (movementType == "checked_in") {
-            reasonDao.getReasonsForCheckIn().map {
-                Result.Success(it)
-            }
-        } else {
-            reasonDao.getReasonsForCheckOut().map {
-                Result.Success(it)
-            }
+    suspend fun getMovementReasons(): Flow<Result<List<Reason>>> {
+        var dbData = reasonDao.getReasons().map {
+            Result.Success(it)
         }
 
         when(val remoteData = remoteDataSource.getMovementReasons()){
             is Result.Error -> {
-                dbData = if (movementType == "checked_in") {
-                    reasonDao.getReasonsForCheckIn().map {
-                        Result.Success(it)
-                    }
-                } else {
-                    reasonDao.getReasonsForCheckOut().map {
-                        Result.Success(it)
-                    }
+                dbData = reasonDao.getReasons().map {
+                    Result.Success(it)
                 }
             }
             Result.Loading -> { }

@@ -3,9 +3,11 @@ package ng.max.vams.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ng.max.vams.R
 import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.data.remote.response.Reason
+import ng.max.vams.databinding.LayoutFormListItemBinding
+import ng.max.vams.databinding.LayoutReasonListItemBinding
+import ng.max.vams.databinding.LayoutVehicleListItemBinding
 
 class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
@@ -29,16 +31,16 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
         return when(viewType){
             0 -> {
-                val itemView = layoutInflater.inflate(R.layout.layout_vehicle_list_item, parent, false)
-                VehicleViewHolder(itemView, onItemClickListener)
+                val bnd = LayoutVehicleListItemBinding.inflate(layoutInflater, parent, false)
+                VehicleViewHolder(bnd.root, onItemClickListener)
             }
             1 -> {
-                val itemView = layoutInflater.inflate(R.layout.layout_reason_list_item, parent, false)
-                ReasonViewHolder(itemView, onItemClickListener)
+                val bnd = LayoutReasonListItemBinding.inflate(layoutInflater, parent, false)
+                ReasonViewHolder(bnd.root, onItemClickListener)
             }
             else -> {
-                val itemView = layoutInflater.inflate(R.layout.layout_form_list_item, parent, false)
-                FormListItemVieHolder(itemView, onItemClickListener)
+                val bnd = LayoutFormListItemBinding.inflate(layoutInflater, parent, false)
+                FormListItemVieHolder(bnd.root, onItemClickListener)
             }
         }
     }
@@ -54,7 +56,7 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
             }
             is FormListItemVieHolder -> {
                 holder.isItemSelected = selectedItemPosition == position
-                holder.bind(item as String)
+                holder.bind(item)
             }
         }
     }

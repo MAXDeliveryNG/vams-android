@@ -9,48 +9,16 @@ import ng.max.vams.data.remote.request.MovementBody
 
 class MovementData : BaseObservable() {
 
-    val keyVehiclePlateNumber: String = "plate_number"
     val keyLocation: String = "location"
-    val keyVehicleType: String = "vehicle_type"
-    val keyMovementType: String = "movement_type"
-    val keyVehicleId: String = "vehicle_id"
     val keyOdometer: String = "odometer"
-    val keyReason: String = "reason"
+    val keyRetrievalAgent: String = "retrieval_agent"
 
-    @Bindable
-    var plateNumber: String? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.plateNumber)
-        }
 
     @Bindable
     var location: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.location)
-        }
-
-    @Bindable
-    var vehicleType: String? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.vehicleType)
-        }
-
-    @Bindable
-    var vehicleId: String? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.vehicleId)
-        }
-
-    @Bindable
-    @SerializedName("vehicle_movement")
-    var movementType: String? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.movementType)
         }
 
     @Bindable
@@ -62,11 +30,19 @@ class MovementData : BaseObservable() {
         }
 
     @Bindable
-    @SerializedName("reason")
-    var reason: String? = null
+    @SerializedName("retrieval_agent")
+    var retrievalAgent: String? = null
         set(value) {
             field = value
-            notifyPropertyChanged(BR.reason)
+            notifyPropertyChanged(BR.retrievalAgent)
+        }
+
+    @Bindable
+    @SerializedName("recovered_items")
+    var recoveredItems: ArrayList<String> = ArrayList()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.recoveredItems)
         }
 
     fun toMovementBody(): MovementBody {

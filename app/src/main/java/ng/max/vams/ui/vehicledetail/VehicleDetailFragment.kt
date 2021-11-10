@@ -71,7 +71,7 @@ class VehicleDetailFragment : Fragment() {
             bnd.currentStateCard.hide()
             bnd.vehicleDetailCard.hide()
         }else{
-            bnd.reasonTv.text = vehicle.lastVehicleMovement.reason
+            bnd.reasonTv.text = vehicle.lastVehicleMovement.reason.name
             bnd.locationTv.text = getString(R.string.location_data, vehicle.lastVehicleMovement.locationName, vehicle.movementType)
             bnd.timeStampTv.text = getFormattedDate(vehicle.lastVehicleMovement.createdAt)
             bnd.emailTv.text = vehicle.lastVehicleMovement.creatorEmail?: "N/A"

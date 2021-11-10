@@ -35,7 +35,7 @@
     <string name="dialog_entry_label">New Entry</string>
     <string name="dialog_entry_sub_label">Check in vehicles.</string>
     <string name="dialog_exit_sub_label">Check out vehicles.</string>
-    <string name="dialog_exit_label">Exit</string>
+    <string name="dialog_exit_label">New Exit</string>
     <string name="registered_by_label">Registered By</string>
     <string name="odometer_label">Odometer</string>
     <string name="time_of_entry_label">Time of entry</string>
@@ -63,8 +63,38 @@
     <string name="newPassword_hint">New password</string>
     <string name="location_string">location</string>
     <string name="vehicleType_string">vehicleType</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vehicle_plate_number_label">Vehicle Plate Number/Max ID</string>
+    <string name="enter_plate_number_header">ENTER PLATE NUMBER/MAX ID</string>
+    <string name="enter_plate_number_label">Enter Plate Number/Max ID</string>
+    <string name="back_button_label">Back Button</string>
+    <string name="loading_vehicle_details_label">Loading vehicle details</string>
+    <string name="enter_reason_title">Enter %s reason</string>
+    <string name="select_destination_label">-Select Destination-</string>
+    <string name="default_name">%1s %2s</string>
+    <string name="confirm_label">Confirm</string>
+    <string name="vehicle_detail_title">%s  Detail</string>
+    <string name="confirm_movement_label">Confirm %s</string>
+    <string name="vehicle_max_id_label">Vehicle Max ID</string>
+    <string name="champion_label">Champion</string>
+    <string name="close_button">close button</string>
+    <string name="error_message">Something went wrong.</string>
+    <string name="mo_movement_error_message">Please check in this vehicle first.</string>
+    <string name="retrieval_agent_label">Retrieval Agent</string>
+    <string name="enter_retrieval_agent_hint">Enter retrieval agent</string>
+    <string name="items_to_retrieve_label">Items to retrieve</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>
+    </string-array>
+    <string-array name="recovered_items">
+        <item>Complete side mirror</item>
+        <item>Helmet</item>
+        <item>Spare tyres</item>
+        <item>Tracker</item>
+        <item>Plate number</item>
+        <item>Complete vehicle tyre</item>
+        <item>Vehicle keys</item>
+        <item>Battery</item>
     </string-array>
 </resources>

@@ -31,7 +31,7 @@ data class Vehicle(
     @SerializedName("license_expiration_date")
     val licenseExpirationDate: String,
     @SerializedName("location_id")
-    val locationId: Int,
+    val locationId: String,
     @SerializedName("manufacturer_id")
     val manufacturerId: Int,
     @SerializedName("max_global_id")
@@ -61,9 +61,13 @@ data class Vehicle(
     @SerializedName("vehicle_movement")
     val vehicleMovement: String?,
     @SerializedName("vehicle_status_id")
-    val vehicleStatusId: Int?,
+    val vehicleStatusId: String?,
     @SerializedName("vehicle_type_id")
     val vehicleTypeId: Int,
     @SerializedName("year")
-    val year: Int?
+    val year: Int?,
+    @SerializedName("champion")
+    val champion: Champion?,
+    @SerializedName("vehicle_status")
+    val status: VehicleStatus?
 )

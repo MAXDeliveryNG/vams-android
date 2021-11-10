@@ -39,13 +39,11 @@ class LocationRepository @Inject constructor(
         locationDao.saveLocation(locations)
     }
 
-    suspend fun getLocationById(id: Int) : Result<Location>{
-        var dbData: Result<Location>
+    suspend fun getLocationById(id: String) : Flow<Result<Location>>{
+        var dbData: Flow<Result<Location>>
         withContext(Dispatchers.IO){
-            dbData = try {
-                Result.Success(locationDao.getLocationById(id).first())
-            }catch (ex: Exception){
-                Result.Error("Location with id $id not found.")
+            dbData = locationDao.getLocationById(id).map {
+                Result.Success(it)
             }
         }
         return  dbData
