@@ -32,7 +32,6 @@ interface VehicleService {
 
     @GET("vehicles/v1/vehicle")
     suspend fun search(@Query("search_query") term: String,
-                       @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
                        @Query("include_defined_relations") relations: String = "champion,vehicle_status"): Response<ApiResponse<VehicleListData>>
 
     @GET("vehicles/v1/vehicle")
