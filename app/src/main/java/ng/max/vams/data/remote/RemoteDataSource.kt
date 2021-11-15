@@ -96,7 +96,7 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    return Result.Success(body.getData()!!.locations)
+                    return Result.Success(body.responseData!!)
                 }
             }
 
