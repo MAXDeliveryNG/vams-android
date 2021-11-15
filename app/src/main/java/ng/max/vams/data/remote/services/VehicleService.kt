@@ -25,7 +25,7 @@ interface VehicleService {
     suspend fun getReasons(): Response<ApiResponse<List<Reason>>>
 
     @GET("vehicles/v1/location")
-    suspend fun getLocations(): Response<ApiResponse<LocationObject>>
+    suspend fun getLocations(): Response<ApiResponse<List<Location>>>
 
     @GET("vehicles/v1/vehicle-type")
     suspend fun getVehicleType(): Response<ApiResponse<List<VehicleType>>>
