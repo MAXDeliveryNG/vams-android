@@ -258,7 +258,7 @@ class RegisterVehicleFragment : Fragment() {
                 if (hasConfirm) {
                     registerVehicleViewModel.registerMovement(
                         movementData, args.vehicleId,
-                        args.subReasonId, args.locationToId, args.vehicleMovement
+                        args.subReasonId, args.locationToId
                     )
                 }
             })
