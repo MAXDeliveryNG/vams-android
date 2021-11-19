@@ -147,6 +147,7 @@
         android:id="@+id/completeRegistrationFragment"
         android:name="ng.max.vams.ui.shared.CompleteRegistrationFragment"
         android:label="CompleteRegistrationFragment" >
+<!--        <Remove here>-->
         <argument
             android:name="movementType"
             app:argType="string" />

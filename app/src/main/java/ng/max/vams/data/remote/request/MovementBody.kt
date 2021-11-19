@@ -9,8 +9,6 @@ data class MovementBody (
     var locationFromId: String?,
     @SerializedName("location_to_id")
     var locationToId: String?,
-    @SerializedName("vehicle_movement")
-    var movementType: String,
     @SerializedName("odometer")
     var odormeter: Double?,
     @SerializedName("sub_reason_id")
