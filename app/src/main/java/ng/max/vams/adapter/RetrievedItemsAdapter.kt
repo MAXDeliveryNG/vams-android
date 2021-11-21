@@ -10,7 +10,7 @@ import ng.max.vams.databinding.LayoutRetrievedItemBinding
 class RetrievedItemsAdapter : RecyclerView.Adapter<RetrievedItemsAdapter.RetrievedItemsViewholder>() {
 
     var retrievedItemsMap = mutableMapOf<String, Boolean>()
-    var recoveredItems: List<String> = emptyList()
+    var recoveredItems: List<String?> = emptyList()
         set(newList) {
             field = newList
             notifyDataSetChanged()
@@ -35,7 +35,7 @@ class RetrievedItemsAdapter : RecyclerView.Adapter<RetrievedItemsAdapter.Retriev
     }
 
     override fun onBindViewHolder(holder: RetrievedItemsAdapter.RetrievedItemsViewholder, position: Int) {
-        holder.bind(recoveredItems[position])
+        recoveredItems[position]?.let { holder.bind(it) }
     }
 
     fun setOnItemClickListener(onItemClickListener: (position: Int, isChecked: Boolean)->Unit) {

@@ -65,7 +65,7 @@ class RegisterVehicleFragment : Fragment() {
     private fun setupView() {
 
         bnd.registerHeader.text = args.subReasonName
-        populateRecoveredItemsCheckBoxes()
+        //populateRecoveredItemsCheckBoxes()
         bnd.submitButton.setButtonEnable(false)
         bnd.closeButton.setOnClickListener {
             findNavController().popBackStack()
@@ -87,7 +87,9 @@ class RegisterVehicleFragment : Fragment() {
             val action =
                 RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToVehicleConfirmationFragment(
                     vehicleMaxId = args.vehicleMaxId,
-                    champion = args.champion, reason = args.subReasonName, movementType = args.vehicleMovement
+                    champion = args.champion,
+                    reason = args.subReasonName,
+                    movementType = args.vehicleMovement
                 )
             findNavController().navigate(action)
         }
@@ -134,10 +136,10 @@ class RegisterVehicleFragment : Fragment() {
                                 field?.error = "Please enter $fieldKey"
                                 false
                             } else {
-                                if (fieldKey == "odometer" && value!!.toDoubleOrNull() == null){
+                                if (fieldKey == "odometer" && value!!.toDoubleOrNull() == null) {
                                     field?.error = "Please enter $fieldKey"
                                     false
-                                }else{
+                                } else {
                                     field?.error = null
                                     true
                                 }
@@ -189,12 +191,12 @@ class RegisterVehicleFragment : Fragment() {
     private fun getRequiredKeys(): List<String> {
         return movementData.let { movementData ->
             val retrievedSubReasonId = args.retrievedSubReasonIds.find { it == args.subReasonId }
-            if(retrievedSubReasonId == null){
+            if (retrievedSubReasonId == null) {
                 listOf(
                     movementData.keyLocation,
                     movementData.keyOdometer
                 )
-            }else{
+            } else {
                 listOf(
                     movementData.keyLocation,
                     movementData.keyOdometer,
@@ -235,10 +237,18 @@ class RegisterVehicleFragment : Fragment() {
 
             getRetrivalChecklistItemResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
-                    is Result.Error -> {}
-                    Result.Loading -> {}
+                    is Result.Error -> {
+
+                    }
+                    Result.Loading -> {
+
+                    }
                     is Result.Success -> {
                         recochecklist = result.value
+                        var retrivedList = recochecklist.map {
+                            it.name
+                        }
+                        populateRecoveredItemsCheckBoxes(retrivedList)
                     }
                 }
             }
@@ -284,31 +294,34 @@ class RegisterVehicleFragment : Fragment() {
         }
     }
 
-    private fun populateRecoveredItemsCheckBoxes() {
+    private fun populateRecoveredItemsCheckBoxes(retrivedItems: List<String?>) {
 
         val adapter = RetrievedItemsAdapter()
-        val recoveredItems = resources.getStringArray(R.array.recovered_items).toList()
+
         adapter.setOnItemClickListener { position, isChecked ->
             val name = adapter.recoveredItems[position]
             if (isChecked) {
-                recoveredItemList.add(name)
+                if (name != null) {
+                    recoveredItemList.add(name)
+                }
             } else {
                 recoveredItemList.remove(name)
             }
             movementData.recoveredItems = recoveredItemList
             val retrievedSubReasonId = args.retrievedSubReasonIds.find { it == args.subReasonId }
-            if (retrievedSubReasonId == null){
-                bnd.submitButton.setButtonEnable(isRequiredFieldsProvided()
-                        && recoveredItemList.count() != 0)
+            if (retrievedSubReasonId == null) {
+                bnd.submitButton.setButtonEnable(
+                    isRequiredFieldsProvided()
+                            && recoveredItemList.count() != 0
+                )
             }
         }
-        bnd.retrievedItemsRv.adapter =  adapter
-        adapter.recoveredItems = recoveredItems
+        bnd.retrievedItemsRv.adapter = adapter
+        adapter.recoveredItems = retrivedItems
     }
 
     private fun cleanVehicleTable(id: String) {
         registerVehicleViewModel.deleteVehicle(id)
     }
-
 
 }

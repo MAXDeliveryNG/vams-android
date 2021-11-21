@@ -10,11 +10,11 @@ import ng.max.vams.data.remote.response.RetrivalChecklistItem
 @Dao
 interface RetrivalChecklistDao {
 
-        @Insert(onConflict = OnConflictStrategy.REPLACE)
-        fun saveRetrivalChecklist(retrivalChecklist: List<RetrivalChecklistItem>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveRetrivalChecklist(retrivalChecklist: List<RetrivalChecklistItem>)
 
-        @Query("SELECT * FROM RetrivalChecklistItem")
-        fun getRetrivalChecklistDb() : Flow<List<RetrivalChecklistItem>>
+    @Query("SELECT * FROM RetrivalChecklistItem")
+    fun getRetrivalChecklistDb(): Flow<List<RetrivalChecklistItem>>
 
 
 }

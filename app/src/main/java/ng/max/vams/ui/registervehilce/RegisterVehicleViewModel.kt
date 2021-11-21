@@ -33,7 +33,8 @@ class RegisterVehicleViewModel @Inject constructor(
 
     val getLocationResponse: LiveData<Result<Location>> = locationResponse
     val getLocationsResponse: LiveData<Result<List<Location>>> = locationsResponse
-    val getRetrivalChecklistItemResponse : LiveData<Result<List<RetrivalChecklistItem>>> = retrivalChecklistResponse
+    val getRetrivalChecklistItemResponse: LiveData<Result<List<RetrivalChecklistItem>>> =
+        retrivalChecklistResponse
     val getRegisterMovementResponse: LiveData<Result<Vehicle>> = registerMovementResponse
 
 
@@ -65,8 +66,9 @@ class RegisterVehicleViewModel @Inject constructor(
 
     }
 
-    fun registerMovement(movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: String?
-                         ) {
+    fun registerMovement(
+        movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: String?
+    ) {
         registerMovementResponse.value = Result.Loading
         viewModelScope.launch {
             val movementBody = movementData.toMovementBody()
@@ -84,7 +86,8 @@ class RegisterVehicleViewModel @Inject constructor(
     }
 
     fun deleteVehicle(id: String) {
-        viewModelScope.launch(Dispatchers.IO
+        viewModelScope.launch(
+            Dispatchers.IO
         ) {
             vehicleRepo.deleteVehicle(id)
         }
