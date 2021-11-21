@@ -18,6 +18,7 @@ import ng.max.vams.R
 import ng.max.vams.adapter.RetrievedItemsAdapter
 import ng.max.vams.data.MovementData
 import ng.max.vams.data.remote.response.Location
+import ng.max.vams.data.remote.response.RetrivalChecklistItem
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.RegisterVehicleFragmentBinding
 import ng.max.vams.ui.assetreason.VehicleConfirmationViewModel
@@ -41,6 +42,7 @@ class RegisterVehicleFragment : Fragment() {
     private var valueMap: HashMap<String, String> = HashMap()
     private val recoveredItemList: ArrayList<String> = ArrayList()
     private var locations = listOf<Location>()
+    private var recochecklist = listOf<RetrivalChecklistItem>()
 
 
     override fun onCreateView(
@@ -231,6 +233,16 @@ class RegisterVehicleFragment : Fragment() {
                 }
             }
 
+            getRetrivalChecklistItemResponse.observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Result.Error -> {}
+                    Result.Loading -> {}
+                    is Result.Success -> {
+                        recochecklist = result.value
+                    }
+                }
+            }
+
 
             getRegisterMovementResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
@@ -264,6 +276,7 @@ class RegisterVehicleFragment : Fragment() {
             })
 //            actionGetLocationById(args.locationId)
             actionGetAllLocation()
+            actionGetRetrivalChecklist()
         }
 
         sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
