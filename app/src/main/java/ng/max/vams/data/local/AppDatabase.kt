@@ -6,16 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ng.max.vams.data.local.converter.Converters
-import ng.max.vams.data.local.dao.LocationDao
-import ng.max.vams.data.local.dao.ReasonDao
-import ng.max.vams.data.local.dao.VehicleDao
-import ng.max.vams.data.local.dao.VehicleTypeDao
+import ng.max.vams.data.local.dao.*
 import ng.max.vams.data.remote.response.Location
 import ng.max.vams.data.remote.response.Reason
+import ng.max.vams.data.remote.response.RetrivalChecklistItem
 import ng.max.vams.data.remote.response.VehicleType
 
 @Database(version = 3, entities = [DbVehicle::class, Reason::class,
-    Location::class, VehicleType::class], exportSchema = false)
+    Location::class, VehicleType::class, RetrivalChecklistItem::class], exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase(){
 
@@ -23,6 +21,7 @@ abstract class AppDatabase : RoomDatabase(){
     abstract fun reasonDao(): ReasonDao
     abstract fun locationDao(): LocationDao
     abstract fun vehicleTypeDao(): VehicleTypeDao
+    abstract fun retrivalChecklistDao() : RetrivalChecklistDao
 
     companion object {
         private const val DB_NAME = "max-vams.db"
