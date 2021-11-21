@@ -9,6 +9,7 @@ const val REASON_TEMP = "ReasonNew"
 const val REASON = "Reason"
 const val LOCATION_TEMP = "LocationNew"
 const val LOCATION = "Location"
+const val RETRIEVAL_CHECK_LIST = "RetrivalChecklistItem"
 
 val MIGRATION_1_2: Migration = object : Migration(1, 2){
     override fun migrate(database: SupportSQLiteDatabase) {
@@ -69,4 +70,18 @@ val MIGRATION_2_3: Migration = object : Migration(2, 3){
         database.execSQL("ALTER TABLE $LOCATION_TEMP RENAME TO $LOCATION")
         database.execSQL("ALTER TABLE $VEHICLE_TEMP RENAME TO $VEHICLE")
     }
+}
+
+val MIGRATION_3_4: Migration = object : Migration(3, 4){
+    override fun migrate(database: SupportSQLiteDatabase) {
+
+        database.execSQL(
+            "CREATE TABLE IF NOT EXISTS $RETRIEVAL_CHECK_LIST (`createdAt` TEXT NOT NULL, " +
+            "`id` TEXT NOT NULL, `name` TEXT NOT NULL, `slug` TEXT NOT NULL, " +
+                    " `updatedAt` TEXT, PRIMARY KEY(`id`) )"
+
+        )
+
+    }
+
 }

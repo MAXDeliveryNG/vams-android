@@ -11,11 +11,11 @@ data class RetrivalChecklistItem(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")
-    val name: String?,
+    val name: String,
     @SerializedName("slug")
-    val slug: String?,
+    val slug: String,
     @SerializedName("created_at")
-    val createdAt: String?,
+    val createdAt: String,
     @SerializedName("updated_at")
     val updatedAt: String?
 )
