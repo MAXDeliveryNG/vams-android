@@ -245,14 +245,13 @@ class RegisterVehicleFragment : Fragment() {
                     }
                     is Result.Success -> {
                         recochecklist = result.value
-                        var retrivedList = recochecklist.map {
-                            it.name
+                        val retrivedList = recochecklist.map {
+                            it
                         }
                         populateRecoveredItemsCheckBoxes(retrivedList)
                     }
                 }
             }
-
 
             getRegisterMovementResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
@@ -273,7 +272,6 @@ class RegisterVehicleFragment : Fragment() {
                         findNavController().navigate(action)
                     }
                 }
-
             }
 
             sharedViewModel.getConfirmationResponse.observe(viewLifecycleOwner, { hasConfirm ->
@@ -294,7 +292,7 @@ class RegisterVehicleFragment : Fragment() {
         }
     }
 
-    private fun populateRecoveredItemsCheckBoxes(retrivedItems: List<String?>) {
+    private fun populateRecoveredItemsCheckBoxes(retrivedItems: List<RetrivalChecklistItem?>) {
 
         val adapter = RetrievedItemsAdapter()
 
@@ -302,10 +300,10 @@ class RegisterVehicleFragment : Fragment() {
             val name = adapter.recoveredItems[position]
             if (isChecked) {
                 if (name != null) {
-                    recoveredItemList.add(name)
+                    recoveredItemList.add(name.id)
                 }
             } else {
-                recoveredItemList.remove(name)
+                recoveredItemList.remove(name?.id)
             }
             movementData.recoveredItems = recoveredItemList
             val retrievedSubReasonId = args.retrievedSubReasonIds.find { it == args.subReasonId }
