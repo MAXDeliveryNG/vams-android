@@ -14,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.BR
-import ng.max.vams.R
 import ng.max.vams.adapter.RetrievedItemsAdapter
 import ng.max.vams.data.MovementData
 import ng.max.vams.data.remote.response.Location
@@ -292,18 +291,16 @@ class RegisterVehicleFragment : Fragment() {
         }
     }
 
-    private fun populateRecoveredItemsCheckBoxes(retrivedItems: List<RetrivalChecklistItem?>) {
+    private fun populateRecoveredItemsCheckBoxes(retrivedItems: List<RetrivalChecklistItem>) {
 
         val adapter = RetrievedItemsAdapter()
 
         adapter.setOnItemClickListener { position, isChecked ->
-            val name = adapter.recoveredItems[position]
+            val retrievalChecklistItem = adapter.recoveredItems[position]
             if (isChecked) {
-                if (name != null) {
-                    recoveredItemList.add(name.id)
-                }
+                recoveredItemList.add(retrievalChecklistItem.id)
             } else {
-                recoveredItemList.remove(name?.id)
+                recoveredItemList.remove(retrievalChecklistItem.id)
             }
             movementData.recoveredItems = recoveredItemList
             val retrievedSubReasonId = args.retrievedSubReasonIds.find { it == args.subReasonId }

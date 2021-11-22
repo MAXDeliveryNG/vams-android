@@ -11,7 +11,7 @@ import ng.max.vams.databinding.LayoutRetrievedItemBinding
 class RetrievedItemsAdapter : RecyclerView.Adapter<RetrievedItemsAdapter.RetrievedItemsViewholder>() {
 
     var retrievedItemsMap = mutableMapOf<String, Boolean>()
-    var recoveredItems: List<RetrivalChecklistItem?> = emptyList()
+    var recoveredItems: List<RetrivalChecklistItem> = emptyList()
         set(newList) {
             field = newList
             notifyDataSetChanged()
