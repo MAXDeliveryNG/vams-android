@@ -113,6 +113,29 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
         }
     }
 
+    suspend fun getRetrivalChecklist() : Result<List<RetrivalChecklistItem>> {
+        try{
+            val response = vehicleService.recoveredItemsChecklist()
+            if(response.isSuccessful){
+                val body = response.body()
+                if (body != null) {
+                    return Result.Success(body.responseData!!)
+                }
+            }
+            val errorResponse = response.errorBody()?.string()!!
+            return try {
+                val message =
+                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                Result.Error(message)
+            }catch (ex: Exception){
+                return Result.Error("Error getting Checklist Data ${response.code()}")
+            }
+        }catch (ex: Exception){
+            return Result.Error(ex.localizedMessage!!)
+        }
+    }
+
+
     suspend fun getMovementStat(): Result<MovementStat> {
         try {
             val response = vehicleService.getMovementStat()

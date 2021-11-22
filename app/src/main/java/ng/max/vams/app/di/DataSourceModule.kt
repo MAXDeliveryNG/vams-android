@@ -6,12 +6,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementReasonRepository
+import ng.max.vams.data.RetrivalChecklistRepository
 import ng.max.vams.data.VehicleTypeRepository
 import ng.max.vams.data.local.AppDatabase
-import ng.max.vams.data.local.dao.LocationDao
-import ng.max.vams.data.local.dao.ReasonDao
-import ng.max.vams.data.local.dao.VehicleDao
-import ng.max.vams.data.local.dao.VehicleTypeDao
+import ng.max.vams.data.local.dao.*
 import ng.max.vams.data.remote.RemoteDataSource
 import ng.max.vams.data.remote.services.UserService
 import ng.max.vams.data.remote.services.VehicleService
@@ -61,6 +59,11 @@ object DataSourceModule{
     }
 
     @Provides
+    fun providesRetrivalChecklistDao(appDatabase: AppDatabase): RetrivalChecklistDao {
+        return appDatabase.retrivalChecklistDao()
+    }
+
+    @Provides
     fun provideLoginUseCase(userService: UserService): LoginUseCase =
         LoginUseCase(userService)
 
@@ -89,8 +92,9 @@ object DataSourceModule{
     fun provideVehicleTypeRepository(vehicleTypeDao: VehicleTypeDao, remoteDataSource: RemoteDataSource): VehicleTypeRepository =
         VehicleTypeRepository(vehicleTypeDao, remoteDataSource)
 
-
-
+    @Provides
+    fun provideRetrivalChecklistRepository(retrivalChecklistDao: RetrivalChecklistDao, remoteDataSource: RemoteDataSource) : RetrivalChecklistRepository =
+        RetrivalChecklistRepository(retrivalChecklistDao, remoteDataSource)
 
 
 }

@@ -43,4 +43,8 @@ interface VehicleService {
     @POST("vehicles/v1/vehicle/movement/change")
     suspend fun registerVehicleMovement(@Body movementBody: MovementBody): Response<ApiResponse<Vehicle>>
 
+    @GET("vehicles/v1/checklist")
+    suspend fun recoveredItemsChecklist(): Response<ApiResponse<List<RetrivalChecklistItem>>>
+
+
 }
