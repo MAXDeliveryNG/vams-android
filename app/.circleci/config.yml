@@ -51,8 +51,7 @@ jobs:
                                               - store_artifacts:
                                               path: ~/test-results/junit
 
-
-  release-build:
+  staging-release-build:
     executor:
       name: android/android-machine
       resource-class: xlarge
@@ -61,11 +60,26 @@ jobs:
       - android/restore-gradle-cache
       - android/restore-build-cache
       - run:
-          name: Assemble release build
+          name: Assemble staging release build
           command: |
-            ./gradlew assembleRelease
+            ./gradlew assembleStagingRelease
       - store_artifacts:
-          path: app/build/outputs/apk/release
+          path: app/build/outputs/apk/staging/release
+
+  prod-release-build:
+    executor:
+      name: android/android-machine
+      resource-class: xlarge
+    steps:
+      - checkout
+      - android/restore-gradle-cache
+      - android/restore-build-cache
+      - run:
+          name: Assemble production release build
+          command: |
+            ./gradlew assembleProductionRelease
+      - store_artifacts:
+          path: app/build/outputs/apk/production/release
 
 workflows:
   test-and-build:
@@ -74,7 +88,9 @@ workflows:
       - android-test: # Commits to any branch - skip matrix of devices
           filters:
             branches:
-              ignore: master
+              ignore:
+               - master
+               - staging
       - android-test: # Commits to master branch only - run full matrix
           matrix:
             alias: android-test-all
@@ -91,8 +107,17 @@ workflows:
           name: android-test-<<matrix.system-image>>
           filters:
             branches:
-              only: master
-      - release-build:
+              only:
+                - master
+                - staging
+      - staging-release-build:
+          requires:
+            - unit-test
+            - android-test-all
+          filters:
+            branches:
+              only: staging # Commits to staging branch
+      - prod-release-build:
           requires:
             - unit-test
             - android-test-all
