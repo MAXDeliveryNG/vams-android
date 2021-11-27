@@ -85,13 +85,13 @@ workflows:
   test-and-build:
     jobs:
       - unit-test
-      - android-test: # Commits to any branch - skip matrix of devices
+      - android-test:
           filters:
             branches:
               ignore:
                - master
                - staging
-      - android-test: # Commits to master branch only - run full matrix
+      - android-test:
           matrix:
             alias: android-test-all
             parameters:
@@ -116,11 +116,11 @@ workflows:
             - android-test-all
           filters:
             branches:
-              only: staging # Commits to staging branch
+              only: staging
       - prod-release-build:
           requires:
             - unit-test
             - android-test-all
           filters:
             branches:
-              only: master # Commits to master branch
+              only: master
