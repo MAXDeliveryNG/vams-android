@@ -136,9 +136,7 @@ class HomeFragment : Fragment() {
 
         usernameTextView.text = user?.fullName
         emailTextView.text = user?.email
-        roleTextView.text = user?.role?.replaceFirstChar {
-            if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-        }
+        roleTextView.text = formatUserRole(user?.role)
 
         viewProfileTextView.setOnClickListener {
             popupWindow.dismiss()
@@ -189,6 +187,16 @@ class HomeFragment : Fragment() {
             bnd.errorView.gone()
             bnd.dataView.show()
             bnd.bottomView.show()
+        }
+    }
+
+    private fun formatUserRole(role: String?) : String {
+        return when(role){
+            "agent" -> "Agent"
+            "super_admin" -> "Super Admin"
+            "fleet_officer" -> "Fleet Officer"
+            "admin" -> "Admin"
+            else -> "Test"
         }
     }
 
