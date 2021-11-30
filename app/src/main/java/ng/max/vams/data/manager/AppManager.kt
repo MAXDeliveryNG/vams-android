@@ -5,6 +5,9 @@ class AppManager {
     companion object{
         private lateinit var prefsManager: SharedPrefsManager
         private const val vehicleTableTag = "VEHICLE"
+        private const val vnubanBankNameTag = "bank_name"
+        private const val vnubanAcctNumberTag = "acct_number"
+
 
         fun initPrefsManager(pref: SharedPrefsManager){
             prefsManager = pref
