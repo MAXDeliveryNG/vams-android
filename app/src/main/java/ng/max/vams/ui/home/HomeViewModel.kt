@@ -34,6 +34,8 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
     private val movementStatResponse = MutableLiveData<Result<MovementStat>>()
     private val userRoleResponse = MutableLiveData<Result<RoleData>>()
 
+    val getUserRoleResponse: LiveData<Result<RoleData>> = userRoleResponse
+
     val getMovementStatResponse: LiveData<Result<MovementStat>> = movementStatResponse
 
     fun actionGetMovementStat() {
@@ -67,21 +69,8 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
     }
 
     fun getUserRole(userId: String){
-        userRoleResponse.value = Result.Loading
         viewModelScope.launch {
-            when (val result = userRoleUseCase.invokeRole(userId)) {
-                is Result.Success -> {
-                    val userRoleData = result.value
-                    AppManager.saveUserRole(userRoleData.role.name)
-                    userRoleResponse.value = Result.Success(userRoleData)
-                }
-                is Result.Error -> {
-                    userRoleResponse.value = Result.Error(result.message)
-                }
-                is Result.Loading -> {
-                    userRoleResponse.value = Result.Loading
-                }
-            }
+            userRoleResponse.value = userRoleUseCase.invokeRole(userId)
         }
     }
 }

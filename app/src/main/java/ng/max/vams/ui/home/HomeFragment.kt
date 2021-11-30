@@ -84,7 +84,6 @@ class HomeFragment : Fragment() {
         }
 
         bnd.profileIcon.setOnClickListener {
-            UserManager.getUser()?.let { user -> homeViewModel.getUserRole(user.id) }
             displayPopup()
         }
         bnd.fab.setOnClickListener {
@@ -134,10 +133,19 @@ class HomeFragment : Fragment() {
         val roleTextView = popupView.findViewById<TextView>(R.id.profileRoleTv)
         val viewProfileTextView = popupView.findViewById<TextView>(R.id.viewProfileTv)
 
-
         usernameTextView.text = user?.fullName
         emailTextView.text = user?.email
-        roleTextView.text = formatUserRole(AppManager.getUserRole())
+        user?.let { homeViewModel.getUserRole(it.id) }
+        homeViewModel.getUserRoleResponse.observe(viewLifecycleOwner,{ fullRole ->
+            when(fullRole){
+                is Result.Error -> {}
+                is Result.Loading -> {}
+                is Result.Success -> {
+                    AppManager.saveUserRole(fullRole.value.role.name)
+                    roleTextView.text = formatUserRole(AppManager.getUserRole())
+                }
+            }
+        })
 
         viewProfileTextView.setOnClickListener {
             popupWindow.dismiss()
