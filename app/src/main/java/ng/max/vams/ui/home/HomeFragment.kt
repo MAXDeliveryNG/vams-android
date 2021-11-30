@@ -135,14 +135,13 @@ class HomeFragment : Fragment() {
 
         usernameTextView.text = user?.fullName
         emailTextView.text = user?.email
-        user?.let { homeViewModel.getUserRole(it.id) }
         homeViewModel.getUserRoleResponse.observe(viewLifecycleOwner,{ fullRole ->
             when(fullRole){
                 is Result.Error -> {}
                 is Result.Loading -> {}
                 is Result.Success -> {
-                    AppManager.saveUserRole(fullRole.value.role.name)
-                    roleTextView.text = formatUserRole(AppManager.getUserRole())
+                    UserManager.saveUserRole(fullRole.value.role.name)
+                    roleTextView.text = formatUserRole(UserManager.getUserRole())
                 }
             }
         })
@@ -185,6 +184,8 @@ class HomeFragment : Fragment() {
             homeViewModel.clearVehicleTable()
             AppManager.setVehicleTableFlag(-1)
         }
+        user?.let { homeViewModel.getUserRole(it.id) }
+
     }
 
     private fun showErrorView(isError: Boolean) {
