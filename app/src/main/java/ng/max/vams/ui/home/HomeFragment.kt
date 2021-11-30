@@ -21,6 +21,7 @@ import coil.transform.CircleCropTransformation
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.data.manager.AppManager
+import ng.max.vams.data.manager.UserManager
 import ng.max.vams.data.remote.response.User
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.HomeFragmentBinding
@@ -28,7 +29,6 @@ import ng.max.vams.ui.login.LoginViewModel
 import ng.max.vams.util.Helper
 import ng.max.vams.util.gone
 import ng.max.vams.util.show
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -84,6 +84,7 @@ class HomeFragment : Fragment() {
         }
 
         bnd.profileIcon.setOnClickListener {
+            UserManager.getUser()?.let { user -> homeViewModel.getUserRole(user.id) }
             displayPopup()
         }
         bnd.fab.setOnClickListener {
@@ -136,7 +137,7 @@ class HomeFragment : Fragment() {
 
         usernameTextView.text = user?.fullName
         emailTextView.text = user?.email
-        roleTextView.text = formatUserRole(user?.role)
+        roleTextView.text = formatUserRole(AppManager.getUserRole())
 
         viewProfileTextView.setOnClickListener {
             popupWindow.dismiss()

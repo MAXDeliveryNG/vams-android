@@ -12,9 +12,7 @@ import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementData
 import ng.max.vams.data.RetrivalChecklistRepository
 import ng.max.vams.data.VehicleRepository
-import ng.max.vams.data.remote.response.Location
-import ng.max.vams.data.remote.response.RetrivalChecklistItem
-import ng.max.vams.data.remote.response.Vehicle
+import ng.max.vams.data.remote.response.*
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.usecase.vehiclemovement.RegisterVehicleMovementUseCase
 import javax.inject.Inject
@@ -24,7 +22,7 @@ class RegisterVehicleViewModel @Inject constructor(
     private val locationRepo: LocationRepository,
     private val vehicleRepo: VehicleRepository,
     private val retrivalChecklistRepo: RetrivalChecklistRepository,
-    private val registerVehicleMovementUseCase: RegisterVehicleMovementUseCase
+    private val registerVehicleMovementUseCase: RegisterVehicleMovementUseCase,
 ) : ViewModel() {
     private val locationResponse = MutableLiveData<Result<Location>>()
     private val locationsResponse = MutableLiveData<Result<List<Location>>>()

@@ -2,7 +2,6 @@ package ng.max.vams.data.remote.services
 
 import ng.max.vams.data.remote.request.MovementBody
 import ng.max.vams.data.remote.response.*
-import okhttp3.internal.userAgent
 import retrofit2.Response
 import retrofit2.http.*
 
