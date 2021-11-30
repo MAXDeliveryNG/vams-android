@@ -37,6 +37,8 @@ jobs:
       resource-class: xlarge
     steps:
       - checkout
+      - post-emulator-launch-assemble-command:
+          default: ./gradlew assembleStagingDebugAndroidTest
       - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedStagingDebugAndroidTest
           system-image: << parameters.system-image >>
