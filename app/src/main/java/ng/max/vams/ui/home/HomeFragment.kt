@@ -27,6 +27,7 @@ import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.HomeFragmentBinding
 import ng.max.vams.ui.login.LoginViewModel
 import ng.max.vams.util.Helper
+import ng.max.vams.util.Helper.Companion.formatUserRole
 import ng.max.vams.util.gone
 import ng.max.vams.util.show
 
@@ -135,16 +136,10 @@ class HomeFragment : Fragment() {
 
         usernameTextView.text = user?.fullName
         emailTextView.text = user?.email
-        homeViewModel.getUserRoleResponse.observe(viewLifecycleOwner,{ fullRole ->
-            when(fullRole){
-                is Result.Error -> {}
-                is Result.Loading -> {}
-                is Result.Success -> {
-                    UserManager.saveUserRole(fullRole.value.role.name)
-                    roleTextView.text = formatUserRole(UserManager.getUserRole())
-                }
-            }
-        })
+        if(user?.let{ it.role.isEmpty() } == true){
+            user?.let { homeViewModel.getUserRole(it.id) }
+        }
+        roleTextView.text = formatUserRole(UserManager.getUserRole())
 
         viewProfileTextView.setOnClickListener {
             popupWindow.dismiss()
@@ -184,8 +179,18 @@ class HomeFragment : Fragment() {
             homeViewModel.clearVehicleTable()
             AppManager.setVehicleTableFlag(-1)
         }
+
         user?.let { homeViewModel.getUserRole(it.id) }
 
+        homeViewModel.getUserRoleResponse.observe(viewLifecycleOwner,{ fullRole ->
+            when(fullRole){
+                is Result.Error -> {}
+                is Result.Loading -> {}
+                is Result.Success -> {
+                    UserManager.saveUserRole(fullRole.value.role.name)
+                }
+            }
+        })
     }
 
     private fun showErrorView(isError: Boolean) {
@@ -197,16 +202,6 @@ class HomeFragment : Fragment() {
             bnd.errorView.gone()
             bnd.dataView.show()
             bnd.bottomView.show()
-        }
-    }
-
-    private fun formatUserRole(role: String?) : String {
-        return when(role){
-            "agent" -> "Agent"
-            "super_admin" -> "Super Admin"
-            "fleet_officer" -> "Fleet Officer"
-            "admin" -> "Admin"
-            else -> "Test"
         }
     }
 

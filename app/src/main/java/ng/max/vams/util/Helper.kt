@@ -32,6 +32,16 @@ class Helper {
 
             return "Today, $str"
         }
+
+        fun formatUserRole(role: String?) : String {
+            return when(role){
+                "agent" -> "Agent"
+                "super_admin" -> "Super Admin"
+                "fleet_officer" -> "Fleet Officer"
+                "admin" -> "Admin"
+                else -> "Test"
+            }
+        }
     }
 }
 

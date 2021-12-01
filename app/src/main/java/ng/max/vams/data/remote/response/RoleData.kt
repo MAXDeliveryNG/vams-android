@@ -1,23 +1,44 @@
 package ng.max.vams.data.remote.response
 
+import com.google.gson.annotations.SerializedName
+
 data class RoleData(
-    val created_at: String,
-    val deleted_at: Any,
+    @SerializedName("created_at")
+    val createdAt: String,
+    @SerializedName("deleted_at")
+    val deletedAt: Any,
+    @SerializedName("email")
     val email: String,
-    val email_verified: Boolean,
-    val first_name: String,
+    @SerializedName("email_verified")
+    val emailVerified: Boolean,
+    @SerializedName("first_name")
+    val firstName: String,
+    @SerializedName("gender")
     val gender: Any,
-    val last_name: String,
-    val old_account: Boolean,
+    @SerializedName("last_name")
+    val lastName: String,
+    @SerializedName("old_account")
+    val oldAccount: Boolean,
+    @SerializedName("phone")
     val phone: String,
-    val phone_verified: Boolean,
+    @SerializedName("phone_verified")
+    val phoneVerified: Boolean,
+    @SerializedName("photo")
     val photo: String,
-    val referral_applied: Boolean,
-    val referral_code: String,
+    @SerializedName("referral_applied")
+    val referralApplied: Boolean,
+    @SerializedName("referral_code")
+    val referralCode: String,
+    @SerializedName("referrals")
     val referrals: Int,
-    val referrals_unused: Int,
+    @SerializedName("referrals_unused")
+    val referralsUnused: Int,
+    @SerializedName("role")
     val role: Role,
+    @SerializedName("status")
     val status: String,
-    val updated_at: Any,
-    val user_account_id: String
+    @SerializedName("updated_at")
+    val updatedAt: Any,
+    @SerializedName("user_account_id")
+    val userAccountId: String
 )
