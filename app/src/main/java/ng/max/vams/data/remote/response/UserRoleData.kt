@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UserRoleData(
     @SerializedName("data")
-    val `data`: RoleData,
+    val roleData: RoleData,
     @SerializedName("message")
     val message: String,
     @SerializedName("status")
