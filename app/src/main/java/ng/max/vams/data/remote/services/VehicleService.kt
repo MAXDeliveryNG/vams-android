@@ -3,10 +3,7 @@ package ng.max.vams.data.remote.services
 import ng.max.vams.data.remote.request.MovementBody
 import ng.max.vams.data.remote.response.*
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface VehicleService {
 
@@ -46,5 +43,7 @@ interface VehicleService {
     @GET("vehicles/v1/checklist")
     suspend fun recoveredItemsChecklist(): Response<ApiResponse<List<RetrivalChecklistItem>>>
 
+    @GET("vehicles/v1/user-managment/getUser/{user_id}")
+    suspend fun getUserRole(@Path("user_id")userId: String): Response<ApiResponse<RoleData>>
 
 }

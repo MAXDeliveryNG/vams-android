@@ -135,6 +135,25 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
         }
     }
 
+    suspend fun getUserRole(userId: String): Result<RoleData> {
+        return try {
+            val response = vehicleService.getUserRole(userId)
+            return if (response.isSuccessful){
+                Result.Success(response.body()?.getData()!!)
+            }else{
+                val errorResponse = response.errorBody()?.string()!!
+                try {
+                    val message = Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                    Result.Error(message)
+                }catch (ex: Exception){
+                    val message = Gson().fromJson(errorResponse, ErrorResponse::class.java).getData()?.first()?.message!!
+                    Result.Error(message)
+                }
+            }
+        }catch (ex: Exception){
+            Result.Error(ex.localizedMessage!!)
+        }
+    }
 
     suspend fun getMovementStat(): Result<MovementStat> {
         try {

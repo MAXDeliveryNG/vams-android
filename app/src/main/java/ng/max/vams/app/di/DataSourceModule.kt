@@ -15,6 +15,7 @@ import ng.max.vams.data.remote.services.UserService
 import ng.max.vams.data.remote.services.VehicleService
 import ng.max.vams.usecase.login.LoginUseCase
 import ng.max.vams.usecase.search.SearchUseCase
+import ng.max.vams.usecase.userrole.UserRoleUseCase
 import ng.max.vams.usecase.vehiclelist.VehicleListUseCase
 import ng.max.vams.usecase.vehiclemovement.RegisterVehicleMovementUseCase
 import retrofit2.Retrofit
@@ -78,6 +79,10 @@ object DataSourceModule{
     @Provides
     fun provideRegisterVehicleMovementUseCase(remoteDataSource: RemoteDataSource): RegisterVehicleMovementUseCase =
         RegisterVehicleMovementUseCase(remoteDataSource)
+
+    @Provides
+    fun provideUserRoleUseCase(remoteDataSource: RemoteDataSource): UserRoleUseCase =
+        UserRoleUseCase(remoteDataSource)
 
     @Provides
     fun provideMovementReasonRepository(reasonDao: ReasonDao, remoteData: RemoteDataSource): MovementReasonRepository =

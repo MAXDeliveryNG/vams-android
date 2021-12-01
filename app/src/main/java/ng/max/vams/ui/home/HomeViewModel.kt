@@ -11,9 +11,12 @@ import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementReasonRepository
 import ng.max.vams.data.VehicleRepository
 import ng.max.vams.data.VehicleTypeRepository
+import ng.max.vams.data.manager.AppManager
 import ng.max.vams.data.remote.RemoteDataSource
 import ng.max.vams.data.remote.response.MovementStat
+import ng.max.vams.data.remote.response.RoleData
 import ng.max.vams.data.wrapper.Result
+import ng.max.vams.usecase.userrole.UserRoleUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,11 +25,16 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
                                         private val vehicleRepo: VehicleRepository,
                                         private val locationRepo: LocationRepository,
                                         private val vehicleTypeRepo: VehicleTypeRepository,
-                                        private val movementReasonRepo: MovementReasonRepository
+                                        private val movementReasonRepo: MovementReasonRepository,
+                                        private val userRoleUseCase: UserRoleUseCase
+
 ) :
     ViewModel() {
 
     private val movementStatResponse = MutableLiveData<Result<MovementStat>>()
+    private val userRoleResponse = MutableLiveData<Result<RoleData>>()
+
+    val getUserRoleResponse: LiveData<Result<RoleData>> = userRoleResponse
 
     val getMovementStatResponse: LiveData<Result<MovementStat>> = movementStatResponse
 
@@ -57,6 +65,12 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
     fun clearVehicleTable() {
         viewModelScope.launch(Dispatchers.IO) {
             vehicleRepo.deleteVehicleData()
+        }
+    }
+
+    fun getUserRole(userId: String){
+        viewModelScope.launch {
+            userRoleResponse.value = userRoleUseCase.invokeRole(userId)
         }
     }
 }
