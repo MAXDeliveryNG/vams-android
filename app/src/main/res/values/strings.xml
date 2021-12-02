@@ -32,10 +32,10 @@
 
     <string name="back_to_dashboard_label">back to dashboard</string>
     <string name="you_have_successfully_label">You have successfully %s</string>
-    <string name="dialog_entry_label">New Entry</string>
+    <string name="dialog_entry_label">Add Entry (Check-in Vehicle)</string>
     <string name="dialog_entry_sub_label">Check in vehicles.</string>
     <string name="dialog_exit_sub_label">Check out vehicles.</string>
-    <string name="dialog_exit_label">New Exit</string>
+    <string name="dialog_exit_label">Add Exit (Check-out Vehicle)</string>
     <string name="registered_by_label">Registered By</string>
     <string name="odometer_label">Odometer</string>
     <string name="time_of_entry_label">Time of entry</string>

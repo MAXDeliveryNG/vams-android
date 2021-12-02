@@ -17,7 +17,7 @@ class MovementTypeStateView @JvmOverloads constructor(
         val ta: TypedArray =
             context.obtainStyledAttributes(attributeSet, R.styleable.MovementTypeStateView)
         typeTitleTv.text = ta.getString(R.styleable.MovementTypeStateView_title)
-        typeSubtitleTv.text = ta.getString(R.styleable.MovementTypeStateView_subTitle)
+//        typeSubtitleTv.text = ta.getString(R.styleable.MovementTypeStateView_subTitle)
         val iconDrawable = ta.getDrawable(R.styleable.MovementTypeStateView_icon)
         typeIcon.setImageDrawable(iconDrawable)
 
