@@ -106,6 +106,14 @@ class PlateNumberSearchFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        if(args.movementType == "entry"){
+            bnd.searchToolbar.text = getString(R.string.dialog_entry_label).uppercase()
+            bnd.searchInfoTip.text = getString(R.string.entry_search_info_tip)
+        }else{
+            bnd.searchToolbar.text = getString(R.string.dialog_exit_label).uppercase()
+            bnd.searchInfoTip.text = getString(R.string.exit_search_info_tip)
+        }
+
         bnd.plateNumberEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }

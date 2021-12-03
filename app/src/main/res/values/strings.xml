@@ -83,6 +83,8 @@
     <string name="retrieval_agent_label">Retrieval Agent</string>
     <string name="enter_retrieval_agent_hint">Enter retrieval agent</string>
     <string name="items_to_retrieve_label">Items to retrieve</string>
+    <string name="entry_search_info_tip">All vehicles here are Active</string>
+    <string name="exit_search_info_tip">All vehicles here are Inactive</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>
