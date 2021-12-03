@@ -3,6 +3,7 @@ package ng.max.vams.ui.registervehilce
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -97,7 +98,11 @@ class PlateNumberSearchFragment : Fragment() {
         } else {
             manageContentViews(true)
             sharedViewModel.submitData(CaptureMovementData(args.movementType, vehicle))
-            findNavController().navigate(R.id.selectMovementReasonFragment)
+//            findNavController().navigate(R.id.selectMovementReasonFragment)
+            Log.d("TAGVEHICLEID", "navigateToVehicleDetail: ${vehicle.id} , ${vehicle.maxVehicleId} ")
+            val action = PlateNumberSearchFragmentDirections.actionPlateNumberSearchFragmentToVehicleDetailFragment(vehicle.id)
+
+            findNavController().navigate(action)
         }
     }
 

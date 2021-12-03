@@ -80,8 +80,8 @@ class VehicleListFragment : Fragment() {
         vehicleAdapter.viewType = 0
         vehicleAdapter.setOnItemClickListener { position ->
             val vehicle = vehicleAdapter.adapterList[position] as DbVehicle
-            val action = VehicleListFragmentDirections.actionVehicleListFragmentToVehicleDetailFragment(vehicle.id)
-            findNavController().navigate(action)
+//            val action = VehicleListFragmentDirections.actionVehicleListFragmentToVehicleDetailFragment(vehicle.id)
+//            findNavController().navigate(action)
         }
         bnd.vehicleRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
