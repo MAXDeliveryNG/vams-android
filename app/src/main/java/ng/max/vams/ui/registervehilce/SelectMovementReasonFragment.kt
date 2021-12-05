@@ -65,7 +65,7 @@ class SelectMovementReasonFragment : Fragment() {
         viewModel.getReasonsResponse.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is Result.Error -> {
-                    Snackbar.make(reasonRv, result.message, Snackbar.LENGTH_LONG).show()
+//                    Snackbar.make(reasonRv, result.message, Snackbar.LENGTH_LONG).show()
                 }
                 is Result.Loading -> {
                 }
@@ -146,20 +146,20 @@ class SelectMovementReasonFragment : Fragment() {
 
     private fun populateView(_captureData: CaptureMovementData) {
         if (_captureData.movementType == "entry") {
-            bnd.vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-in")
+            bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
         } else {
-            bnd.vehicleDetailHeaderTv.text = getString(R.string.enter_reason_title, "Check-out")
+            bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
 
         }
         bnd.vehicleMaxId.text = _captureData.vehicle.maxVehicleId
-        bnd.plateNumberView.setSubtitle(_captureData.vehicle.plateNumber)
-        val champion = _captureData.vehicle.champion?.let {
-            getString(
-                R.string.default_name, it.firstName,
-                it.lastName
-            )
-        } ?: "N/A"
-        bnd.championView.setSubtitle(champion)
+//        bnd.plateNumberView.setSubtitle(_captureData.vehicle.plateNumber)
+//        val champion = _captureData.vehicle.champion?.let {
+//            getString(
+//                R.string.default_name, it.firstName,
+//                it.lastName
+//            )
+//        } ?: "N/A"
+//        bnd.championView.setSubtitle(champion)
 
         _captureData.vehicle.status?.let {
             bnd.vehicleStatusContainer.show()
@@ -263,13 +263,13 @@ class SelectMovementReasonFragment : Fragment() {
         }
 
         reasonAdapter.viewType = 1
-        bnd.reasonRv.apply {
-            layoutManager =
-                GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-            adapter = reasonAdapter
-            addItemDecoration(GridSpacingItemDecoration(2, 16, true))
-            setHasFixedSize(true)
-        }
+//        bnd.reasonRv.apply {
+//            layoutManager =
+//                GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+//            adapter = reasonAdapter
+//            addItemDecoration(GridSpacingItemDecoration(2, 16, true))
+//            setHasFixedSize(true)
+//        }
 
         reasonAdapter.setOnItemClickListener { position ->
             val selectedReason = (reasonAdapter.adapterList[position] as Reason)

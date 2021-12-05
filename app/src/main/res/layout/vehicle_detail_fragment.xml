@@ -12,23 +12,38 @@
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/dimen_16dp">
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/backButton"
-            android:layout_width="@dimen/dimen_32dp"
-            android:layout_height="@dimen/dimen_32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="@dimen/dimen_48dp"
+            android:layout_height="@dimen/dimen_48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:background="@null"
-            android:src="@drawable/ic_close"
+            android:contentDescription="@string/back_button_label"
+            android:src="@drawable/ic_back_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ImageContrastCheck" />
+
+        <TextView
+            android:id="@+id/vehicleDetailHeaderTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ttcommons_bold"
+            android:text="@string/enter_plate_number_header"
+            android:textColor="@color/very_dark_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/backButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backButton"
+            tools:ignore="TextContrastCheck" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".25" />
+            app:layout_constraintGuide_percent="0.12" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dataContainer"
@@ -47,38 +62,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/reasonBlock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="@+id/vehicleIdTv"
-                app:layout_constraintStart_toStartOf="@+id/vehicleIdTv"
-                app:layout_constraintTop_toBottomOf="@+id/vehicleIdTv">
-
-                <TextView
-                    android:id="@+id/reasonLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dimen_4dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/ttcommons_regular"
-                    android:text="@string/reason_label"
-                    android:textColor="@color/very_dark_gray_very_black_50"
-                    android:textSize="@dimen/dimen_14sp" />
-
-                <TextView
-                    android:id="@+id/reasonTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/ttcommons_medium"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/dimen_14sp"
-                    tools:text="Maintenance" />
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/vehicleIdTv"
                 android:layout_width="wrap_content"
@@ -93,156 +76,36 @@
                 tools:text="MAX-O7676" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/currentStateCard"
-                style="@style/DetailCardView"
-                android:layout_width="match_parent"
+                android:id="@+id/vehicleStatusContainer"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reasonBlock"
-                app:shapeAppearance="@style/ShapeAppearanceDetailCardView">
+                android:elevation="@dimen/dimen_0dp"
+                android:visibility="invisible"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="@dimen/dimen_0dp"
+                app:layout_constraintEnd_toEndOf="@+id/vehicleIdTv"
+                app:layout_constraintStart_toStartOf="@+id/vehicleIdTv"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleIdTv">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="@dimen/dimen_8dp">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_4dp">
 
-                    <LinearLayout
-                        android:id="@+id/currentStateHeaderContainer"
+                    <TextView
+                        android:id="@+id/vehicleStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <View
-                            android:layout_width="@dimen/dimen_16dp"
-                            android:layout_height="@dimen/dimen_16dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="@dimen/dimen_8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/icon_circle" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:text="Current State" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/currentStateRowOne"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/ttcommons_bold"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:transitionName="championId"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/currentStateDivider">
-
-                        <TextView
-                            android:id="@+id/locationLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/ttcommons_regular"
-                            android:text="@string/location_label"
-                            android:textColor="@color/dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-
-                        <TextView
-                            android:id="@+id/locationTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:fontFamily="@font/ttcommons_demibold"
-                            android:gravity="end"
-                            android:textColor="@color/very_dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/currentStateRowThree"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/currentStateRowOne">
-
-                        <TextView
-                            android:id="@+id/timeStampLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/ttcommons_regular"
-                            android:text="@string/time_of_entry_label"
-                            android:textColor="@color/dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-
-                        <TextView
-                            android:id="@+id/timeStampTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:fontFamily="@font/ttcommons_demibold"
-                            android:gravity="end"
-                            android:textColor="@color/very_dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/currentStateRowFour"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/currentStateRowThree">
-
-                        <TextView
-                            android:id="@+id/emailLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/ttcommons_regular"
-                            android:text="@string/registered_by_label"
-                            android:textColor="@color/dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-
-                        <TextView
-                            android:id="@+id/emailTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:fontFamily="@font/ttcommons_demibold"
-                            android:gravity="end"
-                            android:textColor="@color/very_dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/currentStateDivider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@color/very_light_gray"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/currentStateHeaderContainer" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Active" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -250,16 +113,18 @@
                 android:id="@+id/vehicleDetailCard"
                 style="@style/DetailCardView"
                 android:layout_width="match_parent"
-                android:layout_height="141dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/currentStateCard"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleStatusContainer"
                 app:shapeAppearance="@style/ShapeAppearanceDetailCardView">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/dimen_8dp">
+
 
                     <LinearLayout
                         android:id="@+id/vehicleDetailHeaderContainer"
@@ -284,7 +149,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:text="Vehicle Detail" />
+                            android:text="Vehicle Detail"
+                            android:textAllCaps="true"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -385,6 +252,41 @@
                             android:gravity="end"
                             android:textColor="@color/very_dark_gray"
                             android:textSize="@dimen/dimen_14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/vehicleDetailRowFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/vehicleDetailRowThree">
+
+                        <TextView
+                            android:id="@+id/locationLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/ttcommons_regular"
+                            android:text="@string/location_label"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:id="@+id/locationTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/ttcommons_demibold"
+                            android:gravity="end"
+                            android:textColor="@color/very_dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+
                     </LinearLayout>
 
                     <View
@@ -398,6 +300,272 @@
                         app:layout_constraintTop_toBottomOf="@+id/vehicleDetailHeaderContainer" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/championDetailCard"
+                style="@style/DetailCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleDetailCard"
+                app:shapeAppearance="@style/ShapeAppearanceDetailCardView">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/dimen_8dp">
+
+                    <LinearLayout
+                        android:id="@+id/currentStateHeaderContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <View
+                            android:layout_width="@dimen/dimen_16dp"
+                            android:layout_height="@dimen/dimen_16dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/icon_circle" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Champion Details"
+                            android:textAllCaps="true"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/currentStateRowOne"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/currentStateDivider">
+
+                        <TextView
+                            android:id="@+id/championIdLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/ttcommons_regular"
+                            android:text="Champion ID"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:id="@+id/championIdTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/ttcommons_demibold"
+                            android:gravity="end"
+                            android:textColor="@color/very_dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/currentStateRowThree"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/currentStateRowOne">
+
+                        <TextView
+                            android:id="@+id/championNameLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/ttcommons_regular"
+                            android:text="Champion Name"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:id="@+id/championNameTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/ttcommons_demibold"
+                            android:gravity="end"
+                            android:textColor="@color/very_dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/currentStateDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/very_light_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/currentStateHeaderContainer" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/checkinCard"
+                style="@style/DetailCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/championDetailCard"
+                app:shapeAppearance="@style/ShapeAppearanceDetailCardView">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/dimen_8dp">
+
+                    <LinearLayout
+                        android:id="@+id/checkinHeaderContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <View
+                            android:layout_width="@dimen/dimen_16dp"
+                            android:layout_height="@dimen/dimen_16dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/icon_circle" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Check In Details"
+                            android:textAllCaps="true"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/checkinRowOne"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/checkinDivider">
+
+                        <TextView
+                            android:id="@+id/reasonTitleLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/ttcommons_regular"
+                            android:text="Champion ID"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:id="@+id/reasonTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/ttcommons_demibold"
+                            android:gravity="end"
+                            android:textColor="@color/very_dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/checkinRowTwo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/checkinRowOne">
+
+                        <TextView
+                            android:id="@+id/subreasonLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/ttcommons_regular"
+                            android:text="Champion Name"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:id="@+id/subreasonTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/ttcommons_demibold"
+                            android:gravity="end"
+                            android:textColor="@color/very_dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/checkinDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/very_light_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/checkinHeaderContainer" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <ng.max.vams.customview.ProgressButton
+                android:id="@+id/continueButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen_55dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/vehicleDetailCard"
+                app:layout_constraintStart_toStartOf="@+id/vehicleDetailCard"
+                app:layout_constraintTop_toTopOf="@+id/guideline15"
+                app:text="CONTINUE"
+                app:textColor="@color/very_dark_gray" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="582dp" />
+
 
             <!--            <com.google.android.material.card.MaterialCardView-->
             <!--                android:id="@+id/othersCard"-->
