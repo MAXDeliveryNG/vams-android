@@ -119,7 +119,8 @@
                             android:layout_width="match_parent"
                             android:hint="@string/select_location_label"
                             android:inputType="none"
-                            android:text="@={formModel.location}" />
+                            android:text="@={formModel.location}"
+                            />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 

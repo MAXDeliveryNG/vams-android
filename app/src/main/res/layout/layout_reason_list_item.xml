@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="168dp"
-    android:layout_height="156dp"
-    android:layout_marginBottom="@dimen/dimen_8dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dimen_4dp">
 
         <ImageView
             android:id="@+id/placeholderIV"
-            android:layout_width="@dimen/dimen_48dp"
-            android:layout_height="@dimen/dimen_48dp"
+            android:layout_width="@dimen/dimen_36dp"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/titleTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/titleTv"
             app:srcCompat="@drawable/ic_icon_placeholder" />
 
         <TextView
             android:id="@+id/titleTv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_68dp"
+            android:layout_marginStart="@dimen/dimen_24dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/very_dark_gray"
+            android:textSize="@dimen/dimen_14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/placeholderIV"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/montserrat_semibold"
-            android:textColor="@color/very_dark_gray_very_black"
-            android:textSize="@dimen/dimen_14sp" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/dimen_48dp" />
 
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

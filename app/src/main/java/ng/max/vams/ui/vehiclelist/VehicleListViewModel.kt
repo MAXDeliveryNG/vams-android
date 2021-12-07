@@ -37,34 +37,34 @@ class VehicleListViewModel @Inject constructor(
         }
     }
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
-    fun search(term: StateFlow<String>, movementType: String) {
-        searchResponse.value = Result.Loading
-        viewModelScope.launch {
-            term.debounce(300)
-                .filter { query ->
-                    return@filter query.isNotBlank()
-                }
-                .distinctUntilChanged()
-                .flatMapLatest { query ->
-                    remoteDataSource.getSearchVehicleWithReasonResult(query, movementType)
-
-                }.collect { result ->
-                    when (result) {
-                        is Result.Error -> {
-                            searchResponse.value = result
-                        }
-                        is Result.Success -> {
-                            searchResponse.value = Result.Success(result.value.map {
-                                DataMapper().invoke(it)
-                            })
-                        }
-                        Result.Loading -> {
-                        }
-                    }
-                }
-
-        }
-    }
+//    @FlowPreview
+//    @ExperimentalCoroutinesApi
+//    fun search(term: StateFlow<String>, movementType: String) {
+//        searchResponse.value = Result.Loading
+//        viewModelScope.launch {
+//            term.debounce(300)
+//                .filter { query ->
+//                    return@filter query.isNotBlank()
+//                }
+//                .distinctUntilChanged()
+//                .flatMapLatest { query ->
+//                    remoteDataSource.getSearchVehicleWithReasonResult(query, movementType)
+//
+//                }.collect { result ->
+//                    when (result) {
+//                        is Result.Error -> {
+//                            searchResponse.value = result
+//                        }
+//                        is Result.Success -> {
+//                            searchResponse.value = Result.Success(result.value.map {
+//                                DataMapper().invoke(it)
+//                            })
+//                        }
+//                        Result.Loading -> {
+//                        }
+//                    }
+//                }
+//
+//        }
+//    }
 }

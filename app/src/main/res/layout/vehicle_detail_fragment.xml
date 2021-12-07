@@ -488,7 +488,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/ttcommons_regular"
-                            android:text="Champion ID"
+                            android:text="Reason"
                             android:textColor="@color/dark_gray"
                             android:textSize="@dimen/dimen_14sp" />
 
@@ -521,7 +521,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/ttcommons_regular"
-                            android:text="Champion Name"
+                            android:text="Sub-Reason"
                             android:textColor="@color/dark_gray"
                             android:textSize="@dimen/dimen_14sp" />
 
@@ -555,7 +555,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/vehicleDetailCard"
                 app:layout_constraintStart_toStartOf="@+id/vehicleDetailCard"
-                app:layout_constraintTop_toTopOf="@+id/guideline15"
+                app:layout_constraintTop_toBottomOf="@+id/guideline15"
                 app:text="CONTINUE"
                 app:textColor="@color/very_dark_gray" />
 

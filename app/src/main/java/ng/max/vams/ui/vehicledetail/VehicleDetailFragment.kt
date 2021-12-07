@@ -78,38 +78,50 @@ class VehicleDetailFragment : Fragment() {
 
 
     private fun populateView(_captureData: CaptureMovementData) {
-        if (_captureData.movementType == "entry") {
-            bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
-            bnd.checkinCard.gone()
-        } else {
-            bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
+        if(_captureData.vehicle.champion == null) {
+            bnd.championDetailCard.gone()
+            if (_captureData.movementType == "entry") {
+                bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
+                bnd.checkinCard.gone()
+            } else {
+                bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
+            }
         }
 
-//        if (_captureData.vehicle.lastVehicleMovement == null){
-//            bnd.championDetailCard.hide()
-//            bnd.checkinCard.hide()
-//            bnd.vehicleDetailCard.hide()
-//
-//        }else{
+        if (_captureData.vehicle.lastVehicleMovement == null){
+            bnd.championDetailCard.hide()
+            bnd.checkinCard.hide()
+            bnd.vehicleDetailCard.hide()
+        }else {
+            bnd.vehicleIdTv.text = _captureData.vehicle.maxVehicleId
+            bnd.plateNumberTv.text = _captureData.vehicle.plateNumber
+            bnd.vehicleTypeTv.text = _captureData.vehicle.lastVehicleMovement.vehicleType
+            bnd.odometerTv.text = getString(
+                R.string.odometer_data,
+                _captureData.vehicle.lastVehicleMovement.odometer.toString()
+            )
+            bnd.reasonTv.text = _captureData.vehicle.lastVehicleMovement.reason.name
+            bnd.subreasonTv.text = _captureData.vehicle.lastVehicleMovement.reason.name
+            bnd.locationTv.text = getString(
+                R.string.location_data,
+                _captureData.vehicle.lastVehicleMovement.locationName,
+                _captureData.vehicle.lastVehicleMovement.movementType
+            )
+            val champion = _captureData.vehicle.champion?.let {
+                getString(
+                    R.string.default_name, it.firstName,
+                    it.lastName
+                )
+            } ?: "N/A"
+            bnd.championNameTv.text = champion
 
-        bnd.vehicleIdTv.text = _captureData.vehicle.maxVehicleId
-        bnd.plateNumberTv.text = _captureData.vehicle.plateNumber
-        bnd.vehicleTypeTv.text = _captureData.vehicle.lastVehicleMovement?.vehicleType
-        bnd.odometerTv.text = getString(R.string.odometer_data, _captureData.vehicle.lastVehicleMovement?.odometer.toString())
-        bnd.reasonTv.text = _captureData.vehicle.lastVehicleMovement?.reason?.name
-//            bnd.locationTv.text = getString(R.string.location_data, _captureData.vehicle.lastVehicleMovement.locationName, args.)
+
+        }
+
 
         bnd.continueButton.setOnClickListener {
             findNavController().navigate(VehicleDetailFragmentDirections.actionVehicleDetailFragmentToSelectMovementReasonFragment())
         }
-
-        val champion = _captureData.vehicle.champion?.let {
-            getString(
-                R.string.default_name, it.firstName,
-                it.lastName
-            )
-        } ?: "N/A"
-        bnd.championIdTv.text = champion
 
         _captureData.vehicle.status?.let {
             bnd.vehicleStatusContainer.show()
@@ -129,7 +141,7 @@ class VehicleDetailFragment : Fragment() {
                         )
                     )
                 }
-                "in_active" -> {
+                "inactive" -> {
                     bnd.vehicleStatus.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
@@ -215,8 +227,6 @@ class VehicleDetailFragment : Fragment() {
         }else{
             bnd.reasonTv.text = vehicle.lastVehicleMovement.reason.name
             bnd.locationTv.text = getString(R.string.location_data, vehicle.lastVehicleMovement.locationName, vehicle.movementType)
-//            bnd.timeStampTv.text = getFormattedDate(vehicle.lastVehicleMovement.createdAt)
-//            bnd.emailTv.text = vehicle.lastVehicleMovement.creatorEmail?: "N/A"
             bnd.plateNumberTv.text = vehicle.lastVehicleMovement.plateNumber
             bnd.vehicleTypeTv.text = vehicle.lastVehicleMovement.vehicleType
             bnd.odometerTv.text = getString(R.string.odometer_data, vehicle.lastVehicleMovement.odometer.toString())

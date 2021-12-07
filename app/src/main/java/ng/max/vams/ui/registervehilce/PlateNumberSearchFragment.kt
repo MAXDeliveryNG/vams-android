@@ -50,6 +50,7 @@ class PlateNumberSearchFragment : Fragment() {
                 is Result.Error -> {
                     manageContentViews(false)
                     showDialog("Error", result.message)
+                    Log.d("TAG", "setupViewModel: ${result.message} ")
                 }
                 Result.Loading -> {
                     manageContentViews()

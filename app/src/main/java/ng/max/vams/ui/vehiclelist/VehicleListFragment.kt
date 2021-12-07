@@ -97,7 +97,7 @@ class VehicleListFragment : Fragment() {
             override fun onTextChanged(input: CharSequence?, start: Int, before: Int, count: Int) {
                 if (input.toString().isNotEmpty()){
                     searchQuery.value = input.toString()
-                    vehicleListViewModel.search(searchQuery, args.movementType)
+//                    vehicleListViewModel.search(searchQuery, args.movementType)
                 }
             }
 

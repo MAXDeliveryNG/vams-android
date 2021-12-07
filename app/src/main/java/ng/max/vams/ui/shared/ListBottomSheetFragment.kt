@@ -5,22 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
+import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.remote.response.SubReason
+import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.FragmentListBottomSheetBinding
+import ng.max.vams.ui.registervehilce.SelectMovementReasonViewModel
 
 class ListBottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var bnd: FragmentListBottomSheetBinding
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
+    private val sharedReasonViewModel : SelectMovementReasonViewModel by activityViewModels()
     private val args: ListBottomSheetFragmentArgs by navArgs()
 
     private val formListItemAdapter = BaseAdapter()
+    private val reasonAdapter = BaseAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,27 +52,54 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
     private fun setupView() {
 
         formListItemAdapter.viewType = 2
+        reasonAdapter.viewType = 1
 
         formListItemAdapter.setOnItemClickListener { position ->
             findNavController().navigateUp()
 
             val selectedItem = if (args.fromSource != "REASON") {
                 formListItemAdapter.adapterList[position] as String
-            } else {
+            }else{
                 (formListItemAdapter.adapterList[position] as SubReason).slug
             }
 
             sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
 
         }
+
+        reasonAdapter.setOnItemClickListener { position ->
+            findNavController().navigateUp()
+
+            val selectedItem = (reasonAdapter.adapterList[position] as Reason).name
+
+            sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
+
+        }
+
         bnd.listRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = formListItemAdapter
+
+            if(args.fromSource != "THEREASON") {
+                adapter = formListItemAdapter
+            }else{
+                adapter = reasonAdapter
+            }
             setHasFixedSize(true)
         }
     }
 
     private fun setupViewModel() {
+        sharedReasonViewModel.getReasonsResponse.observe(viewLifecycleOwner, { reasons ->
+            when(reasons){
+                is Result.Error ->{}
+                is Result.Loading ->{}
+                is Result.Success -> {
+                    if(!reasons.value.isNullOrEmpty()) {
+                        reasonAdapter.adapterList = reasons.value.map{ it }
+                    }
+                }
+            }
+        })
         with(sharedBottomSheetViewModel) {
             if (args.fromSource == "REASON") {
                 getSubReasonsResponse.observe(viewLifecycleOwner, { subReasons ->
@@ -78,7 +111,7 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
                             })
                     }
                 })
-            } else {
+            } else{
                 getLocationsResponse.observe(viewLifecycleOwner) { locations ->
                     formListItemAdapter.adapterList = locations.map { it.name }.sorted()
                     if (!args.selectedItem.isNullOrEmpty()) {
