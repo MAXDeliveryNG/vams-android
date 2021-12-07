@@ -82,6 +82,19 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/production/release
 
+  deploy-to-playstore:
+    executor:
+      name: android/android-machine
+      resource-class: xlarge
+    steps:
+      - run:
+          name: Install Fastlane
+          command: bundle install
+      - run:
+          name: Execute Fastlane
+          command: bundle exec fastlane playstore
+
+
 workflows:
   test-and-build:
     jobs:
@@ -122,6 +135,12 @@ workflows:
           requires:
             - unit-test
             - android-test-all
+          filters:
+            branches:
+              only: master
+      - deploy-to-playstore:
+          requires:
+            - prod-release-build
           filters:
             branches:
               only: master
