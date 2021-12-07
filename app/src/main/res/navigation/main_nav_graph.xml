@@ -84,13 +84,6 @@
         <argument
             android:name="assetType"
             app:argType="string" />
-        <action
-            android:id="@+id/action_vehicleListFragment_to_vehicleDetailFragment"
-            app:destination="@id/vehicleDetailFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/registerVehicleFragment"
@@ -162,6 +155,9 @@
         <argument
             android:name="vehicleId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_vehicleDetailFragment_to_selectMovementReasonFragment"
+            app:destination="@id/selectMovementReasonFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -217,12 +213,8 @@
             android:name="movementType"
             app:argType="string" />
         <action
-            android:id="@+id/action_plateNumberSearchFragment_to_selectMovementReasonFragment"
-            app:destination="@id/selectMovementReasonFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            android:id="@+id/action_plateNumberSearchFragment_to_vehicleDetailFragment"
+            app:destination="@id/vehicleDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectMovementReasonFragment"

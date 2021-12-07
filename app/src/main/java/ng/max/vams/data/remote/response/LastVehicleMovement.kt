@@ -32,6 +32,8 @@ data class LastVehicleMovement(
     val plateNumber: String,
     @SerializedName("reason")
     val reason: LastVehicleMovementReason,
+//    @SerializedName("reason")
+//    val reason: String,
     @SerializedName("checklist_items")
     val checkListItems: List<String>?,
     @SerializedName("updated_at")

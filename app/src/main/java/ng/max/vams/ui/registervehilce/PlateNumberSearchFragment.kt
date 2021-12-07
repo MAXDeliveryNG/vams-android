@@ -3,6 +3,7 @@ package ng.max.vams.ui.registervehilce
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,7 @@ class PlateNumberSearchFragment : Fragment() {
                 is Result.Error -> {
                     manageContentViews(false)
                     showDialog("Error", result.message)
+                    Log.d("TAG", "setupViewModel: ${result.message} ")
                 }
                 Result.Loading -> {
                     manageContentViews()
@@ -97,13 +99,24 @@ class PlateNumberSearchFragment : Fragment() {
         } else {
             manageContentViews(true)
             sharedViewModel.submitData(CaptureMovementData(args.movementType, vehicle))
-            findNavController().navigate(R.id.selectMovementReasonFragment)
+            Log.d("TAGVEHICLEID", "navigateToVehicleDetail: ${vehicle.id} , ${vehicle.maxVehicleId} ")
+            val action = PlateNumberSearchFragmentDirections.actionPlateNumberSearchFragmentToVehicleDetailFragment(vehicle.id)
+
+            findNavController().navigate(action)
         }
     }
 
     private fun setupView() {
         bnd.backBtn.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        if(args.movementType == "entry"){
+            bnd.searchToolbar.text = getString(R.string.dialog_entry_label).uppercase()
+            bnd.searchInfoTip.text = getString(R.string.entry_search_info_tip)
+        }else{
+            bnd.searchToolbar.text = getString(R.string.dialog_exit_label).uppercase()
+            bnd.searchInfoTip.text = getString(R.string.exit_search_info_tip)
         }
 
         bnd.plateNumberEditText.addTextChangedListener(object : TextWatcher {
