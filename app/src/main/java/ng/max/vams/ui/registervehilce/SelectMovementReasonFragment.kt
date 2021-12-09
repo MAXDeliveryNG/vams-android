@@ -399,8 +399,6 @@ class SelectMovementReasonFragment : Fragment() {
     private fun setupView() {
 
         bnd.backBtn.setOnClickListener {
-            bnd.movementReasonSpinner.clearOnEditTextAttachedListeners()
-            bnd.movementSubreasonSpinner.clearOnEditTextAttachedListeners()
             findNavController().popBackStack()
         }
 
