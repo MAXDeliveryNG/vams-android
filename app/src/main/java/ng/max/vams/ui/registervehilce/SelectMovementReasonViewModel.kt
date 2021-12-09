@@ -43,7 +43,6 @@ class SelectMovementReasonViewModel @Inject constructor(
     }
 
     fun actionGetReasonByName(reasonName: String){
-        Log.d("TAGREASONVM", "actionGetReasonByName: $reasonName")
         reasonResponse.value = Result.Loading
         viewModelScope.launch {
             reasonByNameResponse.value = movementReasonRepo.getMovementReasonByName(reasonName)

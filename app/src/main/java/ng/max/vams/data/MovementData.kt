@@ -12,7 +12,22 @@ class MovementData : BaseObservable() {
     val keyLocation: String = "location"
     val keyOdometer: String = "odometer"
     val keyRetrievalAgent: String = "retrieval_agent"
+    val keyReason: String = "reason"
+    val keySubReason: String = "subreason"
 
+    @Bindable
+    var reason: String? = null
+        set(value){
+            field = value
+            notifyPropertyChanged(BR.reason)
+        }
+
+    @Bindable
+    var subreason: String? = null
+        set(value){
+            field = value
+            notifyPropertyChanged(BR.subreason)
+        }
 
     @Bindable
     var location: String? = null

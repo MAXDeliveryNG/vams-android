@@ -7,12 +7,12 @@
     <data>
 
         <variable
-            name="reason"
-            type="String" />
+            name="reasonModel"
+            type="ng.max.vams.data.MovementData" />
 
-        <variable
-            name="subreason"
-            type="String" />
+<!--        <variable-->
+<!--            name="subreason"-->
+<!--            type="ng.max.vams.data.MovementData" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -146,6 +146,7 @@
             style="@style/textInputLayout.ExposedDroppedDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tag="@{reasonModel.keyReason}"
             app:hintEnabled="false"
             >
 
@@ -155,7 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_55dp"
                 android:hint="-Select movement reason-"
-                android:text="@{reason}"
+                android:text="@{reasonModel.reason}"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,6 +185,7 @@
             style="@style/textInputLayout.ExposedDroppedDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tag="@{reasonModel.keySubReason}"
             app:hintEnabled="false"
             >
 
@@ -193,7 +195,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_55dp"
                 android:hint="-Select Movement Sub-Reason -"
-                android:text="@{subreason}"
+                android:text="@{reasonModel.subreason}"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -219,13 +221,17 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/movementFinancialLayout"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/textInputLayout"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/movementFinancialTv"
+                style="@style/formEditTextHint"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_55dp"
                 android:inputType="number"
+                app:boxStrokeWidth="@dimen/dimen_5dp"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>

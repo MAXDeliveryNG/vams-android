@@ -23,6 +23,8 @@ import ng.max.vams.BR
 import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
 import ng.max.vams.data.CaptureMovementData
+import ng.max.vams.data.MovementData
+import ng.max.vams.data.remote.response.LoginData
 import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.remote.response.SubReason
 import ng.max.vams.data.wrapper.Result
@@ -31,6 +33,7 @@ import ng.max.vams.ui.shared.ListBottomSheetFragment
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
 import ng.max.vams.util.GridSpacingItemDecoration
+import ng.max.vams.util.hide
 import ng.max.vams.util.show
 
 @AndroidEntryPoint
@@ -40,6 +43,8 @@ class SelectMovementReasonFragment : Fragment() {
     private val viewModel: SelectMovementReasonViewModel by activityViewModels()
     private val sharedViewModel: SharedRegistrationViewModel by activityViewModels()
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
+    private var movementData = MovementData()
+    private var requiredFieldsValidationEnabledStates: HashMap<String, Boolean> = HashMap()
     private var selectedItem: String? = null
     private var selectedReasonName: String? = null
     private lateinit var captureMovementData: CaptureMovementData
@@ -47,23 +52,128 @@ class SelectMovementReasonFragment : Fragment() {
     var lastMovementSubReason: String? = null
     lateinit var retrievedReason: Reason
 
+    private var valueMap: HashMap<String, String> = HashMap()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bnd = DataBindingUtil.inflate(
+        bnd = SelectMovementReasonFragmentBinding.inflate(
             inflater,
-            R.layout.select_movement_reason_fragment,
             container,
             false
         )
+        bnd.reasonModel = movementData
         return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
+        setupDatabinding()
         setupViewModel()
+    }
+
+    private fun setupDatabinding(){
+        bnd.reasonModel?.addOnPropertyChangedCallback(object :
+            Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                var value: String? = ""
+                var field: TextInputLayout? = null
+                var ignoreProperty = false
+                var isCompleted = false
+
+                when (propertyId) {
+                    BR.reason -> {
+                        field = bnd.movementReasonSpinner
+                        value = selectedReasonName
+                    }
+                    BR.subreason -> {
+                        field = bnd.movementSubreasonSpinner
+                        value = subReasonPicked
+                    }
+                    else -> {
+                        ignoreProperty = true
+                    }
+                }
+
+                val fieldKey: String = field?.tag?.toString() ?: ""
+                val validationEnabled = checkValidationEnabledStates(fieldKey)
+
+                if (!ignoreProperty) {
+                    var passesValidation = true
+
+                    if (!TextUtils.isEmpty(fieldKey)) {
+                        valueMap[fieldKey] = value ?: ""
+
+                        // Validation for required field
+                        if (validationEnabled && isRequiredField(fieldKey)) {
+                            passesValidation = if (TextUtils.isEmpty(value)) {
+                                field?.error = "Please select $fieldKey"
+                                false
+                            } else {
+                                bnd.subreasonWrap.show()
+                                    Log.d(
+                                        "TAGFETCHEDREASON",
+                                        "onPropertyChanged: $subReasonPicked"
+                                    )
+                                    if (subReasonPicked == "Financial Default") {
+                                        bnd.amountWrap.show()
+                                    }else{
+                                        bnd.amountWrap.hide()
+                                    }
+                                field?.error = null
+                                true
+                            }
+                        }
+                    }
+                    isCompleted = passesValidation && isRequiredFieldsProvided()
+                }
+
+                bnd.submitButton.setButtonEnable(isCompleted)
+
+            }
+        })
+    }
+
+    private fun checkValidationEnabledStates(fieldKey: String): Boolean {
+        var allEnabled = true
+
+        for (key in requiredFieldsValidationEnabledStates.keys) {
+            if (requiredFieldsValidationEnabledStates[fieldKey] == false) {
+                allEnabled = false
+                break
+            }
+        }
+
+        if (requiredFieldsValidationEnabledStates[fieldKey] == false) {
+            requiredFieldsValidationEnabledStates[fieldKey] = true
+        }
+
+        return allEnabled
+    }
+
+    private fun isRequiredFieldsProvided(): Boolean {
+        for (tag in getRequiredKeys()) {
+            if (TextUtils.isEmpty(valueMap[tag])) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun isRequiredField(key: String): Boolean {
+        return getRequiredKeys().contains(key)
+    }
+
+    private fun getRequiredKeys(): List<String> {
+        return movementData.let { movementData ->
+            listOf(
+                movementData.keyReason,
+                movementData.keySubReason
+            )
+        }
     }
 
 
@@ -78,11 +188,11 @@ class SelectMovementReasonFragment : Fragment() {
             if (it.containsKey("REASON")) {
                 selectedItem = it["REASON"]
                 selectedReasonName = it["REASON"]
-                bnd.reason = it["REASON"]
+                bnd.reasonModel?.reason = it["REASON"]
             } else {
                 selectedItem = it["SUBREASON"]
                 subReasonPicked = it["SUBREASON"]
-                bnd.subreason = it["SUBREASON"]
+                bnd.reasonModel?.subreason = it["SUBREASON"]
             }
         })
 
@@ -289,11 +399,13 @@ class SelectMovementReasonFragment : Fragment() {
     private fun setupView() {
 
         bnd.backBtn.setOnClickListener {
+            bnd.movementReasonSpinner.clearOnEditTextAttachedListeners()
+            bnd.movementSubreasonSpinner.clearOnEditTextAttachedListeners()
             findNavController().popBackStack()
         }
 
         bnd.movementReasonTv.setOnClickListener {
-            var selectedReasonItem = bnd.movementReasonTv.toString()
+            val selectedReasonItem = bnd.movementReasonTv.toString()
             displayReasons(selectedReasonItem)
 
         }
@@ -332,6 +444,11 @@ class SelectMovementReasonFragment : Fragment() {
             displaySubReasons(selectedReason)
         }*/
 
+        bnd.submitButton.setOnClickListener {
+            bnd.submitButton.loaded()
+            navigateToRegisterVehicle(retrievedReason.subReasons?.last(),"")
+        }
+
     }
 
     private fun displaySubReasons(selectedReason: Reason) {
@@ -363,6 +480,12 @@ class SelectMovementReasonFragment : Fragment() {
                 captureMovementData.movementType
             )
         findNavController().navigate(action)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("TAGONDESTROY", "onDestroyView:************** WAS CALLED")
+
     }
 
 }

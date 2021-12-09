@@ -71,10 +71,8 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
             findNavController().navigateUp()
 
             val selectedItem = (reasonAdapter.adapterList[position] as Reason).name
-            Log.d("TAGSELECTED", "setupView: $selectedItem")
             sharedReasonViewModel.actionGetReasonByName(selectedItem)
             sharedBottomSheetViewModel.submitSelectedItem(mapOf(Pair(args.fromSource,selectedItem)))
-
         }
 
         bnd.listRv.apply {
@@ -96,7 +94,19 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
                 is Result.Loading ->{}
                 is Result.Success -> {
                     if(!reasons.value.isNullOrEmpty()) {
-                        reasonAdapter.adapterList = reasons.value.map{ it }
+                        if(args.movementType == "entry") {
+                            var reasonList = arrayListOf<Reason>()
+                            for (items in reasons.value){
+                                if(items.name == "Activated" || items.name == "Transfer"){
+                                    continue
+                                }else{
+                                    reasonList.add(items)
+                                }
+                            }
+                            reasonAdapter.adapterList = reasonList
+                        }else {
+                            reasonAdapter.adapterList = reasons.value.map { it }
+                        }
                     }
                 }
             }
