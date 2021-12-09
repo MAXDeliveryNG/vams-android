@@ -14,15 +14,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.data.CaptureMovementData
 import ng.max.vams.data.local.DbVehicle
-import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.VehicleDetailFragmentBinding
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
 import ng.max.vams.util.Constant.DATETIME_FORMAT_API
 import ng.max.vams.util.Constant.DATETIME_FORMAT_DETAIL
-import ng.max.vams.util.gone
 import ng.max.vams.util.hide
 import ng.max.vams.util.show
-import ng.max.vams.util.showDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -61,61 +58,39 @@ class VehicleDetailFragment : Fragment() {
             captureMovementData = it
             populateView(it)
         })
-
-//        vehicleDetailViewModel.getVehiclesResponse.observe(viewLifecycleOwner){result->
-//            when(result){
-//                is Result.Error -> {
-//                    showDialog("Error", result.message)
-//                }
-//                Result.Loading -> {}
-//                is Result.Success -> {
-//                    bindViews(result.value)
-//                }
-//            }
-//        }
-//        vehicleDetailViewModel.actionGetVehicleDetail(args.vehicleId)
     }
 
 
     private fun populateView(_captureData: CaptureMovementData) {
-        if(_captureData.vehicle.champion == null) {
-            bnd.championDetailCard.gone()
-            if (_captureData.movementType == "entry") {
-                bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
-                bnd.checkinCard.gone()
-            } else {
-                bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
-            }
+        if (_captureData.movementType == "entry") {
+            bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
+        } else {
+            bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
         }
 
-        if (_captureData.vehicle.lastVehicleMovement == null){
-            bnd.championDetailCard.hide()
-            bnd.checkinCard.hide()
-            bnd.vehicleDetailCard.hide()
-        }else {
-            bnd.vehicleIdTv.text = _captureData.vehicle.maxVehicleId
-            bnd.plateNumberTv.text = _captureData.vehicle.plateNumber
-            bnd.vehicleTypeTv.text = _captureData.vehicle.lastVehicleMovement.vehicleType
+        bnd.vehicleIdTv.text = _captureData.vehicle.maxVehicleId
+        bnd.plateNumberTv.text = _captureData.vehicle.plateNumber
+
+        _captureData.vehicle.champion?.let {
+            val champion = getString(
+                R.string.default_name, it.firstName,
+                it.lastName
+            )
+            bnd.championNameTv.text = champion
+            bnd.championIdTv.text = it.maxChampionId
+            bnd.championDetailCard.show()
+        }
+
+        _captureData.vehicle.lastVehicleMovement?.let {
+            bnd.reasonTv.text = it.reason.parentReasonName
+            bnd.subreasonTv.text = it.reason.name
+            bnd.vehicleTypeTv.text = it.vehicleType
             bnd.odometerTv.text = getString(
                 R.string.odometer_data,
-                _captureData.vehicle.lastVehicleMovement.odometer.toString()
+                it.odometer.toString()
             )
-            bnd.reasonTv.text = _captureData.vehicle.lastVehicleMovement.reason.name
-            bnd.subreasonTv.text = _captureData.vehicle.lastVehicleMovement.reason.name
-            bnd.locationTv.text = getString(
-                R.string.location_data,
-                _captureData.vehicle.lastVehicleMovement.locationName,
-                _captureData.vehicle.lastVehicleMovement.movementType
-            )
-            val champion = _captureData.vehicle.champion?.let {
-                getString(
-                    R.string.default_name, it.firstName,
-                    it.lastName
-                )
-            } ?: "N/A"
-            bnd.championNameTv.text = champion
-
-
+            bnd.locationTv.text = it.locationName
+            bnd.movementTypeCard.show()
         }
 
 
@@ -220,9 +195,8 @@ class VehicleDetailFragment : Fragment() {
         bnd.vehicleIdTv.text = vehicle.maxVehicleId
 
         if (vehicle.lastVehicleMovement == null){
-//            bnd.reasonBlock.hide()
             bnd.championDetailCard.hide()
-            bnd.checkinCard.hide()
+            bnd.movementTypeCard.hide()
             bnd.vehicleDetailCard.hide()
         }else{
             bnd.reasonTv.text = vehicle.lastVehicleMovement.reason.name
