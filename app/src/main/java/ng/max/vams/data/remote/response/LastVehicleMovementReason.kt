@@ -9,5 +9,7 @@ data class LastVehicleMovementReason(
     @SerializedName("name")
     val name: String,
     @SerializedName("parent_reason_id")
-    val parentReasonId: String
+    val parentReasonId: String,
+    @SerializedName("parent_reason_name")
+    val parentReasonName: String
 )

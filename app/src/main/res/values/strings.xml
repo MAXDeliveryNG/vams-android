@@ -65,8 +65,8 @@
     <string name="vehicleType_string">vehicleType</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="vehicle_plate_number_label">Vehicle Plate Number/ID</string>
-    <string name="enter_plate_number_header">ENTER PLATE NUMBER/MAX ID</string>
-    <string name="enter_plate_number_label">Enter Plate Number/Max ID</string>
+    <string name="enter_plate_number_header">ENTER PLATE NUMBER/ID</string>
+    <string name="enter_plate_number_label">Enter Plate Number/ID</string>
     <string name="back_button_label">Back Button</string>
     <string name="loading_vehicle_details_label">Loading vehicle details</string>
     <string name="enter_reason_title">Enter %s reason</string>

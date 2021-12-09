@@ -40,41 +40,6 @@
         app:layout_constraintGuide_percent=".20" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/loadingContent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:fontFamily="@font/ttcommons_medium"
-            android:text="@string/loading_vehicle_details_label"
-            android:textColor="@color/very_dark_gray"
-            android:textSize="@dimen/dimen_16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progress" />
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
-            android:indeterminate="true"
-            app:indicatorColor="@color/vivid_yellow"
-            app:indicatorSize="@dimen/dimen_54dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContent"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
@@ -125,25 +90,23 @@
                     style="@style/formEditTextHint"
                     android:layout_width="match_parent"
                     android:hint="@string/enter_plate_number_label"
-                    android:maxLines="1"
                     android:inputType="text"
+                    android:maxLines="1"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
+        <ng.max.vams.customview.ProgressButton
             android:id="@+id/submitButton"
-            style="@style/button.ThemedButton"
             android:layout_width="0dp"
-            android:layout_height="@dimen/dimen_55dp"
-            android:layout_marginStart="16dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_68dp"
-            android:layout_marginEnd="16dp"
             android:enabled="false"
-            android:text="Continue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/plateNumberLayout" />
+            app:layout_constraintEnd_toEndOf="@+id/plateNumberLayout"
+            app:layout_constraintStart_toStartOf="@+id/plateNumberLayout"
+            app:layout_constraintTop_toBottomOf="@id/plateNumberLayout"
+            app:text="Continue"
+            app:textColor="@color/very_dark_gray" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
