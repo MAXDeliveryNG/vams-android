@@ -7,28 +7,18 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.data.CaptureMovementData
-import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.databinding.VehicleDetailFragmentBinding
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
-import ng.max.vams.util.Constant.DATETIME_FORMAT_API
-import ng.max.vams.util.Constant.DATETIME_FORMAT_DETAIL
-import ng.max.vams.util.hide
 import ng.max.vams.util.show
-import java.text.SimpleDateFormat
-import java.util.*
 
 @AndroidEntryPoint
 class VehicleDetailFragment : Fragment() {
 
-    private val vehicleDetailViewModel: VehicleDetailViewModel by viewModels()
     private lateinit var bnd: VehicleDetailFragmentBinding
-    private val args: VehicleDetailFragmentArgs by navArgs()
     private lateinit var captureMovementData: CaptureMovementData
     private val sharedViewModel: SharedRegistrationViewModel by activityViewModels()
 
@@ -64,8 +54,10 @@ class VehicleDetailFragment : Fragment() {
     private fun populateView(_captureData: CaptureMovementData) {
         if (_captureData.movementType == "entry") {
             bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
+            bnd.movementTypeHeaderTv.text = getString(R.string.movement_type_header, "Check Out").uppercase()
         } else {
             bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
+            bnd.movementTypeHeaderTv.text = getString(R.string.movement_type_header, "Check In").uppercase()
         }
 
         bnd.vehicleIdTv.text = _captureData.vehicle.maxVehicleId
@@ -190,34 +182,4 @@ class VehicleDetailFragment : Fragment() {
         }
 
     }
-
-    private fun bindViews(vehicle: DbVehicle) {
-        bnd.vehicleIdTv.text = vehicle.maxVehicleId
-
-        if (vehicle.lastVehicleMovement == null){
-            bnd.championDetailCard.hide()
-            bnd.movementTypeCard.hide()
-            bnd.vehicleDetailCard.hide()
-        }else{
-            bnd.reasonTv.text = vehicle.lastVehicleMovement.reason.name
-            bnd.locationTv.text = vehicle.lastVehicleMovement.locationName
-            bnd.plateNumberTv.text = vehicle.lastVehicleMovement.plateNumber
-            bnd.vehicleTypeTv.text = vehicle.lastVehicleMovement.vehicleType
-            bnd.odometerTv.text = getString(R.string.odometer_data, vehicle.lastVehicleMovement.odometer.toString())
-        }
-    }
-
-    private fun getFormattedDate(dateString: String): String{
-        val dateFormatIn = SimpleDateFormat(DATETIME_FORMAT_API, Locale.getDefault())
-        return dateFormatIn.parse(dateString)?.let { dateIn ->
-            val offset = TimeZone.getDefault().getOffset(dateIn.time)
-            val cal = Calendar.getInstance().apply {
-                time = dateIn
-                add(Calendar.MILLISECOND, offset)
-            }
-            val dateFormatOut = SimpleDateFormat(DATETIME_FORMAT_DETAIL, Locale.getDefault())
-            dateFormatOut.format(cal.time)
-        } ?: "N/A"
-    }
-
 }

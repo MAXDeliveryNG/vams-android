@@ -36,8 +36,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="@dimen/dimen_0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/dimen_0dp"
+        android:layout_marginTop="@dimen/dimen_8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,13 +47,12 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dataContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/dimen_16dp">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/bikeIcon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="@dimen/dimen_64dp"
+                android:layout_height="@dimen/dimen_64dp"
                 android:background="@drawable/ic_bike"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +62,7 @@
                 android:id="@+id/vehicleIdTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/dimen_16dp"
                 android:fontFamily="@font/montserrat_semibold"
                 android:textColor="@color/very_dark_gray_very_black"
                 android:textSize="18sp"
@@ -84,7 +83,7 @@
                 style="@style/DetailCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/dimen_32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vehicleStatusContainer"
@@ -100,8 +99,8 @@
                         android:id="@+id/vehicleDetailHeaderContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +120,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:fontFamily="@font/ttcommons_bold"
-                            android:text="Vehicle Detail"
+                            android:text="@string/vehicle_detail_label"
                             android:textAllCaps="true"
                             android:textColor="@color/very_dark_gray" />
 
@@ -131,9 +130,9 @@
                         android:id="@+id/vehicleDetailRowOne"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -164,9 +163,9 @@
                         android:id="@+id/vehicleDetailRowTwo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -197,9 +196,9 @@
                         android:id="@+id/vehicleDetailRowThree"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -231,9 +230,9 @@
                         android:id="@+id/vehicleDetailRowFour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -264,12 +263,137 @@
                     <View
                         android:id="@+id/vehicleDetailDivider"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_height="@dimen/dimen_1dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
                         android:background="@color/very_light_gray"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/vehicleDetailHeaderContainer" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/movementTypeCard"
+                style="@style/DetailCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/championDetailCard"
+                app:shapeAppearance="@style/ShapeAppearanceDetailCardView">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/dimen_8dp">
+
+                    <LinearLayout
+                        android:id="@+id/movementTypeHeaderContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <View
+                            android:layout_width="@dimen/dimen_16dp"
+                            android:layout_height="@dimen/dimen_16dp"
+                            android:layout_marginEnd="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/icon_circle" />
+
+                        <TextView
+                            android:id="@+id/movementTypeHeaderTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/ttcommons_bold"
+                            android:text="@string/movement_type_header"
+                            android:textAllCaps="true"
+                            android:textColor="@color/very_dark_gray" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/movementTypeRowTwo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/movementTypeRowOne">
+
+                        <TextView
+                            android:id="@+id/subreasonLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/ttcommons_regular"
+                            android:text="@string/sub_reason_label"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:id="@+id/subreasonTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/ttcommons_demibold"
+                            android:gravity="end"
+                            android:textColor="@color/very_dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/movementTypeRowOne"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/movementTypeDivider">
+
+                        <TextView
+                            android:id="@+id/reasonTitleLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/ttcommons_regular"
+                            android:text="@string/reason_label"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:id="@+id/reasonTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/ttcommons_demibold"
+                            android:gravity="end"
+                            android:textColor="@color/very_dark_gray"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/movementTypeDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_1dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
+                        android:background="@color/very_light_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/movementTypeHeaderContainer" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -294,8 +418,8 @@
                         android:id="@+id/currentStateHeaderContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
@@ -315,7 +439,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:fontFamily="@font/ttcommons_bold"
-                            android:text="Champion Details"
+                            android:text="@string/champion_details_label"
                             android:textAllCaps="true"
                             android:textColor="@color/very_dark_gray" />
 
@@ -325,9 +449,9 @@
                         android:id="@+id/currentStateRowOne"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -339,7 +463,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/ttcommons_regular"
-                            android:text="Champion ID"
+                            android:text="@string/champion_id_label"
                             android:textColor="@color/dark_gray"
                             android:textSize="@dimen/dimen_14sp" />
 
@@ -358,9 +482,9 @@
                         android:id="@+id/currentStateRowThree"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -372,7 +496,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/ttcommons_regular"
-                            android:text="Champion Name"
+                            android:text="@string/champion_name_label"
                             android:textColor="@color/dark_gray"
                             android:textSize="@dimen/dimen_14sp" />
 
@@ -390,137 +514,12 @@
                     <View
                         android:id="@+id/currentStateDivider"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_height="@dimen/dimen_1dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
                         android:background="@color/very_light_gray"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/currentStateHeaderContainer" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/movementTypeCard"
-                style="@style/DetailCardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_16dp"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/championDetailCard"
-                app:shapeAppearance="@style/ShapeAppearanceDetailCardView">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="@dimen/dimen_8dp">
-
-                    <LinearLayout
-                        android:id="@+id/movementTypeHeaderContainer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
-                        android:gravity="bottom"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <View
-                            android:layout_width="@dimen/dimen_16dp"
-                            android:layout_height="@dimen/dimen_16dp"
-                            android:layout_marginEnd="@dimen/dimen_8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/icon_circle" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/ttcommons_bold"
-                            android:text="Check In Details"
-                            android:textAllCaps="true"
-                            android:textColor="@color/very_dark_gray" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/movementTypeRowTwo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/movementTypeRowOne">
-
-                        <TextView
-                            android:id="@+id/subreasonLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/ttcommons_regular"
-                            android:text="Sub-Reason"
-                            android:textColor="@color/dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-
-                        <TextView
-                            android:id="@+id/subreasonTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:fontFamily="@font/ttcommons_demibold"
-                            android:gravity="end"
-                            android:textColor="@color/very_dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/movementTypeRowOne"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/movementTypeDivider">
-
-                        <TextView
-                            android:id="@+id/reasonTitleLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/ttcommons_regular"
-                            android:text="Reason"
-                            android:textColor="@color/dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-
-                        <TextView
-                            android:id="@+id/reasonTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:fontFamily="@font/ttcommons_demibold"
-                            android:gravity="end"
-                            android:textColor="@color/very_dark_gray"
-                            android:textSize="@dimen/dimen_14sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/movementTypeDivider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@color/very_light_gray"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/movementTypeHeaderContainer" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -530,7 +529,7 @@
                 android:layout_height="wrap_content"
                 android:elevation="@dimen/dimen_0dp"
                 android:visibility="invisible"
-                app:cardCornerRadius="2dp"
+                app:cardCornerRadius="@dimen/dimen_2dp"
                 app:cardElevation="@dimen/dimen_0dp"
                 app:layout_constraintEnd_toEndOf="@+id/vehicleIdTv"
                 app:layout_constraintStart_toStartOf="@+id/vehicleIdTv"
@@ -545,10 +544,10 @@
                         android:id="@+id/vehicleStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="@dimen/dimen_4dp"
                         android:fontFamily="@font/ttcommons_bold"
                         android:textAllCaps="true"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/dimen_12sp"
                         android:transitionName="championId"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -558,16 +557,18 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <ng.max.vams.customview.ProgressButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/continueButton"
-                android:layout_width="0dp"
+                style="@style/button.ThemedButton"
+                android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:layout_constraintEnd_toEndOf="@+id/movementTypeCard"
-                app:layout_constraintStart_toStartOf="@+id/movementTypeCard"
-                app:layout_constraintTop_toBottomOf="@+id/movementTypeCard"
-                app:text="CONTINUE"
-                app:textColor="@color/very_dark_gray" />
+                android:layout_marginTop="@dimen/dimen_260dp"
+                android:layout_marginBottom="@dimen/dimen_16dp"
+                android:text="@string/continue_label"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/vehicleDetailCard"
+                app:layout_constraintStart_toStartOf="@+id/vehicleDetailCard"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleDetailCard" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

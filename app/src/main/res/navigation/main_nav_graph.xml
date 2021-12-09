@@ -152,9 +152,6 @@
         android:name="ng.max.vams.ui.vehicledetail.VehicleDetailFragment"
         android:label="vehicle_detail_fragment"
         tools:layout="@layout/vehicle_detail_fragment" >
-        <argument
-            android:name="vehicleId"
-            app:argType="string" />
         <action
             android:id="@+id/action_vehicleDetailFragment_to_selectMovementReasonFragment"
             app:destination="@id/selectMovementReasonFragment" />
