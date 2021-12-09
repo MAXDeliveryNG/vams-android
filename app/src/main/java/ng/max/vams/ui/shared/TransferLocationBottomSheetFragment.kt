@@ -47,6 +47,7 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.setCanceledOnTouchOutside(true) //Allows touching outside window's bound to close dialog
         setupView()
         setupViewModel()
     }
