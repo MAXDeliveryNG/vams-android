@@ -2,6 +2,7 @@ package ng.max.vams.ui.registervehilce
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,12 +40,10 @@ class SelectMovementReasonFragment : Fragment() {
     private val viewModel: SelectMovementReasonViewModel by activityViewModels()
     private val sharedViewModel: SharedRegistrationViewModel by activityViewModels()
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
-    private val reasonAdapter = BaseAdapter()
     private var selectedItem: String? = null
-    private var listReason = listOf<Reason>()
-    private var selectedReasonSlug: String? = null
+    private var selectedReasonName: String? = null
     private lateinit var captureMovementData: CaptureMovementData
-    var subReason: SubReason? = null
+    var subReasonPicked: String? = null
     var lastMovementSubReason: String? = null
     lateinit var retrievedReason: Reason
 
@@ -52,14 +51,18 @@ class SelectMovementReasonFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bnd = DataBindingUtil.inflate(inflater, R.layout.select_movement_reason_fragment, container, false)
+        bnd = DataBindingUtil.inflate(
+            inflater,
+            R.layout.select_movement_reason_fragment,
+            container,
+            false
+        )
         return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        setupDatabinding()
         setupViewModel()
     }
 
@@ -71,6 +74,18 @@ class SelectMovementReasonFragment : Fragment() {
 
         })
 
+        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner, {
+            if (it.containsKey("REASON")) {
+                selectedItem = it["REASON"]
+                selectedReasonName = it["REASON"]
+                bnd.reason = it["REASON"]
+            } else {
+                selectedItem = it["SUBREASON"]
+                subReasonPicked = it["SUBREASON"]
+                bnd.subreason = it["SUBREASON"]
+            }
+        })
+
         viewModel.getReasonsResponse.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is Result.Error -> {
@@ -79,27 +94,36 @@ class SelectMovementReasonFragment : Fragment() {
                 is Result.Loading -> {
                 }
                 is Result.Success -> {
-                    retrievedReason = result.value.find { it.slug == "retrieved" }!!
-                    reasonAdapter.adapterList = if (captureMovementData.movementType == "entry") {
-                        result.value.filter { it.slug != "activated" }
-                    } else {
-                        result.value.filter { it.slug != "new" }
-                    }
-                    listReason = result.value
+//                        retrievedReason = result.value.find { it.name == "Retrieved" }!!
+//                    reasonAdapter.adapterList = if (captureMovementData.movementType == "entry") {
+//                        result.value.filter { it.slug != "activated" }
+//                    } else {
+//                        result.value.filter { it.slug != "new" }
+//                    }
                 }
             }
         })
 
-        sharedBottomSheetViewModel.getSelectedTransferLocationIdResponse.observe(
-            viewLifecycleOwner,
-            { _locationToId ->
-                navigateToRegisterVehicle(subReason, _locationToId)
-            })
-
-        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner, {
-            selectedItem = it
-            bnd.reason = it
+        viewModel.getReasonByNameResponse.observe(viewLifecycleOwner, { result ->
+            when (result) {
+                is Result.Error -> {
+                }
+                is Result.Loading -> {
+                    Log.d("TAGRTVD", "*******setupNEEEWViewModel: $retrievedReason")
+                }
+                is Result.Success -> {
+                    retrievedReason = result.value.find { it.name == selectedReasonName }!!
+                }
+            }
         })
+
+
+//        sharedBottomSheetViewModel.getSelectedTransferLocationIdResponse.observe(
+//            viewLifecycleOwner,
+//            { _locationToId ->
+//                navigateToRegisterVehicle(subReason, _locationToId)
+//            })
+
 
 //            (reasonAdapter.adapterList as List<Reason>).forEach { reason ->
 //                reason.subReasons?.forEach { _subReason ->
@@ -134,12 +158,6 @@ class SelectMovementReasonFragment : Fragment() {
 
     }
 
-    private fun setupDatabinding(){
-        bnd.submitButton.setButtonEnable(false)
-
-
-    }
-
     private fun navigateToRegisterVehicle(subReason: SubReason?, _locationToId: String?) {
         val action =
             SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToRegisterVehicleFragment(
@@ -161,6 +179,8 @@ class SelectMovementReasonFragment : Fragment() {
 
         findNavController().navigate(action)
     }
+    
+    
 
     private fun populateView(_captureData: CaptureMovementData) {
 
@@ -264,7 +284,6 @@ class SelectMovementReasonFragment : Fragment() {
         }
         viewModel.actionGetReasons()
         viewModel.actionGetLocations()
-
     }
 
     private fun setupView() {
@@ -274,51 +293,44 @@ class SelectMovementReasonFragment : Fragment() {
         }
 
         bnd.movementReasonTv.setOnClickListener {
-            val selectedReason = bnd.movementReasonTv.text.toString()
-            displayReasons(selectedReason)
+            var selectedReasonItem = bnd.movementReasonTv.toString()
+            displayReasons(selectedReasonItem)
+
         }
 
-        bnd.movementSubreasonTv.setOnClickListener{
+        bnd.movementSubreasonTv.setOnClickListener {
             displaySubReasons(retrievedReason)
         }
 
+        bnd.submitButton.setButtonEnable(false)
 
+        /*if (captureMovementData.movementType == "exit") {
+            val lastMovement = captureMovementData.vehicle.lastVehicleMovement!!
+            val lastMovementReason = lastMovement.reason
+            val reason =
+                (reasonAdapter.adapterList as List<Reason>).find { it.id == lastMovementReason.parentReasonId }!!
 
-//        reasonAdapter.viewType = 1
-//
-//        reasonAdapter.setOnItemClickListener { position ->
-//            val selectedReason = (reasonAdapter.adapterList[position] as Reason)
-//            selectedReasonSlug = selectedReason.slug
-//            displaySubReasons(selectedReason)
-//        }
-
-            /*if (captureMovementData.movementType == "exit") {
-                val lastMovement = captureMovementData.vehicle.lastVehicleMovement!!
-                val lastMovementReason = lastMovement.reason
-                val reason =
-                    (reasonAdapter.adapterList as List<Reason>).find { it.id == lastMovementReason.parentReasonId }!!
-
-                if (selectedReason.id != lastMovementReason.parentReasonId && selectedReasonSlug != "activated") {
+            if (selectedReason.id != lastMovementReason.parentReasonId && selectedReasonSlug != "activated") {
+                Toast.makeText(
+                    requireContext(),
+                    "Please check out with ${reason.name}",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                if (selectedReasonSlug == "activated" && reason.slug != "new") {
                     Toast.makeText(
                         requireContext(),
                         "Please check out with ${reason.name}",
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    if (selectedReasonSlug == "activated" && reason.slug != "new") {
-                        Toast.makeText(
-                            requireContext(),
-                            "Please check out with ${reason.name}",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    } else {
-                        lastMovementSubReason = lastMovementReason.name
-                        displaySubReasons(selectedReason)
-                    }
+                    lastMovementSubReason = lastMovementReason.name
+                    displaySubReasons(selectedReason)
                 }
-            } else {
-                displaySubReasons(selectedReason)
-            }*/
+            }
+        } else {
+            displaySubReasons(selectedReason)
+        }*/
 
     }
 
@@ -337,19 +349,20 @@ class SelectMovementReasonFragment : Fragment() {
         val action =
             SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToListBottomSheetFragment(
                 selectedItem,
-                "REASON"
+                "SUBREASON",
+                captureMovementData.movementType
             )
         findNavController().navigate(action)
     }
 
-    private fun displayReasons(clicked: String){
+    private fun displayReasons(clicked: String) {
         val action =
             SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToListBottomSheetFragment(
                 clicked,
-                "THEREASON"
+                "REASON",
+                captureMovementData.movementType
             )
         findNavController().navigate(action)
-
     }
 
 }

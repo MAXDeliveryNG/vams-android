@@ -73,12 +73,12 @@ class RegisterVehicleFragment : Fragment() {
         bnd.locationEditText.setOnClickListener {
             val selected = bnd.locationEditText.text.toString()
             sharedBottomSheetViewModel.submitLocations(locations.toList())
-            val action =
-                RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
-                    selected,
-                    "REGISTER"
-                )
-            findNavController().navigate(action)
+//            val action =
+//                RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
+//                    selected,
+//                    "REGISTER",
+//                )
+//            findNavController().navigate(action)
         }
 
         bnd.submitButton.setOnClickListener {
@@ -286,9 +286,9 @@ class RegisterVehicleFragment : Fragment() {
             actionGetRetrivalChecklist()
         }
 
-        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
-            bnd.locationEditText.setText(selectedItem)
-        }
+//        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
+//            bnd.locationEditText.setText(selectedItem)
+//        }
     }
 
     private fun populateRecoveredItemsCheckBoxes(retrivedItems: List<RetrivalChecklistItem>) {

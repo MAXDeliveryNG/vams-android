@@ -1,11 +1,11 @@
 package ng.max.vams.ui.shared
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,13 +57,13 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
         formListItemAdapter.setOnItemClickListener { position ->
             findNavController().navigateUp()
 
-            val selectedItem = if (args.fromSource != "REASON") {
+            val selectedItem = if (args.fromSource != "SUBREASON") {
                 formListItemAdapter.adapterList[position] as String
             }else{
-                (formListItemAdapter.adapterList[position] as SubReason).slug
+                (formListItemAdapter.adapterList[position] as SubReason).name
             }
 
-            sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
+            sharedBottomSheetViewModel.submitSelectedItem(mapOf(Pair(args.fromSource,selectedItem)))
 
         }
 
@@ -71,15 +71,16 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
             findNavController().navigateUp()
 
             val selectedItem = (reasonAdapter.adapterList[position] as Reason).name
-
-            sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
+            Log.d("TAGSELECTED", "setupView: $selectedItem")
+            sharedReasonViewModel.actionGetReasonByName(selectedItem)
+            sharedBottomSheetViewModel.submitSelectedItem(mapOf(Pair(args.fromSource,selectedItem)))
 
         }
 
         bnd.listRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
 
-            if(args.fromSource != "THEREASON") {
+            if(args.fromSource != "REASON") {
                 adapter = formListItemAdapter
             }else{
                 adapter = reasonAdapter
@@ -101,15 +102,18 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
             }
         })
         with(sharedBottomSheetViewModel) {
-            if (args.fromSource == "REASON") {
+            if (args.fromSource == "SUBREASON") {
                 getSubReasonsResponse.observe(viewLifecycleOwner, { subReasons ->
-                    formListItemAdapter.adapterList = subReasons
-                    if (!args.selectedItem.isNullOrEmpty()) {
-                        formListItemAdapter.selectedItemPosition =
-                            subReasons.indexOf(subReasons.find { subreason ->
-                                subreason.slug == args.selectedItem
-                            })
+                    if(subReasons.isNotEmpty()){
+                        formListItemAdapter.adapterList = subReasons
                     }
+//                    formListItemAdapter.adapterList = subReasons
+//                    if (!args.selectedItem.isNullOrEmpty()) {
+//                        formListItemAdapter.selectedItemPosition =
+//                            subReasons.indexOf(subReasons.find { subreason ->
+//                                subreason.slug == args.selectedItem
+//                            })
+//                    }
                 })
             } else{
                 getLocationsResponse.observe(viewLifecycleOwner) { locations ->

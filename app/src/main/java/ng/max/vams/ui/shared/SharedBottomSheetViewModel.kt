@@ -8,20 +8,20 @@ import ng.max.vams.util.SingleLiveEvent
 
 class SharedBottomSheetViewModel : ViewModel() {
 
-    private val selectedItemResponse = SingleLiveEvent<String>()
+    private val selectedItemResponse = SingleLiveEvent<Map<String, String>>()
     private val selectedTransferLocationResponse = SingleLiveEvent<String>()
     private val selectedTransferLocationIdResponse = SingleLiveEvent<String>()
     private val subReasonsResponse = SingleLiveEvent<List<SubReason>>()
     private val locationsResponse = SingleLiveEvent<List<Location>>()
 
-    val getSelectedItemResponse: LiveData<String> = selectedItemResponse
+    val getSelectedItemResponse: LiveData<Map<String, String>> = selectedItemResponse
     val getSubReasonsResponse: LiveData<List<SubReason>> = subReasonsResponse
     val getLocationsResponse: LiveData<List<Location>> = locationsResponse
     val getSelectedTransferLocationIdResponse: LiveData<String> = selectedTransferLocationIdResponse
     val getSelectedTransferLocationResponse: LiveData<String> = selectedTransferLocationResponse
 
 
-    fun submitSelectedItem(selectedItem: String) {
+    fun submitSelectedItem(selectedItem: Map<String, String>) {
         selectedItemResponse.value  = selectedItem
     }
 

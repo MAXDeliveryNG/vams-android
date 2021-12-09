@@ -1,5 +1,6 @@
 package ng.max.vams.ui.registervehilce
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,9 @@ class SelectMovementReasonViewModel @Inject constructor(
     private val reasonResponse = MutableLiveData<Result<List<Reason>>>()
     val getReasonsResponse: LiveData<Result<List<Reason>>> = reasonResponse
 
+    private val reasonByNameResponse = MutableLiveData<Result<List<Reason>>>()
+    val getReasonByNameResponse: LiveData<Result<List<Reason>>> = reasonByNameResponse
+
     fun actionGetReasons() {
         reasonResponse.value = Result.Loading
         viewModelScope.launch {
@@ -35,6 +39,14 @@ class SelectMovementReasonViewModel @Inject constructor(
     fun actionGetLocations() {
         viewModelScope.launch {
             locationRepo.getLocations() //silently download
+        }
+    }
+
+    fun actionGetReasonByName(reasonName: String){
+        Log.d("TAGREASONVM", "actionGetReasonByName: $reasonName")
+        reasonResponse.value = Result.Loading
+        viewModelScope.launch {
+            reasonByNameResponse.value = movementReasonRepo.getMovementReasonByName(reasonName)
         }
     }
 }

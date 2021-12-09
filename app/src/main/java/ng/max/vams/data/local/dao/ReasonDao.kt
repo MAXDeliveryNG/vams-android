@@ -18,4 +18,7 @@ interface ReasonDao {
 
     @Query("SELECT * from Reason WHERE id = :reasonId")
     fun getReason(reasonId: Int): List<Reason>
+
+    @Query("SELECT * from Reason WHERE name = :reasonName")
+    fun getReasonItem(reasonName: String): List<Reason>
 }

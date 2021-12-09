@@ -203,6 +203,9 @@
         <argument
             android:name="fromSource"
             app:argType="string" />
+        <argument
+            android:name="movementType"
+            app:argType="string" />
     </dialog>
     <fragment
         android:id="@+id/plateNumberSearchFragment"

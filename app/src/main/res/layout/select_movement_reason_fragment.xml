@@ -123,38 +123,31 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--    <androidx.recyclerview.widget.RecyclerView-->
-        <!--        android:id="@+id/reasonRv"-->
-        <!--        android:layout_width="0dp"-->
-        <!--        android:layout_height="0dp"-->
-        <!--        android:background="@color/light_grayish_blue"-->
-        <!--        android:clipToPadding="false"-->
-        <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/header"-->
-        <!--        tools:itemCount="4"-->
-        <!--        tools:listitem="@layout/layout_reason_list_item" />-->
-
+        <LinearLayout
+            android:id="@+id/reason_wrap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            >
 
         <TextView
             android:id="@+id/movementReasonTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
             android:text="Movement Reason"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/header" />
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/movementReasonSpinner"
             style="@style/textInputLayout.ExposedDroppedDown"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintEnabled="false"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementReasonTitle">
+            >
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/movementReasonTv"
@@ -166,25 +159,32 @@
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/movementSubreasonTitle"
-            android:layout_width="wrap_content"
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/subreason_wrap"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Movement Sub-reason"
+            android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementReasonSpinner" />
+            app:layout_constraintTop_toBottomOf="@+id/reason_wrap"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            >
+        <TextView
+            android:id="@+id/movementSubreasonTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Movement Sub-reason"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/movementSubreasonSpinner"
             style="@style/textInputLayout.ExposedDroppedDown"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintEnabled="false"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementSubreasonTitle"
             >
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -196,23 +196,30 @@
                 android:text="@{subreason}"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/amount_wrap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_32dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/subreason_wrap"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            >
         <TextView
             android:id="@+id/movementFinancialTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
             android:text="Amount Defaulted"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementSubreasonSpinner" />
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/movementFinancialLayout"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementFinancialTitle">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/movementFinancialTv"
@@ -223,6 +230,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        </LinearLayout>
 
         <ng.max.vams.customview.ProgressButton
             android:id="@+id/submitButton"

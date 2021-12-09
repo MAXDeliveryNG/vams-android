@@ -100,8 +100,10 @@ class VehicleDetailFragment : Fragment() {
                 R.string.odometer_data,
                 _captureData.vehicle.lastVehicleMovement.odometer.toString()
             )
-            bnd.reasonTv.text = _captureData.vehicle.lastVehicleMovement.reason.name
-            bnd.subreasonTv.text = _captureData.vehicle.lastVehicleMovement.reason.name
+            bnd.reasonTv.text = _captureData.vehicle.lastVehicleMovement.reason
+            bnd.subreasonTv.text = _captureData.vehicle.lastVehicleMovement.reason
+//            bnd.reasonTv.text = _captureData.vehicle.lastVehicleMovement.reason.name
+//            bnd.subreasonTv.text = _captureData.vehicle.lastVehicleMovement.reason.name
             bnd.locationTv.text = getString(
                 R.string.location_data,
                 _captureData.vehicle.lastVehicleMovement.locationName,
@@ -225,7 +227,8 @@ class VehicleDetailFragment : Fragment() {
             bnd.checkinCard.hide()
             bnd.vehicleDetailCard.hide()
         }else{
-            bnd.reasonTv.text = vehicle.lastVehicleMovement.reason.name
+            bnd.reasonTv.text = vehicle.lastVehicleMovement.reason
+//            bnd.reasonTv.text = vehicle.lastVehicleMovement.reason.name
             bnd.locationTv.text = getString(R.string.location_data, vehicle.lastVehicleMovement.locationName, vehicle.movementType)
             bnd.plateNumberTv.text = vehicle.lastVehicleMovement.plateNumber
             bnd.vehicleTypeTv.text = vehicle.lastVehicleMovement.vehicleType
