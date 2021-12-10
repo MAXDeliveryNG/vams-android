@@ -24,7 +24,6 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
     private val sharedReasonViewModel : SelectMovementReasonViewModel by activityViewModels()
     private val args: ListBottomSheetFragmentArgs by navArgs()
-
     private val formListItemAdapter = BaseAdapter()
     private val reasonAdapter = BaseAdapter()
 
@@ -71,7 +70,6 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
             findNavController().navigateUp()
 
             val selectedItem = (reasonAdapter.adapterList[position] as Reason).name
-            sharedReasonViewModel.actionGetReasonByName(selectedItem)
             sharedBottomSheetViewModel.submitSelectedItem(mapOf(Pair(args.fromSource,selectedItem)))
         }
 
@@ -81,6 +79,7 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
             if(args.fromSource != "REASON") {
                 adapter = formListItemAdapter
             }else{
+                sharedReasonViewModel.actionGetReasons()
                 adapter = reasonAdapter
             }
             setHasFixedSize(true)

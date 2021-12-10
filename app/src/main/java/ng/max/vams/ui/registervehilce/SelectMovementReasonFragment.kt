@@ -181,7 +181,6 @@ class SelectMovementReasonFragment : Fragment() {
         sharedViewModel.getCaptureMovementDataResponse.observe(viewLifecycleOwner, {
             captureMovementData = it
             populateView(it)
-
         })
 
         sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner, {
@@ -189,6 +188,8 @@ class SelectMovementReasonFragment : Fragment() {
                 selectedItem = it["REASON"]
                 selectedReasonName = it["REASON"]
                 bnd.reasonModel?.reason = it["REASON"]
+                viewModel.actionGetReasonByName(it["REASON"]!!)
+
             } else {
                 selectedItem = it["SUBREASON"]
                 subReasonPicked = it["SUBREASON"]
@@ -196,31 +197,28 @@ class SelectMovementReasonFragment : Fragment() {
             }
         })
 
-        viewModel.getReasonsResponse.observe(viewLifecycleOwner, { result ->
-            when (result) {
-                is Result.Error -> {
+//        viewModel.getReasonsResponse.observe(viewLifecycleOwner, { result ->
+//            when (result) {
+//                is Result.Error -> {
 //                    Snackbar.make(reasonRv, result.message, Snackbar.LENGTH_LONG).show()
-                }
-                is Result.Loading -> {
-                }
-                is Result.Success -> {
+//                }
+//                is Result.Loading -> {
+//                }
+//                is Result.Success -> {
 //                        retrievedReason = result.value.find { it.name == "Retrieved" }!!
 //                    reasonAdapter.adapterList = if (captureMovementData.movementType == "entry") {
 //                        result.value.filter { it.slug != "activated" }
 //                    } else {
 //                        result.value.filter { it.slug != "new" }
 //                    }
-                }
-            }
-        })
+//                }
+//            }
+//        })
 
         viewModel.getReasonByNameResponse.observe(viewLifecycleOwner, { result ->
             when (result) {
-                is Result.Error -> {
-                }
-                is Result.Loading -> {
-                    Log.d("TAGRTVD", "*******setupNEEEWViewModel: $retrievedReason")
-                }
+                is Result.Error -> {}
+                is Result.Loading -> {}
                 is Result.Success -> {
                     retrievedReason = result.value.find { it.name == selectedReasonName }!!
                 }
@@ -392,8 +390,7 @@ class SelectMovementReasonFragment : Fragment() {
                 }
             }
         }
-        viewModel.actionGetReasons()
-        viewModel.actionGetLocations()
+//        viewModel.actionGetLocations()
     }
 
     private fun setupView() {
