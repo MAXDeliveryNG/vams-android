@@ -80,7 +80,7 @@
     <string name="close_button">close button</string>
     <string name="error_message">Something went wrong.</string>
     <string name="mo_movement_error_message">Please check in this vehicle first.</string>
-    <string name="retrieval_agent_label">Retrieval Agent</string>
+    <string name="retrieval_agent_label">Retrieval Agent\'s Name</string>
     <string name="enter_retrieval_agent_hint">Enter retrieval agent</string>
     <string name="items_to_retrieve_label">Items to retrieve</string>
     <string name="entry_search_info_tip">All vehicles here are Active</string>
@@ -92,6 +92,13 @@
     <string name="sub_reason_label">Sub-Reason</string>
     <string name="movement_type_header">%s Details</string>
     <string name="vehicle_detail_label">Vehicle Details</string>
+    <string name="movement_header">Movement Details</string>
+    <string name="current_location_label">Location (From)</string>
+    <string name="movement_location_label">Location (%s)</string>
+    <string name="location_destination_label">Location (Destination)</string>
+    <string name="location_from_label">Location (From)</string>
+    <string name="location_checkin_label">Check-in Location</string>
+    <string name="check_label">Check %s</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>

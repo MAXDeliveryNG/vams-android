@@ -124,6 +124,9 @@
             android:name="subReasonName"
             app:argType="string" />
         <argument
+            android:name="reasonName"
+            app:argType="string" />
+        <argument
             android:name="champion"
             app:argType="string" />
         <action

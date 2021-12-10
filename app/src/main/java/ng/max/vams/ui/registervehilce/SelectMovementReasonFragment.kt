@@ -1,24 +1,15 @@
 package ng.max.vams.ui.registervehilce
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SpinnerAdapter
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.select_movement_reason_fragment.*
-import ng.max.vams.BR
 import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
 import ng.max.vams.data.CaptureMovementData
@@ -26,10 +17,8 @@ import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.remote.response.SubReason
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.SelectMovementReasonFragmentBinding
-import ng.max.vams.ui.shared.ListBottomSheetFragment
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
-import ng.max.vams.util.GridSpacingItemDecoration
 import ng.max.vams.util.show
 
 @AndroidEntryPoint
@@ -148,6 +137,7 @@ class SelectMovementReasonFragment : Fragment() {
                 vehicleMovement = captureMovementData.movementType,
                 locationId = captureMovementData.vehicle.locationId,
                 locationToId = _locationToId,
+                reasonName = retrievedReason.name,
                 subReasonId = subReason!!.id,
                 subReasonName = subReason.name,
                 champion = captureMovementData.vehicle.champion?.let {

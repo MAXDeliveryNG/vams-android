@@ -81,8 +81,6 @@
         <item name="strokeWidth">2dp</item>
         <item name="cardElevation">@dimen/dimen_0dp</item>
         <item name="cardMaxElevation">@dimen/dimen_0dp</item>
-        <item name="android:layout_marginStart">@dimen/dimen_36dp</item>
-        <item name="android:layout_marginEnd">@dimen/dimen_36dp</item>
     </style>
 
 <!--    <style name="AppBottomAppBar" parent="Widget.MaterialComponents.BottomAppBar">-->

@@ -13,7 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.register_vehicle_fragment.*
 import ng.max.vams.BR
+import ng.max.vams.R
 import ng.max.vams.adapter.RetrievedItemsAdapter
 import ng.max.vams.data.MovementData
 import ng.max.vams.data.remote.response.Location
@@ -22,6 +24,7 @@ import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.RegisterVehicleFragmentBinding
 import ng.max.vams.ui.assetreason.VehicleConfirmationViewModel
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
+import ng.max.vams.util.show
 import ng.max.vams.util.showDialog
 
 @AndroidEntryPoint
@@ -62,16 +65,33 @@ class RegisterVehicleFragment : Fragment() {
     }
 
     private fun setupView() {
-
-        bnd.registerHeader.text = args.subReasonName
-        //populateRecoveredItemsCheckBoxes()
         bnd.submitButton.setButtonEnable(false)
-        bnd.closeButton.setOnClickListener {
+        bnd.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        bnd.locationEditText.setOnClickListener {
-            val selected = bnd.locationEditText.text.toString()
+        if (args.vehicleMovement == "entry") {
+            bnd.registerVehicleHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
+            bnd.submitButton.setButtonText(getString(R.string.check_label, "In"))
+        } else {
+            bnd.registerVehicleHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
+            bnd.submitButton.setButtonText(getString(R.string.check_label, "Out"))
+        }
+
+        bnd.reasonTv.text = args.reasonName
+        bnd.subreasonTv.text = args.subReasonName
+
+        if (args.reasonName == "Transfer"){
+            bnd.currentLocationHeader.text = getString(R.string.location_from_label)
+            destLocationLayout.show()
+        }else{
+            bnd.currentLocationHeader.text = getString(R.string.location_checkin_label)
+        }
+
+
+
+        bnd.currentLocationEditText.setOnClickListener {
+            val selected = bnd.currentLocationEditText.text.toString()
             sharedBottomSheetViewModel.submitLocations(locations.toList())
             val action =
                 RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
@@ -105,7 +125,7 @@ class RegisterVehicleFragment : Fragment() {
 
                 when (propertyId) {
                     BR.location -> {
-                        field = bnd.locationInputLayout
+                        field = bnd.currentLocationInputLayout
                         value = movementData.location
                     }
                     BR.odometerReading -> {
@@ -209,19 +229,6 @@ class RegisterVehicleFragment : Fragment() {
     private fun setupViewModel() {
         with(registerVehicleViewModel) {
 
-//            getLocationResponse.observe(viewLifecycleOwner) { result ->
-//                when (result) {
-//                    is Result.Error -> {
-//                    }
-//                    Result.Loading -> {
-//                    }
-//                    is Result.Success -> {
-//                        locationEditText.setText(result.value.name)
-//                        locationEditText.isEnabled = false
-//                    }
-//                }
-//            }
-
             getLocationsResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Error -> {
@@ -244,10 +251,10 @@ class RegisterVehicleFragment : Fragment() {
                     }
                     is Result.Success -> {
                         recochecklist = result.value
-                        val retrivedList = recochecklist.map {
+                        val retrievedList = recochecklist.map {
                             it
                         }
-                        populateRecoveredItemsCheckBoxes(retrivedList)
+                        populateRecoveredItemsCheckBoxes(retrievedList)
                     }
                 }
             }
@@ -281,17 +288,16 @@ class RegisterVehicleFragment : Fragment() {
                     )
                 }
             })
-//            actionGetLocationById(args.locationId)
             actionGetAllLocation()
             actionGetRetrivalChecklist()
         }
 
         sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
-            bnd.locationEditText.setText(selectedItem)
+            bnd.currentLocationEditText.setText(selectedItem)
         }
     }
 
-    private fun populateRecoveredItemsCheckBoxes(retrivedItems: List<RetrivalChecklistItem>) {
+    private fun populateRecoveredItemsCheckBoxes(retrievedItems: List<RetrivalChecklistItem>) {
 
         val adapter = RetrievedItemsAdapter()
 
@@ -312,7 +318,7 @@ class RegisterVehicleFragment : Fragment() {
             }
         }
         bnd.retrievedItemsRv.adapter = adapter
-        adapter.recoveredItems = retrivedItems
+        adapter.recoveredItems = retrievedItems
     }
 
     private fun cleanVehicleTable(id: String) {
