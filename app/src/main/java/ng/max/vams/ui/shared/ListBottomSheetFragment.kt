@@ -1,6 +1,7 @@
 package ng.max.vams.ui.shared
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,6 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
     private val sharedReasonViewModel : SelectMovementReasonViewModel by activityViewModels()
     private val args: ListBottomSheetFragmentArgs by navArgs()
-
     private val formListItemAdapter = BaseAdapter()
     private val reasonAdapter = BaseAdapter()
 
@@ -56,13 +56,13 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
         formListItemAdapter.setOnItemClickListener { position ->
             findNavController().navigateUp()
 
-            val selectedItem = if (args.fromSource != "REASON") {
+            val selectedItem = if (args.fromSource != "SUBREASON") {
                 formListItemAdapter.adapterList[position] as String
             }else{
-                (formListItemAdapter.adapterList[position] as SubReason).slug
+                (formListItemAdapter.adapterList[position] as SubReason).name
             }
 
-            sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
+            sharedBottomSheetViewModel.submitSelectedItem(mapOf(Pair(args.fromSource,selectedItem)))
 
         }
 
@@ -70,17 +70,16 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
             findNavController().navigateUp()
 
             val selectedItem = (reasonAdapter.adapterList[position] as Reason).name
-
-            sharedBottomSheetViewModel.submitSelectedItem(selectedItem)
-
+            sharedBottomSheetViewModel.submitSelectedItem(mapOf(Pair(args.fromSource,selectedItem)))
         }
 
         bnd.listRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
 
-            if(args.fromSource != "THEREASON") {
+            if(args.fromSource != "REASON") {
                 adapter = formListItemAdapter
             }else{
+                sharedReasonViewModel.actionGetReasons()
                 adapter = reasonAdapter
             }
             setHasFixedSize(true)
@@ -94,21 +93,36 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
                 is Result.Loading ->{}
                 is Result.Success -> {
                     if(!reasons.value.isNullOrEmpty()) {
-                        reasonAdapter.adapterList = reasons.value.map{ it }
+                        if(args.movementType == "entry") {
+                            var reasonList = arrayListOf<Reason>()
+                            for (items in reasons.value){
+                                if(items.name == "Activated" || items.name == "Transfer"){
+                                    continue
+                                }else{
+                                    reasonList.add(items)
+                                }
+                            }
+                            reasonAdapter.adapterList = reasonList
+                        }else {
+                            reasonAdapter.adapterList = reasons.value.map { it }
+                        }
                     }
                 }
             }
         })
         with(sharedBottomSheetViewModel) {
-            if (args.fromSource == "REASON") {
+            if (args.fromSource == "SUBREASON") {
                 getSubReasonsResponse.observe(viewLifecycleOwner, { subReasons ->
-                    formListItemAdapter.adapterList = subReasons
-                    if (!args.selectedItem.isNullOrEmpty()) {
-                        formListItemAdapter.selectedItemPosition =
-                            subReasons.indexOf(subReasons.find { subreason ->
-                                subreason.slug == args.selectedItem
-                            })
+                    if(subReasons.isNotEmpty()){
+                        formListItemAdapter.adapterList = subReasons
                     }
+//                    formListItemAdapter.adapterList = subReasons
+//                    if (!args.selectedItem.isNullOrEmpty()) {
+//                        formListItemAdapter.selectedItemPosition =
+//                            subReasons.indexOf(subReasons.find { subreason ->
+//                                subreason.slug == args.selectedItem
+//                            })
+//                    }
                 })
             } else{
                 getLocationsResponse.observe(viewLifecycleOwner) { locations ->

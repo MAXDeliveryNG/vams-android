@@ -1,8 +1,6 @@
 package ng.max.vams.data.remote
 
 import com.google.gson.Gson
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import ng.max.vams.data.remote.request.MovementBody
 import ng.max.vams.data.remote.response.*
 import ng.max.vams.data.remote.services.UserService
@@ -113,7 +111,7 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
         }
     }
 
-    suspend fun getRetrivalChecklist() : Result<List<RetrivalChecklistItem>> {
+    suspend fun getRetrievalChecklist() : Result<List<RetrivalChecklistItem>> {
         try{
             val response = vehicleService.recoveredItemsChecklist()
             if(response.isSuccessful){

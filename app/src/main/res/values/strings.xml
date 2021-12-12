@@ -99,6 +99,13 @@
     <string name="location_from_label">Location (From)</string>
     <string name="location_checkin_label">Check-in Location</string>
     <string name="check_label">Check %s</string>
+    <string name="amount_defaulted_header">Amount Defaulted</string>
+    <string name="select_movement_reason_hint">-Select movement reason-</string>
+    <string name="select_movement_sub_reason_hint">-Select Movement Sub-Reason -</string>
+    <string name="bike_label">Bike</string>
+    <string name="movement_reason_label">Movement Reason</string>
+    <string name="movement_sub_reason_label">Movement Sub-reason</string>
+    <string name="items_retrieve_label">Items retrieved</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>

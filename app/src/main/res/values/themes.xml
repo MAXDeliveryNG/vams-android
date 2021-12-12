@@ -83,11 +83,11 @@
         <item name="cardMaxElevation">@dimen/dimen_0dp</item>
     </style>
 
-<!--    <style name="AppBottomAppBar" parent="Widget.MaterialComponents.BottomAppBar">-->
-<!--        <item name="strokeColor">@color/very_light_gray</item>-->
-<!--        <item name="strokeWidth">2dp</item>-->
-<!--        <item name="backgroundTint">@color/white</item>-->
-<!--    </style>-->
+    <!--    <style name="AppBottomAppBar" parent="Widget.MaterialComponents.BottomAppBar">-->
+    <!--        <item name="strokeColor">@color/very_light_gray</item>-->
+    <!--        <item name="strokeWidth">2dp</item>-->
+    <!--        <item name="backgroundTint">@color/white</item>-->
+    <!--    </style>-->
     <style name="formTextHint">
         <item name="fontFamily">@font/ttcommons_regular</item>
         <item name="android:textSize">@dimen/dimen_14sp</item>

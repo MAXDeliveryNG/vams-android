@@ -203,6 +203,9 @@
         <argument
             android:name="fromSource"
             app:argType="string" />
+        <argument
+            android:name="movementType"
+            app:argType="string" />
     </dialog>
     <fragment
         android:id="@+id/plateNumberSearchFragment"
@@ -234,6 +237,14 @@
         <action
             android:id="@+id/action_selectMovementReasonFragment_to_transferLocationBottomSheetFragment"
             app:destination="@id/transferLocationBottomSheetFragment" />
+        <action
+            android:id="@+id/action_selectMovementReasonFragment_to_vehicleConfirmationFragment"
+            app:destination="@id/vehicleConfirmationFragment" />
+        <action
+            android:id="@+id/action_selectMovementReasonFragment_to_completeRegistrationFragment"
+            app:destination="@id/completeRegistrationFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <dialog
         android:id="@+id/transferLocationBottomSheetFragment"

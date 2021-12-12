@@ -32,8 +32,6 @@ data class LastVehicleMovement(
     val plateNumber: String,
     @SerializedName("reason")
     val reason: LastVehicleMovementReason,
-//    @SerializedName("reason")
-//    val reason: String,
     @SerializedName("checklist_items")
     val checkListItems: List<String>?,
     @SerializedName("updated_at")
@@ -41,5 +39,12 @@ data class LastVehicleMovement(
     @SerializedName("vehicle_id")
     val vehicleId: String,
     @SerializedName("vehicle_type")
-    val vehicleType: String
+    val vehicleType: String,
+    @SerializedName("transfer_status")
+    val transferStatus: String?,
+    @SerializedName("amount_defaulted")
+    val amountDefaulted: String?,
+    @SerializedName("retrieval_agent")
+    val retrievalAgent: String?
+
 )

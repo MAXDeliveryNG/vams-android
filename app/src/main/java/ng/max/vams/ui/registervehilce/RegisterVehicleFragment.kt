@@ -24,6 +24,7 @@ import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.RegisterVehicleFragmentBinding
 import ng.max.vams.ui.assetreason.VehicleConfirmationViewModel
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
+import ng.max.vams.ui.shared.SharedRegistrationViewModel
 import ng.max.vams.util.show
 import ng.max.vams.util.showDialog
 
@@ -38,6 +39,7 @@ class RegisterVehicleFragment : Fragment() {
     private lateinit var bnd: RegisterVehicleFragmentBinding
     private val registerVehicleViewModel: RegisterVehicleViewModel by viewModels()
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
+    private val sharedRegistrationViewModel: SharedRegistrationViewModel by activityViewModels()
     private val sharedViewModel: VehicleConfirmationViewModel by activityViewModels()
     private val args: RegisterVehicleFragmentArgs by navArgs()
     private var movementData = MovementData()
@@ -93,12 +95,12 @@ class RegisterVehicleFragment : Fragment() {
         bnd.currentLocationEditText.setOnClickListener {
             val selected = bnd.currentLocationEditText.text.toString()
             sharedBottomSheetViewModel.submitLocations(locations.toList())
-            val action =
-                RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
-                    selected,
-                    "REGISTER"
-                )
-            findNavController().navigate(action)
+//            val action =
+//                RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
+//                    selected,
+//                    "REGISTER",
+//                )
+//            findNavController().navigate(action)
         }
 
         bnd.submitButton.setOnClickListener {
@@ -241,7 +243,7 @@ class RegisterVehicleFragment : Fragment() {
                 }
             }
 
-            getRetrivalChecklistItemResponse.observe(viewLifecycleOwner) { result ->
+            getRetrievalChecklistItemResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Error -> {
 
@@ -258,38 +260,37 @@ class RegisterVehicleFragment : Fragment() {
                     }
                 }
             }
+            actionGetAllLocation()
+            actionGetRetrievalChecklist()
+        }
 
-            getRegisterMovementResponse.observe(viewLifecycleOwner) { result ->
-                when (result) {
-                    is Result.Error -> {
-                        bnd.submitButton.loaded()
-                        showDialog("Error", result.message)
-                    }
-                    Result.Loading -> {
-                    }
-                    is Result.Success -> {
-                        cleanVehicleTable(result.value.id)
-                        bnd.submitButton.loaded()
-                        //TODO BUGGY SEE : https://console.firebase.google.com/project/max-v2/crashlytics/app/android:ng.max.vams/issues/911c072b6f325531954d7250a9d19506?time=last-seven-days&sessionEventKey=6177DD9B007600014D26708AD5E1202E_1601780252919286962
-                        val action = RegisterVehicleFragmentDirections
-                            .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
-                                args.vehicleMovement, result.value.maxVehicleId
-                            )
-                        findNavController().navigate(action)
-                    }
+        sharedRegistrationViewModel.getRegisterMovementResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Error -> {
+                    bnd.submitButton.loaded()
+                    showDialog("Error", result.message)
+                }
+                Result.Loading -> {
+                }
+                is Result.Success -> {
+                    bnd.submitButton.loaded()
+                    val action = RegisterVehicleFragmentDirections
+                        .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
+                            args.vehicleMovement, result.value.maxVehicleId
+                        )
+                    findNavController().navigate(action)
                 }
             }
+        }
 
             sharedViewModel.getConfirmationResponse.observe(viewLifecycleOwner, { hasConfirm ->
                 if (hasConfirm) {
-                    registerVehicleViewModel.registerMovement(
+                    sharedRegistrationViewModel.registerMovement(
                         movementData, args.vehicleId,
                         args.subReasonId, args.locationToId
                     )
                 }
             })
-            actionGetAllLocation()
-            actionGetRetrivalChecklist()
         }
 
         sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
@@ -302,7 +303,7 @@ class RegisterVehicleFragment : Fragment() {
         val adapter = RetrievedItemsAdapter()
 
         adapter.setOnItemClickListener { position, isChecked ->
-            val retrievalChecklistItem = adapter.recoveredItems[position]
+            val retrievalChecklistItem = adapter.retrievedItems[position]
             if (isChecked) {
                 recoveredItemList.add(retrievalChecklistItem.id)
             } else {

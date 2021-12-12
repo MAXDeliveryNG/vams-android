@@ -40,6 +40,12 @@ class VehicleDetailFragment : Fragment() {
         bnd.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        bnd.continueButton.setOnClickListener {
+            sharedViewModel.submitData(captureMovementData)
+            findNavController().navigate(VehicleDetailFragmentDirections.actionVehicleDetailFragmentToSelectMovementReasonFragment())
+        }
+
     }
 
     private fun setupViewModel(){
@@ -83,11 +89,6 @@ class VehicleDetailFragment : Fragment() {
             )
             bnd.locationTv.text = it.locationName
             bnd.movementTypeCard.show()
-        }
-
-
-        bnd.continueButton.setOnClickListener {
-            findNavController().navigate(VehicleDetailFragmentDirections.actionVehicleDetailFragmentToSelectMovementReasonFragment())
         }
 
         _captureData.vehicle.status?.let {

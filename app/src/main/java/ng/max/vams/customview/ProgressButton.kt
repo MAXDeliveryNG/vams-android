@@ -89,6 +89,6 @@ class ProgressButton : FrameLayout {
     }
 
     fun setButtonText(label: String) {
-        buttonText = label
+        button.text = label
     }
 }
