@@ -21,7 +21,7 @@ abstract class AppDatabase : RoomDatabase(){
     abstract fun reasonDao(): ReasonDao
     abstract fun locationDao(): LocationDao
     abstract fun vehicleTypeDao(): VehicleTypeDao
-    abstract fun retrivalChecklistDao() : RetrivalChecklistDao
+    abstract fun retrivalChecklistDao() : RetrievalChecklistDao
 
     companion object {
         private const val DB_NAME = "max-vams.db"

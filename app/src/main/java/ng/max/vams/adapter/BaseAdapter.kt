@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.databinding.LayoutFormListItemBinding
+import ng.max.vams.databinding.LayoutItemsBinding
 import ng.max.vams.databinding.LayoutReasonListItemBinding
 import ng.max.vams.databinding.LayoutVehicleListItemBinding
 
@@ -38,9 +39,13 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
                 val bnd = LayoutReasonListItemBinding.inflate(layoutInflater, parent, false)
                 ReasonViewHolder(bnd.root, onItemClickListener)
             }
-            else -> {
+            2 -> {
                 val bnd = LayoutFormListItemBinding.inflate(layoutInflater, parent, false)
                 FormListItemVieHolder(bnd.root, onItemClickListener)
+            }
+            else -> {
+                val bnd = LayoutItemsBinding.inflate(layoutInflater, parent, false)
+                ItemsViewHolder(bnd.root, onItemClickListener)
             }
         }
     }
@@ -58,6 +63,9 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
                 holder.isItemSelected = selectedItemPosition == position
                 holder.bind(item)
             }
+            is ItemsViewHolder -> {
+                holder.bind(item as String)
+            }
         }
     }
 
@@ -69,7 +77,8 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
         return when(viewType){
             0 -> TYPE_ASSET
             1 -> TYPE_REASON
-            else -> TYPE_FORM_LIST_ITEM
+            2 -> TYPE_FORM_LIST_ITEM
+            else -> TYPE_RETRIEVED_ITEM
         }
     }
 
@@ -77,5 +86,6 @@ class BaseAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
         private const val TYPE_ASSET = 0
         private const val TYPE_REASON = 1
         private const val TYPE_FORM_LIST_ITEM = 2
+        private const val TYPE_RETRIEVED_ITEM = 3
     }
 }

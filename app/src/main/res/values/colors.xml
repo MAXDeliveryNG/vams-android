@@ -35,4 +35,5 @@
     <color name="missing_status_bg">#1A9094A0</color>
     <color name="scrapped_status_bg">#1AD89E5A</color>
     <color name="hp_completed_status_bg">#1A7DA0F0</color>
+    <color name="very_dark_gray_80">#CC3E3E3E</color>
 </resources>

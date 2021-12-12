@@ -7,12 +7,8 @@
     <data>
 
         <variable
-            name="reason"
-            type="String" />
-
-        <variable
-            name="subreason"
-            type="String" />
+            name="reasonModel"
+            type="ng.max.vams.data.MovementData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,29 +16,91 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/backBtn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:id="@+id/backButton"
+            android:layout_width="@dimen/dimen_48dp"
+            android:layout_height="@dimen/dimen_48dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:background="@null"
             android:contentDescription="@string/back_button_label"
+            android:src="@drawable/ic_back_arrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back_arrow" />
+            tools:ignore="ImageContrastCheck,RedundantDescriptionCheck" />
+
+        <ImageView
+            android:id="@+id/vehicleIV"
+            android:layout_width="@dimen/dimen_38dp"
+            android:layout_height="@dimen/dimen_38dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/bike_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backButton"
+            app:srcCompat="@drawable/ic_bike" />
+
 
         <TextView
             android:id="@+id/vehicleDetailHeaderTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/ttcommons_bold"
-            android:textAllCaps="true"
+            android:text="@string/enter_plate_number_header"
             android:textColor="@color/very_dark_gray"
-            app:layout_constraintBottom_toBottomOf="@+id/backBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/backButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/backBtn"
+            app:layout_constraintTop_toTopOf="@+id/backButton"
             tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/vehicleMaxId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_12dp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@+id/vehicleIV"
+            app:layout_constraintStart_toEndOf="@+id/vehicleIV"
+            app:layout_constraintTop_toTopOf="@+id/vehicleIV"
+            app:layout_constraintVertical_bias="0.347" />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/vehicleStatusContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/dimen_0dp"
+            android:visibility="invisible"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="@dimen/dimen_0dp"
+            app:layout_constraintStart_toStartOf="@+id/vehicleMaxId"
+            app:layout_constraintTop_toBottomOf="@+id/vehicleMaxId">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_4dp">
+
+                <TextView
+                    android:id="@+id/vehicleStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/ttcommons_bold"
+                    android:textAllCaps="true"
+                    android:textSize="12sp"
+                    android:transitionName="championId"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Active" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline12"
@@ -51,191 +109,161 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="75dp" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/header"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/reasonLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline12">
-
-            <ImageView
-                android:id="@+id/vehicleIV"
-                android:layout_width="@dimen/dimen_68dp"
-                android:layout_height="@dimen/dimen_68dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_bike" />
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toBottomOf="@id/vehicleStatusContainer"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            >
 
             <TextView
-                android:id="@+id/vehicleMaxId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_12sp"
-                android:fontFamily="@font/montserrat_bold"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toBottomOf="@+id/vehicleIV"
-                app:layout_constraintStart_toEndOf="@+id/vehicleIV"
-                app:layout_constraintTop_toTopOf="@+id/vehicleIV"
-                app:layout_constraintVertical_bias="0.347" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/vehicleStatusContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="@dimen/dimen_0dp"
-                android:visibility="invisible"
-                app:cardCornerRadius="2dp"
-                app:cardElevation="@dimen/dimen_0dp"
-                app:layout_constraintStart_toStartOf="@+id/vehicleMaxId"
-                app:layout_constraintTop_toBottomOf="@+id/vehicleMaxId">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_4dp">
-
-                    <TextView
-                        android:id="@+id/vehicleStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/ttcommons_bold"
-                        android:textAllCaps="true"
-                        android:textSize="12sp"
-                        android:transitionName="championId"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Active" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--    <androidx.recyclerview.widget.RecyclerView-->
-        <!--        android:id="@+id/reasonRv"-->
-        <!--        android:layout_width="0dp"-->
-        <!--        android:layout_height="0dp"-->
-        <!--        android:background="@color/light_grayish_blue"-->
-        <!--        android:clipToPadding="false"-->
-        <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/header"-->
-        <!--        tools:itemCount="4"-->
-        <!--        tools:listitem="@layout/layout_reason_list_item" />-->
-
-
-        <TextView
-            android:id="@+id/movementReasonTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:text="Movement Reason"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/header" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/movementReasonSpinner"
-            style="@style/textInputLayout.ExposedDroppedDown"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementReasonTitle">
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/movementReasonTv"
-                style="@style/formEditTextHint"
+                style="@style/formTextHint"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_55dp"
-                android:hint="-Select movement reason-"
-                android:text="@{reason}"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/movementSubreasonTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Movement Sub-reason"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementReasonSpinner" />
+                android:layout_height="wrap_content"
+                android:text="@string/movement_reason_label"
+                tools:ignore="TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/movementSubreasonSpinner"
+            android:id="@+id/reasonInputLayout"
             style="@style/textInputLayout.ExposedDroppedDown"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tag="@{reasonModel.keyReason}"
             app:hintEnabled="false"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementSubreasonTitle"
             >
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/movementSubreasonTv"
+                android:id="@+id/reasonEditText"
                 style="@style/formEditTextHint"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_55dp"
-                android:hint="-Select Movement Sub-Reason -"
-                android:text="@{subreason}"
-                android:inputType="none" />
+                android:hint="@string/select_movement_reason_hint"
+                android:inputType="none"
+                android:text="@{reasonModel.reason}"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/movementFinancialTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:text="Amount Defaulted"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementSubreasonSpinner" />
+    </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/movementFinancialLayout"
+        <LinearLayout
+            android:id="@+id/subReasonLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toBottomOf="@+id/reasonLayout"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            >
+
+            <TextView
+                style="@style/formTextHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/movement_sub_reason_label"
+                tools:ignore="TextContrastCheck" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/subReasonInputLayout"
+            style="@style/textInputLayout.ExposedDroppedDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="@{reasonModel.keySubReason}"
+            app:hintEnabled="false"
+            >
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/subReasonEditText"
+                style="@style/formEditTextHint"
+                android:layout_width="match_parent"
+                android:hint="@string/select_movement_sub_reason_hint"
+                android:text="@{reasonModel.subreason}"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/amountDefaultedLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/subReasonLayout"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            >
+
+            <TextView
+                style="@style/formTextHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/amount_defaulted_header"
+                tools:ignore="TextContrastCheck" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/amountDefaultInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="@{reasonModel.keyAmountDefaulted}"
+            style="@style/textInputLayout"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amountDefaultedEditText"
+                style="@style/formEditTextHint"
+                android:layout_width="match_parent"
+                android:text="@{reasonModel.amountDefaulted}"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/retrievedItemsContainer"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:padding="@dimen/dimen_8dp"
+            android:background="@drawable/retrieved_items_bg"
             app:layout_constraintEnd_toStartOf="@+id/guideline14"
             app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/movementFinancialTitle">
+            app:layout_constraintTop_toBottomOf="@+id/amountDefaultedLayout">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/movementFinancialTv"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ttcommons_medium"
+                android:text="@string/items_retrieve_label"
+                android:textColor="@color/very_dark_gray"
+                android:textSize="@dimen/dimen_14sp"
+                tools:ignore="TextContrastCheck" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/retrievedItemsRv"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_55dp"
-                android:inputType="number"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"/>
+        </LinearLayout>
 
         <ng.max.vams.customview.ProgressButton
             android:id="@+id/submitButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/dimen_55dp"
-            android:layout_marginTop="56dp"
-            app:textColor="@color/very_dark_gray"
-            app:text="Continue"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline14"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toTopOf="@+id/guideline16" />
+            app:layout_constraintTop_toTopOf="@+id/guideline16"
+            app:text="Continue"
+            app:textColor="@color/very_dark_gray" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline13"
@@ -256,7 +284,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="637dp" />
+            app:layout_constraintGuide_percent=".85" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

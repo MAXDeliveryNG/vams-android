@@ -83,9 +83,7 @@ class PlateNumberSearchFragment : Fragment() {
             showDialog("Error", errorMessage)
         } else {
             sharedViewModel.submitData(CaptureMovementData(args.movementType, vehicle))
-            val action = PlateNumberSearchFragmentDirections.actionPlateNumberSearchFragmentToVehicleDetailFragment(vehicle.id)
-
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.action_plateNumberSearchFragment_to_vehicleDetailFragment)
         }
     }
 

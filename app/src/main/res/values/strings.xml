@@ -85,6 +85,20 @@
     <string name="items_to_retrieve_label">Items to retrieve</string>
     <string name="entry_search_info_tip">All vehicles here are Active</string>
     <string name="exit_search_info_tip">All vehicles here are Inactive</string>
+    <string name="continue_label">Continue</string>
+    <string name="champion_name_label">Champion Name</string>
+    <string name="champion_id_label">Champion ID</string>
+    <string name="champion_details_label">Champion Details</string>
+    <string name="sub_reason_label">Sub-Reason</string>
+    <string name="movement_type_header">%s Details</string>
+    <string name="vehicle_detail_label">Vehicle Details</string>
+    <string name="amount_defaulted_header">Amount Defaulted</string>
+    <string name="select_movement_reason_hint">-Select movement reason-</string>
+    <string name="select_movement_sub_reason_hint">-Select Movement Sub-Reason -</string>
+    <string name="bike_label">Bike</string>
+    <string name="movement_reason_label">Movement Reason</string>
+    <string name="movement_sub_reason_label">Movement Sub-reason</string>
+    <string name="items_retrieve_label">Items retrieved</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>

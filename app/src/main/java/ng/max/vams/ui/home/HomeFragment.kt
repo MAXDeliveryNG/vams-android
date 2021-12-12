@@ -174,6 +174,7 @@ class HomeFragment : Fragment() {
         homeViewModel.actionGetAssetReasons()
         homeViewModel.actionGetLocations()
         homeViewModel.actionGetVehicleTypes()
+        homeViewModel.actionGetVehicleCheckListItem()
 
         if (AppManager.getVehicleTableFlag() == 0){
             homeViewModel.clearVehicleTable()
