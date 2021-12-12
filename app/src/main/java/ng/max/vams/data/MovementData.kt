@@ -14,8 +14,10 @@ class MovementData : BaseObservable() {
     val keyRetrievalAgent: String = "retrieval_agent"
     val keyReason: String = "reason"
     val keySubReason: String = "subreason"
+    val keyAmountDefaulted: String = "amount_defaulted"
 
     @Bindable
+    @SerializedName("parent_reason")
     var reason: String? = null
         set(value){
             field = value
@@ -23,6 +25,7 @@ class MovementData : BaseObservable() {
         }
 
     @Bindable
+    @SerializedName("subreason")
     var subreason: String? = null
         set(value){
             field = value
@@ -42,6 +45,16 @@ class MovementData : BaseObservable() {
         set(value) {
             field = value
             notifyPropertyChanged(BR.odometerReading)
+
+        }
+
+    @Bindable
+    @SerializedName("amount_defaulted")
+    var amountDefaulted: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.amountDefaulted)
+
         }
 
     @Bindable

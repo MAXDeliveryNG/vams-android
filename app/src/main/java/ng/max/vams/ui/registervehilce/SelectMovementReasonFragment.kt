@@ -2,47 +2,42 @@ package ng.max.vams.ui.registervehilce
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SpinnerAdapter
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.select_movement_reason_fragment.*
 import ng.max.vams.BR
 import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
 import ng.max.vams.data.CaptureMovementData
 import ng.max.vams.data.MovementData
-import ng.max.vams.data.remote.response.LoginData
+import ng.max.vams.data.remote.request.MovementBody
 import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.remote.response.SubReason
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.SelectMovementReasonFragmentBinding
-import ng.max.vams.ui.shared.ListBottomSheetFragment
+import ng.max.vams.ui.assetreason.VehicleConfirmationViewModel
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
-import ng.max.vams.util.GridSpacingItemDecoration
-import ng.max.vams.util.hide
+import ng.max.vams.util.gone
 import ng.max.vams.util.show
+import ng.max.vams.util.showDialog
+
 
 @AndroidEntryPoint
 class SelectMovementReasonFragment : Fragment() {
 
     private lateinit var bnd: SelectMovementReasonFragmentBinding
     private val viewModel: SelectMovementReasonViewModel by activityViewModels()
-    private val sharedViewModel: SharedRegistrationViewModel by activityViewModels()
+    private val sharedRegistrationViewModel: SharedRegistrationViewModel by activityViewModels()
     private val sharedBottomSheetViewModel: SharedBottomSheetViewModel by activityViewModels()
+    private val sharedVehicleConfirmationViewModel: VehicleConfirmationViewModel by activityViewModels()
     private var movementData = MovementData()
     private var requiredFieldsValidationEnabledStates: HashMap<String, Boolean> = HashMap()
     private var selectedItem: String? = null
@@ -51,6 +46,7 @@ class SelectMovementReasonFragment : Fragment() {
     var subReasonPicked: String? = null
     var lastMovementSubReason: String? = null
     lateinit var retrievedReason: Reason
+    var retrievedItems: List<String> = emptyList()
 
     private var valueMap: HashMap<String, String> = HashMap()
 
@@ -75,7 +71,7 @@ class SelectMovementReasonFragment : Fragment() {
         setupViewModel()
     }
 
-    private fun setupDatabinding(){
+    private fun setupDatabinding() {
         bnd.reasonModel?.addOnPropertyChangedCallback(object :
             Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -86,12 +82,12 @@ class SelectMovementReasonFragment : Fragment() {
 
                 when (propertyId) {
                     BR.reason -> {
-                        field = bnd.movementReasonSpinner
-                        value = selectedReasonName
+                        field = bnd.reasonInputLayout
+                        value = movementData.reason
                     }
                     BR.subreason -> {
-                        field = bnd.movementSubreasonSpinner
-                        value = subReasonPicked
+                        field = bnd.subReasonInputLayout
+                        value = movementData.subreason
                     }
                     else -> {
                         ignoreProperty = true
@@ -113,18 +109,33 @@ class SelectMovementReasonFragment : Fragment() {
                                 field?.error = "Please select $fieldKey"
                                 false
                             } else {
-                                bnd.subreasonWrap.show()
-                                    Log.d(
-                                        "TAGFETCHEDREASON",
-                                        "onPropertyChanged: $subReasonPicked"
-                                    )
-                                    if (subReasonPicked == "Financial Default") {
-                                        bnd.amountWrap.show()
-                                    }else{
-                                        bnd.amountWrap.hide()
+                                var isValid = true
+                                if (fieldKey == "reason") {
+                                    bnd.subReasonLayout.show()
+                                    if (captureMovementData.movementType == "exit" && value != "Transfer") {
+                                        bnd.retrievedItemsContainer.show()
+                                        bnd.submitButton.setButtonText("Check Out")
+                                    } else {
+                                        bnd.retrievedItemsContainer.gone()
+                                        bnd.submitButton.setButtonText("Continue")
                                     }
+                                    //Reset sub reason field
+                                    if(bnd.subReasonEditText.text.toString().isNotEmpty()){
+                                        bnd.subReasonEditText.text = null
+                                        isValid = false
+                                    }else{
+                                        isValid = true
+                                    }
+                                }
+
+                                if (value == "Financial Default" && fieldKey == "subreason") {
+                                    bnd.amountDefaultedLayout.show()
+                                } else {
+                                    bnd.amountDefaultedLayout.gone()
+                                }
+
                                 field?.error = null
-                                true
+                                isValid
                             }
                         }
                     }
@@ -178,7 +189,8 @@ class SelectMovementReasonFragment : Fragment() {
 
 
     private fun setupViewModel() {
-        sharedViewModel.getCaptureMovementDataResponse.observe(viewLifecycleOwner, {
+
+        sharedRegistrationViewModel.getCaptureMovementDataResponse.observe(viewLifecycleOwner, {
             captureMovementData = it
             populateView(it)
         })
@@ -196,6 +208,27 @@ class SelectMovementReasonFragment : Fragment() {
                 bnd.reasonModel?.subreason = it["SUBREASON"]
             }
         })
+
+        sharedRegistrationViewModel.getRegisterMovementResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Error -> {
+                    bnd.submitButton.loaded()
+                    showDialog("Error", result.message)
+                }
+                Result.Loading -> {
+                }
+                is Result.Success -> {
+                    bnd.submitButton.loaded()
+
+                    val action = RegisterVehicleFragmentDirections
+                        .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
+                            result.value.vehicleMovement!!, result.value.maxVehicleId
+                        )
+                    findNavController().navigate(action)
+                }
+            }
+        }
+
 
 //        viewModel.getReasonsResponse.observe(viewLifecycleOwner, { result ->
 //            when (result) {
@@ -215,58 +248,47 @@ class SelectMovementReasonFragment : Fragment() {
 //            }
 //        })
 
+        sharedVehicleConfirmationViewModel.getConfirmationResponse.observe(viewLifecycleOwner, { hasConfirm ->
+            if (hasConfirm) {
+                val lastVehicleMovement = captureMovementData.vehicle.lastVehicleMovement
+                val movementBody = MovementBody(
+                    vehicleId = captureMovementData.vehicle.id,
+                    locationFromId = lastVehicleMovement?.locationFromId,
+                    locationToId = lastVehicleMovement?.locationToId,
+                    odormeter = lastVehicleMovement?.odometer,
+                    subReasonId = getSubReasonId(movementData.subreason),
+                    recoveredItems = lastVehicleMovement?.checkListItems?: emptyList(),
+                    retrievalAgent = lastVehicleMovement?.retrievalAgent,
+                    amountDefaulted = movementData.amountDefaulted
+                )
+                sharedRegistrationViewModel.registerMovementFromReasonScreen(
+                    movementBody
+                )
+            }
+        })
+
         viewModel.getReasonByNameResponse.observe(viewLifecycleOwner, { result ->
             when (result) {
-                is Result.Error -> {}
-                is Result.Loading -> {}
+                is Result.Error -> {
+                }
+                is Result.Loading -> {
+                }
                 is Result.Success -> {
                     retrievedReason = result.value.find { it.name == selectedReasonName }!!
                 }
             }
         })
 
-
-//        sharedBottomSheetViewModel.getSelectedTransferLocationIdResponse.observe(
-//            viewLifecycleOwner,
-//            { _locationToId ->
-//                navigateToRegisterVehicle(subReason, _locationToId)
-//            })
-
-
-//            (reasonAdapter.adapterList as List<Reason>).forEach { reason ->
-//                reason.subReasons?.forEach { _subReason ->
-//                    if (_subReason.slug == it) {
-//
-//                        subReason = _subReason
-//                        if (captureMovementData.movementType == "exit" &&
-//                            lastMovementSubReason != null && lastMovementSubReason != _subReason.name) {
-//                            Toast.makeText(
-//                                requireContext(),
-//                                "Please select $lastMovementSubReason and try again.",
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                            return@observe
-//                        } else {
-//                            subReason = _subReason
-//                        }
-//                    }
-//                }
-//            }
-//
-//            if (selectedReasonSlug == "transfer") {
-//                val action =
-//                    SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToTransferLocationBottomSheetFragment(
-//                        subReason!!.name, captureMovementData.vehicle.locationId
-//                    )
-//                findNavController().navigate(action)
-//            } else {
-//                navigateToRegisterVehicle(subReason, null)
-//            }
-
-
     }
 
-    private fun navigateToRegisterVehicle(subReason: SubReason?, _locationToId: String?) {
+
+    private fun getSubReasonId(subreason: String?): String {
+        return retrievedReason.subReasons?.filter {_subReason->
+            subreason == _subReason.name
+        }!!.first().id
+    }
+
+    /*private fun navigateToRegisterVehicle(subReason: SubReason?, _locationToId: String?) {
         val action =
             SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToRegisterVehicleFragment(
                 vehicleId = captureMovementData.vehicle.id,
@@ -286,9 +308,8 @@ class SelectMovementReasonFragment : Fragment() {
             )
 
         findNavController().navigate(action)
-    }
-    
-    
+    }*/
+
 
     private fun populateView(_captureData: CaptureMovementData) {
 
@@ -296,6 +317,21 @@ class SelectMovementReasonFragment : Fragment() {
             bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
         } else {
             bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
+        }
+
+        if (_captureData.movementType == "exit"){
+            _captureData.vehicle.lastVehicleMovement?.let {
+                it.checkListItems?.let { checkedList->
+                    retrievedItems = checkedList
+                    val itemsAdapter = BaseAdapter()
+                    itemsAdapter.viewType = 3
+                    itemsAdapter.adapterList = checkedList
+                    bnd.retrievedItemsRv.apply {
+                        adapter = itemsAdapter
+                        setHasFixedSize(true)
+                    }
+                }
+            }
         }
 
         bnd.vehicleMaxId.text = _captureData.vehicle.maxVehicleId
@@ -390,22 +426,21 @@ class SelectMovementReasonFragment : Fragment() {
                 }
             }
         }
-//        viewModel.actionGetLocations()
     }
 
     private fun setupView() {
 
-        bnd.backBtn.setOnClickListener {
+        bnd.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        bnd.movementReasonTv.setOnClickListener {
-            val selectedReasonItem = bnd.movementReasonTv.toString()
+        bnd.reasonEditText.setOnClickListener {
+            val selectedReasonItem = bnd.reasonEditText.toString()
             displayReasons(selectedReasonItem)
 
         }
 
-        bnd.movementSubreasonTv.setOnClickListener {
+        bnd.subReasonEditText.setOnClickListener {
             displaySubReasons(retrievedReason)
         }
 
@@ -441,7 +476,25 @@ class SelectMovementReasonFragment : Fragment() {
 
         bnd.submitButton.setOnClickListener {
             bnd.submitButton.loaded()
-            navigateToRegisterVehicle(retrievedReason.subReasons?.last(),"")
+            if (captureMovementData.movementType == "exit" && bnd.reasonEditText.text.toString() != "Transfer") {
+                val action =
+                    SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToVehicleConfirmationFragment(
+                        vehicleMaxId = captureMovementData.vehicle.maxVehicleId,
+                        champion = captureMovementData.vehicle.champion?.let {
+                            getString(
+                                R.string.default_name, it.firstName,
+                                it.lastName
+                            )
+                        } ?: "N/A",
+                        reason = bnd.subReasonEditText.text.toString(),
+                        movementType = captureMovementData.movementType
+                    )
+                findNavController().navigate(action)
+            }
+            //else {
+                //navigateToRegisterVehicle(retrievedReason.subReasons?.last(), "")
+            //}
+
         }
 
     }
@@ -476,11 +529,4 @@ class SelectMovementReasonFragment : Fragment() {
             )
         findNavController().navigate(action)
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("TAGONDESTROY", "onDestroyView:************** WAS CALLED")
-
-    }
-
 }

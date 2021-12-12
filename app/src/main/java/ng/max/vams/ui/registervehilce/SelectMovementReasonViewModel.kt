@@ -1,6 +1,5 @@
 package ng.max.vams.ui.registervehilce
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,20 +11,20 @@ import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementReasonRepository
 import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.wrapper.Result
+import ng.max.vams.util.SingleLiveEvent
 import javax.inject.Inject
 
 @HiltViewModel
 class SelectMovementReasonViewModel @Inject constructor(
     private val movementReasonRepo: MovementReasonRepository,
-
     private val locationRepo: LocationRepository
 ) : ViewModel() {
 
     private val reasonResponse = MutableLiveData<Result<List<Reason>>>()
-    val getReasonsResponse: LiveData<Result<List<Reason>>> = reasonResponse
+    private val reasonByNameResponse = SingleLiveEvent<Result<List<Reason>>>()
 
-    private val reasonByNameResponse = MutableLiveData<Result<List<Reason>>>()
     val getReasonByNameResponse: LiveData<Result<List<Reason>>> = reasonByNameResponse
+    val getReasonsResponse: LiveData<Result<List<Reason>>> = reasonResponse
 
     fun actionGetReasons() {
         reasonResponse.value = Result.Loading
