@@ -58,7 +58,7 @@ class RetrievedItemsAdapter : RecyclerView.Adapter<RetrievedItemsAdapter.Retriev
 
         fun bind(item: RetrivalChecklistItem) = with(itemView) {
             itemCB.text = item.name
-            itemCB.isChecked = retrievedItemsMap[item.id] ?: false
+            itemCB.isChecked = retrievedItemsMap[item.name] ?: false
         }
     }
 }

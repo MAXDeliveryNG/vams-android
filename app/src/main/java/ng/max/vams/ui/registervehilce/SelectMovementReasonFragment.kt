@@ -44,7 +44,6 @@ class SelectMovementReasonFragment : Fragment() {
     private var selectedReasonName: String? = null
     private lateinit var captureMovementData: CaptureMovementData
     var subReasonPicked: String? = null
-    var lastMovementSubReason: String? = null
     lateinit var retrievedReason: Reason
     var retrievedItems: List<String> = emptyList()
 
@@ -180,10 +179,18 @@ class SelectMovementReasonFragment : Fragment() {
 
     private fun getRequiredKeys(): List<String> {
         return movementData.let { movementData ->
-            listOf(
+            if (bnd.subReasonEditText.text.toString() == "Financial Default"){
+                listOf(
+                    movementData.keyReason,
+                    movementData.keySubReason,
+                    movementData.keyAmountDefaulted
+                )
+            }else{
+                listOf(
                 movementData.keyReason,
                 movementData.keySubReason
-            )
+                )
+            }
         }
     }
 
@@ -288,27 +295,22 @@ class SelectMovementReasonFragment : Fragment() {
         }!!.first().id
     }
 
-    /*private fun navigateToRegisterVehicle(subReason: SubReason?, _locationToId: String?) {
+    private fun navigateToRegisterVehicle() {
+        sharedRegistrationViewModel.submitData(captureMovementData)
         val action =
             SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToRegisterVehicleFragment(
-                vehicleId = captureMovementData.vehicle.id,
-                vehicleMaxId = captureMovementData.vehicle.maxVehicleId,
-                vehicleMovement = captureMovementData.movementType,
-                locationId = captureMovementData.vehicle.locationId,
-                locationToId = _locationToId,
-                subReasonId = subReason!!.id,
-                subReasonName = subReason.name,
-                champion = captureMovementData.vehicle.champion?.let {
-                    getString(
-                        R.string.default_name, it.firstName,
-                        it.lastName
-                    )
-                } ?: "N/A",
-                retrievedSubReasonIds = retrievedReason.subReasons!!.map { it.id }.toTypedArray()
+                subReasonId = getSubReasonId(movementData.subreason),
+                subReasonName = movementData.subreason!!,
+                parentReasonName = movementData.reason!!,
+                amountDefaulted = if (movementData.subreason != "Financial Default"){
+                    null
+                }else{
+                    bnd.amountDefaultedEditText.text.toString()
+                }
             )
 
         findNavController().navigate(action)
-    }*/
+    }
 
 
     private fun populateView(_captureData: CaptureMovementData) {
@@ -490,10 +492,9 @@ class SelectMovementReasonFragment : Fragment() {
                         movementType = captureMovementData.movementType
                     )
                 findNavController().navigate(action)
+            } else {
+                navigateToRegisterVehicle()
             }
-            //else {
-                //navigateToRegisterVehicle(retrievedReason.subReasons?.last(), "")
-            //}
 
         }
 

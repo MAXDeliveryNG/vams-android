@@ -60,7 +60,7 @@
             android:layout_marginStart="@dimen/dimen_12dp"
             android:fontFamily="@font/montserrat_semibold"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="@color/very_dark_gray_very_black"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="@+id/vehicleIV"
             app:layout_constraintStart_toEndOf="@+id/vehicleIV"
@@ -270,14 +270,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="36dp" />
+            app:layout_constraintGuide_begin="@dimen/dimen_36dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="36dp" />
+            app:layout_constraintGuide_end="@dimen/dimen_36dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline16"

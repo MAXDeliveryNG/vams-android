@@ -63,7 +63,7 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
             val locationId = locations.first { _location ->
                 _location.name == locationName
             }.id
-            sharedBottomSheetViewModel.submitSelectedTransferLocationId(locationId)
+//            sharedBottomSheetViewModel.submitSelectedTransferLocationId(locationId)
         }
     }
 
@@ -85,10 +85,10 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
             actionGetAllLocation()
         }
 
-        sharedBottomSheetViewModel.getSelectedTransferLocationResponse.observe(viewLifecycleOwner){selectedItem ->
-            bnd.locationEditText.setText(selectedItem)
-            bnd.submitButton.isEnabled = true
-        }
+//        sharedBottomSheetViewModel.getSelectedTransferLocationResponse.observe(viewLifecycleOwner){selectedItem ->
+//            bnd.locationEditText.setText(selectedItem)
+//            bnd.submitButton.isEnabled = true
+//        }
     }
 
     private fun populateLocationDropdown(){

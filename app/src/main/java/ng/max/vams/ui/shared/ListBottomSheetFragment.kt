@@ -1,7 +1,6 @@
 package ng.max.vams.ui.shared
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,11 +75,11 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
         bnd.listRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
 
-            if(args.fromSource != "REASON") {
-                adapter = formListItemAdapter
+            adapter = if(args.fromSource != "REASON") {
+                formListItemAdapter
             }else{
                 sharedReasonViewModel.actionGetReasons()
-                adapter = reasonAdapter
+                reasonAdapter
             }
             setHasFixedSize(true)
         }
@@ -94,7 +93,7 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
                 is Result.Success -> {
                     if(!reasons.value.isNullOrEmpty()) {
                         if(args.movementType == "entry") {
-                            var reasonList = arrayListOf<Reason>()
+                            val reasonList = arrayListOf<Reason>()
                             for (items in reasons.value){
                                 if(items.name == "Activated" || items.name == "Transfer"){
                                     continue
@@ -102,9 +101,9 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
                                     reasonList.add(items)
                                 }
                             }
-                            reasonAdapter.adapterList = reasonList
+                            reasonAdapter.adapterList = reasonList.sortedBy { it.name }
                         }else {
-                            reasonAdapter.adapterList = reasons.value.map { it }
+                            reasonAdapter.adapterList = reasons.value.sortedBy { it.name }.map { it }
                         }
                     }
                 }
@@ -125,11 +124,12 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
 //                    }
                 })
             } else{
-                getLocationsResponse.observe(viewLifecycleOwner) { locations ->
-                    formListItemAdapter.adapterList = locations.map { it.name }.sorted()
+                getLocationsResponse.observe(viewLifecycleOwner) { _locations ->
+                    val key =  _locations.keys.first()
+                    formListItemAdapter.adapterList = _locations[key]!!.map { it.name }.sorted()
                     if (!args.selectedItem.isNullOrEmpty()) {
                         formListItemAdapter.selectedItemPosition =
-                            locations.indexOf(locations.find { location ->
+                            _locations[key]!!.indexOf(_locations[key]!!.find { location ->
                                 location.name == args.selectedItem
                             })
                     }

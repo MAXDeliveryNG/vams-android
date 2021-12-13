@@ -84,6 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_32dp"
+                android:layout_marginStart="@dimen/dimen_36dp"
+                android:layout_marginEnd="@dimen/dimen_36dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vehicleStatusContainer"
@@ -106,13 +108,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <View
+                        <ImageView
                             android:layout_width="@dimen/dimen_16dp"
                             android:layout_height="@dimen/dimen_16dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="@dimen/dimen_8dp"
                             android:layout_weight="1"
-                            android:background="@drawable/icon_circle" />
+                            android:background="@drawable/ic_movement" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -279,6 +281,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 android:visibility="gone"
+                android:layout_marginStart="@dimen/dimen_36dp"
+                android:layout_marginEnd="@dimen/dimen_36dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/championDetailCard"
@@ -300,12 +304,12 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <View
+                        <ImageView
                             android:layout_width="@dimen/dimen_16dp"
                             android:layout_height="@dimen/dimen_16dp"
                             android:layout_marginEnd="@dimen/dimen_8dp"
                             android:layout_weight="1"
-                            android:background="@drawable/icon_circle" />
+                            android:background="@drawable/ic_movement" />
 
                         <TextView
                             android:id="@+id/movementTypeHeaderTv"
@@ -404,6 +408,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 android:visibility="gone"
+                android:layout_marginStart="@dimen/dimen_36dp"
+                android:layout_marginEnd="@dimen/dimen_36dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vehicleDetailCard"
@@ -425,13 +431,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <View
+                        <ImageView
                             android:layout_width="@dimen/dimen_16dp"
                             android:layout_height="@dimen/dimen_16dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="@dimen/dimen_8dp"
                             android:layout_weight="1"
-                            android:background="@drawable/icon_circle" />
+                            android:background="@drawable/ic_champion" />
 
                         <TextView
                             android:layout_width="wrap_content"

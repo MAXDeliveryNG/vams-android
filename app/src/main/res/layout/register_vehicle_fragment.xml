@@ -9,120 +9,328 @@
             type="ng.max.vams.data.MovementData" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F4F6FA">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_80dp"
-                app:cardCornerRadius="@dimen/dimen_0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="@dimen/dimen_48dp"
+                android:layout_height="@dimen/dimen_48dp"
+                android:layout_marginTop="16dp"
+                android:background="@null"
+                android:contentDescription="@string/back_button_label"
+                android:src="@drawable/ic_back_arrow"
+                app:layout_constraintStart_toEndOf="@id/registerGuidelineStart"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ImageContrastCheck" />
+
+            <ImageView
+                android:id="@+id/vehicleIV"
+                android:layout_width="@dimen/dimen_36dp"
+                android:layout_height="@dimen/dimen_36dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/registerGuidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/backButton"
+                app:srcCompat="@drawable/ic_bike" />
+
+
+            <TextView
+                android:id="@+id/registerVehicleHeaderTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ttcommons_bold"
+                android:text="@string/enter_plate_number_header"
+                android:textColor="@color/very_dark_gray"
+                app:layout_constraintBottom_toBottomOf="@+id/backButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="@+id/backButton"
+                tools:ignore="TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/vehicleMaxId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_12sp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:gravity="center_vertical"
+                android:textColor="@color/very_dark_gray_very_black"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="@+id/vehicleIV"
+                app:layout_constraintStart_toEndOf="@+id/vehicleIV"
+                app:layout_constraintTop_toTopOf="@+id/vehicleIV"
+                app:layout_constraintVertical_bias="0.347" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/registerGuidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/dimen_16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/registerGuidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dimen_16dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/vehicleStatusContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/dimen_0dp"
+                android:visibility="invisible"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="@dimen/dimen_0dp"
+                app:layout_constraintStart_toStartOf="@+id/vehicleMaxId"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleMaxId">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_4dp">
 
                     <TextView
-                        android:id="@+id/registerHeader"
-                        android:layout_width="0dp"
+                        android:id="@+id/vehicleStatus"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="32dp"
-                        android:fontFamily="@font/montserrat_semibold"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/very_dark_gray_very_black"
-                        android:textSize="20sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/closeButton"
-                        app:layout_constraintEnd_toStartOf="@+id/closeButton"
-                        app:layout_constraintStart_toStartOf="@+id/registerGuidelineStart"
-                        app:layout_constraintTop_toTopOf="@+id/closeButton"
-                        tools:text="Scheduled Maintenance" />
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/closeButton"
-                        android:layout_width="@dimen/dimen_32dp"
-                        android:layout_height="@dimen/dimen_32dp"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginBottom="@dimen/dimen_32dp"
-                        android:background="@null"
-                        android:src="@drawable/ic_close"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/ttcommons_bold"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:transitionName="championId"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/registerGuidelineEnd"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/registerGuidelineStart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_begin="@dimen/dimen_36dp" />
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/registerGuidelineEnd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_end="@dimen/dimen_36dp" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Active" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dimen_16dp"
-                android:paddingTop="@dimen/dimen_16dp"
-                android:paddingEnd="@dimen/dimen_16dp"
-                android:paddingBottom="@dimen/dimen_16dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header"
-                tools:listitem="@layout/layout_vehicle_list_item">
+                android:paddingBottom="@dimen/dimen_16dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/movementTypeCard"
+                    style="@style/DetailCardView"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="@style/ShapeAppearanceDetailCardView">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="@dimen/dimen_8dp">
+
+                        <LinearLayout
+                            android:id="@+id/movementTypeHeaderContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen_16dp"
+                            android:layout_marginTop="@dimen/dimen_12dp"
+                            android:gravity="bottom"
+                            android:orientation="horizontal"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="@dimen/dimen_16dp"
+                                android:layout_height="@dimen/dimen_16dp"
+                                android:layout_marginEnd="@dimen/dimen_8dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/ic_movement" />
+
+                            <TextView
+                                android:id="@+id/movementTypeHeaderTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/ttcommons_bold"
+                                android:text="@string/movement_header"
+                                android:textAllCaps="true"
+                                android:textColor="@color/very_dark_gray" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/movementTypeRowTwo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen_16dp"
+                            android:layout_marginTop="@dimen/dimen_8dp"
+                            android:layout_marginEnd="@dimen/dimen_16dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/movementTypeRowOne">
+
+                            <TextView
+                                android:id="@+id/subreasonLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/ttcommons_regular"
+                                android:text="@string/sub_reason_label"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="@dimen/dimen_14sp" />
+
+                            <TextView
+                                android:id="@+id/subreasonTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/ttcommons_demibold"
+                                android:gravity="end"
+                                android:textColor="@color/very_dark_gray"
+                                android:textSize="@dimen/dimen_14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/movementTypeRowOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen_16dp"
+                            android:layout_marginTop="@dimen/dimen_8dp"
+                            android:layout_marginEnd="@dimen/dimen_16dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/movementTypeDivider">
+
+                            <TextView
+                                android:id="@+id/reasonTitleLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/ttcommons_regular"
+                                android:text="@string/reason_label"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="@dimen/dimen_14sp" />
+
+                            <TextView
+                                android:id="@+id/reasonTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/ttcommons_demibold"
+                                android:gravity="end"
+                                android:textColor="@color/very_dark_gray"
+                                android:textSize="@dimen/dimen_14sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/movementTypeDivider"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dimen_1dp"
+                            android:layout_marginTop="@dimen/dimen_12dp"
+                            android:background="@color/very_light_gray"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/movementTypeHeaderContainer" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
-                    android:id="@+id/locationLayout"
+                    android:id="@+id/currentLocationLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/movementTypeCard">
 
                     <TextView
+                        android:id="@+id/currentLocationHeader"
                         style="@style/formTextHint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/location_label" />
+                        android:layout_weight="1"/>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/locationInputLayout"
+                        android:id="@+id/currentLocationInputLayout"
                         style="@style/textInputLayout.ExposedDroppedDown"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:tag="@{formModel.keyLocation}"
+                        android:tag="@{formModel.keyLocationFrom}"
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                            android:id="@+id/locationEditText"
+                            android:id="@+id/currentLocationEditText"
                             style="@style/formEditTextHint"
                             android:layout_width="match_parent"
                             android:hint="@string/select_location_label"
                             android:inputType="none"
-                            android:text="@={formModel.location}"
-                            />
+                            android:text="@={formModel.location}" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/destLocationLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintTop_toBottomOf="@id/currentLocationLayout">
+
+                    <TextView
+                        android:id="@+id/destLocationHeader"
+                        style="@style/formTextHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/location_destination_label" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/destLocationInputLayout"
+                        style="@style/textInputLayout.ExposedDroppedDown"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:tag="@{formModel.keyLocationTo}"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/destLocationEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/select_location_label"
+                            android:inputType="none"
+                            android:text="@={formModel.destLocation}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/odometerLayout"
@@ -132,7 +340,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/guideline6"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toBottomOf="@+id/locationLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/destLocationLayout">
 
                     <TextView
                         style="@style/formTextHint"
@@ -183,8 +391,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="2" />
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -228,14 +435,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_end="20dp" />
+                    app:layout_constraintGuide_end="@dimen/dimen_36dp" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="20dp" />
+                    app:layout_constraintGuide_begin="@dimen/dimen_36dp" />
 
                 <ng.max.vams.customview.ProgressButton
                     android:id="@+id/submitButton"
@@ -248,6 +455,7 @@
                     app:text="Submit"
                     app:textColor="@color/very_dark_gray" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

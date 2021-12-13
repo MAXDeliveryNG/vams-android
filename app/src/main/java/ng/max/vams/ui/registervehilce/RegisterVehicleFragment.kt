@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,8 +14,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.register_vehicle_fragment.*
 import ng.max.vams.BR
+import ng.max.vams.R
 import ng.max.vams.adapter.RetrievedItemsAdapter
+import ng.max.vams.data.CaptureMovementData
 import ng.max.vams.data.MovementData
 import ng.max.vams.data.remote.response.Location
 import ng.max.vams.data.remote.response.RetrivalChecklistItem
@@ -23,6 +27,7 @@ import ng.max.vams.databinding.RegisterVehicleFragmentBinding
 import ng.max.vams.ui.assetreason.VehicleConfirmationViewModel
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
+import ng.max.vams.util.show
 import ng.max.vams.util.showDialog
 
 @AndroidEntryPoint
@@ -40,6 +45,7 @@ class RegisterVehicleFragment : Fragment() {
     private val sharedViewModel: VehicleConfirmationViewModel by activityViewModels()
     private val args: RegisterVehicleFragmentArgs by navArgs()
     private var movementData = MovementData()
+    private lateinit var captureMovementData: CaptureMovementData
     private var valueMap: HashMap<String, String> = HashMap()
     private val recoveredItemList: ArrayList<String> = ArrayList()
     private var locations = listOf<Location>()
@@ -64,33 +70,58 @@ class RegisterVehicleFragment : Fragment() {
     }
 
     private fun setupView() {
-
-        bnd.registerHeader.text = args.subReasonName
-        //populateRecoveredItemsCheckBoxes()
         bnd.submitButton.setButtonEnable(false)
-        bnd.closeButton.setOnClickListener {
+        bnd.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        bnd.locationEditText.setOnClickListener {
-            val selected = bnd.locationEditText.text.toString()
-            sharedBottomSheetViewModel.submitLocations(locations.toList())
-//            val action =
-//                RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
-//                    selected,
-//                    "REGISTER",
-//                )
-//            findNavController().navigate(action)
+        bnd.reasonTv.text = args.parentReasonName
+        bnd.subreasonTv.text = args.subReasonName
+
+        if (args.parentReasonName == "Transfer") {
+            bnd.currentLocationHeader.text = getString(R.string.location_from_label)
+            destLocationLayout.show()
+        } else {
+            bnd.currentLocationHeader.text = getString(R.string.location_checkin_label)
+        }
+
+
+
+        bnd.currentLocationEditText.setOnClickListener {
+            sharedBottomSheetViewModel.submitLocations(mapOf("from" to locations))
+            val action = RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
+                    selectedItem = bnd.currentLocationEditText.text.toString(),
+                    fromSource = "FROM",
+                    movementType = captureMovementData.movementType
+                )
+            findNavController().navigate(action)
+        }
+
+        bnd.destLocationEditText.setOnClickListener {
+            sharedBottomSheetViewModel.submitLocations(mapOf("dest" to locations.filter {
+                it.name != bnd.currentLocationEditText.text.toString()
+            }))
+            val action = RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToListBottomSheetFragment(
+                selectedItem = bnd.destLocationEditText.text.toString(),
+                fromSource = "DEST",
+                movementType = captureMovementData.movementType
+            )
+            findNavController().navigate(action)
         }
 
         bnd.submitButton.setOnClickListener {
             bnd.submitButton.loaded()
             val action =
                 RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToVehicleConfirmationFragment(
-                    vehicleMaxId = args.vehicleMaxId,
-                    champion = args.champion,
+                    vehicleMaxId = captureMovementData.vehicle.maxVehicleId,
+                    champion = captureMovementData.vehicle.champion?.let {
+                        getString(
+                            R.string.default_name, it.firstName,
+                            it.lastName
+                        )
+                    } ?: "N/A",
                     reason = args.subReasonName,
-                    movementType = args.vehicleMovement
+                    movementType = captureMovementData.movementType
                 )
             findNavController().navigate(action)
         }
@@ -107,8 +138,12 @@ class RegisterVehicleFragment : Fragment() {
 
                 when (propertyId) {
                     BR.location -> {
-                        field = bnd.locationInputLayout
+                        field = bnd.currentLocationInputLayout
                         value = movementData.location
+                    }
+                    BR.destLocation -> {
+                        field = bnd.destLocationInputLayout
+                        value = movementData.destLocation
                     }
                     BR.odometerReading -> {
                         field = bnd.odometerReadingInputLayout
@@ -137,14 +172,25 @@ class RegisterVehicleFragment : Fragment() {
                                 field?.error = "Please enter $fieldKey"
                                 false
                             } else {
+                                var isValid: Boolean
                                 if (fieldKey == "odometer" && value!!.toDoubleOrNull() == null) {
                                     field?.error = "Please enter $fieldKey"
-                                    false
+                                    isValid = false
                                 } else {
                                     field?.error = null
-                                    true
+                                    isValid = true
                                 }
 
+                                if (fieldKey == "location_from" && args.parentReasonName == "Transfer"){
+                                    if(bnd.destLocationEditText.text.toString().isNotEmpty()){
+                                        bnd.destLocationEditText.text = null
+                                        isValid = false
+                                    }else{
+                                        isValid = true
+                                    }
+                                }
+
+                                isValid
                             }
                         }
 
@@ -191,25 +237,32 @@ class RegisterVehicleFragment : Fragment() {
 
     private fun getRequiredKeys(): List<String> {
         return movementData.let { movementData ->
-            val retrievedSubReasonId = args.retrievedSubReasonIds.find { it == args.subReasonId }
-            if (retrievedSubReasonId == null) {
+            if (args.parentReasonName != "Transfer") {
                 listOf(
-                    movementData.keyLocation,
+                    movementData.keyLocationFrom,
                     movementData.keyOdometer
                 )
             } else {
-                listOf(
-                    movementData.keyLocation,
-                    movementData.keyOdometer,
-                    movementData.keyRetrievalAgent
-                )
+                if (args.subReasonName != "Financial Default"){
+                    listOf(
+                        movementData.keyLocationFrom,
+                        movementData.keyOdometer,
+                        movementData.keyLocationTo
+                    )
+                }else{
+                    listOf(
+                        movementData.keyLocationFrom,
+                        movementData.keyOdometer,
+                        movementData.keyRetrievalAgent,
+                        movementData.keyLocationTo
+                    )
+                }
             }
 
         }
     }
 
     private fun setupViewModel() {
-
         with(registerVehicleViewModel) {
 
             getLocationsResponse.observe(viewLifecycleOwner) { result ->
@@ -234,10 +287,10 @@ class RegisterVehicleFragment : Fragment() {
                     }
                     is Result.Success -> {
                         recochecklist = result.value
-                        val retrivedList = recochecklist.map {
+                        val retrievedList = recochecklist.map {
                             it
                         }
-                        populateRecoveredItemsCheckBoxes(retrivedList)
+                        populateRecoveredItemsCheckBoxes(retrievedList)
                     }
                 }
             }
@@ -257,30 +310,50 @@ class RegisterVehicleFragment : Fragment() {
                     bnd.submitButton.loaded()
                     val action = RegisterVehicleFragmentDirections
                         .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
-                            args.vehicleMovement, result.value.maxVehicleId
+                            result.value.vehicleMovement!!, result.value.maxVehicleId
                         )
                     findNavController().navigate(action)
                 }
             }
         }
 
+        sharedRegistrationViewModel.getCaptureMovementDataResponse.observe(viewLifecycleOwner, {
+            captureMovementData = it
+            populateView(it)
+
+        })
+
         sharedViewModel.getConfirmationResponse.observe(viewLifecycleOwner, { hasConfirm ->
             if (hasConfirm) {
                 sharedRegistrationViewModel.registerMovement(
-                    movementData, args.vehicleId,
-                    args.subReasonId, args.locationToId
+                    movementData, captureMovementData.vehicle.id,
+                    args.subReasonId,
+                    if (args.parentReasonName == "Transfer"){
+                        locations.first { it.name == movementData.destLocation }.id
+                    }else{
+                        null
+                    }
                 )
             }
         })
-//        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
-//            bnd.locationEditText.setText(selectedItem)
-//        }
+
+        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
+            if (selectedItem.containsKey("FROM")){
+                bnd.currentLocationEditText.setText(selectedItem["FROM"])
+            }else {
+                bnd.destLocationEditText.setText(selectedItem["DEST"])
+            }
+
+        }
     }
 
-    private fun populateRecoveredItemsCheckBoxes(retrivedItems: List<RetrivalChecklistItem>) {
+    private fun populateRecoveredItemsCheckBoxes(retrievedItems: List<RetrivalChecklistItem>) {
 
         val adapter = RetrievedItemsAdapter()
-
+        if (args.parentReasonName == "Transfer"){
+            adapter.selectedItems = getSelectedItems(captureMovementData.vehicle.lastVehicleMovement!!.checkListItems,
+            retrievedItems)
+        }
         adapter.setOnItemClickListener { position, isChecked ->
             val retrievalChecklistItem = adapter.retrievedItems[position]
             if (isChecked) {
@@ -289,16 +362,133 @@ class RegisterVehicleFragment : Fragment() {
                 recoveredItemList.remove(retrievalChecklistItem.id)
             }
             movementData.recoveredItems = recoveredItemList
-            val retrievedSubReasonId = args.retrievedSubReasonIds.find { it == args.subReasonId }
-            if (retrievedSubReasonId == null) {
-                bnd.submitButton.setButtonEnable(
-                    isRequiredFieldsProvided()
-                            && recoveredItemList.count() != 0
-                )
-            }
+            bnd.submitButton.setButtonEnable(
+                isRequiredFieldsProvided()
+                        && recoveredItemList.count() != 0
+            )
         }
         bnd.retrievedItemsRv.adapter = adapter
-        adapter.retrievedItems = retrivedItems
+        adapter.retrievedItems = retrievedItems
+    }
+
+    private fun getSelectedItems(
+        checkListItems: List<String>?,
+        retrievedItems: List<RetrivalChecklistItem>
+    ): List<RetrivalChecklistItem> {
+        val _retrievedItems = mutableListOf<RetrivalChecklistItem>()
+        checkListItems?.forEach {retrievedItemName ->
+            val filteredData = retrievedItems.filter {
+                it.name == retrievedItemName
+            }
+            if (filteredData.isNotEmpty()){
+                _retrievedItems.add(filteredData.first())
+            }
+        }
+        return _retrievedItems
+    }
+
+    private fun populateView(_captureData: CaptureMovementData) {
+
+        if (_captureData.movementType == "entry") {
+            bnd.registerVehicleHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
+            bnd.submitButton.setButtonText(getString(R.string.check_label, "In"))
+        } else {
+            bnd.registerVehicleHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
+            bnd.submitButton.setButtonText(getString(R.string.check_label, "Out"))
+        }
+
+        bnd.vehicleMaxId.text = _captureData.vehicle.maxVehicleId
+
+        _captureData.vehicle.status?.let {
+            bnd.vehicleStatusContainer.show()
+            bnd.vehicleStatus.text = it.name
+            when (it.slug) {
+                "active" -> {
+                    bnd.vehicleStatus.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.active_status
+                        )
+                    )
+                    bnd.vehicleStatusContainer.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.active_status_bg
+                        )
+                    )
+                }
+                "inactive" -> {
+                    bnd.vehicleStatus.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.inactive_status
+                        )
+                    )
+                    bnd.vehicleStatusContainer.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.inactive_status_bg
+                        )
+                    )
+                }
+                "hp_completed" -> {
+                    bnd.vehicleStatus.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.hp_completed_status
+                        )
+                    )
+                    bnd.vehicleStatusContainer.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.hp_completed_status_bg
+                        )
+                    )
+                }
+                "missing" -> {
+                    bnd.vehicleStatus.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.missing_status
+                        )
+                    )
+                    bnd.vehicleStatusContainer.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.missing_status_bg
+                        )
+                    )
+                }
+                "scrapped" -> {
+                    bnd.vehicleStatus.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.scrapped_status
+                        )
+                    )
+                    bnd.vehicleStatusContainer.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.scrapped_status_bg
+                        )
+                    )
+                }
+                else -> {
+                    bnd.vehicleStatus.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.active_status
+                        )
+                    )
+                    bnd.vehicleStatusContainer.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.active_status_bg
+                        )
+                    )
+                }
+            }
+        }
     }
 
 }
