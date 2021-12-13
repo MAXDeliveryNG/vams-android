@@ -35,8 +35,8 @@
 
             <ImageView
                 android:id="@+id/vehicleIV"
-                android:layout_width="@dimen/dimen_68dp"
-                android:layout_height="@dimen/dimen_68dp"
+                android:layout_width="@dimen/dimen_36dp"
+                android:layout_height="@dimen/dimen_36dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/registerGuidelineStart"
@@ -62,10 +62,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_12sp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_semibold"
                 android:gravity="center_vertical"
-                android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textColor="@color/very_dark_gray_very_black"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="@+id/vehicleIV"
                 app:layout_constraintStart_toEndOf="@+id/vehicleIV"
@@ -281,7 +280,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:tag="@{formModel.keyLocation}"
+                        android:tag="@{formModel.keyLocationFrom}"
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -319,7 +318,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:tag="@{formModel.keyLocation}"
+                        android:tag="@{formModel.keyLocationTo}"
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -328,7 +327,7 @@
                             android:layout_width="match_parent"
                             android:hint="@string/select_location_label"
                             android:inputType="none"
-                            android:text="@={formModel.location}" />
+                            android:text="@={formModel.destLocation}" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 

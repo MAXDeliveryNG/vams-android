@@ -9,7 +9,8 @@ import ng.max.vams.data.remote.request.MovementBody
 
 class MovementData : BaseObservable() {
 
-    val keyLocation: String = "location"
+    val keyLocationFrom: String = "location_from"
+    val keyLocationTo: String = "locationTo"
     val keyOdometer: String = "odometer"
     val keyRetrievalAgent: String = "retrieval_agent"
     val keyReason: String = "reason"
@@ -37,6 +38,13 @@ class MovementData : BaseObservable() {
         set(value) {
             field = value
             notifyPropertyChanged(BR.location)
+        }
+
+    @Bindable
+    var destLocation: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.destLocation)
         }
 
     @Bindable

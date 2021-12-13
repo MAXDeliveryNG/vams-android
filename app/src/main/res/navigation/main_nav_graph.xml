@@ -104,40 +104,23 @@
             app:destination="@id/listBottomSheetFragment"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/slide_down" />
-        <argument
-            android:name="vehicleId"
-            app:argType="string" />
-        <argument
-            android:name="vehicleMovement"
-            app:argType="string" />
+
         <argument
             android:name="subReasonId"
-            app:argType="string" />
-        <argument
-            android:name="locationToId"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="locationId"
             app:argType="string" />
         <argument
             android:name="subReasonName"
             app:argType="string" />
         <argument
-            android:name="reasonName"
+            android:name="parentReasonName"
             app:argType="string" />
         <argument
-            android:name="champion"
-            app:argType="string" />
+            android:name="amountDefaulted"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_registerVehicleFragment_to_vehicleConfirmationFragment"
             app:destination="@id/vehicleConfirmationFragment" />
-        <argument
-            android:name="vehicleMaxId"
-            app:argType="string" />
-        <argument
-            android:name="retrievedSubReasonIds"
-            app:argType="string[]" />
     </fragment>
     <fragment
         android:id="@+id/completeRegistrationFragment"
