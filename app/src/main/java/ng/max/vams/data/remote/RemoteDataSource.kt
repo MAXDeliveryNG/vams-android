@@ -1,8 +1,6 @@
 package ng.max.vams.data.remote
 
 import com.google.gson.Gson
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import ng.max.vams.data.remote.request.MovementBody
 import ng.max.vams.data.remote.response.*
 import ng.max.vams.data.remote.services.UserService
@@ -113,7 +111,7 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
         }
     }
 
-    suspend fun getRetrivalChecklist() : Result<List<RetrivalChecklistItem>> {
+    suspend fun getRetrievalChecklist() : Result<List<RetrivalChecklistItem>> {
         try{
             val response = vehicleService.recoveredItemsChecklist()
             if(response.isSuccessful){
@@ -135,6 +133,25 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
         }
     }
 
+    suspend fun getUserRole(userId: String): Result<RoleData> {
+        return try {
+            val response = vehicleService.getUserRole(userId)
+            return if (response.isSuccessful){
+                Result.Success(response.body()?.getData()!!)
+            }else{
+                val errorResponse = response.errorBody()?.string()!!
+                try {
+                    val message = Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+                    Result.Error(message)
+                }catch (ex: Exception){
+                    val message = Gson().fromJson(errorResponse, ErrorResponse::class.java).getData()?.first()?.message!!
+                    Result.Error(message)
+                }
+            }
+        }catch (ex: Exception){
+            Result.Error(ex.localizedMessage!!)
+        }
+    }
 
     suspend fun getMovementStat(): Result<MovementStat> {
         try {
@@ -228,28 +245,28 @@ class RemoteDataSource @Inject constructor(private val userService: UserService,
         }
     }
 
-    suspend fun getSearchVehicleWithReasonResult(term: String, movementType: String): Flow<Result<List<Vehicle>>> {
-        try {
-            val response = vehicleService.searchVehicleWithReason(term, movementType)
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    return flow { emit(Result.Success(body.getData()?.vehicles!!)) }
-                }
-            }
-
-            val errorResponse = response.errorBody()?.string()!!
-            return try {
-                val message =
-                        Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
-                flow { emit(Result.Error(message)) }
-            } catch (ex: Exception) {
-                flow { emit(Result.Error("Error getting search result ${response.code()}")) }
-            }
-        } catch (ex: Exception) {
-            return flow { emit(Result.Error(ex.localizedMessage!!)) }
-        }
-    }
+//    suspend fun getSearchVehicleWithReasonResult(term: String, movementType: String): Flow<Result<List<Vehicle>>> {
+//        try {
+//            val response = vehicleService.searchVehicleWithReason(term, movementType)
+//            if (response.isSuccessful) {
+//                val body = response.body()
+//                if (body != null) {
+//                    return flow { emit(Result.Success(body.getData()?.vehicles!!)) }
+//                }
+//            }
+//
+//            val errorResponse = response.errorBody()?.string()!!
+//            return try {
+//                val message =
+//                        Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
+//                flow { emit(Result.Error(message)) }
+//            } catch (ex: Exception) {
+//                flow { emit(Result.Error("Error getting search result ${response.code()}")) }
+//            }
+//        } catch (ex: Exception) {
+//            return flow { emit(Result.Error(ex.localizedMessage!!)) }
+//        }
+//    }
 
     suspend fun registerMovement(movementBody: MovementBody): Result<Vehicle> {
         try {

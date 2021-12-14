@@ -17,4 +17,6 @@ data class MovementBody (
     var recoveredItems: List<String>,
     @SerializedName("retrieval_agent")
     var retrievalAgent: String?,
+    @SerializedName("amount_defaulted")
+    var amountDefaulted: String?
     )

@@ -19,7 +19,8 @@ import ng.max.vams.data.remote.response.Vehicle
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.FragmentPlateNumberSearchBinding
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
-import ng.max.vams.util.*
+import ng.max.vams.util.hideKeypad
+import ng.max.vams.util.showDialog
 
 @AndroidEntryPoint
 class PlateNumberSearchFragment : Fragment() {
@@ -47,15 +48,15 @@ class PlateNumberSearchFragment : Fragment() {
         plateNumberSearchViewModel.getSearchResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Error -> {
-                    manageContentViews(false)
+                    bnd.submitButton.loaded()
                     showDialog("Error", result.message)
                 }
                 Result.Loading -> {
-                    manageContentViews()
+                    //button is in loading state
                 }
                 is Result.Success -> {
+                    bnd.submitButton.loaded()
                     if (result.value.isEmpty()) {
-                        manageContentViews(false)
                         showDialog(
                             "Error",
                             "Vehicle with ${plateNumberEditText.text.toString()} not found."
@@ -68,26 +69,12 @@ class PlateNumberSearchFragment : Fragment() {
         }
     }
 
-    private fun manageContentViews(isLoading: Boolean = true) {
-        if (isLoading) {
-            bnd.loadingContent.show()
-            bnd.mainContent.gone()
-            bnd.backBtn.hide()
-        } else {
-            bnd.loadingContent.gone()
-            bnd.mainContent.show()
-            bnd.backBtn.show()
-
-        }
-    }
 
     private fun navigateToVehicleDetail(vehicle: Vehicle) {
         if(vehicle.vehicleMovement == null && args.movementType == "exit"){
-            manageContentViews(false)
             val errorMessage = getString(R.string.mo_movement_error_message)
             showDialog("Error", errorMessage)
         } else if (vehicle.vehicleMovement != null && vehicle.vehicleMovement == args.movementType) {
-            manageContentViews(false)
             val errorMessage = if (vehicle.vehicleMovement == "entry") {
                 getString(R.string.movement_error_message, " checked in")
             } else {
@@ -95,15 +82,23 @@ class PlateNumberSearchFragment : Fragment() {
             }
             showDialog("Error", errorMessage)
         } else {
-            manageContentViews(true)
             sharedViewModel.submitData(CaptureMovementData(args.movementType, vehicle))
-            findNavController().navigate(R.id.selectMovementReasonFragment)
+            findNavController().navigate(R.id.action_plateNumberSearchFragment_to_vehicleDetailFragment)
         }
     }
 
     private fun setupView() {
+        bnd.submitButton.setButtonEnable(false)
         bnd.backBtn.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        if(args.movementType == "entry"){
+            bnd.searchToolbar.text = getString(R.string.dialog_entry_label).uppercase()
+            bnd.searchInfoTip.text = getString(R.string.entry_search_info_tip)
+        }else{
+            bnd.searchToolbar.text = getString(R.string.dialog_exit_label).uppercase()
+            bnd.searchInfoTip.text = getString(R.string.exit_search_info_tip)
         }
 
         bnd.plateNumberEditText.addTextChangedListener(object : TextWatcher {
@@ -111,7 +106,7 @@ class PlateNumberSearchFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                bnd.submitButton.isEnabled = s.toString().isNotEmpty() && s.toString().isNotBlank()
+                bnd.submitButton.setButtonEnable(s.toString().isNotEmpty() && s.toString().isNotBlank())
             }
 
             override fun afterTextChanged(s: Editable?) {

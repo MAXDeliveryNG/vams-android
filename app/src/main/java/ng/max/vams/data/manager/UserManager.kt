@@ -9,6 +9,7 @@ class UserManager {
         private lateinit var prefsManager: SharedPrefsManager
         private const val userTag = "user"
         private const val tokenTag = "token"
+        private const val userRoleTag = "user_role"
 
 
         fun initPrefsManager(pref: SharedPrefsManager){
@@ -18,6 +19,7 @@ class UserManager {
         private val keys = mapOf(
             Pair(userTag, userTag),
             Pair(tokenTag, tokenTag),
+            Pair(userRoleTag, userRoleTag),
         )
 
 
@@ -39,6 +41,13 @@ class UserManager {
         fun getToken(): String? {
             return prefsManager.getString(keys.getValue(tokenTag))
         }
+
+        fun saveUserRole(userRole: String) {
+            prefsManager.saveString(keys.getValue(userRoleTag), userRole)
+        }
+
+        fun getUserRole() : String? = prefsManager.getString(keys.getValue(userRoleTag))
+
 
         fun isLoggedIn(): Boolean {
             return getUser() != null

@@ -21,14 +21,15 @@ import coil.transform.CircleCropTransformation
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.data.manager.AppManager
+import ng.max.vams.data.manager.UserManager
 import ng.max.vams.data.remote.response.User
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.HomeFragmentBinding
 import ng.max.vams.ui.login.LoginViewModel
 import ng.max.vams.util.Helper
+import ng.max.vams.util.Helper.Companion.formatUserRole
 import ng.max.vams.util.gone
 import ng.max.vams.util.show
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -133,12 +134,12 @@ class HomeFragment : Fragment() {
         val roleTextView = popupView.findViewById<TextView>(R.id.profileRoleTv)
         val viewProfileTextView = popupView.findViewById<TextView>(R.id.viewProfileTv)
 
-
         usernameTextView.text = user?.fullName
         emailTextView.text = user?.email
-        roleTextView.text = user?.role?.replaceFirstChar {
-            if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+        if(user?.let{ it.role.isEmpty() } == true){
+            user?.let { homeViewModel.getUserRole(it.id) }
         }
+        roleTextView.text = formatUserRole(UserManager.getUserRole())
 
         viewProfileTextView.setOnClickListener {
             popupWindow.dismiss()
@@ -173,11 +174,24 @@ class HomeFragment : Fragment() {
         homeViewModel.actionGetAssetReasons()
         homeViewModel.actionGetLocations()
         homeViewModel.actionGetVehicleTypes()
+        homeViewModel.actionGetVehicleCheckListItem()
 
         if (AppManager.getVehicleTableFlag() == 0){
             homeViewModel.clearVehicleTable()
             AppManager.setVehicleTableFlag(-1)
         }
+
+        user?.let { homeViewModel.getUserRole(it.id) }
+
+        homeViewModel.getUserRoleResponse.observe(viewLifecycleOwner,{ fullRole ->
+            when(fullRole){
+                is Result.Error -> {}
+                is Result.Loading -> {}
+                is Result.Success -> {
+                    UserManager.saveUserRole(fullRole.value.role.name)
+                }
+            }
+        })
     }
 
     private fun showErrorView(isError: Boolean) {

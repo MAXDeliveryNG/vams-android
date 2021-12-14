@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementReasonRepository
-import ng.max.vams.data.RetrivalChecklistRepository
+import ng.max.vams.data.RetrievalChecklistRepository
 import ng.max.vams.data.VehicleTypeRepository
 import ng.max.vams.data.local.AppDatabase
 import ng.max.vams.data.local.dao.*
@@ -15,6 +15,7 @@ import ng.max.vams.data.remote.services.UserService
 import ng.max.vams.data.remote.services.VehicleService
 import ng.max.vams.usecase.login.LoginUseCase
 import ng.max.vams.usecase.search.SearchUseCase
+import ng.max.vams.usecase.userrole.UserRoleUseCase
 import ng.max.vams.usecase.vehiclelist.VehicleListUseCase
 import ng.max.vams.usecase.vehiclemovement.RegisterVehicleMovementUseCase
 import retrofit2.Retrofit
@@ -59,7 +60,7 @@ object DataSourceModule{
     }
 
     @Provides
-    fun providesRetrivalChecklistDao(appDatabase: AppDatabase): RetrivalChecklistDao {
+    fun providesRetrievalChecklistDao(appDatabase: AppDatabase): RetrievalChecklistDao {
         return appDatabase.retrivalChecklistDao()
     }
 
@@ -80,6 +81,10 @@ object DataSourceModule{
         RegisterVehicleMovementUseCase(remoteDataSource)
 
     @Provides
+    fun provideUserRoleUseCase(remoteDataSource: RemoteDataSource): UserRoleUseCase =
+        UserRoleUseCase(remoteDataSource)
+
+    @Provides
     fun provideMovementReasonRepository(reasonDao: ReasonDao, remoteData: RemoteDataSource): MovementReasonRepository =
         MovementReasonRepository(reasonDao, remoteData)
 
@@ -93,8 +98,8 @@ object DataSourceModule{
         VehicleTypeRepository(vehicleTypeDao, remoteDataSource)
 
     @Provides
-    fun provideRetrivalChecklistRepository(retrivalChecklistDao: RetrivalChecklistDao, remoteDataSource: RemoteDataSource) : RetrivalChecklistRepository =
-        RetrivalChecklistRepository(retrivalChecklistDao, remoteDataSource)
+    fun provideRetrievalChecklistRepository(retrievalChecklistDao: RetrievalChecklistDao, remoteDataSource: RemoteDataSource) : RetrievalChecklistRepository =
+        RetrievalChecklistRepository(retrievalChecklistDao, remoteDataSource)
 
 
 }

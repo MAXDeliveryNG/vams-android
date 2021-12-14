@@ -50,4 +50,17 @@ class MovementReasonRepository @Inject constructor(
         }
         return  dbData
     }
+
+    suspend fun getMovementReasonByName(reasonName: String) : Result<List<Reason>> {
+        var dbData: Result<List<Reason>>
+        withContext(Dispatchers.IO){
+            dbData = try {
+                Result.Success(reasonDao.getReasonItem(reasonName))
+            }catch (ex: Exception){
+                Result.Error("Movement reason with id $reasonName not found.")
+            }
+        }
+        return  dbData
+    }
+
 }

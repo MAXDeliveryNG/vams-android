@@ -47,6 +47,7 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.setCanceledOnTouchOutside(true) //Allows touching outside window's bound to close dialog
         setupView()
         setupViewModel()
     }
@@ -62,7 +63,7 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
             val locationId = locations.first { _location ->
                 _location.name == locationName
             }.id
-            sharedBottomSheetViewModel.submitSelectedTransferLocationId(locationId)
+//            sharedBottomSheetViewModel.submitSelectedTransferLocationId(locationId)
         }
     }
 
@@ -84,10 +85,10 @@ class TransferLocationBottomSheetFragment : BottomSheetDialogFragment() {
             actionGetAllLocation()
         }
 
-        sharedBottomSheetViewModel.getSelectedTransferLocationResponse.observe(viewLifecycleOwner){selectedItem ->
-            bnd.locationEditText.setText(selectedItem)
-            bnd.submitButton.isEnabled = true
-        }
+//        sharedBottomSheetViewModel.getSelectedTransferLocationResponse.observe(viewLifecycleOwner){selectedItem ->
+//            bnd.locationEditText.setText(selectedItem)
+//            bnd.submitButton.isEnabled = true
+//        }
     }
 
     private fun populateLocationDropdown(){

@@ -39,5 +39,12 @@ data class LastVehicleMovement(
     @SerializedName("vehicle_id")
     val vehicleId: String,
     @SerializedName("vehicle_type")
-    val vehicleType: String
+    val vehicleType: String,
+    @SerializedName("transfer_status")
+    val transferStatus: String?,
+    @SerializedName("amount_defaulted")
+    val amountDefaulted: String?,
+    @SerializedName("retrieval_agent")
+    val retrievalAgent: String?
+
 )

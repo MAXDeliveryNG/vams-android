@@ -84,7 +84,11 @@ class ProgressButton : FrameLayout {
         button.setOnClickListener(clickListener)
     }
 
-    fun setButtonEnable(isCompleted: Boolean) {
-        button.isEnabled = isCompleted
+    fun setButtonEnable(isEnabled: Boolean) {
+        button.isEnabled = isEnabled
+    }
+
+    fun setButtonText(label: String) {
+        button.text = label
     }
 }

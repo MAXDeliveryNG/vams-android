@@ -11,16 +11,19 @@ import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementReasonRepository
 import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.wrapper.Result
+import ng.max.vams.util.SingleLiveEvent
 import javax.inject.Inject
 
 @HiltViewModel
 class SelectMovementReasonViewModel @Inject constructor(
     private val movementReasonRepo: MovementReasonRepository,
-
     private val locationRepo: LocationRepository
 ) : ViewModel() {
 
     private val reasonResponse = MutableLiveData<Result<List<Reason>>>()
+    private val reasonByNameResponse = SingleLiveEvent<Result<List<Reason>>>()
+
+    val getReasonByNameResponse: LiveData<Result<List<Reason>>> = reasonByNameResponse
     val getReasonsResponse: LiveData<Result<List<Reason>>> = reasonResponse
 
     fun actionGetReasons() {
@@ -35,6 +38,13 @@ class SelectMovementReasonViewModel @Inject constructor(
     fun actionGetLocations() {
         viewModelScope.launch {
             locationRepo.getLocations() //silently download
+        }
+    }
+
+    fun actionGetReasonByName(reasonName: String){
+        reasonResponse.value = Result.Loading
+        viewModelScope.launch {
+            reasonByNameResponse.value = movementReasonRepo.getMovementReasonByName(reasonName)
         }
     }
 }

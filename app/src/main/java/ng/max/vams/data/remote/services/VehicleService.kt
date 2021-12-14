@@ -3,10 +3,7 @@ package ng.max.vams.data.remote.services
 import ng.max.vams.data.remote.request.MovementBody
 import ng.max.vams.data.remote.response.*
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface VehicleService {
 
@@ -32,13 +29,14 @@ interface VehicleService {
 
     @GET("vehicles/v1/vehicle")
     suspend fun search(@Query("search_query") term: String,
+                       @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
                        @Query("include_defined_relations") relations: String = "champion,vehicle_status"): Response<ApiResponse<VehicleListData>>
 
-    @GET("vehicles/v1/vehicle")
-    suspend fun searchVehicleWithReason(@Query("search_query") term: String,
-                                        @Query("vehicle_movement") movementType: String,
-                                        @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
-                                        @Query("include_defined_relations") relations: String = "champion,vehicle_status"): Response<ApiResponse<VehicleListData>>
+//    @GET("vehicles/v1/vehicle")
+//    suspend fun searchVehicleWithReason(@Query("search_query") term: String,
+//                                        @Query("vehicle_movement") movementType: String,
+//                                        @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
+//                                        @Query("include_defined_relations") relations: String = "champion,vehicle_status"): Response<ApiResponse<VehicleListData>>
 
     @POST("vehicles/v1/vehicle/movement/change")
     suspend fun registerVehicleMovement(@Body movementBody: MovementBody): Response<ApiResponse<Vehicle>>
@@ -46,5 +44,7 @@ interface VehicleService {
     @GET("vehicles/v1/checklist")
     suspend fun recoveredItemsChecklist(): Response<ApiResponse<List<RetrivalChecklistItem>>>
 
+    @GET("vehicles/v1/user-managment/getUser/{user_id}")
+    suspend fun getUserRole(@Path("user_id")userId: String): Response<ApiResponse<RoleData>>
 
 }

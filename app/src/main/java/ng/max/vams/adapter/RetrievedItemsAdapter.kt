@@ -11,7 +11,7 @@ import ng.max.vams.databinding.LayoutRetrievedItemBinding
 class RetrievedItemsAdapter : RecyclerView.Adapter<RetrievedItemsAdapter.RetrievedItemsViewholder>() {
 
     var retrievedItemsMap = mutableMapOf<String, Boolean>()
-    var recoveredItems: List<RetrivalChecklistItem> = emptyList()
+    var retrievedItems: List<RetrivalChecklistItem> = emptyList()
         set(newList) {
             field = newList
             notifyDataSetChanged()
@@ -26,7 +26,7 @@ class RetrievedItemsAdapter : RecyclerView.Adapter<RetrievedItemsAdapter.Retriev
     private var onItemClickListener: ((position: Int, isChecked: Boolean)->Unit)? = null
 
 
-    override fun getItemCount(): Int = recoveredItems.size
+    override fun getItemCount(): Int = retrievedItems.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RetrievedItemsViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -36,7 +36,7 @@ class RetrievedItemsAdapter : RecyclerView.Adapter<RetrievedItemsAdapter.Retriev
     }
 
     override fun onBindViewHolder(holder: RetrievedItemsAdapter.RetrievedItemsViewholder, position: Int) {
-        recoveredItems[position]?.let { holder.bind(it) }
+        retrievedItems[position].let { holder.bind(it) }
     }
 
     fun setOnItemClickListener(onItemClickListener: (position: Int, isChecked: Boolean)->Unit) {
@@ -58,7 +58,7 @@ class RetrievedItemsAdapter : RecyclerView.Adapter<RetrievedItemsAdapter.Retriev
 
         fun bind(item: RetrivalChecklistItem) = with(itemView) {
             itemCB.text = item.name
-            itemCB.isChecked = retrievedItemsMap[item.id] ?: false
+            itemCB.isChecked = retrievedItemsMap[item.name] ?: false
         }
     }
 }
