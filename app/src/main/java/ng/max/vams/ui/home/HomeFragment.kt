@@ -91,24 +91,24 @@ class HomeFragment : Fragment() {
             navController.navigate(R.id.action_homeFragment_to_movementTypeDialogFragment)
         }
         val date = Helper.getFormattedDate()
-        bnd.entryCard.setDate(date)
-        bnd.exitCard.setDate(date)
+//        bnd.entryCard.setDate(date)
+//        bnd.exitCard.setDate(date)
 
-        bnd.entryCard.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
-                "entry",
-                "Vehicle"
-            )
-            navController.navigate(action)
-        }
+//        bnd.entryCard.setOnClickListener {
+//            val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
+//                "entry",
+//                "Vehicle"
+//            )
+//            navController.navigate(action)
+//        }
 
-        bnd.exitCard.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
-                "exit",
-                "Vehicle"
-            )
-            navController.navigate(action)
-        }
+//        bnd.exitCard.setOnClickListener {
+//            val action = HomeFragmentDirections.actionHomeFragmentToVehicleListFragment(
+//                "exit",
+//                "Vehicle"
+//            )
+//            navController.navigate(action)
+//        }
 
         bnd.retryButton.setOnClickListener {
             homeViewModel.actionGetMovementStat()
@@ -165,8 +165,8 @@ class HomeFragment : Fragment() {
                 }
                 is Result.Success -> {
                     showErrorView(false)
-                    bnd.entryCard.setCount(result.value.totalEntry)
-                    bnd.exitCard.setCount(result.value.totalExit)
+//                    bnd.entryCard.setCount(result.value.totalEntry)
+//                    bnd.exitCard.setCount(result.value.totalExit)
                 }
             }
         }
@@ -197,11 +197,11 @@ class HomeFragment : Fragment() {
     private fun showErrorView(isError: Boolean) {
         if (isError){
             bnd.errorView.show()
-            bnd.dataView.gone()
+//            bnd.dataView.gone()
             bnd.bottomView.gone()
         }else{
             bnd.errorView.gone()
-            bnd.dataView.show()
+//            bnd.dataView.show()
             bnd.bottomView.show()
         }
     }

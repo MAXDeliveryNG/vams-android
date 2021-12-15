@@ -11,7 +11,9 @@
     <string name="tab_spare_parts">Spare parts</string>
     <string name="tab_trackers">Trackers</string>
     <string name="reason_label">Reason</string>
-    <string name="entry_label">Entries</string>
+    <string name="total_entry_label">Entries</string>
+    <string name="sub_entry_label">Entries</string>
+    <string name="sub_entrytwo_label">Entries</string>
     <string name="exit_label">Exits</string>
     <string name="entry_reason_header">Reason for entry</string>
     <string name="exit_reason_header">Reason for exit</string>
@@ -44,7 +46,7 @@
     <string name="liveActionData">Undergoing Maintenance</string>
     <string name="entry_header_label">Entry (%s)</string>
     <string name="exit_header_label">Exit (%s)</string>
-    <string name="overview_label">Overview</string>
+    <string name="dashboard_label">Dashboard</string>
     <string name="profile_label">Profile</string>
     <string name="settings_label">Application Settings</string>
     <string name="sign_out_label">Sign out</string>
