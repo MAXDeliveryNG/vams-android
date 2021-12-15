@@ -19,7 +19,9 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.layout_movement_type_card_view.*
 import ng.max.vams.R
+import ng.max.vams.customview.MovementTypeCardView
 import ng.max.vams.data.manager.AppManager
 import ng.max.vams.data.manager.UserManager
 import ng.max.vams.data.remote.response.User
@@ -90,6 +92,22 @@ class HomeFragment : Fragment() {
         bnd.fab.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_movementTypeDialogFragment)
         }
+
+        bnd.apply {
+            var clicked = false
+            cardOverall.setOnClickListener {
+                cardOverall.setVisibility(clicked)
+                clicked = true
+            }
+            cardOverallExit.setOnClickListener {
+
+            }
+            cardOverallTransfer.setOnClickListener {
+
+            }
+        }
+
+
         val date = Helper.getFormattedDate()
 //        bnd.entryCard.setDate(date)
 //        bnd.exitCard.setDate(date)

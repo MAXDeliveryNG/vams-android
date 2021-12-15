@@ -58,59 +58,266 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="980dp" />
+
+
+<!--        <ListView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            tools:listitem=""-->
+<!--            />-->
+
+
+        <ScrollView
             android:id="@+id/dataView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/dimen_80dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/guideline15"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ScrollView
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dataWrap"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ListView
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/entryBatch"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_margin="@dimen/dimen_16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:listitem="@layout/home_movement_item_layout" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <!--            <ng.max.vams.customview.MovementTypeCardView-->
-                <!--                android:id="@+id/entryCard"-->
-                <!--                android:layout_width="@dimen/dimen_0dp"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_marginTop="8dp"-->
-                <!--                app:count="0"-->
-                <!--                app:countColor="@color/very_light_green"-->
-                <!--                app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                app:layout_constraintStart_toStartOf="parent"-->
-                <!--                app:layout_constraintTop_toTopOf="parent"-->
-                <!--                app:title="@string/entry_label" />-->
+                    <ImageView
+                        android:id="@+id/imageViewentry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:layout_marginBottom="@dimen/dimen_16dp"
+                        android:src="@drawable/ic_checkin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <!--            <ng.max.vams.customview.MovementTypeCardView-->
-                <!--                android:id="@+id/exitCard"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_marginTop="8dp"-->
-                <!--                app:count="0"-->
-                <!--                app:countColor="@color/very_light_red"-->
-                <!--                app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                app:layout_constraintStart_toStartOf="parent"-->
-                <!--                app:layout_constraintTop_toBottomOf="@id/entryCard"-->
-                <!--                app:title="@string/exit_label" />-->
+                    <LinearLayout
+                        android:id="@+id/linearLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:weightSum="3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewentry"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        >
 
-            </ScrollView>
+                        <ng.max.vams.customview.MovementTypeCardView
+                            android:id="@+id/card_overall"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:count="0"
+                            app:countColor="@color/very_light_green"
+                            app:subTitle="Overall"
+                            app:title="Total Entries" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ng.max.vams.customview.MovementTypeCardView
+                            android:id="@+id/card_user"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:count="0"
+                            app:countColor="@color/very_light_green"
+                            app:subTitle="By Turaki Ezekiel"
+                            app:title="@string/sub_entry_label" />
+
+                        <ng.max.vams.customview.MovementTypeCardView
+                            android:id="@+id/card_user_today"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:count="0"
+                            app:countColor="@color/very_light_green"
+                            app:subTitle="By Turaki Ezekiel (Today)"
+                            app:title="@string/sub_entrytwo_label" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/divider_entry"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_1dp"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:background="@color/very_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/entryBatch" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/exitBatch"
+                    android:layout_width="match_parent"
+                    android:layout_margin="@dimen/dimen_16dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_entry">
+
+                    <ImageView
+                        android:id="@+id/imageViewexit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:layout_marginBottom="@dimen/dimen_16dp"
+                        android:src="@drawable/ic_checkout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:weightSum="3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewexit">
+
+                        <ng.max.vams.customview.MovementTypeCardView
+                            android:id="@+id/card_overall_exit"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:count="0"
+                            app:countColor="@color/very_light_red"
+                            app:subTitle="Overall"
+                            app:title="Total Exits" />
+
+                        <ng.max.vams.customview.MovementTypeCardView
+                            android:id="@+id/card_user_exit"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:count="0"
+                            app:countColor="@color/very_light_red"
+                            app:subTitle="By Turaki Ezekiel"
+                            app:title="Exits" />
+
+                        <ng.max.vams.customview.MovementTypeCardView
+                            android:id="@+id/card_user_exit_today"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:count="0"
+                            app:countColor="@color/very_light_red"
+                            app:subTitle="By Turaki Ezekiel (Today)"
+                            app:title="Exits" />
+
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/divider_exit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_1dp"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:background="@color/very_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/exitBatch" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/transferBatch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dimen_16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_exit">
+
+                    <ImageView
+                        android:id="@+id/imageViewTransfer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:layout_marginBottom="@dimen/dimen_16dp"
+                        android:src="@drawable/ic_transfer"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:weightSum="3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewTransfer">
+
+                        <ng.max.vams.customview.MovementTypeCardView
+                            android:id="@+id/card_overall_transfer"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:count="0"
+                            app:countColor="@color/vivid_orange"
+                            app:subTitle="Overall"
+                            app:title="Total Transfers" />
+
+                        <ng.max.vams.customview.MovementTypeCardView
+                            android:id="@+id/card_user_transfer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:count="0"
+                            app:countColor="@color/vivid_orange"
+                            app:subTitle="By Turaki Ezekiel"
+                            app:title="Transfers" />
+
+                        <ng.max.vams.customview.MovementTypeCardView
+                            android:id="@+id/card_user_transfer_today"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            app:count="0"
+                            app:countColor="@color/vivid_orange"
+                            app:subTitle="By Turaki Ezekiel (Today)"
+                            app:title="Transfers" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/errorView"
@@ -159,6 +366,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/errorTv"
                 app:layout_constraintVertical_bias="0.8" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -194,6 +403,8 @@
             app:tint="#3c3c3c" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

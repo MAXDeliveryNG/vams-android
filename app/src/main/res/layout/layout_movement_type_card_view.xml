@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:elevation="@dimen/dimen_8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/cardGuidelineStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/dimen_24dp" />
+        app:layout_constraintGuide_begin="@dimen/dimen_16dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/cardGuidelineEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/dimen_24dp" />
+        app:layout_constraintGuide_end="@dimen/dimen_16dp" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="start"
-        app:constraint_referenced_ids="cardCountTv"
-        tools:layout_editor_absoluteX="411dp" />
+<!--    <androidx.constraintlayout.widget.Barrier-->
+<!--        android:id="@+id/barrier2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:barrierDirection="start"-->
+<!--        app:constraint_referenced_ids="cardCountTv"-->
+<!--        tools:layout_editor_absoluteX="411dp" />-->
 
     <LinearLayout
         android:id="@+id/titlelayout"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingTop="@dimen/dimen_8dp"
+        android:paddingBottom="@dimen/dimen_8dp"
         app:layout_constraintEnd_toStartOf="@+id/cardCountTv"
         app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"
         app:layout_constraintTop_toTopOf="parent">
@@ -49,6 +58,7 @@
             android:id="@+id/cardSubtitleTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8dp"
             android:layout_marginBottom="@dimen/dimen_16dp"
             android:fontFamily="@font/ttcommons_regular"
             android:textColor="@color/very_dark_gray_50"
@@ -66,33 +76,35 @@
         app:layout_constraintTop_toTopOf="@+id/titlelayout"
         tools:text="2000" />
 
-    <ProgressBar
-        android:id="@+id/countProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/cardCountTv"
-        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
-        app:layout_constraintStart_toEndOf="@+id/titlelayout"
-        app:layout_constraintTop_toTopOf="@+id/cardCountTv" />
+        <ProgressBar
+            android:id="@+id/countProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/cardCountTv"
+            app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
+            app:layout_constraintStart_toEndOf="@+id/titlelayout"
+            app:layout_constraintTop_toTopOf="@+id/cardCountTv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/linedivider"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@color/very_light_gray"
         app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
         app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/titlelayout" />
+        app:layout_constraintTop_toBottomOf="@+id/title_wrap" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_detail_wrap"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
         app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"
@@ -106,15 +118,14 @@
             android:layout_marginBottom="@dimen/dimen_8dp"
             >
 
-
             <TextView
                 android:id="@+id/typeOneName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="item name"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
+                android:textColor="@color/very_dark_gray_50"
+                android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/typeOneCountTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -124,13 +135,13 @@
                 android:id="@+id/typeOneCountTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:textColor="@color/very_dark_gray"
                 android:textSize="@dimen/dimen_16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="item count"
+                android:text="3"
                 />
 
 
@@ -149,10 +160,10 @@
                 android:id="@+id/typeTwoName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="item name"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
+                android:textColor="@color/very_dark_gray_50"
+                android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/typeTwoCountTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -162,13 +173,13 @@
                 android:id="@+id/typeTwoCountTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:textColor="@color/very_dark_gray"
                 android:textSize="@dimen/dimen_16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="item count"
+                android:text="5"
                 />
 
 
@@ -187,10 +198,10 @@
                 android:id="@+id/typethreeName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="item name"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
+                android:textColor="@color/very_dark_gray_50"
+                android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/typethreeCountTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -200,13 +211,13 @@
                 android:id="@+id/typethreeCountTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:textColor="@color/very_dark_gray"
                 android:textSize="@dimen/dimen_16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="item count"
+                android:text="3"
                 />
 
 
@@ -225,10 +236,10 @@
                 android:id="@+id/typeFourName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="item name"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
+                android:textColor="@color/very_dark_gray_50"
+                android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/typeFourCountTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -238,13 +249,13 @@
                 android:id="@+id/typeFourCountTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:textColor="@color/very_dark_gray"
                 android:textSize="@dimen/dimen_16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="item count"
+                android:text="6"
                 />
 
 
@@ -263,10 +274,10 @@
                 android:id="@+id/typeFiveName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="item name"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
+                android:textColor="@color/very_dark_gray_50"
+                android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/typeFiveCountTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -276,13 +287,13 @@
                 android:id="@+id/typeFiveCountTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:textColor="@color/very_dark_gray"
                 android:textSize="@dimen/dimen_16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="item count"
+                android:text="97"
                 />
 
 
@@ -301,10 +312,10 @@
                 android:id="@+id/typeSixName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="item name"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
+                android:textColor="@color/very_dark_gray_50"
+                android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/typeSixCountTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -314,14 +325,13 @@
                 android:id="@+id/typeSixCountTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="56"
                 android:textColor="@color/very_dark_gray"
                 android:textSize="@dimen/dimen_16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="item count"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -339,10 +349,10 @@
                 android:id="@+id/typeSevenName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="item name"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
+                android:textColor="@color/very_dark_gray_50"
+                android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/typeSevenCountTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -352,98 +362,301 @@
                 android:id="@+id/typeSevenCountTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat_medium"
                 android:textColor="@color/very_dark_gray"
                 android:textSize="@dimen/dimen_16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="item count"
+                android:text="24"
                 />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
+
+
+
+<!--<LinearLayout-->
+<!--android:id="@+id/card_detail_wrap"-->
+<!--android:layout_width="0dp"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:orientation="vertical"-->
+<!--android:visibility="visible"-->
+<!--app:layout_constraintBottom_toBottomOf="parent"-->
+<!--app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"-->
+<!--app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"-->
+<!--app:layout_constraintTop_toBottomOf="@id/linedivider">-->
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
 <!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="@dimen/dimen_100dp">-->
-
-<!--    <androidx.constraintlayout.widget.Guideline-->
-<!--        android:id="@+id/cardGuidelineStart"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintGuide_begin="@dimen/dimen_24dp" />-->
-
-<!--    <androidx.constraintlayout.widget.Guideline-->
-<!--        android:id="@+id/cardGuidelineEnd"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintGuide_end="@dimen/dimen_24dp" />-->
-
-<!--    <androidx.constraintlayout.widget.Barrier-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:barrierDirection="start"-->
-<!--        app:constraint_referenced_ids="cardCountTv"-->
-<!--        tools:layout_editor_absoluteX="411dp" />-->
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/linearLayout"-->
-<!--        android:layout_width="@dimen/dimen_0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/cardCountTv"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/cardTitleTv"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="@dimen/dimen_16dp"-->
-<!--            android:fontFamily="@font/montserrat_bold"-->
-<!--            android:textColor="@color/very_dark_gray"-->
-<!--            android:textSize="@dimen/dimen_16sp" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/cardSubtitleTv"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="@dimen/dimen_16dp"-->
-<!--            android:fontFamily="@font/ttcommons_regular"-->
-<!--            android:textColor="@color/very_dark_gray_50"-->
-<!--            android:textSize="@dimen/dimen_14sp" />-->
-<!--    </LinearLayout>-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:id="@+id/firsttype_item"-->
+<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+<!--    >-->
 
 <!--    <TextView-->
-<!--        android:id="@+id/cardCountTv"-->
+<!--        android:id="@+id/typeOneName"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:text="item name"-->
+<!--        android:textColor="@color/very_dark_gray_50"-->
+<!--        android:textSize="@dimen/dimen_14sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/typeOneCountTv"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeOneCountTv"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_bold"-->
-<!--        android:textSize="@dimen/dimen_24sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/linearLayout"-->
-<!--        tools:text="2000" />-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:textColor="@color/very_dark_gray"-->
+<!--        android:textSize="@dimen/dimen_16sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:text="3"-->
+<!--        />-->
 
-<!--    <ProgressBar-->
-<!--        android:id="@+id/countProgressBar"-->
-<!--        style="?android:attr/progressBarStyle"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:visibility="invisible"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/cardCountTv"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/linearLayout"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/cardCountTv" />-->
+
 <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:id="@+id/secondtype_item"-->
+<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+<!--    >-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeTwoName"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:text="item name"-->
+<!--        android:textColor="@color/very_dark_gray_50"-->
+<!--        android:textSize="@dimen/dimen_14sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/typeTwoCountTv"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeTwoCountTv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:textColor="@color/very_dark_gray"-->
+<!--        android:textSize="@dimen/dimen_16sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:text="5"-->
+<!--        />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:id="@+id/thirdtype_item"-->
+<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+<!--    >-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/typethreeName"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:text="item name"-->
+<!--        android:textColor="@color/very_dark_gray_50"-->
+<!--        android:textSize="@dimen/dimen_14sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/typethreeCountTv"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/typethreeCountTv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:textColor="@color/very_dark_gray"-->
+<!--        android:textSize="@dimen/dimen_16sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:text="3"-->
+<!--        />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:id="@+id/fourthtype_item"-->
+<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+<!--    >-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeFourName"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:text="item name"-->
+<!--        android:textColor="@color/very_dark_gray_50"-->
+<!--        android:textSize="@dimen/dimen_14sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/typeFourCountTv"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeFourCountTv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:textColor="@color/very_dark_gray"-->
+<!--        android:textSize="@dimen/dimen_16sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:text="6"-->
+<!--        />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:id="@+id/fifthtype_item"-->
+<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+<!--    >-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeFiveName"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:text="item name"-->
+<!--        android:textColor="@color/very_dark_gray_50"-->
+<!--        android:textSize="@dimen/dimen_14sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/typeFiveCountTv"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeFiveCountTv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:textColor="@color/very_dark_gray"-->
+<!--        android:textSize="@dimen/dimen_16sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:text="97"-->
+<!--        />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:id="@+id/sixthtype_item"-->
+<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+<!--    >-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeSixName"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:text="item name"-->
+<!--        android:textColor="@color/very_dark_gray_50"-->
+<!--        android:textSize="@dimen/dimen_14sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/typeSixCountTv"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeSixCountTv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:text="56"-->
+<!--        android:textColor="@color/very_dark_gray"-->
+<!--        android:textSize="@dimen/dimen_16sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:id="@+id/seventhtype_item"-->
+<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+<!--    >-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeSevenName"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:text="item name"-->
+<!--        android:textColor="@color/very_dark_gray_50"-->
+<!--        android:textSize="@dimen/dimen_14sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/typeSevenCountTv"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/typeSevenCountTv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/montserrat_medium"-->
+<!--        android:textColor="@color/very_dark_gray"-->
+<!--        android:textSize="@dimen/dimen_16sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:text="24"-->
+<!--        />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+<!--</LinearLayout>-->
