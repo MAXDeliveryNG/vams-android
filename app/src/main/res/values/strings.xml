@@ -108,6 +108,7 @@
     <string name="movement_reason_label">Movement Reason</string>
     <string name="movement_sub_reason_label">Movement Sub-reason</string>
     <string name="items_retrieve_label">Items retrieved</string>
+    <string name="initial_count">0</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>

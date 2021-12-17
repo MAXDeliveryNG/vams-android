@@ -1,662 +1,664 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:elevation="@dimen/dimen_8dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/dimen_8dp"
+    app:cardCornerRadius="@dimen/dimen_4dp"
+    app:cardElevation="@dimen/dimen_8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/title_wrap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/cardGuidelineStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/dimen_16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/cardGuidelineEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/dimen_16dp" />
-
-<!--    <androidx.constraintlayout.widget.Barrier-->
-<!--        android:id="@+id/barrier2"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:barrierDirection="start"-->
-<!--        app:constraint_referenced_ids="cardCountTv"-->
-<!--        tools:layout_editor_absoluteX="411dp" />-->
-
-    <LinearLayout
-        android:id="@+id/titlelayout"
-        android:layout_width="@dimen/dimen_0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/dimen_8dp"
-        android:paddingBottom="@dimen/dimen_8dp"
-        app:layout_constraintEnd_toStartOf="@+id/cardCountTv"
-        app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/cardTitleTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:textColor="@color/very_dark_gray"
-            android:textSize="@dimen/dimen_16sp" />
-
-        <TextView
-            android:id="@+id/cardSubtitleTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_16dp"
-            android:fontFamily="@font/ttcommons_regular"
-            android:textColor="@color/very_dark_gray_50"
-            android:textSize="@dimen/dimen_14sp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/cardCountTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_bold"
-        android:textSize="@dimen/dimen_24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/titlelayout"
-        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
-        app:layout_constraintTop_toTopOf="@+id/titlelayout"
-        tools:text="2000" />
-
-        <ProgressBar
-            android:id="@+id/countProgressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/cardCountTv"
-            app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
-            app:layout_constraintStart_toEndOf="@+id/titlelayout"
-            app:layout_constraintTop_toTopOf="@+id/cardCountTv" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/linedivider"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:visibility="visible"
-        android:background="@color/very_light_gray"
-        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
-        app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/title_wrap" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/card_detail_wrap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
-        app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/linedivider">
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardTitleWrap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/firsttype_item"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            >
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/typeOneName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="item name"
-                android:textColor="@color/very_dark_gray_50"
-                android:textSize="@dimen/dimen_14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/typeOneCountTv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/typeOneCountTv"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/cardGuidelineStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="3"
-                />
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/dimen_16dp" />
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/cardGuidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dimen_16dp" />
+
+            <LinearLayout
+                android:id="@+id/cardtitlelayout"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/dimen_8dp"
+                android:paddingBottom="@dimen/dimen_8dp"
+                app:layout_constraintEnd_toStartOf="@+id/cardCountTv"
+                app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/cardTitleTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/very_dark_gray"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <TextView
+                    android:id="@+id/cardSubtitleTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:layout_marginBottom="@dimen/dimen_16dp"
+                    android:fontFamily="@font/ttcommons_regular"
+                    android:textColor="@color/very_dark_gray_50"
+                    android:textSize="@dimen/dimen_14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/cardCountTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="@dimen/dimen_24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/cardtitlelayout"
+                app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
+                app:layout_constraintTop_toTopOf="@+id/cardtitlelayout"
+                tools:text="2000" />
+
+            <ProgressBar
+                android:id="@+id/countProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/cardCountTv"
+                app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"
+                app:layout_constraintStart_toEndOf="@+id/cardtitlelayout"
+                app:layout_constraintTop_toTopOf="@+id/cardCountTv" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <View
+            android:id="@+id/totalentryLinedivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/very_light_gray"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="@dimen/dimen_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardTitleWrap" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/card_detail_wrap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/secondtype_item"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            >
+            android:layout_margin="@dimen/dimen_16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/totalentryLinedivider">
 
-
-            <TextView
-                android:id="@+id/typeTwoName"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/firsttype_item"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="item name"
-                android:textColor="@color/very_dark_gray_50"
-                android:textSize="@dimen/dimen_14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/typeTwoCountTv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/typeTwoCountTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="@dimen/dimen_8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="5"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/typeOneName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="item name"
+                    android:textColor="@color/very_dark_gray_50"
+                    android:textSize="@dimen/dimen_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/typeOneCountTv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/typeOneCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="3"
+                    android:textColor="@color/very_dark_gray"
+                    android:textSize="@dimen/dimen_16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/secondtype_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/firsttype_item">
+
+
+                <TextView
+                    android:id="@+id/typeTwoName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="item name"
+                    android:textColor="@color/very_dark_gray_50"
+                    android:textSize="@dimen/dimen_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/typeTwoCountTv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/typeTwoCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="5"
+                    android:textColor="@color/very_dark_gray"
+                    android:textSize="@dimen/dimen_16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/thirdtype_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/secondtype_item">
+
+
+                <TextView
+                    android:id="@+id/typethreeName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="item name"
+                    android:textColor="@color/very_dark_gray_50"
+                    android:textSize="@dimen/dimen_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/typethreeCountTv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/typethreeCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="3"
+                    android:textColor="@color/very_dark_gray"
+                    android:textSize="@dimen/dimen_16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fourthtype_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/thirdtype_item">
+
+
+                <TextView
+                    android:id="@+id/typeFourName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="item name"
+                    android:textColor="@color/very_dark_gray_50"
+                    android:textSize="@dimen/dimen_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/typeFourCountTv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/typeFourCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="6"
+                    android:textColor="@color/very_dark_gray"
+                    android:textSize="@dimen/dimen_16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fifthtype_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fourthtype_item">
+
+
+                <TextView
+                    android:id="@+id/typeFiveName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="item name"
+                    android:textColor="@color/very_dark_gray_50"
+                    android:textSize="@dimen/dimen_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/typeFiveCountTv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/typeFiveCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="97"
+                    android:textColor="@color/very_dark_gray"
+                    android:textSize="@dimen/dimen_16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sixthtype_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fifthtype_item">
+
+
+                <TextView
+                    android:id="@+id/typeSixName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="item name"
+                    android:textColor="@color/very_dark_gray_50"
+                    android:textSize="@dimen/dimen_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/typeSixCountTv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/typeSixCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="56"
+                    android:textColor="@color/very_dark_gray"
+                    android:textSize="@dimen/dimen_16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/seventhtype_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sixthtype_item">
+
+
+                <TextView
+                    android:id="@+id/typeSevenName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="item name"
+                    android:textColor="@color/very_dark_gray_50"
+                    android:textSize="@dimen/dimen_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/typeSevenCountTv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/typeSevenCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="24"
+                    android:textColor="@color/very_dark_gray"
+                    android:textSize="@dimen/dimen_16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/thirdtype_item"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            >
-
-
-            <TextView
-                android:id="@+id/typethreeName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="item name"
-                android:textColor="@color/very_dark_gray_50"
-                android:textSize="@dimen/dimen_14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/typethreeCountTv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/typethreeCountTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="3"
-                />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fourthtype_item"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            >
-
-
-            <TextView
-                android:id="@+id/typeFourName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="item name"
-                android:textColor="@color/very_dark_gray_50"
-                android:textSize="@dimen/dimen_14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/typeFourCountTv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/typeFourCountTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="6"
-                />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fifthtype_item"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            >
-
-
-            <TextView
-                android:id="@+id/typeFiveName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="item name"
-                android:textColor="@color/very_dark_gray_50"
-                android:textSize="@dimen/dimen_14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/typeFiveCountTv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/typeFiveCountTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="97"
-                />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sixthtype_item"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            >
-
-
-            <TextView
-                android:id="@+id/typeSixName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="item name"
-                android:textColor="@color/very_dark_gray_50"
-                android:textSize="@dimen/dimen_14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/typeSixCountTv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/typeSixCountTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="56"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/seventhtype_item"
-            android:layout_marginTop="@dimen/dimen_8dp"
-            android:layout_marginBottom="@dimen/dimen_8dp"
-            >
-
-
-            <TextView
-                android:id="@+id/typeSevenName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="item name"
-                android:textColor="@color/very_dark_gray_50"
-                android:textSize="@dimen/dimen_14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/typeSevenCountTv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/typeSevenCountTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="24"
-                />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
 
 
+    <!--<LinearLayout-->
+    <!--android:id="@+id/card_detail_wrap"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical"-->
+    <!--android:visibility="visible"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"-->
+    <!--app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/linedivider">-->
+
+    <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:id="@+id/firsttype_item"-->
+    <!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+    <!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+    <!--    >-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeOneName"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:text="item name"-->
+    <!--        android:textColor="@color/very_dark_gray_50"-->
+    <!--        android:textSize="@dimen/dimen_14sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/typeOneCountTv"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeOneCountTv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:textColor="@color/very_dark_gray"-->
+    <!--        android:textSize="@dimen/dimen_16sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:text="3"-->
+    <!--        />-->
 
 
-<!--<LinearLayout-->
-<!--android:id="@+id/card_detail_wrap"-->
-<!--android:layout_width="0dp"-->
-<!--android:layout_height="wrap_content"-->
-<!--android:orientation="vertical"-->
-<!--android:visibility="visible"-->
-<!--app:layout_constraintBottom_toBottomOf="parent"-->
-<!--app:layout_constraintEnd_toStartOf="@+id/cardGuidelineEnd"-->
-<!--app:layout_constraintStart_toStartOf="@+id/cardGuidelineStart"-->
-<!--app:layout_constraintTop_toBottomOf="@id/linedivider">-->
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:id="@+id/firsttype_item"-->
-<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
-<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
-<!--    >-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeOneName"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:text="item name"-->
-<!--        android:textColor="@color/very_dark_gray_50"-->
-<!--        android:textSize="@dimen/dimen_14sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/typeOneCountTv"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeOneCountTv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:textColor="@color/very_dark_gray"-->
-<!--        android:textSize="@dimen/dimen_16sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:text="3"-->
-<!--        />-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:id="@+id/secondtype_item"-->
+    <!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+    <!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+    <!--    >-->
 
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeTwoName"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:text="item name"-->
+    <!--        android:textColor="@color/very_dark_gray_50"-->
+    <!--        android:textSize="@dimen/dimen_14sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/typeTwoCountTv"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:id="@+id/secondtype_item"-->
-<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
-<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
-<!--    >-->
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeTwoName"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:text="item name"-->
-<!--        android:textColor="@color/very_dark_gray_50"-->
-<!--        android:textSize="@dimen/dimen_14sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/typeTwoCountTv"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeTwoCountTv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:textColor="@color/very_dark_gray"-->
-<!--        android:textSize="@dimen/dimen_16sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:text="5"-->
-<!--        />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeTwoCountTv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:textColor="@color/very_dark_gray"-->
+    <!--        android:textSize="@dimen/dimen_16sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:text="5"-->
+    <!--        />-->
 
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:id="@+id/thirdtype_item"-->
-<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
-<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
-<!--    >-->
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/typethreeName"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:text="item name"-->
-<!--        android:textColor="@color/very_dark_gray_50"-->
-<!--        android:textSize="@dimen/dimen_14sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/typethreeCountTv"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/typethreeCountTv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:textColor="@color/very_dark_gray"-->
-<!--        android:textSize="@dimen/dimen_16sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:text="3"-->
-<!--        />-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:id="@+id/thirdtype_item"-->
+    <!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+    <!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+    <!--    >-->
 
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/typethreeName"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:text="item name"-->
+    <!--        android:textColor="@color/very_dark_gray_50"-->
+    <!--        android:textSize="@dimen/dimen_14sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/typethreeCountTv"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:id="@+id/fourthtype_item"-->
-<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
-<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
-<!--    >-->
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeFourName"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:text="item name"-->
-<!--        android:textColor="@color/very_dark_gray_50"-->
-<!--        android:textSize="@dimen/dimen_14sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/typeFourCountTv"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeFourCountTv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:textColor="@color/very_dark_gray"-->
-<!--        android:textSize="@dimen/dimen_16sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:text="6"-->
-<!--        />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/typethreeCountTv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:textColor="@color/very_dark_gray"-->
+    <!--        android:textSize="@dimen/dimen_16sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:text="3"-->
+    <!--        />-->
 
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:id="@+id/fifthtype_item"-->
-<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
-<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
-<!--    >-->
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeFiveName"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:text="item name"-->
-<!--        android:textColor="@color/very_dark_gray_50"-->
-<!--        android:textSize="@dimen/dimen_14sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/typeFiveCountTv"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeFiveCountTv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:textColor="@color/very_dark_gray"-->
-<!--        android:textSize="@dimen/dimen_16sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:text="97"-->
-<!--        />-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:id="@+id/fourthtype_item"-->
+    <!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+    <!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+    <!--    >-->
 
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeFourName"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:text="item name"-->
+    <!--        android:textColor="@color/very_dark_gray_50"-->
+    <!--        android:textSize="@dimen/dimen_14sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/typeFourCountTv"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:id="@+id/sixthtype_item"-->
-<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
-<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
-<!--    >-->
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeSixName"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:text="item name"-->
-<!--        android:textColor="@color/very_dark_gray_50"-->
-<!--        android:textSize="@dimen/dimen_14sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/typeSixCountTv"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeSixCountTv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:text="56"-->
-<!--        android:textColor="@color/very_dark_gray"-->
-<!--        android:textSize="@dimen/dimen_16sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeFourCountTv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:textColor="@color/very_dark_gray"-->
+    <!--        android:textSize="@dimen/dimen_16sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:text="6"-->
+    <!--        />-->
 
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:id="@+id/seventhtype_item"-->
-<!--    android:layout_marginTop="@dimen/dimen_8dp"-->
-<!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
-<!--    >-->
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeSevenName"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:text="item name"-->
-<!--        android:textColor="@color/very_dark_gray_50"-->
-<!--        android:textSize="@dimen/dimen_14sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/typeSevenCountTv"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/typeSevenCountTv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/montserrat_medium"-->
-<!--        android:textColor="@color/very_dark_gray"-->
-<!--        android:textSize="@dimen/dimen_16sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:text="24"-->
-<!--        />-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:id="@+id/fifthtype_item"-->
+    <!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+    <!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+    <!--    >-->
 
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeFiveName"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:text="item name"-->
+    <!--        android:textColor="@color/very_dark_gray_50"-->
+    <!--        android:textSize="@dimen/dimen_14sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/typeFiveCountTv"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeFiveCountTv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:textColor="@color/very_dark_gray"-->
+    <!--        android:textSize="@dimen/dimen_16sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:text="97"-->
+    <!--        />-->
 
 
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--</LinearLayout>-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:id="@+id/sixthtype_item"-->
+    <!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+    <!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+    <!--    >-->
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeSixName"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:text="item name"-->
+    <!--        android:textColor="@color/very_dark_gray_50"-->
+    <!--        android:textSize="@dimen/dimen_14sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/typeSixCountTv"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeSixCountTv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:text="56"-->
+    <!--        android:textColor="@color/very_dark_gray"-->
+    <!--        android:textSize="@dimen/dimen_16sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:id="@+id/seventhtype_item"-->
+    <!--    android:layout_marginTop="@dimen/dimen_8dp"-->
+    <!--    android:layout_marginBottom="@dimen/dimen_8dp"-->
+    <!--    >-->
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeSevenName"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:text="item name"-->
+    <!--        android:textColor="@color/very_dark_gray_50"-->
+    <!--        android:textSize="@dimen/dimen_14sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/typeSevenCountTv"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/typeSevenCountTv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/montserrat_medium"-->
+    <!--        android:textColor="@color/very_dark_gray"-->
+    <!--        android:textSize="@dimen/dimen_16sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:text="24"-->
+    <!--        />-->
+
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+    <!--</LinearLayout>-->

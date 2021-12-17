@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ng.max.vams.data.*
 import ng.max.vams.data.remote.RemoteDataSource
+import ng.max.vams.data.remote.response.FullMovementStat
 import ng.max.vams.data.remote.response.MovementStat
 import ng.max.vams.data.remote.response.RoleData
 import ng.max.vams.data.wrapper.Result
@@ -29,15 +30,23 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
     ViewModel() {
 
     private val movementStatResponse = MutableLiveData<Result<MovementStat>>()
+    private val fullMovementStatResponse = MutableLiveData<Result<FullMovementStat>>()
     private val userRoleResponse = MutableLiveData<Result<RoleData>>()
 
     val getUserRoleResponse: LiveData<Result<RoleData>> = userRoleResponse
 
     val getMovementStatResponse: LiveData<Result<MovementStat>> = movementStatResponse
+    val getFullMovementStatResponse: LiveData<Result<FullMovementStat>> = fullMovementStatResponse
 
     fun actionGetMovementStat() {
         viewModelScope.launch {
             movementStatResponse.value = remoteDataSource.getMovementStat()
+        }
+    }
+
+    fun actionGetFullMovementStat(userId: String){
+        viewModelScope.launch {
+            fullMovementStatResponse.value = remoteDataSource.getFullMovementStat(userId)
         }
     }
 
