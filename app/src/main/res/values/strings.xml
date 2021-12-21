@@ -109,6 +109,15 @@
     <string name="movement_sub_reason_label">Movement Sub-reason</string>
     <string name="items_retrieve_label">Items retrieved</string>
     <string name="initial_count">0</string>
+    <string name="dashboard_motorcycle">Motorcycle</string>
+    <string name="dashboard_tricycle">Tricycle</string>
+    <string name="dashboard_car">Car</string>
+    <string name="dashboard_minibus">Mini Bus</string>
+    <string name="dashboard_E_motorcycle">E-Motorcycle</string>
+    <string name="dashboard_E_tricycle">E-Tricycle</string>
+    <string name="dashboard_van">Van</string>
+    <string name="overall_card">Overall</string>
+    <string name="entries_card">Entries</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>

@@ -2,41 +2,234 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dimen_8dp">
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/dimen_4dp"
+>
+<!--        <androidx.constraintlayout.widget.Guideline-->
+<!--            android:id="@+id/db_itemOne_guideln"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            app:layout_constraintGuide_percent="0.63976943" />-->
 
-    <TextView
-        android:id="@+id/dashboardVehicleName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="item name"
-        android:textColor="@color/very_dark_gray_50"
-        android:textSize="@dimen/dimen_14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline17"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemonename"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/dashboard_motorcycle"-->
+<!--            android:textColor="@color/very_dark_gray_50"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemOne_guideln"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/dashboardVehicleCount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="32"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/very_dark_gray"
-        android:textSize="@dimen/dimen_16sp"
-        app:layout_constraintStart_toEndOf="@id/guideline17"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemonecount"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/initial_count"-->
+<!--            android:textAlignment="viewEnd"-->
+<!--            android:textColor="@color/very_dark_gray"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemTwo_guideln"-->
+<!--            app:layout_constraintStart_toEndOf="@id/db_itemOne_guideln"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="264dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemtwoname"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/dashboard_tricycle"-->
+<!--            android:textColor="@color/very_dark_gray_50"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemOne_guideln"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemonename" />-->
 
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemtwocount"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/initial_count"-->
+<!--            android:textAlignment="viewEnd"-->
+<!--            android:textColor="@color/very_dark_gray"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemTwo_guideln"-->
+<!--            app:layout_constraintStart_toEndOf="@id/db_itemOne_guideln"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/entryitemonecount" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemThreename"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/dashboard_car"-->
+<!--            android:textColor="@color/very_dark_gray_50"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemOne_guideln"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemtwoname" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemthreeCount"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/initial_count"-->
+<!--            android:textAlignment="viewEnd"-->
+<!--            android:textColor="@color/very_dark_gray"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemTwo_guideln"-->
+<!--            app:layout_constraintStart_toEndOf="@id/db_itemOne_guideln"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemtwocount" />-->
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemFourname"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/dashboard_minibus"-->
+<!--            android:textColor="@color/very_dark_gray_50"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemOne_guideln"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemThreename" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemFourCount"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/initial_count"-->
+<!--            android:textAlignment="viewEnd"-->
+<!--            android:textColor="@color/very_dark_gray"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemTwo_guideln"-->
+<!--            app:layout_constraintStart_toEndOf="@id/db_itemOne_guideln"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemthreeCount" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemfiveName"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/dashboard_E_motorcycle"-->
+<!--            android:textColor="@color/very_dark_gray_50"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemOne_guideln"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemFourname" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemfiveCount"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/initial_count"-->
+<!--            android:textAlignment="viewEnd"-->
+<!--            android:textColor="@color/very_dark_gray"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemTwo_guideln"-->
+<!--            app:layout_constraintStart_toEndOf="@id/db_itemOne_guideln"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemFourCount" />-->
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemsixName"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/dashboard_E_tricycle"-->
+<!--            android:textColor="@color/very_dark_gray_50"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemOne_guideln"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemfiveName" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemsixCount"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/initial_count"-->
+<!--            android:textAlignment="viewEnd"-->
+<!--            android:textColor="@color/very_dark_gray"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemTwo_guideln"-->
+<!--            app:layout_constraintStart_toEndOf="@id/db_itemOne_guideln"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemfiveCount" />-->
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemsevenName"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/dashboard_van"-->
+<!--            android:textColor="@color/very_dark_gray_50"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemOne_guideln"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemsixName" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/entryitemsevenCount"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dimen_4dp"-->
+<!--            android:layout_marginBottom="@dimen/dimen_4dp"-->
+<!--            android:fontFamily="@font/ttcommons_regular"-->
+<!--            android:text="@string/initial_count"-->
+<!--            android:textAlignment="viewEnd"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/very_dark_gray"-->
+<!--            android:textSize="@dimen/dimen_14sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/db_itemTwo_guideln"-->
+<!--            app:layout_constraintStart_toEndOf="@id/db_itemOne_guideln"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/entryitemsixCount" />-->
+
+<!--        <androidx.constraintlayout.widget.Guideline-->
+<!--            android:id="@+id/db_itemTwo_guideln"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            app:layout_constraintGuide_end="@dimen/dimen_32dp" />-->
+<!--        -->
 </androidx.constraintlayout.widget.ConstraintLayout>

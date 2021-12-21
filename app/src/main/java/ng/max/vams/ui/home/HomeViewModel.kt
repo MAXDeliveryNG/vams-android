@@ -1,5 +1,8 @@
 package ng.max.vams.ui.home
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,11 +35,24 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
     private val movementStatResponse = MutableLiveData<Result<MovementStat>>()
     private val fullMovementStatResponse = MutableLiveData<Result<FullMovementStat>>()
     private val userRoleResponse = MutableLiveData<Result<RoleData>>()
+    private val cardControlResponse = MutableLiveData<MutableMap<String,Boolean>>()
 
     val getUserRoleResponse: LiveData<Result<RoleData>> = userRoleResponse
-
+    val getcardControlResponse: LiveData<MutableMap<String,Boolean>> = cardControlResponse
     val getMovementStatResponse: LiveData<Result<MovementStat>> = movementStatResponse
     val getFullMovementStatResponse: LiveData<Result<FullMovementStat>> = fullMovementStatResponse
+
+    fun controlCard(control: MutableMap<String, Boolean>, controlKey: String, controlState: Boolean){
+        var newControl = mutableMapOf<String, Boolean>()
+        if(controlState){
+                control.map{
+                    if(it.key != controlKey){
+                        newControl[it.key] = false
+                    }
+            }
+        }
+        cardControlResponse.value = newControl
+    }
 
     fun actionGetMovementStat() {
         viewModelScope.launch {
