@@ -120,9 +120,12 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/totalentryCardOverall"
+                            style="@style/DetailCardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen_8dp"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="@dimen/dimen_4dp"
                             app:count="0">
@@ -178,24 +181,34 @@
                                         android:id="@+id/totalentryCardCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:text="@string/initial_count"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         android:textColor="@color/very_light_green"
                                         android:textSize="@dimen/dimen_24sp"
                                         app:layout_constraintBottom_toBottomOf="@+id/totalentrytitlelayout"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryOneArrow"
                                         app:layout_constraintTop_toTopOf="@+id/totalentrytitlelayout" />
+
+                                    <ImageButton
+                                        android:id="@+id/entryOneArrow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        android:src="@drawable/ic_dbarrow_down"
+                                        app:layout_constraintBottom_toBottomOf="@+id/totalentryCardCountTv"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="@+id/totalentryCardCountTv" />
 
                                     <ProgressBar
                                         android:id="@+id/totalentrycountProgressBar"
                                         style="?android:attr/progressBarStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="0dp"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:visibility="invisible"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         app:layout_constraintBottom_toBottomOf="@+id/totalentryCardCountTv"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryOneArrow"
                                         app:layout_constraintStart_toEndOf="@+id/totalentrytitlelayout"
                                         app:layout_constraintTop_toTopOf="@+id/totalentryCardCountTv" />
 
@@ -217,8 +230,10 @@
                                     android:id="@+id/totalentryDetailWrap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/dimen_16dp"
-                                    android:orientation="vertical"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_50dp"
                                     android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -454,8 +469,11 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/entrynameCard"
+                            style="@style/DetailCardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
                             android:layout_margin="@dimen/dimen_8dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="@dimen/dimen_4dp"
@@ -504,7 +522,7 @@
                                             android:layout_marginTop="@dimen/dimen_8dp"
                                             android:layout_marginBottom="@dimen/dimen_8dp"
                                             android:fontFamily="@font/ttcommons_regular"
-                                            android:text="By Turaki Ezekiel"
+                                            android:text="%1$s"
                                             android:textColor="@color/very_dark_gray_50"
                                             android:textSize="@dimen/dimen_14sp" />
                                     </LinearLayout>
@@ -513,24 +531,34 @@
                                         android:id="@+id/entrynamecardCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:text="@string/initial_count"
                                         android:textColor="@color/very_light_green"
                                         android:textSize="@dimen/dimen_24sp"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         app:layout_constraintBottom_toBottomOf="@+id/entrynametitlelayout"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryTwoArrow"
                                         app:layout_constraintTop_toTopOf="@+id/entrynametitlelayout" />
+
+                                    <ImageButton
+                                        android:id="@+id/entryTwoArrow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_dbarrow_down"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        app:layout_constraintBottom_toBottomOf="@+id/entrynamecardCountTv"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="@+id/entrynamecardCountTv" />
 
                                     <ProgressBar
                                         android:id="@+id/entrynamecountProgressBar"
                                         style="?android:attr/progressBarStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="0dp"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:visibility="invisible"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         app:layout_constraintBottom_toBottomOf="@+id/entrynamecardCountTv"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@id/entryTwoArrow"
                                         app:layout_constraintStart_toEndOf="@+id/entrynametitlelayout"
                                         app:layout_constraintTop_toTopOf="@+id/entrynamecardCountTv" />
 
@@ -552,8 +580,10 @@
                                     android:id="@+id/entrynameDetailWrap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/dimen_16dp"
-                                    android:orientation="vertical"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_50dp"
                                     android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -789,11 +819,14 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/entryDateCard"
+                            style="@style/DetailCardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen_8dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="@dimen/dimen_4dp"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
                             app:count="0">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -848,24 +881,34 @@
                                         android:id="@+id/entryDateCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:text="@string/initial_count"
                                         android:textColor="@color/very_light_green"
                                         android:textSize="@dimen/dimen_24sp"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         app:layout_constraintBottom_toBottomOf="@+id/entryDateTitlelayout"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryThreeArrow"
                                         app:layout_constraintTop_toTopOf="@+id/entryDateTitlelayout" />
+
+                                    <ImageButton
+                                        android:id="@+id/entryThreeArrow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        android:src="@drawable/ic_dbarrow_down"
+                                        app:layout_constraintBottom_toBottomOf="@+id/entryDateCountTv"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="@+id/entryDateCountTv" />
 
                                     <ProgressBar
                                         android:id="@+id/entryDateProgressBar"
                                         style="?android:attr/progressBarStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="0dp"
-                                        android:visibility="invisible"
                                         android:layout_marginEnd="@dimen/dimen_16dp"
+                                        android:visibility="invisible"
                                         app:layout_constraintBottom_toBottomOf="@+id/entryDateCountTv"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryThreeArrow"
                                         app:layout_constraintStart_toEndOf="@+id/entryDateTitlelayout"
                                         app:layout_constraintTop_toTopOf="@+id/entryDateCountTv" />
 
@@ -888,8 +931,10 @@
                                     android:id="@+id/entrydateDetailWrap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/dimen_16dp"
-                                    android:orientation="vertical"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_50dp"
                                     android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -1170,11 +1215,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageViewexit">
 
-
                         <androidx.cardview.widget.CardView
                             android:id="@+id/exitCardOverall"
+                            style="@style/DetailCardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
                             android:layout_margin="@dimen/dimen_8dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="@dimen/dimen_4dp"
@@ -1231,24 +1278,34 @@
                                         android:id="@+id/exitCardCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:text="@string/initial_count"
                                         android:textColor="@color/very_light_red"
                                         android:textSize="@dimen/dimen_24sp"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         app:layout_constraintBottom_toBottomOf="@+id/exittitlelayout"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryFourArrow"
                                         app:layout_constraintTop_toTopOf="@+id/exittitlelayout" />
+
+                                    <ImageButton
+                                        android:id="@+id/entryFourArrow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        android:src="@drawable/ic_dbarrow_down"
+                                        app:layout_constraintBottom_toBottomOf="@+id/exitCardCountTv"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="@+id/exitCardCountTv" />
 
                                     <ProgressBar
                                         android:id="@+id/exitcountProgressBar"
                                         style="?android:attr/progressBarStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="0dp"
-                                        android:visibility="invisible"
                                         android:layout_marginEnd="@dimen/dimen_16dp"
+                                        android:visibility="invisible"
                                         app:layout_constraintBottom_toBottomOf="@+id/exitCardCountTv"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryFourArrow"
                                         app:layout_constraintStart_toEndOf="@+id/exittitlelayout"
                                         app:layout_constraintTop_toTopOf="@+id/exitCardCountTv" />
 
@@ -1271,7 +1328,10 @@
                                     android:id="@+id/exitDetailWrap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_50dp"
                                     android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -1507,9 +1567,12 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/exitnameCard"
+                            style="@style/DetailCardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen_8dp"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="@dimen/dimen_4dp"
                             app:count="0">
@@ -1565,24 +1628,34 @@
                                         android:id="@+id/exitnamecardCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:text="@string/initial_count"
                                         android:textColor="@color/very_light_red"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         android:textSize="@dimen/dimen_24sp"
                                         app:layout_constraintBottom_toBottomOf="@+id/exitnametitlelayout"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryFiveArrow"
                                         app:layout_constraintTop_toTopOf="@+id/exitnametitlelayout" />
+
+                                    <ImageButton
+                                        android:id="@+id/entryFiveArrow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        android:src="@drawable/ic_dbarrow_down"
+                                        app:layout_constraintBottom_toBottomOf="@+id/exitnamecardCountTv"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="@+id/exitnamecardCountTv" />
 
                                     <ProgressBar
                                         android:id="@+id/exitnamecountProgressBar"
                                         style="?android:attr/progressBarStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="0dp"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:visibility="invisible"
                                         app:layout_constraintBottom_toBottomOf="@+id/exitnamecardCountTv"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryFiveArrow"
                                         app:layout_constraintStart_toEndOf="@+id/exitnametitlelayout"
                                         app:layout_constraintTop_toTopOf="@+id/exitnamecardCountTv" />
 
@@ -1605,8 +1678,10 @@
                                     android:id="@+id/exitnameDetailWrap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/dimen_16dp"
-                                    android:orientation="vertical"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_50dp"
                                     android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -1842,8 +1917,11 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/exitDateCard"
+                            style="@style/DetailCardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
                             android:layout_margin="@dimen/dimen_8dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="@dimen/dimen_4dp"
@@ -1901,24 +1979,34 @@
                                         android:id="@+id/exitDateCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:text="@string/initial_count"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         android:textColor="@color/very_light_red"
                                         android:textSize="@dimen/dimen_24sp"
                                         app:layout_constraintBottom_toBottomOf="@+id/exitDateTitlelayout"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@id/entrySixArrow"
                                         app:layout_constraintTop_toTopOf="@+id/exitDateTitlelayout" />
+
+                                    <ImageButton
+                                        android:id="@+id/entrySixArrow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        android:src="@drawable/ic_dbarrow_down"
+                                        app:layout_constraintBottom_toBottomOf="@+id/exitDateCountTv"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="@+id/exitDateCountTv" />
 
                                     <ProgressBar
                                         android:id="@+id/exitDateProgressBar"
                                         style="?android:attr/progressBarStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="0dp"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:visibility="invisible"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         app:layout_constraintBottom_toBottomOf="@+id/exitDateCountTv"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@id/entrySixArrow"
                                         app:layout_constraintStart_toEndOf="@+id/exitDateTitlelayout"
                                         app:layout_constraintTop_toTopOf="@+id/exitDateCountTv" />
 
@@ -1941,8 +2029,10 @@
                                     android:id="@+id/exitdateDetailWrap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/dimen_16dp"
-                                    android:orientation="vertical"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_50dp"
                                     android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -2217,15 +2307,18 @@
                         android:layout_marginTop="@dimen/dimen_16dp"
                         android:orientation="vertical"
                         android:weightSum="3"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/bottomView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageViewTransfer">
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/transferCardOverall"
+                            style="@style/DetailCardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
                             android:layout_margin="@dimen/dimen_8dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="@dimen/dimen_4dp"
@@ -2282,24 +2375,35 @@
                                         android:id="@+id/transferCardCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:text="@string/initial_count"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         android:textColor="@color/vivid_orange"
                                         android:textSize="@dimen/dimen_24sp"
                                         app:layout_constraintBottom_toBottomOf="@+id/transfertitlelayout"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entrySevenArrow"
                                         app:layout_constraintTop_toTopOf="@+id/transfertitlelayout" />
+
+                                    <ImageButton
+                                        android:id="@+id/entrySevenArrow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        android:src="@drawable/ic_dbarrow_down"
+                                        app:layout_constraintBottom_toBottomOf="@+id/transferCardCountTv"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="@+id/transferCardCountTv" />
+
 
                                     <ProgressBar
                                         android:id="@+id/transfercountProgressBar"
                                         style="?android:attr/progressBarStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="0dp"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:visibility="invisible"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         app:layout_constraintBottom_toBottomOf="@+id/transferCardCountTv"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entrySevenArrow"
                                         app:layout_constraintStart_toEndOf="@+id/transfertitlelayout"
                                         app:layout_constraintTop_toTopOf="@+id/transferCardCountTv" />
 
@@ -2322,7 +2426,10 @@
                                     android:id="@+id/transferDetailWrap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_50dp"
                                     android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -2558,8 +2665,11 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/transfernameCard"
+                            style="@style/DetailCardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
                             android:layout_margin="@dimen/dimen_8dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="@dimen/dimen_4dp"
@@ -2616,24 +2726,34 @@
                                         android:id="@+id/transfernamecardCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:text="@string/initial_count"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         android:textColor="@color/vivid_orange"
                                         android:textSize="@dimen/dimen_24sp"
                                         app:layout_constraintBottom_toBottomOf="@+id/transfernametitlelayout"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryEightArrow"
                                         app:layout_constraintTop_toTopOf="@+id/transfernametitlelayout" />
+
+                                    <ImageButton
+                                        android:id="@+id/entryEightArrow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        android:src="@drawable/ic_dbarrow_down"
+                                        app:layout_constraintBottom_toBottomOf="@+id/transfernamecardCountTv"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="@+id/transfernamecardCountTv" />
 
                                     <ProgressBar
                                         android:id="@+id/transfernamecountProgressBar"
                                         style="?android:attr/progressBarStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="0dp"
-                                        android:layout_marginEnd="@dimen/dimen_48dp"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:visibility="invisible"
                                         app:layout_constraintBottom_toBottomOf="@+id/transfernamecardCountTv"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryEightArrow"
                                         app:layout_constraintStart_toEndOf="@+id/transfernametitlelayout"
                                         app:layout_constraintTop_toTopOf="@+id/transfernamecardCountTv" />
 
@@ -2656,8 +2776,11 @@
                                     android:id="@+id/transfernameDetailWrap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/dimen_16dp"
                                     android:visibility="gone"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_50dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -2892,8 +3015,11 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/transferDateCard"
+                            style="@style/DetailCardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
                             android:layout_margin="@dimen/dimen_8dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="@dimen/dimen_4dp"
@@ -2951,24 +3077,34 @@
                                         android:id="@+id/transferDateCountTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:fontFamily="@font/montserrat_bold"
                                         android:text="@string/initial_count"
                                         android:textColor="@color/vivid_orange"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         android:textSize="@dimen/dimen_24sp"
                                         app:layout_constraintBottom_toBottomOf="@+id/transferDateTitlelayout"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryNineArrow"
                                         app:layout_constraintTop_toTopOf="@+id/transferDateTitlelayout" />
+
+                                    <ImageButton
+                                        android:id="@+id/entryNineArrow"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        android:src="@drawable/ic_dbarrow_down"
+                                        app:layout_constraintBottom_toBottomOf="@+id/transferDateCountTv"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="@+id/transferDateCountTv" />
 
                                     <ProgressBar
                                         android:id="@+id/transferDateProgressBar"
                                         style="?android:attr/progressBarStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="0dp"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
                                         android:visibility="invisible"
-                                        android:layout_marginEnd="@dimen/dimen_16dp"
                                         app:layout_constraintBottom_toBottomOf="@+id/transferDateCountTv"
-                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/entryNineArrow"
                                         app:layout_constraintStart_toEndOf="@+id/transferDateTitlelayout"
                                         app:layout_constraintTop_toTopOf="@+id/transferDateCountTv" />
 
@@ -2990,7 +3126,10 @@
                                     android:id="@+id/transferdateDetailWrap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_50dp"
                                     android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"

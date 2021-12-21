@@ -46,6 +46,8 @@
     <string name="liveActionData">Undergoing Maintenance</string>
     <string name="entry_header_label">Entry (%s)</string>
     <string name="exit_header_label">Exit (%s)</string>
+    <string name="by_name_label">By %1s</string>
+    <string name="by_date_label">By %1s today</string>
     <string name="dashboard_label">Dashboard</string>
     <string name="profile_label">Profile</string>
     <string name="settings_label">Application Settings</string>

@@ -122,10 +122,12 @@ class HomeFragment : Fragment() {
                     homeViewModel.controlCard(cardControl, "A", true)
                     bnd.totalentryLinedivider.visibility = View.VISIBLE
                     bnd.totalentryDetailWrap.visibility = View.VISIBLE
+                    bnd.entryOneArrow.setImageResource(R.drawable.ic_dbarrow_up)
                     cardControl["A"] = true
                 } else {
                     bnd.totalentryLinedivider.visibility = View.GONE
                     bnd.totalentryDetailWrap.visibility = View.GONE
+                    bnd.entryOneArrow.setImageResource(R.drawable.ic_dbarrow_down)
                     cardControl["A"] = false
                 }
             }
@@ -134,10 +136,12 @@ class HomeFragment : Fragment() {
                     homeViewModel.controlCard(cardControl, "B", true)
                     bnd.entrynamelinedivider.visibility = View.VISIBLE
                     bnd.entrynameDetailWrap.visibility = View.VISIBLE
+                    bnd.entryTwoArrow.setImageResource(R.drawable.ic_dbarrow_up)
                     cardControl["B"] = true
                 } else {
                     bnd.entrynamelinedivider.visibility = View.GONE
                     bnd.entrynameDetailWrap.visibility = View.GONE
+                    bnd.entryTwoArrow.setImageResource(R.drawable.ic_dbarrow_down)
                     cardControl["B"] = false
                 }
             }
@@ -146,10 +150,12 @@ class HomeFragment : Fragment() {
                     homeViewModel.controlCard(cardControl, "C", true)
                     bnd.entrydateLinedivider.visibility = View.VISIBLE
                     bnd.entrydateDetailWrap.visibility = View.VISIBLE
+                    bnd.entryThreeArrow.setImageResource(R.drawable.ic_dbarrow_up)
                     cardControl["C"] = true
                 } else {
                     bnd.entrydateLinedivider.visibility = View.GONE
                     bnd.entrydateDetailWrap.visibility = View.GONE
+                    bnd.entryThreeArrow.setImageResource(R.drawable.ic_dbarrow_down)
                     cardControl["C"] = false
                 }
             }
@@ -158,11 +164,12 @@ class HomeFragment : Fragment() {
                     homeViewModel.controlCard(cardControl, "D", true)
                     bnd.exitLinedivider.visibility = View.VISIBLE
                     bnd.exitDetailWrap.visibility = View.VISIBLE
+                    bnd.entryFourArrow.setImageResource(R.drawable.ic_dbarrow_up)
                     cardControl["D"] = true
                 } else {
                     bnd.exitLinedivider.visibility = View.GONE
                     bnd.exitDetailWrap.visibility = View.GONE
-
+                    bnd.entryFourArrow.setImageResource(R.drawable.ic_dbarrow_down)
                     cardControl["D"] = false
                 }
             }
@@ -171,10 +178,12 @@ class HomeFragment : Fragment() {
                     homeViewModel.controlCard(cardControl, "E", true)
                     bnd.exitnamelinedivider.visibility = View.VISIBLE
                     bnd.exitnameDetailWrap.visibility = View.VISIBLE
+                    bnd.entryFiveArrow.setImageResource(R.drawable.ic_dbarrow_up)
                     cardControl["E"] = true
                 } else {
                     bnd.exitnamelinedivider.visibility = View.GONE
                     bnd.exitnameDetailWrap.visibility = View.GONE
+                    bnd.entryFiveArrow.setImageResource(R.drawable.ic_dbarrow_down)
                     cardControl["E"] = false
                 }
             }
@@ -183,10 +192,12 @@ class HomeFragment : Fragment() {
                     homeViewModel.controlCard(cardControl, "F", true)
                     bnd.exitdateLinedivider.visibility = View.VISIBLE
                     bnd.exitdateDetailWrap.visibility = View.VISIBLE
+                    bnd.entrySixArrow.setImageResource(R.drawable.ic_dbarrow_up)
                     cardControl["F"] = true
                 } else {
                     bnd.exitdateLinedivider.visibility = View.GONE
                     bnd.exitdateDetailWrap.visibility = View.GONE
+                    bnd.entrySixArrow.setImageResource(R.drawable.ic_dbarrow_down)
                     cardControl["F"] = false
                 }
             }
@@ -195,10 +206,12 @@ class HomeFragment : Fragment() {
                     homeViewModel.controlCard(cardControl, "G", true)
                     bnd.transferLinedivider.visibility = View.VISIBLE
                     bnd.transferDetailWrap.visibility = View.VISIBLE
+                    bnd.entrySevenArrow.setImageResource(R.drawable.ic_dbarrow_up)
                     cardControl["G"] = true
                 } else {
                     bnd.transferLinedivider.visibility = View.GONE
                     bnd.transferDetailWrap.visibility = View.GONE
+                    bnd.entrySevenArrow.setImageResource(R.drawable.ic_dbarrow_down)
                     cardControl["G"] = false
                 }
             }
@@ -207,10 +220,12 @@ class HomeFragment : Fragment() {
                     homeViewModel.controlCard(cardControl, "H", true)
                     bnd.transfernamelinedivider.visibility = View.VISIBLE
                     bnd.transfernameDetailWrap.visibility = View.VISIBLE
+                    bnd.entryEightArrow.setImageResource(R.drawable.ic_dbarrow_up)
                     cardControl["H"] = true
                 } else {
                     bnd.transfernamelinedivider.visibility = View.GONE
                     bnd.transfernameDetailWrap.visibility = View.GONE
+                    bnd.entryEightArrow.setImageResource(R.drawable.ic_dbarrow_down)
                     cardControl["H"] = false
                 }
             }
@@ -219,21 +234,24 @@ class HomeFragment : Fragment() {
                     homeViewModel.controlCard(cardControl, "I", true)
                     bnd.transferdateLinedivider.visibility = View.VISIBLE
                     bnd.transferdateDetailWrap.visibility = View.VISIBLE
+                    bnd.entryNineArrow.setImageResource(R.drawable.ic_dbarrow_up)
                     cardControl["I"] = true
                 } else {
                     bnd.transferdateLinedivider.visibility = View.GONE
                     bnd.transferdateDetailWrap.visibility = View.GONE
+                    bnd.entryNineArrow.setImageResource(R.drawable.ic_dbarrow_down)
                     cardControl["I"] = false
                 }
             }
         }
 
-//        bnd.entryNamecardSubtitleTv.text = getString()
-        bnd.entryDateSubtitleTv
-        bnd.exitNamecardSubtitleTv
-        bnd.exitDateSubtitleTv
-        bnd.transferNamecardSubtitleTv
-        bnd.transferDateSubtitleTv
+        val userFullName = "${user?.firstName} ${user?.lastName}"
+        bnd.entryNamecardSubtitleTv.text = getString(R.string.by_name_label, userFullName)
+        bnd.entryDateSubtitleTv.text = getString(R.string.by_date_label, userFullName)
+        bnd.exitNamecardSubtitleTv.text = getString(R.string.by_name_label, userFullName)
+        bnd.exitDateSubtitleTv.text = getString(R.string.by_date_label, userFullName)
+        bnd.transferNamecardSubtitleTv.text = getString(R.string.by_name_label, userFullName)
+        bnd.transferDateSubtitleTv.text = getString(R.string.by_date_label, userFullName)
 
 
         val date = Helper.getFormattedDate()
