@@ -47,4 +47,7 @@ interface VehicleService {
     @GET("vehicles/v1/user-managment/getUser/{user_id}")
     suspend fun getUserRole(@Path("user_id")userId: String): Response<ApiResponse<RoleData>>
 
+    @GET("vehicles/v1/vehicle/movement/summary")
+    suspend fun getFullMovementStat(@Query("agent_id")userId: String): Response<ApiResponse<FullMovementStat>>
+
 }

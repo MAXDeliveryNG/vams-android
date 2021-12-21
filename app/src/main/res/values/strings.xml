@@ -11,7 +11,9 @@
     <string name="tab_spare_parts">Spare parts</string>
     <string name="tab_trackers">Trackers</string>
     <string name="reason_label">Reason</string>
-    <string name="entry_label">Entries</string>
+    <string name="total_entry_label">Entries</string>
+    <string name="sub_entry_label">Entries</string>
+    <string name="sub_entrytwo_label">Entries</string>
     <string name="exit_label">Exits</string>
     <string name="entry_reason_header">Reason for entry</string>
     <string name="exit_reason_header">Reason for exit</string>
@@ -44,7 +46,9 @@
     <string name="liveActionData">Undergoing Maintenance</string>
     <string name="entry_header_label">Entry (%s)</string>
     <string name="exit_header_label">Exit (%s)</string>
-    <string name="overview_label">Overview</string>
+    <string name="by_name_label">By %1s</string>
+    <string name="by_date_label">By %1s today</string>
+    <string name="dashboard_label">Dashboard</string>
     <string name="profile_label">Profile</string>
     <string name="settings_label">Application Settings</string>
     <string name="sign_out_label">Sign out</string>
@@ -106,6 +110,16 @@
     <string name="movement_reason_label">Movement Reason</string>
     <string name="movement_sub_reason_label">Movement Sub-reason</string>
     <string name="items_retrieve_label">Items retrieved</string>
+    <string name="initial_count">0</string>
+    <string name="dashboard_motorcycle">Motorcycle</string>
+    <string name="dashboard_tricycle">Tricycle</string>
+    <string name="dashboard_car">Car</string>
+    <string name="dashboard_minibus">Mini Bus</string>
+    <string name="dashboard_E_motorcycle">E-Motorcycle</string>
+    <string name="dashboard_E_tricycle">E-Tricycle</string>
+    <string name="dashboard_van">Van</string>
+    <string name="overall_card">Overall</string>
+    <string name="entries_card">Entries</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>
