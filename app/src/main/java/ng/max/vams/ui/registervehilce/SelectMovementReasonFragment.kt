@@ -229,7 +229,7 @@ class SelectMovementReasonFragment : Fragment() {
 
                     val action = RegisterVehicleFragmentDirections
                         .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
-                            result.value.vehicleMovement!!, result.value.maxVehicleId
+                            result.value.vehicleMovement!!, result.value.maxVehicleId, null
                         )
                     findNavController().navigate(action)
                 }
@@ -481,7 +481,7 @@ class SelectMovementReasonFragment : Fragment() {
             if (captureMovementData.movementType == "exit" && bnd.reasonEditText.text.toString() != "Transfer") {
                 val action =
                     SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToVehicleConfirmationFragment(
-                        vehicleMaxId = captureMovementData.vehicle.maxVehicleId,
+                        vehicleMaxId = captureMovementData.vehicle.maxVehicleId!!,
                         champion = captureMovementData.vehicle.champion?.let {
                             getString(
                                 R.string.default_name, it.firstName,

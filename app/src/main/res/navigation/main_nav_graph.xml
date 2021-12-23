@@ -45,6 +45,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_registerVehicleFragment"
+            app:destination="@id/registerVehicleFragment" />
     </fragment>
     <dialog
         android:id="@+id/appDialogFragment"
@@ -121,6 +124,9 @@
         <action
             android:id="@+id/action_registerVehicleFragment_to_vehicleConfirmationFragment"
             app:destination="@id/vehicleConfirmationFragment" />
+        <action
+            android:id="@+id/action_registerVehicleFragment_to_transferCheckInConfirmationBottomSheetFragment"
+            app:destination="@id/transferCheckInConfirmationBottomSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/completeRegistrationFragment"
@@ -132,6 +138,10 @@
         <argument
             android:name="vehicleId"
             app:argType="string" />
+        <argument
+            android:name="transferStatus"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/vehicleDetailFragment"
@@ -218,9 +228,6 @@
             android:id="@+id/action_selectMovementReasonFragment_to_listBottomSheetFragment"
             app:destination="@id/listBottomSheetFragment" />
         <action
-            android:id="@+id/action_selectMovementReasonFragment_to_transferLocationBottomSheetFragment"
-            app:destination="@id/transferLocationBottomSheetFragment" />
-        <action
             android:id="@+id/action_selectMovementReasonFragment_to_vehicleConfirmationFragment"
             app:destination="@id/vehicleConfirmationFragment" />
         <action
@@ -230,17 +237,14 @@
             app:popUpToInclusive="false" />
     </fragment>
     <dialog
-        android:id="@+id/transferLocationBottomSheetFragment"
-        android:name="ng.max.vams.ui.shared.TransferLocationBottomSheetFragment"
+        android:id="@+id/transferCheckInConfirmationBottomSheetFragment"
+        android:name="ng.max.vams.ui.shared.TransferCheckInConfirmationBottomSheetFragment"
         android:label="fragment_transfer_location_bottom_sheet"
-        tools:layout="@layout/fragment_transfer_location_bottom_sheet" >
+        tools:layout="@layout/fragment_transfer_checkin_confirmation_bottom_sheet" >
         <argument
-            android:name="transferType"
+            android:name="actionType"
             app:argType="string" />
 
-        <argument
-            android:name="locationId"
-            app:argType="string" />
     </dialog>
     <dialog
         android:id="@+id/vehicleConfirmationFragment"

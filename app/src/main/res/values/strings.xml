@@ -17,7 +17,7 @@
     <string name="exit_label">Exits</string>
     <string name="entry_reason_header">Reason for entry</string>
     <string name="exit_reason_header">Reason for exit</string>
-    <string name="default_reason_subtitle">Monthly scheduled maintenance performed on various vehicle assets</string>
+    <string name="default_reason_subtitle">Monthly scheduled maintenance performed on various remoteVehicle assets</string>
     <string name="defualt_vehicle_reason_label">Maintenance</string>
     <string name="plate_number_label">Plate Number</string>
     <string name="location_label">Location</string>
@@ -47,7 +47,7 @@
     <string name="entry_header_label">Entry (%s)</string>
     <string name="exit_header_label">Exit (%s)</string>
     <string name="by_name_label">By %1s</string>
-    <string name="by_date_label">By %1s today</string>
+    <string name="by_date_label">By %1s (today)</string>
     <string name="dashboard_label">Dashboard</string>
     <string name="profile_label">Profile</string>
     <string name="settings_label">Application Settings</string>
@@ -110,6 +110,11 @@
     <string name="movement_reason_label">Movement Reason</string>
     <string name="movement_sub_reason_label">Movement Sub-reason</string>
     <string name="items_retrieve_label">Items retrieved</string>
+    <string name="view_transfer_details_label">View Transfer Details</string>
+    <string name="transfer_notifications_label">Transfer Notifications</string>
+    <string name="accept_transfer_label">Accept Transfer</string>
+    <string name="reject_transfer_label">Reject Transfer</string>
+    <string name="tranfer_info_subtitle_label">The entire Vehicle Ops team would be notified of your action.</string>
     <string name="initial_count">0</string>
     <string name="dashboard_motorcycle">Motorcycle</string>
     <string name="dashboard_tricycle">Tricycle</string>

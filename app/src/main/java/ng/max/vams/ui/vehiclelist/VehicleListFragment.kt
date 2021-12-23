@@ -80,7 +80,7 @@ class VehicleListFragment : Fragment() {
         vehicleAdapter.viewType = 0
         vehicleAdapter.setOnItemClickListener { position ->
             val vehicle = vehicleAdapter.adapterList[position] as DbVehicle
-//            val action = VehicleListFragmentDirections.actionVehicleListFragmentToVehicleDetailFragment(vehicle.id)
+//            val action = VehicleListFragmentDirections.actionVehicleListFragmentToVehicleDetailFragment(remoteVehicle.id)
 //            findNavController().navigate(action)
 
         }

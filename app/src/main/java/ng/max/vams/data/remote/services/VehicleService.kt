@@ -8,11 +8,10 @@ import retrofit2.http.*
 interface VehicleService {
 
     @GET("vehicles/v1/vehicle")
-    suspend fun getVehicleList(
-        @Query("vehicle_movement") movementType: String,
-        @Query("size") size: Int = 50,
+    suspend fun getUnconfirmedVehicleList(
         @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
-        @Query("include_defined_relations") relations: String = "champion,vehicle_status"
+        @Query("include_defined_relations") relations: String = "champion,vehicle_status",
+        @Query("unconfirmed_vehicles") unconfirmed: Boolean = true
     ): Response<ApiResponse<VehicleListData>>
 
     @GET("vehicles/v1/vehicle/movement/summary/count")
@@ -39,7 +38,7 @@ interface VehicleService {
 //                                        @Query("include_defined_relations") relations: String = "champion,vehicle_status"): Response<ApiResponse<VehicleListData>>
 
     @POST("vehicles/v1/vehicle/movement/change")
-    suspend fun registerVehicleMovement(@Body movementBody: MovementBody): Response<ApiResponse<Vehicle>>
+    suspend fun registerVehicleMovement(@Body movementBody: MovementBody): Response<ApiResponse<RemoteVehicle>>
 
     @GET("vehicles/v1/checklist")
     suspend fun recoveredItemsChecklist(): Response<ApiResponse<List<RetrivalChecklistItem>>>

@@ -71,9 +71,9 @@ class RemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun getVehicles(movementType: String): Result<VehicleListData> {
+    suspend fun getUnconfirmedVehicles(): Result<VehicleListData> {
         try {
-            val response = vehicleService.getVehicleList(movementType)
+            val response = vehicleService.getUnconfirmedVehicleList()
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -253,13 +253,13 @@ class RemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun getSearchResult(term: String): Result<List<Vehicle>> {
+    suspend fun getSearchResult(term: String): Result<List<RemoteVehicle>> {
         try {
             val response = vehicleService.search(term)
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    return Result.Success(body.getData()?.vehicles!!)
+                    return Result.Success(body.getData()?.remoteVehicles!!)
                 }
             }
 
@@ -276,13 +276,13 @@ class RemoteDataSource @Inject constructor(
         }
     }
 
-//    suspend fun getSearchVehicleWithReasonResult(term: String, movementType: String): Flow<Result<List<Vehicle>>> {
+//    suspend fun getSearchVehicleWithReasonResult(term: String, movementType: String): Flow<Result<List<RemoteVehicle>>> {
 //        try {
 //            val response = vehicleService.searchVehicleWithReason(term, movementType)
 //            if (response.isSuccessful) {
 //                val body = response.body()
 //                if (body != null) {
-//                    return flow { emit(Result.Success(body.getData()?.vehicles!!)) }
+//                    return flow { emit(Result.Success(body.getData()?.remoteVehicles!!)) }
 //                }
 //            }
 //
@@ -299,7 +299,7 @@ class RemoteDataSource @Inject constructor(
 //        }
 //    }
 
-    suspend fun registerMovement(movementBody: MovementBody): Result<Vehicle> {
+    suspend fun registerMovement(movementBody: MovementBody): Result<RemoteVehicle> {
         try {
             val response = vehicleService.registerVehicleMovement(movementBody)
             if (response.isSuccessful) {

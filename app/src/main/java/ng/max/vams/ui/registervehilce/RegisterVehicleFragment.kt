@@ -27,6 +27,8 @@ import ng.max.vams.databinding.RegisterVehicleFragmentBinding
 import ng.max.vams.ui.assetreason.VehicleConfirmationViewModel
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
+import ng.max.vams.util.formatDate
+import ng.max.vams.util.gone
 import ng.max.vams.util.show
 import ng.max.vams.util.showDialog
 
@@ -50,6 +52,7 @@ class RegisterVehicleFragment : Fragment() {
     private val recoveredItemList: ArrayList<String> = ArrayList()
     private var locations = listOf<Location>()
     private var recochecklist = listOf<RetrivalChecklistItem>()
+    private var transferStatus: String? = null
 
 
     override fun onCreateView(
@@ -75,8 +78,7 @@ class RegisterVehicleFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        bnd.reasonTv.text = args.parentReasonName
-        bnd.subreasonTv.text = args.subReasonName
+
 
         if (args.parentReasonName == "Transfer") {
             bnd.currentLocationHeader.text = getString(R.string.location_from_label)
@@ -113,7 +115,7 @@ class RegisterVehicleFragment : Fragment() {
             bnd.submitButton.loaded()
             val action =
                 RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToVehicleConfirmationFragment(
-                    vehicleMaxId = captureMovementData.vehicle.maxVehicleId,
+                    vehicleMaxId = captureMovementData.vehicle.maxVehicleId!!,
                     champion = captureMovementData.vehicle.champion?.let {
                         getString(
                             R.string.default_name, it.firstName,
@@ -123,6 +125,16 @@ class RegisterVehicleFragment : Fragment() {
                     reason = args.subReasonName,
                     movementType = captureMovementData.movementType
                 )
+            findNavController().navigate(action)
+        }
+
+        bnd.acceptTransferBtn.setOnClickListener {
+            val action =  RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToTransferCheckInConfirmationBottomSheetFragment("accept")
+            findNavController().navigate(action)
+        }
+
+        bnd.rejectTransferBtn.setOnClickListener {
+            val action =  RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToTransferCheckInConfirmationBottomSheetFragment("reject")
             findNavController().navigate(action)
         }
     }
@@ -200,6 +212,8 @@ class RegisterVehicleFragment : Fragment() {
                 }
 
                 bnd.submitButton.setButtonEnable(isCompleted)
+                bnd.acceptTransferBtn.isEnabled = isCompleted
+                bnd.rejectTransferBtn.isEnabled = isCompleted
             }
 
         })
@@ -273,6 +287,14 @@ class RegisterVehicleFragment : Fragment() {
                     }
                     is Result.Success -> {
                         locations = result.value
+
+                        if (captureMovementData.movementType == "entry" && args.parentReasonName == "Transfer"){
+                            bnd.rowOneTv.text = locations.find { captureMovementData.vehicle.lastVehicleMovement!!.locationFromId == it.id }?.name ?: "N/A"
+                            bnd.rowTwoTv.text = locations.find { captureMovementData.vehicle.lastVehicleMovement!!.locationToId == it.id }?.name ?: "N/A"
+                            bnd.currentLocationEditText.setText(bnd.rowOneTv.text)
+                            bnd.destLocationEditText.setText(bnd.rowTwoTv.text)
+                            bnd.odometerReadingEditText.setText(captureMovementData.vehicle.lastVehicleMovement!!.odometer.toString())
+                        }
                     }
                 }
             }
@@ -310,7 +332,7 @@ class RegisterVehicleFragment : Fragment() {
                     bnd.submitButton.loaded()
                     val action = RegisterVehicleFragmentDirections
                         .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
-                            result.value.vehicleMovement!!, result.value.maxVehicleId
+                            result.value.vehicleMovement!!, result.value.maxVehicleId, transferStatus
                         )
                     findNavController().navigate(action)
                 }
@@ -337,13 +359,28 @@ class RegisterVehicleFragment : Fragment() {
             }
         })
 
-        sharedBottomSheetViewModel.getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
-            if (selectedItem.containsKey("FROM")){
-                bnd.currentLocationEditText.setText(selectedItem["FROM"])
-            }else {
-                bnd.destLocationEditText.setText(selectedItem["DEST"])
+        with(sharedBottomSheetViewModel) {
+            getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
+                if (selectedItem.containsKey("FROM")) {
+                    bnd.currentLocationEditText.setText(selectedItem["FROM"])
+                } else {
+                    bnd.destLocationEditText.setText(selectedItem["DEST"])
+                }
+
             }
 
+            getCheckInTransferActionResponse.observe(viewLifecycleOwner){
+                transferStatus = it
+                sharedRegistrationViewModel.registerMovement(
+                    movementData, captureMovementData.vehicle.id,
+                    args.subReasonId,
+                    if (args.parentReasonName == "Transfer"){
+                        locations.first {location ->  location.name == movementData.destLocation }.id
+                    }else{
+                        null
+                    }, it
+                )
+            }
         }
     }
 
@@ -362,10 +399,13 @@ class RegisterVehicleFragment : Fragment() {
                 recoveredItemList.remove(retrievalChecklistItem.id)
             }
             movementData.recoveredItems = recoveredItemList
+            val enableButton = isRequiredFieldsProvided()
+                    && recoveredItemList.count() != 0
             bnd.submitButton.setButtonEnable(
-                isRequiredFieldsProvided()
-                        && recoveredItemList.count() != 0
+                enableButton
             )
+            bnd.rejectTransferBtn.isEnabled = enableButton
+            bnd.acceptTransferBtn.isEnabled = enableButton
         }
         bnd.retrievedItemsRv.adapter = adapter
         adapter.retrievedItems = retrievedItems
@@ -389,12 +429,31 @@ class RegisterVehicleFragment : Fragment() {
 
     private fun populateView(_captureData: CaptureMovementData) {
 
-        if (_captureData.movementType == "entry") {
-            bnd.registerVehicleHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
-            bnd.submitButton.setButtonText(getString(R.string.check_label, "In"))
-        } else {
-            bnd.registerVehicleHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
-            bnd.submitButton.setButtonText(getString(R.string.check_label, "Out"))
+        if (_captureData.movementType == "entry" && args.parentReasonName == "Transfer"){
+            bnd.backButton.setImageResource(R.drawable.ic_home)
+            bnd.movementTypeIcon.setImageResource(R.drawable.ic_location)
+            bnd.movementTypeHeaderTv.text = "Transfer Details"
+            bnd.registerVehicleHeaderTv.text = "CONFIRM VEHICLE TRANSFER ENTRY"
+            bnd.rowOneLabel.text = "From"
+            bnd.rowTwoLabel.text = "Destination"
+            bnd.timeOfExitTv.text = _captureData.vehicle.lastVehicleMovement!!.createdAt.formatDate()
+            bnd.transferAgentTv.text = _captureData.vehicle.lastVehicleMovement.creatorName
+            bnd.movementTypeRowThree.show()
+            bnd.movementTypeRowFour.show()
+
+            bnd.transferCheckInButtonsContainer.show()
+            bnd.retrievalAgentLayout.gone()
+            bnd.submitButton.gone()
+        }else{
+            if (_captureData.movementType == "entry") {
+                bnd.registerVehicleHeaderTv.text = getString(R.string.dialog_entry_label).uppercase()
+                bnd.submitButton.setButtonText(getString(R.string.check_label, "In"))
+            } else {
+                bnd.registerVehicleHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
+                bnd.submitButton.setButtonText(getString(R.string.check_label, "Out"))
+            }
+            bnd.rowOneTv.text = args.parentReasonName
+            bnd.rowTwoTv.text = args.subReasonName
         }
 
         bnd.vehicleMaxId.text = _captureData.vehicle.maxVehicleId

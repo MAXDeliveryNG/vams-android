@@ -3,9 +3,7 @@ package ng.max.vams.customview
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.view.View
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.home_fragment.view.*
 import kotlinx.android.synthetic.main.layout_movement_type_card_view.view.*
 import ng.max.vams.R
 

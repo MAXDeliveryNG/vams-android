@@ -1,19 +1,17 @@
 package ng.max.vams.ui.home
 
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ng.max.vams.data.*
+import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.data.remote.RemoteDataSource
 import ng.max.vams.data.remote.response.FullMovementStat
-import ng.max.vams.data.remote.response.MovementStat
 import ng.max.vams.data.remote.response.RoleData
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.usecase.userrole.UserRoleUseCase
@@ -32,18 +30,18 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
 ) :
     ViewModel() {
 
-    private val movementStatResponse = MutableLiveData<Result<MovementStat>>()
+    private val unconfirmedVehicleResponse = MutableLiveData<Result<List<DbVehicle>>>()
     private val fullMovementStatResponse = MutableLiveData<Result<FullMovementStat>>()
     private val userRoleResponse = MutableLiveData<Result<RoleData>>()
     private val cardControlResponse = MutableLiveData<MutableMap<String,Boolean>>()
 
     val getUserRoleResponse: LiveData<Result<RoleData>> = userRoleResponse
     val getcardControlResponse: LiveData<MutableMap<String,Boolean>> = cardControlResponse
-    val getMovementStatResponse: LiveData<Result<MovementStat>> = movementStatResponse
+    val getUnconfirmedVehicleResponse: LiveData<Result<List<DbVehicle>>> = unconfirmedVehicleResponse
     val getFullMovementStatResponse: LiveData<Result<FullMovementStat>> = fullMovementStatResponse
 
     fun controlCard(control: MutableMap<String, Boolean>, controlKey: String, controlState: Boolean){
-        var newControl = mutableMapOf<String, Boolean>()
+        val newControl = mutableMapOf<String, Boolean>()
         if(controlState){
                 control.map{
                     if(it.key != controlKey){
@@ -54,9 +52,11 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
         cardControlResponse.value = newControl
     }
 
-    fun actionGetMovementStat() {
+    fun actionGetUnconfirmedVehicles() {
         viewModelScope.launch {
-            movementStatResponse.value = remoteDataSource.getMovementStat()
+            vehicleRepo.getUnConfirmedVehicles().collect {
+                unconfirmedVehicleResponse.value = it
+            }
         }
     }
 
