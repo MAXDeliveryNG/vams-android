@@ -87,6 +87,10 @@ class RegisterVehicleFragment : Fragment() {
             bnd.currentLocationHeader.text = getString(R.string.location_checkin_label)
         }
 
+        if (args.parentReasonName == "Retrieved"){
+            bnd.retrievalAgentLayout.show()
+        }
+
 
 
         bnd.currentLocationEditText.setOnClickListener {
@@ -251,27 +255,18 @@ class RegisterVehicleFragment : Fragment() {
 
     private fun getRequiredKeys(): List<String> {
         return movementData.let { movementData ->
-            if (args.parentReasonName != "Transfer") {
-                listOf(
-                    movementData.keyLocationFrom,
-                    movementData.keyOdometer
-                )
-            } else {
-                if (args.subReasonName != "Financial Default"){
-                    listOf(
-                        movementData.keyLocationFrom,
-                        movementData.keyOdometer,
-                        movementData.keyLocationTo
-                    )
-                }else{
-                    listOf(
-                        movementData.keyLocationFrom,
-                        movementData.keyOdometer,
-                        movementData.keyRetrievalAgent,
-                        movementData.keyLocationTo
-                    )
-                }
+            val requiredKeys = mutableListOf(movementData.keyLocationFrom,
+                movementData.keyOdometer)
+
+            if (args.parentReasonName == "Transfer") {
+                requiredKeys.add(movementData.keyLocationTo)
             }
+
+            if (args.parentReasonName == "Retrieved") {
+                requiredKeys.add(movementData.keyRetrievalAgent)
+            }
+
+            return@let requiredKeys
 
         }
     }

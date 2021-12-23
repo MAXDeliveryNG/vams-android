@@ -26,6 +26,7 @@ import ng.max.vams.ui.assetreason.VehicleConfirmationViewModel
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
 import ng.max.vams.util.gone
+import ng.max.vams.util.navigate
 import ng.max.vams.util.show
 import ng.max.vams.util.showDialog
 
@@ -112,7 +113,6 @@ class SelectMovementReasonFragment : Fragment() {
                                 if (fieldKey == "reason") {
                                     bnd.subReasonLayout.show()
                                     if (captureMovementData.movementType == "exit" && value != "Transfer") {
-                                        bnd.retrievedItemsContainer.show()
                                         bnd.submitButton.setButtonText("Check Out")
                                     } else {
                                         bnd.retrievedItemsContainer.gone()
@@ -125,6 +125,10 @@ class SelectMovementReasonFragment : Fragment() {
                                     }else{
                                         isValid = true
                                     }
+                                }
+
+                                if ((value != "Inter City" || value != "Intra City") && fieldKey == "subreason") {
+                                    bnd.retrievedItemsContainer.show()
                                 }
 
                                 if (value == "Financial Default" && fieldKey == "subreason") {
@@ -231,7 +235,7 @@ class SelectMovementReasonFragment : Fragment() {
                         .actionSelectMovementReasonFragmentToCompleteRegistrationFragment(
                             result.value.vehicleMovement!!, result.value.maxVehicleId, null
                         )
-                    findNavController().navigate(action)
+                    navigate(action)
                 }
             }
         }
@@ -290,7 +294,7 @@ class SelectMovementReasonFragment : Fragment() {
                 }
             )
 
-        findNavController().navigate(action)
+        navigate(action)
     }
 
 
@@ -445,7 +449,7 @@ class SelectMovementReasonFragment : Fragment() {
                         reason = bnd.subReasonEditText.text.toString(),
                         movementType = captureMovementData.movementType
                     )
-                findNavController().navigate(action)
+                navigate(action)
             } else {
                 navigateToRegisterVehicle()
             }
@@ -472,7 +476,7 @@ class SelectMovementReasonFragment : Fragment() {
                 "SUBREASON",
                 captureMovementData.movementType
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
     private fun displayReasons(clicked: String) {
@@ -482,6 +486,6 @@ class SelectMovementReasonFragment : Fragment() {
                 "REASON",
                 captureMovementData.movementType
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 }

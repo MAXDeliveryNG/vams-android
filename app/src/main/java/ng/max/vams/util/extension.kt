@@ -7,6 +7,9 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.DialogFragmentNavigator
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import ng.max.vams.R
 import ng.max.vams.util.Constant.DATETIME_DISPLAY_FORMAT
@@ -58,5 +61,14 @@ fun String.formatDate(): String{
         SimpleDateFormat(DATETIME_DISPLAY_FORMAT, Locale.getDefault()).format(Date())
     } catch (exception: Exception) {
         SimpleDateFormat(DATETIME_DISPLAY_FORMAT, Locale.getDefault()).format(Date())
+    }
+}
+
+fun Fragment.navigate(directions: NavDirections) {
+    val controller = findNavController()
+    val currentDestination = (controller.currentDestination as? FragmentNavigator.Destination)?.className
+        ?: (controller.currentDestination as? DialogFragmentNavigator.Destination)?.className
+    if (currentDestination == this.javaClass.name) {
+        controller.navigate(directions)
     }
 }
