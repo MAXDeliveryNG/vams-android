@@ -10,7 +10,7 @@ class DataMapper {
             remoteVehicle.isMaxVehicle, remoteVehicle.licenseExpirationDate, remoteVehicle.locationId, remoteVehicle.manufacturerId,
             remoteVehicle.maxGlobalId, remoteVehicle.maxVehicleId, remoteVehicle.modelId, remoteVehicle.modelNumber, remoteVehicle.plateNumber,
             remoteVehicle.pricingTemplateId, remoteVehicle.serviceType, remoteVehicle.updatedAt, remoteVehicle.vehicleMovement, remoteVehicle.vehicleStatusId, remoteVehicle.vehicleTypeId,
-            remoteVehicle.year, remoteVehicle.lastVehicleMovement, remoteVehicle.champion, remoteVehicle.status
+            remoteVehicle.year, remoteVehicle.lastVehicleMovement, remoteVehicle.champion, remoteVehicle.status, remoteVehicle.manufacturer
         )
     }
 }

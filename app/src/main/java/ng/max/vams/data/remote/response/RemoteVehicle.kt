@@ -2,6 +2,7 @@ package ng.max.vams.data.remote.response
 
 
 import com.google.gson.annotations.SerializedName
+import ng.max.vams.data.Manufacturer
 
 data class RemoteVehicle(
     @SerializedName("batch_id")
@@ -34,8 +35,6 @@ data class RemoteVehicle(
     val locationId: String,
     @SerializedName("manufacturer_id")
     val manufacturerId: Int,
-    @SerializedName("manufacturer")
-    val manufacturer: String,
     @SerializedName("max_global_id")
     val maxGlobalId: String,
     @SerializedName("max_vehicle_id")
@@ -71,5 +70,7 @@ data class RemoteVehicle(
     @SerializedName("champion")
     val champion: Champion?,
     @SerializedName("vehicle_status")
-    val status: VehicleStatus?
+    val status: VehicleStatus?,
+    @SerializedName("manufacturer")
+    val manufacturer: Manufacturer?
 )

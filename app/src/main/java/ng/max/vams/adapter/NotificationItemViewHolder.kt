@@ -19,8 +19,8 @@ class NotificationItemViewHolder (itemView: View, onItemClickListener: ((positio
 
     override fun bind(item: DbVehicle) {
         itemView.vehicleTypeTv.text = item.lastVehicleMovement?.vehicleType
-        itemView.manufacturerTv.text = "N/A"
-        itemView.locationFromTv.text = item.lastVehicleMovement?.locationFromName
-        itemView.locationToTv.text = item.lastVehicleMovement?.locationToName
+        itemView.manufacturerTv.text = item.manufacturer?.name
+        itemView.locationFromTv.text = item.lastVehicleMovement?.locationFromName!!.lowercase().replaceFirstChar{it.titlecase()}
+        itemView.locationToTv.text = item.lastVehicleMovement.locationToName!!.lowercase().replaceFirstChar{it.titlecase()}
     }
 }
