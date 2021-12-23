@@ -45,6 +45,10 @@ data class LastVehicleMovement(
     @SerializedName("amount_defaulted")
     val amountDefaulted: String?,
     @SerializedName("retrieval_agent")
-    val retrievalAgent: String?
+    val retrievalAgent: String?,
+    @SerializedName("location_from_name")
+    val locationFromName: String?,
+    @SerializedName("location_to_name")
+    val locationToName: String?
 
 )

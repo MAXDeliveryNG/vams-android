@@ -66,7 +66,7 @@ class VehicleDetailFragment : Fragment() {
             bnd.movementTypeHeaderTv.text = getString(R.string.movement_type_header, "Check In").uppercase()
         }
 
-        bnd.vehicleIdTv.text = _captureData.vehicle.maxVehicleId
+        bnd.vehicleIdTv.text = _captureData.vehicle.maxVehicleId!!
         bnd.plateNumberTv.text = _captureData.vehicle.plateNumber
 
         _captureData.vehicle.champion?.let {
@@ -80,15 +80,17 @@ class VehicleDetailFragment : Fragment() {
         }
 
         _captureData.vehicle.lastVehicleMovement?.let {
-            bnd.reasonTv.text = it.reason.parentReasonName
-            bnd.subreasonTv.text = it.reason.name
             bnd.vehicleTypeTv.text = it.vehicleType
             bnd.odometerTv.text = getString(
                 R.string.odometer_data,
                 it.odometer.toString()
             )
             bnd.locationTv.text = it.locationName
-            bnd.movementTypeCard.show()
+            if (_captureData.movementType != "entry"){
+                bnd.reasonTv.text = it.reason.parentReasonName
+                bnd.subreasonTv.text = it.reason.name
+                bnd.movementTypeCard.show()
+            }
         }
 
         _captureData.vehicle.status?.let {

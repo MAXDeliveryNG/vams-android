@@ -8,6 +8,7 @@
     <color name="very_dark_gray_black_50">#80363636</color>
     <color name="very_dark_gray_50">#803E3E3E</color>
     <color name="dark_gray">#808080</color>
+    <color name="dark_gray_50">#80808080</color>
     <color name="very_light_red">#FF6E6E</color>
     <color name="very_light_green">#60DD9A</color>
     <color name="orange">#E88E15</color>

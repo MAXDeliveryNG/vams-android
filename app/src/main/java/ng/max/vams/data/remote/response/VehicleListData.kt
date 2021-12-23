@@ -7,5 +7,5 @@ data class VehicleListData(
     @SerializedName("pagination")
     val pagination: Pagination,
     @SerializedName("results")
-    val vehicles: List<Vehicle>
+    val remoteVehicles: List<RemoteVehicle>
 )

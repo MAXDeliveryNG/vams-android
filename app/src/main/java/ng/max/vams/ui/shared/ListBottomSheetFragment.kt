@@ -92,19 +92,24 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
                 is Result.Loading ->{}
                 is Result.Success -> {
                     if(!reasons.value.isNullOrEmpty()) {
-                        if(args.movementType == "entry") {
-                            val reasonList = arrayListOf<Reason>()
-                            for (items in reasons.value){
+                        val reasonList = arrayListOf<Reason>()
+                        for (items in reasons.value){
+                            if (args.movementType == "entry"){
                                 if(items.name == "Activated" || items.name == "Transfer"){
                                     continue
                                 }else{
                                     reasonList.add(items)
                                 }
+                            }else{
+                                if(items.name == "New"){
+                                    continue
+                                }else{
+                                    reasonList.add(items)
+                                }
                             }
-                            reasonAdapter.adapterList = reasonList.sortedBy { it.name }
-                        }else {
-                            reasonAdapter.adapterList = reasons.value.sortedBy { it.name }.map { it }
                         }
+                        reasonAdapter.adapterList = reasonList.sortedBy { it.name }
+
                     }
                 }
             }

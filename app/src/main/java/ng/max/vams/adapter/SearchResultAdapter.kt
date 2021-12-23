@@ -8,23 +8,23 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import ng.max.vams.R
-import ng.max.vams.data.remote.response.Vehicle
+import ng.max.vams.data.remote.response.RemoteVehicle
 
 class SearchResultsAdapter(
     context: Context,
-    var items: ArrayList<Vehicle> = ArrayList()
+    var items: ArrayList<RemoteVehicle> = ArrayList()
 ) :
-    ArrayAdapter<Vehicle>(context, R.layout.spinner_item, items) {
+    ArrayAdapter<RemoteVehicle>(context, R.layout.spinner_item, items) {
 
     override fun getCount(): Int {
         return items.size
     }
 
-    override fun getItem(position: Int): Vehicle? {
+    override fun getItem(position: Int): RemoteVehicle? {
         return items[position]
     }
 
-    fun update(items: ArrayList<Vehicle>?) {
+    fun update(items: ArrayList<RemoteVehicle>?) {
         if (items == null) {
             this.items = ArrayList()
         } else {

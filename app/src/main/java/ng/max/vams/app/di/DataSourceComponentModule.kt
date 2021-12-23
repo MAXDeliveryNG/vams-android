@@ -7,7 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ng.max.vams.BuildConfig
 import ng.max.vams.data.interceptor.AuthInterceptor
+import ng.max.vams.data.local.AppDatabase
 import ng.max.vams.data.manager.SharedPrefsManager
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
@@ -17,8 +19,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import ng.max.vams.BuildConfig
-import ng.max.vams.data.local.AppDatabase
 
 @Module
 @InstallIn(SingletonComponent::class)

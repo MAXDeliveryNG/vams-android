@@ -3,39 +3,36 @@ package ng.max.vams.ui.home
 import android.annotation.SuppressLint
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.home_fragment.*
-import kotlinx.android.synthetic.main.layout_movement_type_card_view.*
 import ng.max.vams.R
-import ng.max.vams.adapter.VehicleTypeDashboardAdapter
-import ng.max.vams.customview.MovementTypeCardView
+import ng.max.vams.adapter.BaseAdapter
+import ng.max.vams.data.CaptureMovementData
+import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.data.manager.AppManager
 import ng.max.vams.data.manager.UserManager
 import ng.max.vams.data.remote.response.User
-import ng.max.vams.data.remote.response.VehicleDashboardPair
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.HomeFragmentBinding
 import ng.max.vams.ui.login.LoginViewModel
+import ng.max.vams.ui.shared.SharedRegistrationViewModel
 import ng.max.vams.util.Helper
 import ng.max.vams.util.Helper.Companion.formatUserRole
 import ng.max.vams.util.gone
@@ -48,8 +45,10 @@ class HomeFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
-    private lateinit var bnd: HomeFragmentBinding
+    private val sharedViewModel: SharedRegistrationViewModel by activityViewModels()
+    private lateinit var bnd : HomeFragmentBinding
     private var user: User? = null
+    private val notificationItemAdapter = BaseAdapter()
     private lateinit var navController: NavController
 
     //    private var clicked = false
@@ -70,15 +69,14 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         bnd = HomeFragmentBinding.inflate(inflater, container, false)
-
         return bnd.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        loginViewModel.getLoggedInUser().observe(viewLifecycleOwner) { _user ->
-            if (_user == null) {
+        loginViewModel.getLoggedInUser().observe(viewLifecycleOwner){ _user ->
+            if (_user == null){
                 val options = NavOptions.Builder()
                     .setEnterAnim(R.anim.slide_in_right)
                     .setExitAnim(R.anim.slide_out_left)
@@ -86,7 +84,7 @@ class HomeFragment : Fragment() {
                     .setPopExitAnim(R.anim.slide_out_right)
                     .build()
                 navController.navigate(R.id.loginFragment, null, options)
-            } else {
+            }else{
                 user = _user
                 setupViews()
                 setupViewModel()
@@ -94,178 +92,177 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupViews() {
-        user?.let { user ->
-            if (user.photo != null) {
-                bnd.profileIcon.load(user.photo) {
+    private fun setupViews(){
+        user?.let { user->
+            if (user.photo != null){
+                bnd.profileIcon.load(user.photo){
                     placeholder(R.drawable.ic_icon_placeholder)
                         .transformations(CircleCropTransformation())
                 }
-            } else {
-                bnd.profileIcon.load(R.drawable.ic_icon_placeholder) {
-                    transformations(CircleCropTransformation())
+            }else{
+                bnd.profileIcon.load(R.drawable.ic_icon_placeholder){
+                        transformations(CircleCropTransformation())
                 }
             }
 
         }
-
+        bnd.dateTv.text = Helper.getFormattedDate()
         bnd.profileIcon.setOnClickListener {
-            displayPopup()
+            displayProfilePopup()
         }
         bnd.fab.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_movementTypeDialogFragment)
         }
+        bnd.notification.setOnClickListener {
+            displayNotificationPopup()
+        }
 
         bnd.apply {
-            totalentryCardOverall.setOnClickListener {
+            totalEntryCardOverall.setOnClickListener {
                 if (cardControl["A"] == false) {
-                    homeViewModel.controlCard(cardControl, "A", true)
-                    bnd.totalentryLinedivider.visibility = View.VISIBLE
-                    bnd.totalentryDetailWrap.visibility = View.VISIBLE
-                    bnd.entryOneArrow.setImageResource(R.drawable.ic_dbarrow_up)
+                    bnd.totalEntryLineDivider.show()
+                    bnd.totalEntryDetailWrap.show()
+                    bnd.totalEntryHeader.rotateArrow(180f)
                     cardControl["A"] = true
                 } else {
-                    bnd.totalentryLinedivider.visibility = View.GONE
-                    bnd.totalentryDetailWrap.visibility = View.GONE
-                    bnd.entryOneArrow.setImageResource(R.drawable.ic_dbarrow_down)
+                    bnd.totalEntryLineDivider.gone()
+                    bnd.totalEntryDetailWrap.gone()
+                    bnd.totalEntryHeader.rotateArrow(0f)
                     cardControl["A"] = false
                 }
+                homeViewModel.controlCard(cardControl, "A", true)
             }
-            entrynameCard.setOnClickListener {
+            entryByNameCard.setOnClickListener {
                 if (cardControl["B"] == false) {
                     homeViewModel.controlCard(cardControl, "B", true)
-                    bnd.entrynamelinedivider.visibility = View.VISIBLE
-                    bnd.entrynameDetailWrap.visibility = View.VISIBLE
-                    bnd.entryTwoArrow.setImageResource(R.drawable.ic_dbarrow_up)
+                    bnd.entryByNameLineDivider.show()
+                    bnd.entryByNameDetailWrap.show()
+                    bnd.entryByNameHeader.rotateArrow(180f)
                     cardControl["B"] = true
                 } else {
-                    bnd.entrynamelinedivider.visibility = View.GONE
-                    bnd.entrynameDetailWrap.visibility = View.GONE
-                    bnd.entryTwoArrow.setImageResource(R.drawable.ic_dbarrow_down)
+                    bnd.entryByNameLineDivider.gone()
+                    bnd.entryByNameDetailWrap.gone()
+                    bnd.entryByNameHeader.rotateArrow(0f)
                     cardControl["B"] = false
                 }
             }
-            entryDateCard.setOnClickListener {
+            entryByDateCard.setOnClickListener {
                 if (cardControl["C"] == false) {
                     homeViewModel.controlCard(cardControl, "C", true)
-                    bnd.entrydateLinedivider.visibility = View.VISIBLE
-                    bnd.entrydateDetailWrap.visibility = View.VISIBLE
-                    bnd.entryThreeArrow.setImageResource(R.drawable.ic_dbarrow_up)
+                    bnd.entryByDateLinedivider.show()
+                    bnd.entryByDateDetailWrap.show()
+                    bnd.entryByDateHeader.rotateArrow(180f)
                     cardControl["C"] = true
                 } else {
-                    bnd.entrydateLinedivider.visibility = View.GONE
-                    bnd.entrydateDetailWrap.visibility = View.GONE
-                    bnd.entryThreeArrow.setImageResource(R.drawable.ic_dbarrow_down)
+                    bnd.entryByDateLinedivider.gone()
+                    bnd.entryByDateDetailWrap.gone()
+                    bnd.entryByDateHeader.rotateArrow(0f)
                     cardControl["C"] = false
                 }
             }
-            exitCardOverall.setOnClickListener {
+            totalExitCardOverall.setOnClickListener {
                 if (cardControl["D"] == false) {
                     homeViewModel.controlCard(cardControl, "D", true)
-                    bnd.exitLinedivider.visibility = View.VISIBLE
-                    bnd.exitDetailWrap.visibility = View.VISIBLE
-                    bnd.entryFourArrow.setImageResource(R.drawable.ic_dbarrow_up)
+                    bnd.exitLinedivider.show()
+                    bnd.exitDetailWrap.show()
+                    bnd.totalExitHeader.rotateArrow(180f)
                     cardControl["D"] = true
                 } else {
-                    bnd.exitLinedivider.visibility = View.GONE
-                    bnd.exitDetailWrap.visibility = View.GONE
-                    bnd.entryFourArrow.setImageResource(R.drawable.ic_dbarrow_down)
+                    bnd.exitLinedivider.gone()
+                    bnd.exitDetailWrap.gone()
+                    bnd.totalExitHeader.rotateArrow(0f)
                     cardControl["D"] = false
                 }
             }
-            exitnameCard.setOnClickListener {
+            exitByNameCard.setOnClickListener {
                 if (cardControl["E"] == false) {
                     homeViewModel.controlCard(cardControl, "E", true)
-                    bnd.exitnamelinedivider.visibility = View.VISIBLE
-                    bnd.exitnameDetailWrap.visibility = View.VISIBLE
-                    bnd.entryFiveArrow.setImageResource(R.drawable.ic_dbarrow_up)
+                    bnd.exitnamelinedivider.show()
+                    bnd.exitnameDetailWrap.show()
+                    bnd.exitByNameHeader.rotateArrow(180f)
                     cardControl["E"] = true
                 } else {
-                    bnd.exitnamelinedivider.visibility = View.GONE
-                    bnd.exitnameDetailWrap.visibility = View.GONE
-                    bnd.entryFiveArrow.setImageResource(R.drawable.ic_dbarrow_down)
+                    bnd.exitnamelinedivider.gone()
+                    bnd.exitnameDetailWrap.gone()
+                    bnd.exitByNameHeader.rotateArrow(0f)
                     cardControl["E"] = false
                 }
             }
-            exitDateCard.setOnClickListener {
+            exitByDateCard.setOnClickListener {
                 if (cardControl["F"] == false) {
                     homeViewModel.controlCard(cardControl, "F", true)
-                    bnd.exitdateLinedivider.visibility = View.VISIBLE
-                    bnd.exitdateDetailWrap.visibility = View.VISIBLE
-                    bnd.entrySixArrow.setImageResource(R.drawable.ic_dbarrow_up)
+                    bnd.exitdateLinedivider.show()
+                    bnd.exitdateDetailWrap.show()
+                    bnd.exitByDateHeader.rotateArrow(180f)
                     cardControl["F"] = true
                 } else {
-                    bnd.exitdateLinedivider.visibility = View.GONE
-                    bnd.exitdateDetailWrap.visibility = View.GONE
-                    bnd.entrySixArrow.setImageResource(R.drawable.ic_dbarrow_down)
+                    bnd.exitdateLinedivider.gone()
+                    bnd.exitdateDetailWrap.gone()
+                    bnd.exitByDateHeader.rotateArrow(0f)
                     cardControl["F"] = false
                 }
             }
-            transferCardOverall.setOnClickListener {
+            totalTransferCardOverall.setOnClickListener {
                 if (cardControl["G"] == false) {
                     homeViewModel.controlCard(cardControl, "G", true)
-                    bnd.transferLinedivider.visibility = View.VISIBLE
-                    bnd.transferDetailWrap.visibility = View.VISIBLE
-                    bnd.entrySevenArrow.setImageResource(R.drawable.ic_dbarrow_up)
+                    bnd.transferLinedivider.show()
+                    bnd.transferDetailWrap.show()
+                    bnd.totalTransferHeader.rotateArrow(180f)
                     cardControl["G"] = true
                 } else {
-                    bnd.transferLinedivider.visibility = View.GONE
-                    bnd.transferDetailWrap.visibility = View.GONE
-                    bnd.entrySevenArrow.setImageResource(R.drawable.ic_dbarrow_down)
+                    bnd.transferLinedivider.gone()
+                    bnd.transferDetailWrap.gone()
+                    bnd.totalTransferHeader.rotateArrow(0f)
                     cardControl["G"] = false
                 }
             }
-            transfernameCard.setOnClickListener {
+            transferByNameCard.setOnClickListener {
                 if (cardControl["H"] == false) {
                     homeViewModel.controlCard(cardControl, "H", true)
-                    bnd.transfernamelinedivider.visibility = View.VISIBLE
-                    bnd.transfernameDetailWrap.visibility = View.VISIBLE
-                    bnd.entryEightArrow.setImageResource(R.drawable.ic_dbarrow_up)
+                    bnd.transfernamelinedivider.show()
+                    bnd.transfernameDetailWrap.show()
+                    bnd.transferByNameHeader.rotateArrow(180f)
                     cardControl["H"] = true
                 } else {
-                    bnd.transfernamelinedivider.visibility = View.GONE
-                    bnd.transfernameDetailWrap.visibility = View.GONE
-                    bnd.entryEightArrow.setImageResource(R.drawable.ic_dbarrow_down)
+                    bnd.transfernamelinedivider.gone()
+                    bnd.transfernameDetailWrap.gone()
+                    bnd.transferByNameHeader.rotateArrow(0f)
                     cardControl["H"] = false
                 }
             }
-            transferDateCard.setOnClickListener {
+            transferByDateCard.setOnClickListener {
                 if (cardControl["I"] == false) {
                     homeViewModel.controlCard(cardControl, "I", true)
-                    bnd.transferdateLinedivider.visibility = View.VISIBLE
-                    bnd.transferdateDetailWrap.visibility = View.VISIBLE
-                    bnd.entryNineArrow.setImageResource(R.drawable.ic_dbarrow_up)
+                    bnd.transferdateLinedivider.show()
+                    bnd.transferdateDetailWrap.show()
+                    bnd.transferByDateHeader.rotateArrow(180f)
                     cardControl["I"] = true
                 } else {
-                    bnd.transferdateLinedivider.visibility = View.GONE
-                    bnd.transferdateDetailWrap.visibility = View.GONE
-                    bnd.entryNineArrow.setImageResource(R.drawable.ic_dbarrow_down)
+                    bnd.transferdateLinedivider.gone()
+                    bnd.transferdateDetailWrap.gone()
+                    bnd.transferByDateHeader.rotateArrow(0f)
                     cardControl["I"] = false
                 }
             }
         }
 
         val userFullName = "${user?.firstName} ${user?.lastName}"
-        bnd.entryNamecardSubtitleTv.text = getString(R.string.by_name_label, userFullName)
-        bnd.entryDateSubtitleTv.text = getString(R.string.by_date_label, userFullName)
-        bnd.exitNamecardSubtitleTv.text = getString(R.string.by_name_label, userFullName)
-        bnd.exitDateSubtitleTv.text = getString(R.string.by_date_label, userFullName)
-        bnd.transferNamecardSubtitleTv.text = getString(R.string.by_name_label, userFullName)
-        bnd.transferDateSubtitleTv.text = getString(R.string.by_date_label, userFullName)
+        bnd.entryByNameHeader.setSubtitle(getString(R.string.by_name_label, userFullName))
+        bnd.entryByDateHeader.setSubtitle(getString(R.string.by_date_label, userFullName))
+        bnd.exitByNameHeader.setSubtitle(getString(R.string.by_name_label, userFullName))
+        bnd.exitByDateHeader.setSubtitle(getString(R.string.by_date_label, userFullName))
+        bnd.transferByNameHeader.setSubtitle(getString(R.string.by_name_label, userFullName))
+        bnd.transferByDateHeader.setSubtitle(getString(R.string.by_date_label, userFullName))
 
-
-        val date = Helper.getFormattedDate()
 
         bnd.retryButton.setOnClickListener {
 //            homeViewModel.actionGetMovementStat()
             user?.let { homeViewModel.actionGetFullMovementStat(it.id) }
         }
-
     }
 
-
     @SuppressLint("ClickableViewAccessibility")
-    private fun displayPopup() {
+    private fun displayProfilePopup() {
         val inflater =
             requireContext().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.layout_profile_popup_view, null)
@@ -285,7 +282,7 @@ class HomeFragment : Fragment() {
 
         usernameTextView.text = user?.fullName
         emailTextView.text = user?.email
-        if (user?.let { it.role.isEmpty() } == true) {
+        if(user?.role?.isEmpty() == true){
             user?.let { homeViewModel.getUserRole(it.id) }
         }
         roleTextView.text = formatUserRole(UserManager.getUserRole())
@@ -301,451 +298,519 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupViewModel() {
-        homeViewModel.getFullMovementStatResponse.observe(viewLifecycleOwner, { result ->
-            when (result) {
-                is Result.Error -> {
-                    bnd.errorTv.text = getString(R.string.error_message)
-                    showErrorView(true)
-                    showDialog("Error", result.message)
-                }
-                is Result.Loading -> {
-                    showErrorView(false)
-                    bnd.entryDateProgressBar.visibility = View.VISIBLE
-                    bnd.totalentrycountProgressBar.visibility = View.VISIBLE
-                    bnd.entryDateProgressBar.visibility = View.VISIBLE
-                }
-                is Result.Success -> {
-                    showErrorView(false)
+    @SuppressLint("ClickableViewAccessibility")
+    private fun displayNotificationPopup() {
+        val inflater =
+            requireContext().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView: View = inflater.inflate(R.layout.layout_notification_view, null)
+
+        val width = LinearLayout.LayoutParams.MATCH_PARENT
+        val height = LinearLayout.LayoutParams.MATCH_PARENT
+
+        //Create a popup window
+        val popupWindow = PopupWindow(popupView, width, height, true)
+
+        popupWindow.showAtLocation(bnd.homeFragment, Gravity.CENTER, 0, 0)
+
+        val notificationCloseBtn = popupView.findViewById<ImageButton>(R.id.notificationCloseBtn)
+        val notificationRv = popupView.findViewById<RecyclerView>(R.id.transferRV)
 
 
-                    bnd.apply {
-
-                        //Card Count Update
-                        totalentryCardCountTv.text =
-                            result.value.totalVehicleEntryCount.toString()
-                        entrynamecardCountTv.text =
-                            result.value.totalVehicleEntryByAgent.toString()
-                        entryDateCountTv.text =
-                            result.value.totalVehicleEntryByAgentToday.toString()
-
-                        exitCardCountTv.text = result.value.totalVehicleExitCount.toString()
-                        exitnamecardCountTv.text =
-                            result.value.totalVehicleExitByAgent.toString()
-                        exitDateCountTv.text =
-                            result.value.totalVehicleExitByAgentToday.toString()
-
-                        transferCardCountTv.text =
-                            result.value.totalVehicleTransferCount.toString()
-                        transfernamecardCountTv.text =
-                            result.value.totalVehicleTransferByAgent.toString()
-                        transferDateCountTv.text =
-                            result.value.totalVehicleTransferByAgentToday.toString()
-
-                        //Card Detail Count Update
-                        entryitemonecount.text =
-                            result.value.vehiclesEntrySummary[0].count.toString()
-                        entryitemtwocount.text =
-                            result.value.vehiclesEntrySummary[1].count.toString()
-                        entryitemthreeCount.text =
-                            result.value.vehiclesEntrySummary[2].count.toString()
-                        entryitemFourCount.text =
-                            result.value.vehiclesEntrySummary[3].count.toString()
-                        entryitemfiveCount.text =
-                            result.value.vehiclesEntrySummary[4].count.toString()
-                        entryitemsixCount.text =
-                            result.value.vehiclesEntrySummary[5].count.toString()
-                        entryitemsevenCount.text =
-                            result.value.vehiclesEntrySummary[6].count.toString()
-
-                        entrybynameitemonecount.text =
-                            result.value.agentVehicleEntrySummary[0].count.toString()
-                        entrybynameitemtwocount.text =
-                            result.value.agentVehicleEntrySummary[1].count.toString()
-                        entrybynameitemthreeCount.text =
-                            result.value.agentVehicleEntrySummary[2].count.toString()
-                        entrybynameitemFourCount.text =
-                            result.value.agentVehicleEntrySummary[3].count.toString()
-                        entrybynameitemfiveCount.text =
-                            result.value.agentVehicleEntrySummary[4].count.toString()
-                        entrybynameitemsixCount.text =
-                            result.value.agentVehicleEntrySummary[5].count.toString()
-                        entrybynameitemsevenCount.text =
-                            result.value.agentVehicleEntrySummary[6].count.toString()
-
-                        entrybyDateitemonecount.text =
-                            result.value.agentVehicleEntrySummaryToday[0].count.toString()
-                        entrybyDateitemtwocount.text =
-                            result.value.agentVehicleEntrySummaryToday[1].count.toString()
-                        entrybyDateitemthreeCount.text =
-                            result.value.agentVehicleEntrySummaryToday[2].count.toString()
-                        entrybyDateitemFourCount.text =
-                            result.value.agentVehicleEntrySummaryToday[3].count.toString()
-                        entrybyDateitemfiveCount.text =
-                            result.value.agentVehicleEntrySummaryToday[4].count.toString()
-                        entrybyDateitemsixCount.text =
-                            result.value.agentVehicleEntrySummaryToday[5].count.toString()
-                        entrybyDateitemsevenCount.text =
-                            result.value.agentVehicleEntrySummaryToday[6].count.toString()
-
-
-                        exititemonecount.text =
-                            result.value.vehiclesExitSummary[0].count.toString()
-                        exititemtwocount.text =
-                            result.value.vehiclesExitSummary[1].count.toString()
-                        exititemthreeCount.text =
-                            result.value.vehiclesExitSummary[2].count.toString()
-                        exititemFourCount.text =
-                            result.value.vehiclesExitSummary[3].count.toString()
-                        exititemfiveCount.text =
-                            result.value.vehiclesExitSummary[4].count.toString()
-                        exititemsixCount.text =
-                            result.value.vehiclesExitSummary[5].count.toString()
-                        exititemsevenCount.text =
-                            result.value.vehiclesExitSummary[6].count.toString()
-
-                        exitbynameitemonecount.text =
-                            result.value.agentVehicleExitSummary[0].count.toString()
-                        exitbynameitemtwocount.text =
-                            result.value.agentVehicleExitSummary[1].count.toString()
-                        exitbynameitemthreeCount.text =
-                            result.value.agentVehicleExitSummary[2].count.toString()
-                        exitbynameitemFourCount.text =
-                            result.value.agentVehicleExitSummary[3].count.toString()
-                        exitbynameitemfiveCount.text =
-                            result.value.agentVehicleExitSummary[4].count.toString()
-                        exitbynameitemsixCount.text =
-                            result.value.agentVehicleExitSummary[5].count.toString()
-                        exitbynameitemsevenCount.text =
-                            result.value.agentVehicleExitSummary[6].count.toString()
-
-                        exitdateitemonecount.text =
-                            result.value.agentVehicleExitSummaryToday[0].count.toString()
-                        exitdateitemtwocount.text =
-                            result.value.agentVehicleExitSummaryToday[1].count.toString()
-                        exitdateitemthreeCount.text =
-                            result.value.agentVehicleExitSummaryToday[2].count.toString()
-                        exitdateitemFourCount.text =
-                            result.value.agentVehicleExitSummaryToday[3].count.toString()
-                        exitdateitemfiveCount.text =
-                            result.value.agentVehicleExitSummaryToday[4].count.toString()
-                        exitdateitemsixCount.text =
-                            result.value.agentVehicleExitSummaryToday[5].count.toString()
-                        exitdateitemsevenCount.text =
-                            result.value.agentVehicleExitSummaryToday[6].count.toString()
-
-
-                        transferitemonecount.text =
-                            result.value.vehiclesTransferSummary[0].count.toString()
-                        transferitemtwocount.text =
-                            result.value.vehiclesTransferSummary[1].count.toString()
-                        transferitemthreeCount.text =
-                            result.value.vehiclesTransferSummary[2].count.toString()
-                        transferitemFourCount.text =
-                            result.value.vehiclesTransferSummary[3].count.toString()
-                        transferitemfiveCount.text =
-                            result.value.vehiclesTransferSummary[4].count.toString()
-                        transferitemsixCount.text =
-                            result.value.vehiclesTransferSummary[5].count.toString()
-                        transferitemsevenCount.text =
-                            result.value.vehiclesTransferSummary[6].count.toString()
-
-                        transfernameitemonecount.text =
-                            result.value.agentVehicleTransferSummary[0].count.toString()
-                        transfernameitemtwocount.text =
-                            result.value.agentVehicleTransferSummary[1].count.toString()
-                        transfernameitemthreeCount.text =
-                            result.value.agentVehicleTransferSummary[2].count.toString()
-                        transfernameitemFourCount.text =
-                            result.value.agentVehicleTransferSummary[3].count.toString()
-                        transfernameitemfiveCount.text =
-                            result.value.agentVehicleTransferSummary[4].count.toString()
-                        transfernameitemsixCount.text =
-                            result.value.agentVehicleTransferSummary[5].count.toString()
-                        transfernameitemsevenCount.text =
-                            result.value.agentVehicleTransferSummary[6].count.toString()
-
-                        transferdateitemonecount.text =
-                            result.value.agentVehicleTransferSummaryToday[0].count.toString()
-                        transferdateitemtwocount.text =
-                            result.value.agentVehicleTransferSummaryToday[1].count.toString()
-                        transferdateitemthreeCount.text =
-                            result.value.agentVehicleTransferSummaryToday[2].count.toString()
-                        transferdateitemFourCount.text =
-                            result.value.agentVehicleTransferSummaryToday[3].count.toString()
-                        transferdateitemfiveCount.text =
-                            result.value.agentVehicleTransferSummaryToday[4].count.toString()
-                        transferdateitemsixCount.text =
-                            result.value.agentVehicleTransferSummaryToday[5].count.toString()
-                        transferdateitemsevenCount.text =
-                            result.value.agentVehicleTransferSummaryToday[6].count.toString()
-
-
-                    }
-                }
-            }
-        })
-
-
-        homeViewModel.getcardControlResponse.observe(viewLifecycleOwner, {
-            when {
-                !it.containsKey("A") -> {
-                    bnd.entrynamelinedivider.visibility = View.GONE
-                    bnd.entrynameDetailWrap.visibility = View.GONE
-                    bnd.entrydateLinedivider.visibility = View.GONE
-                    bnd.entrydateDetailWrap.visibility = View.GONE
-                    bnd.exitLinedivider.visibility = View.GONE
-                    bnd.exitDetailWrap.visibility = View.GONE
-                    bnd.exitnamelinedivider.visibility = View.GONE
-                    bnd.exitnameDetailWrap.visibility = View.GONE
-                    bnd.exitdateLinedivider.visibility = View.GONE
-                    bnd.exitdateDetailWrap.visibility = View.GONE
-                    bnd.transferLinedivider.visibility = View.GONE
-                    bnd.transferDetailWrap.visibility = View.GONE
-                    bnd.transfernamelinedivider.visibility = View.GONE
-                    bnd.transfernameDetailWrap.visibility = View.GONE
-                    bnd.transferdateLinedivider.visibility = View.GONE
-                    bnd.transferdateDetailWrap.visibility = View.GONE
-                    cardControl["B"] = false
-                    cardControl["C"] = false
-                    cardControl["D"] = false
-                    cardControl["E"] = false
-                    cardControl["F"] = false
-                    cardControl["G"] = false
-                    cardControl["H"] = false
-                    cardControl["I"] = false
-                }
-                !it.containsKey("B") -> {
-                    bnd.totalentryLinedivider.visibility = View.GONE
-                    bnd.totalentryDetailWrap.visibility = View.GONE
-                    bnd.entrydateLinedivider.visibility = View.GONE
-                    bnd.entrydateDetailWrap.visibility = View.GONE
-                    bnd.exitLinedivider.visibility = View.GONE
-                    bnd.exitDetailWrap.visibility = View.GONE
-                    bnd.exitnamelinedivider.visibility = View.GONE
-                    bnd.exitnameDetailWrap.visibility = View.GONE
-                    bnd.exitdateLinedivider.visibility = View.GONE
-                    bnd.exitdateDetailWrap.visibility = View.GONE
-                    bnd.transferLinedivider.visibility = View.GONE
-                    bnd.transferDetailWrap.visibility = View.GONE
-                    bnd.transfernamelinedivider.visibility = View.GONE
-                    bnd.transfernameDetailWrap.visibility = View.GONE
-                    bnd.transferdateLinedivider.visibility = View.GONE
-                    bnd.transferdateDetailWrap.visibility = View.GONE
-                    cardControl["A"] = false
-                    cardControl["C"] = false
-                    cardControl["D"] = false
-                    cardControl["E"] = false
-                    cardControl["F"] = false
-                    cardControl["G"] = false
-                    cardControl["H"] = false
-                    cardControl["I"] = false
-                }
-                !it.containsKey("C") -> {
-                    bnd.totalentryLinedivider.visibility = View.GONE
-                    bnd.totalentryDetailWrap.visibility = View.GONE
-                    bnd.entrynamelinedivider.visibility = View.GONE
-                    bnd.entrynameDetailWrap.visibility = View.GONE
-                    bnd.exitLinedivider.visibility = View.GONE
-                    bnd.exitDetailWrap.visibility = View.GONE
-                    bnd.exitnamelinedivider.visibility = View.GONE
-                    bnd.exitnameDetailWrap.visibility = View.GONE
-                    bnd.exitdateLinedivider.visibility = View.GONE
-                    bnd.exitdateDetailWrap.visibility = View.GONE
-                    bnd.transferLinedivider.visibility = View.GONE
-                    bnd.transferDetailWrap.visibility = View.GONE
-                    bnd.transfernamelinedivider.visibility = View.GONE
-                    bnd.transfernameDetailWrap.visibility = View.GONE
-                    bnd.transferdateLinedivider.visibility = View.GONE
-                    bnd.transferdateDetailWrap.visibility = View.GONE
-                    cardControl["A"] = false
-                    cardControl["B"] = false
-                    cardControl["D"] = false
-                    cardControl["E"] = false
-                    cardControl["F"] = false
-                    cardControl["G"] = false
-                    cardControl["H"] = false
-                    cardControl["I"] = false
-                }
-                !it.containsKey("D") -> {
-                    bnd.totalentryLinedivider.visibility = View.GONE
-                    bnd.totalentryDetailWrap.visibility = View.GONE
-                    bnd.entrynamelinedivider.visibility = View.GONE
-                    bnd.entrynameDetailWrap.visibility = View.GONE
-                    bnd.entrydateLinedivider.visibility = View.GONE
-                    bnd.entrydateDetailWrap.visibility = View.GONE
-                    bnd.exitnamelinedivider.visibility = View.GONE
-                    bnd.exitnameDetailWrap.visibility = View.GONE
-                    bnd.exitdateLinedivider.visibility = View.GONE
-                    bnd.exitdateDetailWrap.visibility = View.GONE
-                    bnd.transferLinedivider.visibility = View.GONE
-                    bnd.transferDetailWrap.visibility = View.GONE
-                    bnd.transfernamelinedivider.visibility = View.GONE
-                    bnd.transfernameDetailWrap.visibility = View.GONE
-                    bnd.transferdateLinedivider.visibility = View.GONE
-                    bnd.transferdateDetailWrap.visibility = View.GONE
-                    cardControl["A"] = false
-                    cardControl["B"] = false
-                    cardControl["C"] = false
-                    cardControl["E"] = false
-                    cardControl["F"] = false
-                    cardControl["G"] = false
-                    cardControl["H"] = false
-                    cardControl["I"] = false                }
-                !it.containsKey("E") -> {
-                    bnd.totalentryLinedivider.visibility = View.GONE
-                    bnd.totalentryDetailWrap.visibility = View.GONE
-                    bnd.entrynamelinedivider.visibility = View.GONE
-                    bnd.entrynameDetailWrap.visibility = View.GONE
-                    bnd.entrydateLinedivider.visibility = View.GONE
-                    bnd.entrydateDetailWrap.visibility = View.GONE
-                    bnd.exitLinedivider.visibility = View.GONE
-                    bnd.exitDetailWrap.visibility = View.GONE
-                    bnd.exitdateLinedivider.visibility = View.GONE
-                    bnd.exitdateDetailWrap.visibility = View.GONE
-                    bnd.transferLinedivider.visibility = View.GONE
-                    bnd.transferDetailWrap.visibility = View.GONE
-                    bnd.transfernamelinedivider.visibility = View.GONE
-                    bnd.transfernameDetailWrap.visibility = View.GONE
-                    bnd.transferdateLinedivider.visibility = View.GONE
-                    bnd.transferdateDetailWrap.visibility = View.GONE
-                    cardControl["A"] = false
-                    cardControl["B"] = false
-                    cardControl["C"] = false
-                    cardControl["D"] = false
-                    cardControl["F"] = false
-                    cardControl["G"] = false
-                    cardControl["H"] = false
-                    cardControl["I"] = false                }
-                !it.containsKey("F") -> {
-                    bnd.totalentryLinedivider.visibility = View.GONE
-                    bnd.totalentryDetailWrap.visibility = View.GONE
-                    bnd.entrynamelinedivider.visibility = View.GONE
-                    bnd.entrynameDetailWrap.visibility = View.GONE
-                    bnd.entrydateLinedivider.visibility = View.GONE
-                    bnd.entrydateDetailWrap.visibility = View.GONE
-                    bnd.exitLinedivider.visibility = View.GONE
-                    bnd.exitDetailWrap.visibility = View.GONE
-                    bnd.exitnamelinedivider.visibility = View.GONE
-                    bnd.exitnameDetailWrap.visibility = View.GONE
-                    bnd.transferLinedivider.visibility = View.GONE
-                    bnd.transferDetailWrap.visibility = View.GONE
-                    bnd.transfernamelinedivider.visibility = View.GONE
-                    bnd.transfernameDetailWrap.visibility = View.GONE
-                    bnd.transferdateLinedivider.visibility = View.GONE
-                    bnd.transferdateDetailWrap.visibility = View.GONE
-                    cardControl["A"] = false
-                    cardControl["B"] = false
-                    cardControl["C"] = false
-                    cardControl["D"] = false
-                    cardControl["E"] = false
-                    cardControl["G"] = false
-                    cardControl["H"] = false
-                    cardControl["I"] = false                }
-                !it.containsKey("G") -> {
-                    bnd.totalentryLinedivider.visibility = View.GONE
-                    bnd.totalentryDetailWrap.visibility = View.GONE
-                    bnd.entrynamelinedivider.visibility = View.GONE
-                    bnd.entrynameDetailWrap.visibility = View.GONE
-                    bnd.entrydateLinedivider.visibility = View.GONE
-                    bnd.entrydateDetailWrap.visibility = View.GONE
-                    bnd.exitLinedivider.visibility = View.GONE
-                    bnd.exitDetailWrap.visibility = View.GONE
-                    bnd.exitnamelinedivider.visibility = View.GONE
-                    bnd.exitnameDetailWrap.visibility = View.GONE
-                    bnd.exitdateLinedivider.visibility = View.GONE
-                    bnd.exitdateDetailWrap.visibility = View.GONE
-                    bnd.transfernamelinedivider.visibility = View.GONE
-                    bnd.transfernameDetailWrap.visibility = View.GONE
-                    bnd.transferdateLinedivider.visibility = View.GONE
-                    bnd.transferdateDetailWrap.visibility = View.GONE
-                    cardControl["A"] = false
-                    cardControl["B"] = false
-                    cardControl["C"] = false
-                    cardControl["D"] = false
-                    cardControl["E"] = false
-                    cardControl["F"] = false
-                    cardControl["H"] = false
-                    cardControl["I"] = false
-                }
-                !it.containsKey("H") -> {
-                    bnd.totalentryLinedivider.visibility = View.GONE
-                    bnd.totalentryDetailWrap.visibility = View.GONE
-                    bnd.entrynamelinedivider.visibility = View.GONE
-                    bnd.entrynameDetailWrap.visibility = View.GONE
-                    bnd.entrydateLinedivider.visibility = View.GONE
-                    bnd.entrydateDetailWrap.visibility = View.GONE
-                    bnd.exitLinedivider.visibility = View.GONE
-                    bnd.exitDetailWrap.visibility = View.GONE
-                    bnd.exitnamelinedivider.visibility = View.GONE
-                    bnd.exitnameDetailWrap.visibility = View.GONE
-                    bnd.exitdateLinedivider.visibility = View.GONE
-                    bnd.exitdateDetailWrap.visibility = View.GONE
-                    bnd.transferLinedivider.visibility = View.GONE
-                    bnd.transferDetailWrap.visibility = View.GONE
-                    bnd.transferdateLinedivider.visibility = View.GONE
-                    bnd.transferdateDetailWrap.visibility = View.GONE
-                    cardControl["A"] = false
-                    cardControl["B"] = false
-                    cardControl["C"] = false
-                    cardControl["D"] = false
-                    cardControl["E"] = false
-                    cardControl["F"] = false
-                    cardControl["G"] = false
-                    cardControl["I"] = false
-                }
-                else -> {
-                    bnd.totalentryLinedivider.visibility = View.GONE
-                    bnd.totalentryDetailWrap.visibility = View.GONE
-                    bnd.entrynamelinedivider.visibility = View.GONE
-                    bnd.entrynameDetailWrap.visibility = View.GONE
-                    bnd.entrydateLinedivider.visibility = View.GONE
-                    bnd.entrydateDetailWrap.visibility = View.GONE
-                    bnd.exitLinedivider.visibility = View.GONE
-                    bnd.exitDetailWrap.visibility = View.GONE
-                    bnd.exitnamelinedivider.visibility = View.GONE
-                    bnd.exitnameDetailWrap.visibility = View.GONE
-                    bnd.exitdateLinedivider.visibility = View.GONE
-                    bnd.exitdateDetailWrap.visibility = View.GONE
-                    bnd.transferLinedivider.visibility = View.GONE
-                    bnd.transferDetailWrap.visibility = View.GONE
-                    bnd.transfernamelinedivider.visibility = View.GONE
-                    bnd.transfernameDetailWrap.visibility = View.GONE
-                    cardControl["A"] = false
-                    cardControl["B"] = false
-                    cardControl["C"] = false
-                    cardControl["D"] = false
-                    cardControl["E"] = false
-                    cardControl["F"] = false
-                    cardControl["G"] = false
-                    cardControl["H"] = false
-                }
-            }
-        })
-
-
-        user?.let { homeViewModel.actionGetFullMovementStat(it.id) }
-        homeViewModel.actionGetAssetReasons()
-        homeViewModel.actionGetLocations()
-        homeViewModel.actionGetVehicleTypes()
-        homeViewModel.actionGetVehicleCheckListItem()
-
-        if (AppManager.getVehicleTableFlag() == 0) {
-            homeViewModel.clearVehicleTable()
-            AppManager.setVehicleTableFlag(-1)
+        notificationCloseBtn.setOnClickListener {
+            popupWindow.dismiss()
         }
 
-        user?.let { homeViewModel.getUserRole(it.id) }
+        notificationItemAdapter.viewType = 4
+        notificationItemAdapter.setOnItemClickListener { position->
+            popupWindow.dismiss()
+            val vehicle = notificationItemAdapter.adapterList[position] as DbVehicle
 
-        homeViewModel.getUserRoleResponse.observe(viewLifecycleOwner, { fullRole ->
-            when (fullRole) {
-                is Result.Error -> {}
-                is Result.Loading -> {}
-                is Result.Success -> {
-                    UserManager.saveUserRole(fullRole.value.role.name)
+            sharedViewModel.submitData(CaptureMovementData("entry", vehicle))
+
+            val action = HomeFragmentDirections.actionHomeFragmentToRegisterVehicleFragment(
+                vehicle.lastVehicleMovement!!.reason.id,
+                vehicle.lastVehicleMovement.reason.name,
+                vehicle.lastVehicleMovement.reason.parentReasonName,
+                null
+            )
+            findNavController().navigate(action)
+
+        }
+        notificationRv.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = notificationItemAdapter
+            setHasFixedSize(true)
+        }
+    }
+
+
+    private fun setupViewModel() {
+        with(homeViewModel){
+            getFullMovementStatResponse.observe(viewLifecycleOwner, { result ->
+                when (result) {
+                    is Result.Error -> {
+                        bnd.errorTv.text = getString(R.string.error_message)
+                        showErrorView(true)
+                        showDialog("Error", result.message)
+                    }
+                    is Result.Loading -> {
+                        showErrorView(false)
+//                    bnd.entryDateProgressBar.show()
+//                    bnd.totalentrycountProgressBar.show()
+//                    bnd.entryDateProgressBar.show()
+                    }
+                    is Result.Success -> {
+                        showErrorView(false)
+
+
+                        bnd.apply {
+
+                            //Card Count Update
+                            bnd.totalEntryHeader.setCount(result.value.totalVehicleEntryCount.toString())
+                            bnd.entryByNameHeader.setCount(result.value.totalVehicleEntryByAgent.toString())
+                            bnd.entryByDateHeader.setCount(result.value.totalVehicleEntryByAgentToday.toString())
+                            bnd.totalExitHeader.setCount(result.value.totalVehicleExitCount.toString())
+                            bnd.exitByNameHeader.setCount(result.value.totalVehicleExitByAgent.toString())
+                            bnd.exitByDateHeader.setCount(result.value.totalVehicleExitByAgentToday.toString())
+                            bnd.totalTransferHeader.setCount(result.value.totalVehicleTransferCount.toString())
+                            bnd.transferByNameHeader.setCount(result.value.totalVehicleTransferByAgent.toString())
+                            bnd.transferByDateHeader.setCount(result.value.totalVehicleTransferByAgentToday.toString())
+
+
+
+                            //Card Detail Count Update
+                            totalEntryMotorcycleView.setData(result.value.vehiclesEntrySummary[0].count.toString())
+                            totalEntryTricycleView.setData(result.value.vehiclesEntrySummary[1].count.toString())
+                            totalEntryCarView.setData(result.value.vehiclesEntrySummary[2].count.toString())
+                            totalEntryMiniBusView.setData(result.value.vehiclesEntrySummary[3].count.toString())
+                            totalEntryEMotorcycleView.setData(result.value.vehiclesEntrySummary[4].count.toString())
+                            totalEntryETricycleView.setData(result.value.vehiclesEntrySummary[5].count.toString())
+                            totalEntryVanView.setData(result.value.vehiclesEntrySummary[6].count.toString())
+
+                            entryByNameMotorcycleView.setData(result.value.agentVehicleEntrySummary[0].count.toString())
+                            entryByNameTricycleView.setData(result.value.agentVehicleEntrySummary[1].count.toString())
+                            entryByNameCarView.setData(result.value.agentVehicleEntrySummary[2].count.toString())
+                            entryByNameMiniBusView.setData(result.value.agentVehicleEntrySummary[3].count.toString())
+                            entryByNameEMotorcycleView.setData(result.value.agentVehicleEntrySummary[4].count.toString())
+                            entryByNameETricycleView.setData(result.value.agentVehicleEntrySummary[5].count.toString())
+                            entryByNameVanView.setData(result.value.agentVehicleEntrySummary[6].count.toString())
+
+                            entryByDateMotorcycleView.setData(result.value.agentVehicleEntrySummaryToday[0].count.toString())
+                            entryByDateTricycleView.setData(result.value.agentVehicleEntrySummaryToday[1].count.toString())
+                            entryByDateCarView.setData(result.value.agentVehicleEntrySummaryToday[2].count.toString())
+                            entryByDateMiniBusView.setData(result.value.agentVehicleEntrySummaryToday[3].count.toString())
+                            entryByDateEMotorcycleView.setData(result.value.agentVehicleEntrySummaryToday[4].count.toString())
+                            entryByDateETricycleView.setData(result.value.agentVehicleEntrySummaryToday[5].count.toString())
+                            entryByDateVanView.setData(result.value.agentVehicleEntrySummaryToday[6].count.toString())
+
+                            totalExitMotorcycleView.setData(result.value.vehiclesExitSummary[0].count.toString())
+                            totalExitTricycleView.setData(result.value.vehiclesExitSummary[1].count.toString())
+                            totalExitCarView.setData(result.value.vehiclesExitSummary[2].count.toString())
+                            totalExitMiniBusView.setData(result.value.vehiclesExitSummary[3].count.toString())
+                            totalExitEMotorcycleView.setData(result.value.vehiclesExitSummary[4].count.toString())
+                            totalExitETricycleView.setData(result.value.vehiclesExitSummary[5].count.toString())
+                            totalExitVanView.setData(result.value.vehiclesExitSummary[6].count.toString())
+
+                            exitByNameMotorcycleView.setData(result.value.agentVehicleExitSummary[0].count.toString())
+                            exitByNameTricycleView.setData(result.value.agentVehicleExitSummary[1].count.toString())
+                            exitByNameCarView.setData(result.value.agentVehicleExitSummary[2].count.toString())
+                            exitByNameMiniBusView.setData(result.value.agentVehicleExitSummary[3].count.toString())
+                            exitByNameEMotorcycleView.setData(result.value.agentVehicleExitSummary[4].count.toString())
+                            exitByNameETricycleView.setData(result.value.agentVehicleExitSummary[5].count.toString())
+                            exitByNameVanView.setData(result.value.agentVehicleExitSummary[6].count.toString())
+
+                            exitByDateMotorcycleView.setData(result.value.agentVehicleExitSummaryToday[0].count.toString())
+                            exitByDateTricycleView.setData(result.value.agentVehicleExitSummaryToday[1].count.toString())
+                            exitByDateCarView.setData(result.value.agentVehicleExitSummaryToday[2].count.toString())
+                            exitByDateMiniBusView.setData(result.value.agentVehicleExitSummaryToday[3].count.toString())
+                            exitByDateEMotorcycleView.setData(result.value.agentVehicleExitSummaryToday[4].count.toString())
+                            exitByDateETricycleView.setData(result.value.agentVehicleExitSummaryToday[5].count.toString())
+                            exitByDateVanView.setData(result.value.agentVehicleExitSummaryToday[6].count.toString())
+
+                            totalTransferMotorcycleView.setData(result.value.vehiclesTransferSummary[0].count.toString())
+                            totalTransferTricycleView.setData(result.value.vehiclesTransferSummary[1].count.toString())
+                            totalTransferCarView.setData(result.value.vehiclesTransferSummary[2].count.toString())
+                            totalTransferMiniBusView.setData(result.value.vehiclesTransferSummary[3].count.toString())
+                            totalTransferEMotorcycleView.setData(result.value.vehiclesTransferSummary[4].count.toString())
+                            totalTransferETricycleView.setData(result.value.vehiclesTransferSummary[5].count.toString())
+                            totalTransferVanView.setData(result.value.vehiclesTransferSummary[6].count.toString())
+
+                            transferByNameMotorcycleView.setData(result.value.agentVehicleTransferSummary[0].count.toString())
+                            transferByNameTricycleView.setData(result.value.agentVehicleTransferSummary[1].count.toString())
+                            transferByNameCarView.setData(result.value.agentVehicleTransferSummary[2].count.toString())
+                            transferByNameMiniBusView.setData(result.value.agentVehicleTransferSummary[3].count.toString())
+                            transferByNameEMotorcycleView.setData(result.value.agentVehicleTransferSummary[4].count.toString())
+                            transferByNameETricycleView.setData(result.value.agentVehicleTransferSummary[5].count.toString())
+                            transferByNameVanView.setData(result.value.agentVehicleTransferSummary[6].count.toString())
+
+                            transferByDateMotorcycleView.setData(result.value.agentVehicleTransferSummaryToday[0].count.toString())
+                            transferByDateTricycleView.setData(result.value.agentVehicleTransferSummaryToday[1].count.toString())
+                            transferByDateCarView.setData(result.value.agentVehicleTransferSummaryToday[2].count.toString())
+                            transferByDateMiniBusView.setData(result.value.agentVehicleTransferSummaryToday[3].count.toString())
+                            transferByDateEMotorcycleView.setData(result.value.agentVehicleTransferSummaryToday[4].count.toString())
+                            transferByDateETricycleView.setData(result.value.agentVehicleTransferSummaryToday[5].count.toString())
+                            transferByDateVanView.setData(result.value.agentVehicleTransferSummaryToday[6].count.toString())
+
+
+                        }
+                    }
                 }
+            })
+
+            getcardControlResponse.observe(viewLifecycleOwner, {
+                when {
+                    !it.containsKey("A") -> {
+                        bnd.entryByNameLineDivider.gone()
+                        bnd.entryByNameDetailWrap.gone()
+                        bnd.entryByDateLinedivider.gone()
+                        bnd.entryByDateDetailWrap.gone()
+                        bnd.exitLinedivider.gone()
+                        bnd.exitDetailWrap.gone()
+                        bnd.exitnamelinedivider.gone()
+                        bnd.exitnameDetailWrap.gone()
+                        bnd.exitdateLinedivider.gone()
+                        bnd.exitdateDetailWrap.gone()
+                        bnd.transferLinedivider.gone()
+                        bnd.transferDetailWrap.gone()
+                        bnd.transfernamelinedivider.gone()
+                        bnd.transfernameDetailWrap.gone()
+                        bnd.transferdateLinedivider.gone()
+                        bnd.transferdateDetailWrap.gone()
+                        cardControl["B"] = false
+                        cardControl["C"] = false
+                        cardControl["D"] = false
+                        cardControl["E"] = false
+                        cardControl["F"] = false
+                        cardControl["G"] = false
+                        cardControl["H"] = false
+                        cardControl["I"] = false
+                        bnd.entryByNameHeader.rotateArrow(0f)
+                        bnd.entryByDateHeader.rotateArrow(0f)
+                        bnd.totalExitHeader.rotateArrow(0f)
+                        bnd.exitByNameHeader.rotateArrow(0f)
+                        bnd.exitByDateHeader.rotateArrow(0f)
+                        bnd.totalTransferHeader.rotateArrow(0f)
+                        bnd.transferByNameHeader.rotateArrow(0f)
+                        bnd.transferByDateHeader.rotateArrow(0f)
+                    }
+                    !it.containsKey("B") -> {
+                        bnd.totalEntryLineDivider.gone()
+                        bnd.totalEntryDetailWrap.gone()
+                        bnd.entryByDateLinedivider.gone()
+                        bnd.entryByDateDetailWrap.gone()
+                        bnd.exitLinedivider.gone()
+                        bnd.exitDetailWrap.gone()
+                        bnd.exitnamelinedivider.gone()
+                        bnd.exitnameDetailWrap.gone()
+                        bnd.exitdateLinedivider.gone()
+                        bnd.exitdateDetailWrap.gone()
+                        bnd.transferLinedivider.gone()
+                        bnd.transferDetailWrap.gone()
+                        bnd.transfernamelinedivider.gone()
+                        bnd.transfernameDetailWrap.gone()
+                        bnd.transferdateLinedivider.gone()
+                        bnd.transferdateDetailWrap.gone()
+                        cardControl["A"] = false
+                        cardControl["C"] = false
+                        cardControl["D"] = false
+                        cardControl["E"] = false
+                        cardControl["F"] = false
+                        cardControl["G"] = false
+                        cardControl["H"] = false
+                        cardControl["I"] = false
+                        bnd.totalEntryHeader.rotateArrow(0f)
+                        bnd.entryByDateHeader.rotateArrow(0f)
+                        bnd.totalExitHeader.rotateArrow(0f)
+                        bnd.exitByNameHeader.rotateArrow(0f)
+                        bnd.exitByDateHeader.rotateArrow(0f)
+                        bnd.totalTransferHeader.rotateArrow(0f)
+                        bnd.transferByNameHeader.rotateArrow(0f)
+                        bnd.transferByDateHeader.rotateArrow(0f)
+                    }
+                    !it.containsKey("C") -> {
+                        bnd.totalEntryLineDivider.gone()
+                        bnd.totalEntryDetailWrap.gone()
+                        bnd.entryByNameLineDivider.gone()
+                        bnd.entryByNameDetailWrap.gone()
+                        bnd.exitLinedivider.gone()
+                        bnd.exitDetailWrap.gone()
+                        bnd.exitnamelinedivider.gone()
+                        bnd.exitnameDetailWrap.gone()
+                        bnd.exitdateLinedivider.gone()
+                        bnd.exitdateDetailWrap.gone()
+                        bnd.transferLinedivider.gone()
+                        bnd.transferDetailWrap.gone()
+                        bnd.transfernamelinedivider.gone()
+                        bnd.transfernameDetailWrap.gone()
+                        bnd.transferdateLinedivider.gone()
+                        bnd.transferdateDetailWrap.gone()
+                        cardControl["A"] = false
+                        cardControl["B"] = false
+                        cardControl["D"] = false
+                        cardControl["E"] = false
+                        cardControl["F"] = false
+                        cardControl["G"] = false
+                        cardControl["H"] = false
+                        cardControl["I"] = false
+                        bnd.totalEntryHeader.rotateArrow(0f)
+                        bnd.entryByNameHeader.rotateArrow(0f)
+                        bnd.totalExitHeader.rotateArrow(0f)
+                        bnd.exitByNameHeader.rotateArrow(0f)
+                        bnd.exitByDateHeader.rotateArrow(0f)
+                        bnd.totalTransferHeader.rotateArrow(0f)
+                        bnd.transferByNameHeader.rotateArrow(0f)
+                        bnd.transferByDateHeader.rotateArrow(0f)
+                    }
+                    !it.containsKey("D") -> {
+                        bnd.totalEntryLineDivider.gone()
+                        bnd.totalEntryDetailWrap.gone()
+                        bnd.entryByNameLineDivider.gone()
+                        bnd.entryByNameDetailWrap.gone()
+                        bnd.entryByDateLinedivider.gone()
+                        bnd.entryByDateDetailWrap.gone()
+                        bnd.exitnamelinedivider.gone()
+                        bnd.exitnameDetailWrap.gone()
+                        bnd.exitdateLinedivider.gone()
+                        bnd.exitdateDetailWrap.gone()
+                        bnd.transferLinedivider.gone()
+                        bnd.transferDetailWrap.gone()
+                        bnd.transfernamelinedivider.gone()
+                        bnd.transfernameDetailWrap.gone()
+                        bnd.transferdateLinedivider.gone()
+                        bnd.transferdateDetailWrap.gone()
+                        cardControl["A"] = false
+                        cardControl["B"] = false
+                        cardControl["C"] = false
+                        cardControl["E"] = false
+                        cardControl["F"] = false
+                        cardControl["G"] = false
+                        cardControl["H"] = false
+                        cardControl["I"] = false
+                        bnd.totalEntryHeader.rotateArrow(0f)
+                        bnd.entryByNameHeader.rotateArrow(0f)
+                        bnd.entryByDateHeader.rotateArrow(0f)
+                        bnd.exitByNameHeader.rotateArrow(0f)
+                        bnd.exitByDateHeader.rotateArrow(0f)
+                        bnd.totalTransferHeader.rotateArrow(0f)
+                        bnd.transferByNameHeader.rotateArrow(0f)
+                        bnd.transferByDateHeader.rotateArrow(0f)
+                    }
+                    !it.containsKey("E") -> {
+                        bnd.totalEntryLineDivider.gone()
+                        bnd.totalEntryDetailWrap.gone()
+                        bnd.entryByNameLineDivider.gone()
+                        bnd.entryByNameDetailWrap.gone()
+                        bnd.entryByDateLinedivider.gone()
+                        bnd.entryByDateDetailWrap.gone()
+                        bnd.exitLinedivider.gone()
+                        bnd.exitDetailWrap.gone()
+                        bnd.exitdateLinedivider.gone()
+                        bnd.exitdateDetailWrap.gone()
+                        bnd.transferLinedivider.gone()
+                        bnd.transferDetailWrap.gone()
+                        bnd.transfernamelinedivider.gone()
+                        bnd.transfernameDetailWrap.gone()
+                        bnd.transferdateLinedivider.gone()
+                        bnd.transferdateDetailWrap.gone()
+                        cardControl["A"] = false
+                        cardControl["B"] = false
+                        cardControl["C"] = false
+                        cardControl["D"] = false
+                        cardControl["F"] = false
+                        cardControl["G"] = false
+                        cardControl["H"] = false
+                        cardControl["I"] = false
+                        bnd.totalEntryHeader.rotateArrow(0f)
+                        bnd.entryByNameHeader.rotateArrow(0f)
+                        bnd.entryByDateHeader.rotateArrow(0f)
+                        bnd.totalExitHeader.rotateArrow(0f)
+                        bnd.exitByDateHeader.rotateArrow(0f)
+                        bnd.totalTransferHeader.rotateArrow(0f)
+                        bnd.transferByNameHeader.rotateArrow(0f)
+                        bnd.transferByDateHeader.rotateArrow(0f)
+                    }
+                    !it.containsKey("F") -> {
+                        bnd.totalEntryLineDivider.gone()
+                        bnd.totalEntryDetailWrap.gone()
+                        bnd.entryByNameLineDivider.gone()
+                        bnd.entryByNameDetailWrap.gone()
+                        bnd.entryByDateLinedivider.gone()
+                        bnd.entryByDateDetailWrap.gone()
+                        bnd.exitLinedivider.gone()
+                        bnd.exitDetailWrap.gone()
+                        bnd.exitnamelinedivider.gone()
+                        bnd.exitnameDetailWrap.gone()
+                        bnd.transferLinedivider.gone()
+                        bnd.transferDetailWrap.gone()
+                        bnd.transfernamelinedivider.gone()
+                        bnd.transfernameDetailWrap.gone()
+                        bnd.transferdateLinedivider.gone()
+                        bnd.transferdateDetailWrap.gone()
+                        cardControl["A"] = false
+                        cardControl["B"] = false
+                        cardControl["C"] = false
+                        cardControl["D"] = false
+                        cardControl["E"] = false
+                        cardControl["G"] = false
+                        cardControl["H"] = false
+                        cardControl["I"] = false
+                        bnd.totalEntryHeader.rotateArrow(0f)
+                        bnd.entryByNameHeader.rotateArrow(0f)
+                        bnd.entryByDateHeader.rotateArrow(0f)
+                        bnd.totalExitHeader.rotateArrow(0f)
+                        bnd.exitByNameHeader.rotateArrow(0f)
+                        bnd.totalTransferHeader.rotateArrow(0f)
+                        bnd.transferByNameHeader.rotateArrow(0f)
+                        bnd.transferByDateHeader.rotateArrow(0f)
+                    }
+                    !it.containsKey("G") -> {
+                        bnd.totalEntryLineDivider.gone()
+                        bnd.totalEntryDetailWrap.gone()
+                        bnd.entryByNameLineDivider.gone()
+                        bnd.entryByNameDetailWrap.gone()
+                        bnd.entryByDateLinedivider.gone()
+                        bnd.entryByDateDetailWrap.gone()
+                        bnd.exitLinedivider.gone()
+                        bnd.exitDetailWrap.gone()
+                        bnd.exitnamelinedivider.gone()
+                        bnd.exitnameDetailWrap.gone()
+                        bnd.exitdateLinedivider.gone()
+                        bnd.exitdateDetailWrap.gone()
+                        bnd.transfernamelinedivider.gone()
+                        bnd.transfernameDetailWrap.gone()
+                        bnd.transferdateLinedivider.gone()
+                        bnd.transferdateDetailWrap.gone()
+                        cardControl["A"] = false
+                        cardControl["B"] = false
+                        cardControl["C"] = false
+                        cardControl["D"] = false
+                        cardControl["E"] = false
+                        cardControl["F"] = false
+                        cardControl["H"] = false
+                        cardControl["I"] = false
+                        bnd.totalEntryHeader.rotateArrow(0f)
+                        bnd.entryByNameHeader.rotateArrow(0f)
+                        bnd.entryByDateHeader.rotateArrow(0f)
+                        bnd.totalExitHeader.rotateArrow(0f)
+                        bnd.exitByNameHeader.rotateArrow(0f)
+                        bnd.exitByDateHeader.rotateArrow(0f)
+                        bnd.transferByNameHeader.rotateArrow(0f)
+                        bnd.transferByDateHeader.rotateArrow(0f)
+                    }
+                    !it.containsKey("H") -> {
+                        bnd.totalEntryLineDivider.gone()
+                        bnd.totalEntryDetailWrap.gone()
+                        bnd.entryByNameLineDivider.gone()
+                        bnd.entryByNameDetailWrap.gone()
+                        bnd.entryByDateLinedivider.gone()
+                        bnd.entryByDateDetailWrap.gone()
+                        bnd.exitLinedivider.gone()
+                        bnd.exitDetailWrap.gone()
+                        bnd.exitnamelinedivider.gone()
+                        bnd.exitnameDetailWrap.gone()
+                        bnd.exitdateLinedivider.gone()
+                        bnd.exitdateDetailWrap.gone()
+                        bnd.transferLinedivider.gone()
+                        bnd.transferDetailWrap.gone()
+                        bnd.transferdateLinedivider.gone()
+                        bnd.transferdateDetailWrap.gone()
+                        cardControl["A"] = false
+                        cardControl["B"] = false
+                        cardControl["C"] = false
+                        cardControl["D"] = false
+                        cardControl["E"] = false
+                        cardControl["F"] = false
+                        cardControl["G"] = false
+                        cardControl["I"] = false
+                        bnd.totalEntryHeader.rotateArrow(0f)
+                        bnd.entryByNameHeader.rotateArrow(0f)
+                        bnd.entryByDateHeader.rotateArrow(0f)
+                        bnd.totalExitHeader.rotateArrow(0f)
+                        bnd.exitByNameHeader.rotateArrow(0f)
+                        bnd.exitByDateHeader.rotateArrow(0f)
+                        bnd.totalTransferHeader.rotateArrow(0f)
+                        bnd.transferByDateHeader.rotateArrow(0f)
+                    }
+                    else -> {
+                        bnd.totalEntryLineDivider.gone()
+                        bnd.totalEntryDetailWrap.gone()
+                        bnd.entryByNameLineDivider.gone()
+                        bnd.entryByNameDetailWrap.gone()
+                        bnd.entryByDateLinedivider.gone()
+                        bnd.entryByDateDetailWrap.gone()
+                        bnd.exitLinedivider.gone()
+                        bnd.exitDetailWrap.gone()
+                        bnd.exitnamelinedivider.gone()
+                        bnd.exitnameDetailWrap.gone()
+                        bnd.exitdateLinedivider.gone()
+                        bnd.exitdateDetailWrap.gone()
+                        bnd.transferLinedivider.gone()
+                        bnd.transferDetailWrap.gone()
+                        bnd.transfernamelinedivider.gone()
+                        bnd.transfernameDetailWrap.gone()
+                        cardControl["A"] = false
+                        cardControl["B"] = false
+                        cardControl["C"] = false
+                        cardControl["D"] = false
+                        cardControl["E"] = false
+                        cardControl["F"] = false
+                        cardControl["G"] = false
+                        cardControl["H"] = false
+                        bnd.totalEntryHeader.rotateArrow(0f)
+                        bnd.entryByNameHeader.rotateArrow(0f)
+                        bnd.entryByDateHeader.rotateArrow(0f)
+                        bnd.totalExitHeader.rotateArrow(0f)
+                        bnd.exitByNameHeader.rotateArrow(0f)
+                        bnd.exitByDateHeader.rotateArrow(0f)
+                        bnd.totalTransferHeader.rotateArrow(0f)
+                        bnd.transferByNameHeader.rotateArrow(0f)
+                    }
+                }
+            })
+
+            getUserRoleResponse.observe(viewLifecycleOwner, { fullRole ->
+                when (fullRole) {
+                    is Result.Error -> {}
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        UserManager.saveUserRole(fullRole.value.role.name)
+                    }
+                }
+            })
+
+            getUnconfirmedVehicleResponse.observe(viewLifecycleOwner, {result ->
+                when (result) {
+                    is Result.Error -> {
+
+                    }
+                    is Result.Loading -> {
+
+                    }
+                    is Result.Success -> {
+                        notificationItemAdapter.adapterList = result.value
+                    }
+                }
+            })
+
+            user?.let { homeViewModel.actionGetFullMovementStat(it.id) }
+            user?.let { homeViewModel.getUserRole(it.id) }
+
+
+            if (AppManager.getVehicleTableFlag() == 0) {
+                homeViewModel.clearVehicleTable()
+                AppManager.setVehicleTableFlag(-1)
             }
-        })
+
+
+
+            actionGetAssetReasons()
+            actionGetLocations()
+            actionGetVehicleTypes()
+            actionGetVehicleCheckListItem()
+            actionGetUnconfirmedVehicles()
+        }
+
+
     }
 
     private fun showErrorView(isError: Boolean) {
@@ -753,12 +818,11 @@ class HomeFragment : Fragment() {
             bnd.errorView.show()
             bnd.dataView.gone()
             bnd.bottomView.gone()
-        } else {
+        }else{
             bnd.errorView.gone()
             bnd.dataView.show()
             bnd.bottomView.show()
         }
     }
-
 
 }

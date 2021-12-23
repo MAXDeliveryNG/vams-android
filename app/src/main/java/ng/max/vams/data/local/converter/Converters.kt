@@ -3,6 +3,7 @@ package ng.max.vams.data.local.converter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import ng.max.vams.data.Manufacturer
 import ng.max.vams.data.remote.response.Champion
 import ng.max.vams.data.remote.response.LastVehicleMovement
 import ng.max.vams.data.remote.response.SubReason
@@ -58,5 +59,16 @@ class Converters {
         }
     }
 
+    @TypeConverter
+    fun toManufacturer(value: String?): Manufacturer? {
+        return value?.let { Gson().fromJson(it, Manufacturer::class.java) }
+    }
+
+    @TypeConverter
+    fun fromManufacturer(manufacturer: Manufacturer?): String? {
+        return manufacturer?.let {
+            Gson().toJson(it)
+        }
+    }
 
 }

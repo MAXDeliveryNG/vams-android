@@ -15,7 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_plate_number_search.*
 import ng.max.vams.R
 import ng.max.vams.data.CaptureMovementData
-import ng.max.vams.data.remote.response.Vehicle
+import ng.max.vams.data.DataMapper
+import ng.max.vams.data.remote.response.RemoteVehicle
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.databinding.FragmentPlateNumberSearchBinding
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
@@ -59,7 +60,7 @@ class PlateNumberSearchFragment : Fragment() {
                     if (result.value.isEmpty()) {
                         showDialog(
                             "Error",
-                            "Vehicle with ${plateNumberEditText.text.toString()} not found."
+                            "RemoteVehicle with ${plateNumberEditText.text.toString()} not found."
                         )
                     } else {
                         navigateToVehicleDetail(result.value.first())
@@ -70,19 +71,19 @@ class PlateNumberSearchFragment : Fragment() {
     }
 
 
-    private fun navigateToVehicleDetail(vehicle: Vehicle) {
-        if(vehicle.vehicleMovement == null && args.movementType == "exit"){
+    private fun navigateToVehicleDetail(remoteVehicle: RemoteVehicle) {
+        if(remoteVehicle.vehicleMovement == null && args.movementType == "exit"){
             val errorMessage = getString(R.string.mo_movement_error_message)
             showDialog("Error", errorMessage)
-        } else if (vehicle.vehicleMovement != null && vehicle.vehicleMovement == args.movementType) {
-            val errorMessage = if (vehicle.vehicleMovement == "entry") {
+        } else if (remoteVehicle.vehicleMovement != null && remoteVehicle.vehicleMovement == args.movementType) {
+            val errorMessage = if (remoteVehicle.vehicleMovement == "entry") {
                 getString(R.string.movement_error_message, " checked in")
             } else {
                 getString(R.string.movement_error_message, "checked out")
             }
             showDialog("Error", errorMessage)
         } else {
-            sharedViewModel.submitData(CaptureMovementData(args.movementType, vehicle))
+            sharedViewModel.submitData(CaptureMovementData(args.movementType, DataMapper().invoke(remoteVehicle)))
             findNavController().navigate(R.id.action_plateNumberSearchFragment_to_vehicleDetailFragment)
         }
     }

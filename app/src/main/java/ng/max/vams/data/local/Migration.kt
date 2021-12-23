@@ -85,3 +85,23 @@ val MIGRATION_3_4: Migration = object : Migration(3, 4){
     }
 
 }
+
+val MIGRATION_4_5: Migration = object : Migration(4, 5){
+    override fun migrate(database: SupportSQLiteDatabase) {
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS $VEHICLE_TEMP (`championId` TEXT, " +
+                "`createdAt` TEXT, `id` TEXT NOT NULL, `isMaxVehicle` INTEGER NOT NULL, " +
+                "`licenseExpirationDate` TEXT, `locationId` TEXT NOT NULL, `manufacturerId` INTEGER, " +
+                "`maxGlobalId` TEXT, `maxVehicleId` TEXT, `modelId` INTEGER, `modelNumber` TEXT, " +
+                "`plateNumber` TEXT, `pricingTemplateId` TEXT, `serviceType` TEXT, " +
+                "`updatedAt` TEXT, `movementType` TEXT, `vehicleStatusId` TEXT, " +
+                "`vehicleTypeId` INTEGER, `year` INTEGER, `lastVehicleMovement` TEXT, " +
+                "`champion` TEXT, `manufacturer` TEXT, `status` TEXT, PRIMARY KEY(`id`))")
+
+        // Remove the old table
+        database.execSQL("DROP TABLE $VEHICLE")
+
+        // Change the table name to the correct one
+        database.execSQL("ALTER TABLE $VEHICLE_TEMP RENAME TO $VEHICLE")
+    }
+}

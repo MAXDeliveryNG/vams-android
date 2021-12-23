@@ -18,5 +18,7 @@ data class MovementBody (
     @SerializedName("retrieval_agent")
     var retrievalAgent: String?,
     @SerializedName("amount_defaulted")
-    var amountDefaulted: String?
+    var amountDefaulted: String?,
+    @SerializedName("transfer_status")
+    var transferStatus: String? = null
     )

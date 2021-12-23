@@ -11,9 +11,10 @@ import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementData
 import ng.max.vams.data.RetrievalChecklistRepository
 import ng.max.vams.data.remote.request.MovementBody
-import ng.max.vams.data.remote.response.Vehicle
+import ng.max.vams.data.remote.response.RemoteVehicle
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.usecase.vehiclemovement.RegisterVehicleMovementUseCase
+import ng.max.vams.util.SingleLiveEvent
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,10 +25,10 @@ class SharedRegistrationViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val movementDataResponse = MutableLiveData<CaptureMovementData>()
-    private val registerMovementResponse = MutableLiveData<Result<Vehicle>>()
+    private val registerMovementResponse = SingleLiveEvent<Result<RemoteVehicle>>()
 
     val getCaptureMovementDataResponse: LiveData<CaptureMovementData> = movementDataResponse
-    val getRegisterMovementResponse: LiveData<Result<Vehicle>> = registerMovementResponse
+    val getRegisterMovementResponse: LiveData<Result<RemoteVehicle>> = registerMovementResponse
 
 
     fun submitData(captureMovementData: CaptureMovementData) {
@@ -35,7 +36,7 @@ class SharedRegistrationViewModel @Inject constructor(
     }
 
     fun registerMovement(
-        movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: String?
+        movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: String?, transferStatus: String? = null
     ) {
         registerMovementResponse.value = Result.Loading
         viewModelScope.launch {
@@ -47,6 +48,7 @@ class SharedRegistrationViewModel @Inject constructor(
             movementBody.vehicleId = vehicleId
             movementBody.subReasonId = subReasonId
             movementBody.locationToId = locationToId
+            movementBody.transferStatus = transferStatus
 
             registerMovementResponse.value = registerVehicleMovementUseCase.invoke(movementBody)
 

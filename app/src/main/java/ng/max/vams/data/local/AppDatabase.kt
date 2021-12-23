@@ -12,7 +12,7 @@ import ng.max.vams.data.remote.response.Reason
 import ng.max.vams.data.remote.response.RetrivalChecklistItem
 import ng.max.vams.data.remote.response.VehicleType
 
-@Database(version = 4, entities = [DbVehicle::class, Reason::class,
+@Database(version = 5, entities = [DbVehicle::class, Reason::class,
     Location::class, VehicleType::class, RetrivalChecklistItem::class], exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase(){
@@ -35,7 +35,7 @@ abstract class AppDatabase : RoomDatabase(){
                             applicationContext,
                             AppDatabase::class.java,
                             DB_NAME
-                    ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                    ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                         .build()
                 }
             }

@@ -26,6 +26,7 @@ import ng.max.vams.ui.assetreason.VehicleConfirmationViewModel
 import ng.max.vams.ui.shared.SharedBottomSheetViewModel
 import ng.max.vams.ui.shared.SharedRegistrationViewModel
 import ng.max.vams.util.gone
+import ng.max.vams.util.navigate
 import ng.max.vams.util.show
 import ng.max.vams.util.showDialog
 
@@ -112,7 +113,6 @@ class SelectMovementReasonFragment : Fragment() {
                                 if (fieldKey == "reason") {
                                     bnd.subReasonLayout.show()
                                     if (captureMovementData.movementType == "exit" && value != "Transfer") {
-                                        bnd.retrievedItemsContainer.show()
                                         bnd.submitButton.setButtonText("Check Out")
                                     } else {
                                         bnd.retrievedItemsContainer.gone()
@@ -125,6 +125,10 @@ class SelectMovementReasonFragment : Fragment() {
                                     }else{
                                         isValid = true
                                     }
+                                }
+
+                                if ((value != "Inter City" || value != "Intra City") && fieldKey == "subreason") {
+                                    bnd.retrievedItemsContainer.show()
                                 }
 
                                 if (value == "Financial Default" && fieldKey == "subreason") {
@@ -227,33 +231,14 @@ class SelectMovementReasonFragment : Fragment() {
                 is Result.Success -> {
                     bnd.submitButton.loaded()
 
-                    val action = RegisterVehicleFragmentDirections
-                        .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
-                            result.value.vehicleMovement!!, result.value.maxVehicleId
+                    val action = SelectMovementReasonFragmentDirections
+                        .actionSelectMovementReasonFragmentToCompleteRegistrationFragment(
+                            result.value.vehicleMovement!!, result.value.maxVehicleId, null
                         )
-                    findNavController().navigate(action)
+                    navigate(action)
                 }
             }
         }
-
-
-//        viewModel.getReasonsResponse.observe(viewLifecycleOwner, { result ->
-//            when (result) {
-//                is Result.Error -> {
-//                    Snackbar.make(reasonRv, result.message, Snackbar.LENGTH_LONG).show()
-//                }
-//                is Result.Loading -> {
-//                }
-//                is Result.Success -> {
-//                        retrievedReason = result.value.find { it.name == "Retrieved" }!!
-//                    reasonAdapter.adapterList = if (captureMovementData.movementType == "entry") {
-//                        result.value.filter { it.slug != "activated" }
-//                    } else {
-//                        result.value.filter { it.slug != "new" }
-//                    }
-//                }
-//            }
-//        })
 
         sharedVehicleConfirmationViewModel.getConfirmationResponse.observe(viewLifecycleOwner, { hasConfirm ->
             if (hasConfirm) {
@@ -309,7 +294,7 @@ class SelectMovementReasonFragment : Fragment() {
                 }
             )
 
-        findNavController().navigate(action)
+        navigate(action)
     }
 
 
@@ -448,40 +433,13 @@ class SelectMovementReasonFragment : Fragment() {
 
         bnd.submitButton.setButtonEnable(false)
 
-        /*if (captureMovementData.movementType == "exit") {
-            val lastMovement = captureMovementData.vehicle.lastVehicleMovement!!
-            val lastMovementReason = lastMovement.reason
-            val reason =
-                (reasonAdapter.adapterList as List<Reason>).find { it.id == lastMovementReason.parentReasonId }!!
-
-            if (selectedReason.id != lastMovementReason.parentReasonId && selectedReasonSlug != "activated") {
-                Toast.makeText(
-                    requireContext(),
-                    "Please check out with ${reason.name}",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                if (selectedReasonSlug == "activated" && reason.slug != "new") {
-                    Toast.makeText(
-                        requireContext(),
-                        "Please check out with ${reason.name}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    lastMovementSubReason = lastMovementReason.name
-                    displaySubReasons(selectedReason)
-                }
-            }
-        } else {
-            displaySubReasons(selectedReason)
-        }*/
 
         bnd.submitButton.setOnClickListener {
             bnd.submitButton.loaded()
             if (captureMovementData.movementType == "exit" && bnd.reasonEditText.text.toString() != "Transfer") {
                 val action =
                     SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToVehicleConfirmationFragment(
-                        vehicleMaxId = captureMovementData.vehicle.maxVehicleId,
+                        vehicleMaxId = captureMovementData.vehicle.maxVehicleId!!,
                         champion = captureMovementData.vehicle.champion?.let {
                             getString(
                                 R.string.default_name, it.firstName,
@@ -491,7 +449,7 @@ class SelectMovementReasonFragment : Fragment() {
                         reason = bnd.subReasonEditText.text.toString(),
                         movementType = captureMovementData.movementType
                     )
-                findNavController().navigate(action)
+                navigate(action)
             } else {
                 navigateToRegisterVehicle()
             }
@@ -518,7 +476,7 @@ class SelectMovementReasonFragment : Fragment() {
                 "SUBREASON",
                 captureMovementData.movementType
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
     private fun displayReasons(clicked: String) {
@@ -528,6 +486,6 @@ class SelectMovementReasonFragment : Fragment() {
                 "REASON",
                 captureMovementData.movementType
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 }
