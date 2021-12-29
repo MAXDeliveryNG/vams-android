@@ -64,6 +64,45 @@ fun String.formatDate(): String{
     }
 }
 
+fun String.formatNotificationDate(): String {
+
+    val dateFormatIn = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.getDefault())
+
+    return try {
+        val dateIn = dateFormatIn.parse(this)!!
+        val offset = TimeZone.getDefault().getOffset(dateIn.time)
+        val cal = Calendar.getInstance().apply {
+            time = dateIn
+            add(Calendar.MILLISECOND, offset)
+        }
+
+        var tmp = SimpleDateFormat("d", Locale.getDefault())
+
+        var str: String = tmp.format(cal.timeInMillis)
+
+        str = if (cal.get(Calendar.DAY_OF_MONTH) in 11..13) {
+            str + "th "
+        } else {
+            when {
+                str.endsWith("1") -> str + "st "
+                str.endsWith("2") -> str + "nd "
+                str.endsWith("3") -> str + "rd "
+                else -> str + "th "
+            }
+        }
+
+        tmp = SimpleDateFormat("MMMM, yyyy", Locale.getDefault())
+        str += tmp.format(cal.timeInMillis)
+
+        str
+    }catch (exception: ParseException) {
+        SimpleDateFormat(DATETIME_DISPLAY_FORMAT, Locale.getDefault()).format(Date())
+    } catch (exception: Exception) {
+        SimpleDateFormat(DATETIME_DISPLAY_FORMAT, Locale.getDefault()).format(Date())
+    }
+
+}
+
 fun Fragment.navigate(directions: NavDirections) {
     val controller = findNavController()
     val currentDestination = (controller.currentDestination as? FragmentNavigator.Destination)?.className

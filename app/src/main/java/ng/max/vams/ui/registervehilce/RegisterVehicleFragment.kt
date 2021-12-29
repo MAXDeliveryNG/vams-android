@@ -342,6 +342,9 @@ class RegisterVehicleFragment : Fragment() {
 
         sharedViewModel.getConfirmationResponse.observe(viewLifecycleOwner, { hasConfirm ->
             if (hasConfirm) {
+                movementData.apply {
+                    this.amountDefaulted = args.amountDefaulted
+                }
                 sharedRegistrationViewModel.registerMovement(
                     movementData, captureMovementData.vehicle.id,
                     args.subReasonId,
