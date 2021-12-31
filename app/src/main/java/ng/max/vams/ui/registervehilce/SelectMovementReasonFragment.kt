@@ -465,7 +465,7 @@ class SelectMovementReasonFragment : Fragment() {
             val _subReason = if (captureMovementData.movementType == "entry") {
                 selectedReason.subReasons?.find { it.slug == "pick_up_papers" }!!
             } else {
-                selectedReason.subReasons?.find { it.slug == "completed_hp" }!!
+                selectedReason.subReasons?.find { it.slug == "complete_hp" }!!
             }
             listOf(_subReason)
         } else {

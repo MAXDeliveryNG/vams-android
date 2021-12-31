@@ -12,7 +12,7 @@ import retrofit2.http.POST
 interface UserService {
 
     @Headers("Service-Agent: VAMS-USER")
-    @POST("accounts/auth/login")
+    @POST("vehicles/v1/user-managment/login")
     suspend fun login(@Body loginBody: LoginBody) : Response<ApiResponse<LoginData>>
 
     @POST("accounts/auth/forgot-password")
