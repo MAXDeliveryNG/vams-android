@@ -53,6 +53,7 @@ class TransferCheckInConfirmationBottomSheetFragment : BottomSheetDialogFragment
         }else{
             bnd.transferActionIv.setImageResource(R.drawable.ic_reject_transfer)
             bnd.transferInfoTv.text = "REJECT VEHICLE TRANSFER \n(ENTRY)"
+            bnd.confirmTransferBtn.text = "Reject Transfer"
             bnd.confirmTransferBtn.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.error_button_state)
             bnd.confirmTransferBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.error_button_text_state))
         }

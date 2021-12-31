@@ -45,7 +45,7 @@ class SelectMovementReasonFragment : Fragment() {
     private var selectedReasonName: String? = null
     private lateinit var captureMovementData: CaptureMovementData
     var subReasonPicked: String? = null
-    lateinit var retrievedReason: Reason
+    var retrievedReason: Reason? = null
     var retrievedItems: List<String> = emptyList()
 
     private var valueMap: HashMap<String, String> = HashMap()
@@ -127,7 +127,7 @@ class SelectMovementReasonFragment : Fragment() {
                                     }
                                 }
 
-                                if ((value != "Inter City" || value != "Intra City") && fieldKey == "subreason") {
+                                if ((value != "Inter City" || value != "Intra City") && fieldKey == "subreason" && captureMovementData.movementType == "exit") {
                                     bnd.retrievedItemsContainer.show()
                                 }
 
@@ -275,7 +275,7 @@ class SelectMovementReasonFragment : Fragment() {
 
 
     private fun getSubReasonId(subreason: String?): String {
-        return retrievedReason.subReasons?.filter {_subReason->
+        return retrievedReason?.subReasons?.filter {_subReason->
             subreason == _subReason.name
         }!!.first().id
     }
@@ -428,7 +428,9 @@ class SelectMovementReasonFragment : Fragment() {
         }
 
         bnd.subReasonEditText.setOnClickListener {
-            displaySubReasons(retrievedReason)
+            retrievedReason?.let {
+                displaySubReasons(it)
+            }
         }
 
         bnd.submitButton.setButtonEnable(false)
@@ -463,7 +465,7 @@ class SelectMovementReasonFragment : Fragment() {
             val _subReason = if (captureMovementData.movementType == "entry") {
                 selectedReason.subReasons?.find { it.slug == "pick_up_papers" }!!
             } else {
-                selectedReason.subReasons?.find { it.slug == "completed_hp" }!!
+                selectedReason.subReasons?.find { it.slug == "complete_hp" }!!
             }
             listOf(_subReason)
         } else {
