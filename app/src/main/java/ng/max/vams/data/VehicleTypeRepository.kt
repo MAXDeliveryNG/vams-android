@@ -45,7 +45,7 @@ class VehicleTypeRepository @Inject constructor(
             dbData = try {
                 Result.Success(vehicleTypeDao.getVehicleType(id).first())
             }catch (ex: Exception){
-                Result.Error("Vehicle Type with id $id not found.")
+                Result.Error("RemoteVehicle Type with id $id not found.")
             }
         }
         return  dbData

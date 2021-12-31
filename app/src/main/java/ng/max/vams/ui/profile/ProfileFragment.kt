@@ -11,6 +11,7 @@ import coil.transform.CircleCropTransformation
 import ng.max.vams.R
 import ng.max.vams.data.manager.UserManager
 import ng.max.vams.databinding.FragmentProfileBinding
+import ng.max.vams.util.Helper
 import ng.max.vams.util.showDialog
 import java.util.*
 
@@ -43,7 +44,8 @@ class ProfileFragment : Fragment() {
                 }
             }
             bnd.usernameTv.text = user.fullName
-            bnd.roleTv.text = user.role.capitalize(Locale.getDefault())
+            bnd.roleTv.text = Helper.formatUserRole(UserManager.getUserRole())
+//            bnd.roleTv.text = user.role.capitalize(Locale.getDefault())
         }
 
         bnd.changePasswordOption.setOnClickListener {

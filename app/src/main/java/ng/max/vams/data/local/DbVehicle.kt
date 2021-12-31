@@ -2,6 +2,7 @@ package ng.max.vams.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ng.max.vams.data.Manufacturer
 import ng.max.vams.data.remote.response.Champion
 import ng.max.vams.data.remote.response.LastVehicleMovement
 import ng.max.vams.data.remote.response.VehicleStatus
@@ -30,5 +31,6 @@ data class DbVehicle(
         val year: Int?,
         val lastVehicleMovement: LastVehicleMovement?,
         val champion: Champion?,
-        val status: VehicleStatus?
+        val status: VehicleStatus?,
+        val manufacturer: Manufacturer?
 )

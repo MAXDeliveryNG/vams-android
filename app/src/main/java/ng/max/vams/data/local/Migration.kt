@@ -9,6 +9,7 @@ const val REASON_TEMP = "ReasonNew"
 const val REASON = "Reason"
 const val LOCATION_TEMP = "LocationNew"
 const val LOCATION = "Location"
+const val RETRIEVAL_CHECK_LIST = "RetrivalChecklistItem"
 
 val MIGRATION_1_2: Migration = object : Migration(1, 2){
     override fun migrate(database: SupportSQLiteDatabase) {
@@ -67,6 +68,40 @@ val MIGRATION_2_3: Migration = object : Migration(2, 3){
 
         // Change the table name to the correct one
         database.execSQL("ALTER TABLE $LOCATION_TEMP RENAME TO $LOCATION")
+        database.execSQL("ALTER TABLE $VEHICLE_TEMP RENAME TO $VEHICLE")
+    }
+}
+
+val MIGRATION_3_4: Migration = object : Migration(3, 4){
+    override fun migrate(database: SupportSQLiteDatabase) {
+
+        database.execSQL(
+            "CREATE TABLE IF NOT EXISTS $RETRIEVAL_CHECK_LIST (`createdAt` TEXT NOT NULL, " +
+            "`id` TEXT NOT NULL, `name` TEXT NOT NULL, `slug` TEXT NOT NULL, " +
+                    " `updatedAt` TEXT, PRIMARY KEY(`id`) )"
+
+        )
+
+    }
+
+}
+
+val MIGRATION_4_5: Migration = object : Migration(4, 5){
+    override fun migrate(database: SupportSQLiteDatabase) {
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS $VEHICLE_TEMP (`championId` TEXT, " +
+                "`createdAt` TEXT, `id` TEXT NOT NULL, `isMaxVehicle` INTEGER NOT NULL, " +
+                "`licenseExpirationDate` TEXT, `locationId` TEXT NOT NULL, `manufacturerId` INTEGER, " +
+                "`maxGlobalId` TEXT, `maxVehicleId` TEXT, `modelId` INTEGER, `modelNumber` TEXT, " +
+                "`plateNumber` TEXT, `pricingTemplateId` TEXT, `serviceType` TEXT, " +
+                "`updatedAt` TEXT, `movementType` TEXT, `vehicleStatusId` TEXT, " +
+                "`vehicleTypeId` INTEGER, `year` INTEGER, `lastVehicleMovement` TEXT, " +
+                "`champion` TEXT, `manufacturer` TEXT, `status` TEXT, PRIMARY KEY(`id`))")
+
+        // Remove the old table
+        database.execSQL("DROP TABLE $VEHICLE")
+
+        // Change the table name to the correct one
         database.execSQL("ALTER TABLE $VEHICLE_TEMP RENAME TO $VEHICLE")
     }
 }

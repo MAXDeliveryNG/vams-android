@@ -19,7 +19,8 @@ class ReasonViewHolder (itemView: View, onItemClickListener: ((position: Int) ->
     }
 
     override fun bind(item: Reason) {
-        itemView.titleTv.text = item.name
+        itemView.reasonItemView.setShowText(item.name)
+        itemView.reasonItemView.reason_divider
         val imageResource: Int = when(item.slug){
             "maintenance" -> {
                 R.drawable.ic_maintenance
@@ -46,6 +47,6 @@ class ReasonViewHolder (itemView: View, onItemClickListener: ((position: Int) ->
                 R.drawable.ic_bike
             }
         }
-        itemView.placeholderIV.setImageResource(imageResource)
+        itemView.reasonItemView.setShowImage(imageResource)
     }
 }

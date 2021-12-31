@@ -26,14 +26,19 @@ class CompleteRegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bnd.successMessageTv.text = getString(
-            R.string.you_have_successfully_label, if (args.movementType == "entry") {
-                "checked in"
-            } else {
-                "checked out"
-            }
-        )
-        bnd.vehicleIdTv.text = args.vehicleId
+        if (args.transferStatus == "rejected"){
+            bnd.imageView.setImageResource(R.drawable.ic_rejected)
+            bnd.successMessageTv.text = "You have successfully Rejected the Vehicle transfer."
+        }else{
+            bnd.successMessageTv.text = getString(
+                R.string.you_have_successfully_label, if (args.movementType == "entry") {
+                    "checked in"
+                } else {
+                    "checked out"
+                }
+            )
+            bnd.vehicleIdTv.text = args.vehicleId
+        }
 
         bnd.backToDashboardBtn.setOnClickListener {
             findNavController().popBackStack()
