@@ -125,6 +125,7 @@
     <string name="dashboard_van">Van</string>
     <string name="overall_card">Overall</string>
     <string name="entries_card">Entries</string>
+    <string name="enter_amount_defaulted_hint">Enter amount defaulted</string>
     <string-array name="movement_type">
         <item>Entry</item>
         <item>Exit</item>
