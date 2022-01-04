@@ -116,7 +116,6 @@ class RegisterVehicleFragment : Fragment() {
         }
 
         bnd.submitButton.setOnClickListener {
-            bnd.submitButton.loaded()
             val action =
                 RegisterVehicleFragmentDirections.actionRegisterVehicleFragmentToVehicleConfirmationFragment(
                     vehicleMaxId = captureMovementData.vehicle.maxVehicleId!!,
@@ -354,6 +353,8 @@ class RegisterVehicleFragment : Fragment() {
                         null
                     }
                 )
+            }else{
+                bnd.submitButton.loaded()
             }
         })
 
