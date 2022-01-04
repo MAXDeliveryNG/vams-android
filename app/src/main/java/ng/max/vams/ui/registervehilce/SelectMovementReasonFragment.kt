@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -44,7 +45,6 @@ class SelectMovementReasonFragment : Fragment() {
     private var selectedItem: String? = null
     private var selectedReasonName: String? = null
     private lateinit var captureMovementData: CaptureMovementData
-    var subReasonPicked: String? = null
     var retrievedReason: Reason? = null
     var retrievedItems: List<String> = emptyList()
 
@@ -89,6 +89,10 @@ class SelectMovementReasonFragment : Fragment() {
                         field = bnd.subReasonInputLayout
                         value = movementData.subreason
                     }
+                    BR.amountDefaulted -> {
+                        field = bnd.amountDefaultInputLayout
+                        value = movementData.amountDefaulted
+                    }
                     else -> {
                         ignoreProperty = true
                     }
@@ -109,10 +113,9 @@ class SelectMovementReasonFragment : Fragment() {
                                 field?.error = "Please select $fieldKey"
                                 false
                             } else {
-                                var isValid = true
                                 if (fieldKey == "reason") {
                                     bnd.subReasonLayout.show()
-                                    if (captureMovementData.movementType == "exit" && value != "Transfer") {
+                                    if (captureMovementData.movementType == "exit" && bnd.reasonEditText.text.toString() != "Transfer") {
                                         bnd.submitButton.setButtonText("Check Out")
                                     } else {
                                         bnd.retrievedItemsContainer.gone()
@@ -121,24 +124,34 @@ class SelectMovementReasonFragment : Fragment() {
                                     //Reset sub reason field
                                     if(bnd.subReasonEditText.text.toString().isNotEmpty()){
                                         bnd.subReasonEditText.text = null
-                                        isValid = false
-                                    }else{
-                                        isValid = true
+                                    }
+                                    if (bnd.amountDefaultedLayout.isVisible){
+                                        bnd.amountDefaultedLayout.gone()
+                                        bnd.amountDefaultedEditText.text = null
                                     }
                                 }
 
-                                if ((value != "Inter City" || value != "Intra City") && fieldKey == "subreason" && captureMovementData.movementType == "exit") {
-                                    bnd.retrievedItemsContainer.show()
+                                if (fieldKey == "subreason"){
+                                    if ((value != "Inter City" || value != "Intra City")  && captureMovementData.movementType == "exit") {
+                                        bnd.retrievedItemsContainer.show()
+                                    }else{
+                                        bnd.retrievedItemsContainer.gone()
+                                    }
+
+                                    if (value == "Financial Default" ) {
+                                        bnd.amountDefaultedLayout.show()
+                                    } else {
+                                        bnd.amountDefaultedLayout.gone()
+                                    }
                                 }
 
-                                if (value == "Financial Default" && fieldKey == "subreason") {
-                                    bnd.amountDefaultedLayout.show()
+                                if (fieldKey == "amount_defaulted" && value!!.toDoubleOrNull() == null) {
+                                    field?.error = "Please enter $fieldKey"
+                                    false
                                 } else {
-                                    bnd.amountDefaultedLayout.gone()
+                                    field?.error = null
+                                    true
                                 }
-
-                                field?.error = null
-                                isValid
                             }
                         }
                     }
@@ -183,18 +196,13 @@ class SelectMovementReasonFragment : Fragment() {
 
     private fun getRequiredKeys(): List<String> {
         return movementData.let { movementData ->
-            if (bnd.subReasonEditText.text.toString() == "Financial Default"){
-                listOf(
-                    movementData.keyReason,
-                    movementData.keySubReason,
-                    movementData.keyAmountDefaulted
-                )
-            }else{
-                listOf(
-                movementData.keyReason,
-                movementData.keySubReason
-                )
+            val requiredKeys = mutableListOf(movementData.keyReason,
+                movementData.keySubReason)
+
+            if (movementData.subreason == "Financial Default"){
+                requiredKeys.add(movementData.keyAmountDefaulted)
             }
+            return@let requiredKeys
         }
     }
 
@@ -210,13 +218,12 @@ class SelectMovementReasonFragment : Fragment() {
             if (it.containsKey("REASON")) {
                 selectedItem = it["REASON"]
                 selectedReasonName = it["REASON"]
-                bnd.reasonModel?.reason = it["REASON"]
+                bnd.reasonEditText.setText(it["REASON"])
                 viewModel.actionGetReasonByName(it["REASON"]!!)
 
             } else {
                 selectedItem = it["SUBREASON"]
-                subReasonPicked = it["SUBREASON"]
-                bnd.reasonModel?.subreason = it["SUBREASON"]
+                bnd.subReasonEditText.setText(it["SUBREASON"])
             }
         })
 
@@ -251,11 +258,13 @@ class SelectMovementReasonFragment : Fragment() {
                     subReasonId = getSubReasonId(movementData.subreason),
                     recoveredItems = lastVehicleMovement?.checkListItems?: emptyList(),
                     retrievalAgent = lastVehicleMovement?.retrievalAgent,
-                    amountDefaulted = movementData.amountDefaulted
+                    amountDefaulted = movementData.amountDefaulted?.toDouble()
                 )
                 sharedRegistrationViewModel.registerMovementFromReasonScreen(
                     movementBody
                 )
+            }else{
+                bnd.submitButton.loaded()
             }
         })
 
@@ -290,7 +299,7 @@ class SelectMovementReasonFragment : Fragment() {
                 amountDefaulted = if (movementData.subreason != "Financial Default"){
                     null
                 }else{
-                    bnd.amountDefaultedEditText.text.toString()
+                    movementData.amountDefaulted
                 }
             )
 
@@ -437,7 +446,6 @@ class SelectMovementReasonFragment : Fragment() {
 
 
         bnd.submitButton.setOnClickListener {
-            bnd.submitButton.loaded()
             if (captureMovementData.movementType == "exit" && bnd.reasonEditText.text.toString() != "Transfer") {
                 val action =
                     SelectMovementReasonFragmentDirections.actionSelectMovementReasonFragmentToVehicleConfirmationFragment(
@@ -453,6 +461,7 @@ class SelectMovementReasonFragment : Fragment() {
                     )
                 navigate(action)
             } else {
+                bnd.submitButton.loaded()
                 navigateToRegisterVehicle()
             }
 

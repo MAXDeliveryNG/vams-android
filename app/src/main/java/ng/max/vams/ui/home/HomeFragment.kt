@@ -355,9 +355,6 @@ class HomeFragment : Fragment() {
                     }
                     is Result.Loading -> {
                         showErrorView(false)
-//                    bnd.entryDateProgressBar.show()
-//                    bnd.totalentrycountProgressBar.show()
-//                    bnd.entryDateProgressBar.show()
                     }
                     is Result.Success -> {
                         showErrorView(false)
@@ -787,6 +784,11 @@ class HomeFragment : Fragment() {
 
                     }
                     is Result.Success -> {
+                        if (result.value.isEmpty()){
+                            bnd.notificationIcon.gone()
+                        }else{
+                            bnd.notificationIcon.show()
+                        }
                         notificationItemAdapter.adapterList = result.value
                     }
                 }
