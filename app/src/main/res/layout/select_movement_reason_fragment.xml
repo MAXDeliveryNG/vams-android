@@ -109,182 +109,196 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="75dp" />
 
-        <LinearLayout
-            android:id="@+id/reasonLayout"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@id/vehicleStatusContainer"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            android:layout_marginTop="32dp"
-            android:orientation="vertical"
-            >
-
-            <TextView
-                style="@style/formTextHint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/movement_reason_label"
-                tools:ignore="TextContrastCheck" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/reasonInputLayout"
-            style="@style/textInputLayout.ExposedDroppedDown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="@{reasonModel.keyReason}"
-            app:hintEnabled="false"
-            >
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/reasonEditText"
-                style="@style/formEditTextHint"
-                android:layout_width="match_parent"
-                android:hint="@string/select_movement_reason_hint"
-                android:inputType="none"
-                android:text="@{reasonModel.reason}"
-                tools:ignore="TextContrastCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/subReasonLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16dp"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/reasonLayout"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            >
-
-            <TextView
-                style="@style/formTextHint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/movement_sub_reason_label"
-                tools:ignore="TextContrastCheck" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/subReasonInputLayout"
-            style="@style/textInputLayout.ExposedDroppedDown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="@{reasonModel.keySubReason}"
-            app:hintEnabled="false"
-            >
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/subReasonEditText"
-                style="@style/formEditTextHint"
-                android:layout_width="match_parent"
-                android:hint="@string/select_movement_sub_reason_hint"
-                android:text="@{reasonModel.subreason}"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/amountDefaultedLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16dp"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/subReasonLayout"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            >
-
-            <TextView
-                style="@style/formTextHint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/amount_defaulted_header"
-                tools:ignore="TextContrastCheck" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/amountDefaultInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="@{reasonModel.keyAmountDefaulted}"
-            style="@style/textInputLayout"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/amountDefaultedEditText"
-                style="@style/formEditTextHint"
-                android:layout_width="match_parent"
-                android:text="@{reasonModel.amountDefaulted}"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/retrievedItemsContainer"
-            android:layout_width="@dimen/dimen_0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16dp"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:padding="@dimen/dimen_8dp"
-            android:background="@drawable/retrieved_items_bg"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/amountDefaultedLayout">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ttcommons_medium"
-                android:text="@string/items_retrieve_label"
-                android:textColor="@color/very_dark_gray"
-                android:textSize="@dimen/dimen_14sp"
-                tools:ignore="TextContrastCheck" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/retrievedItemsRv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"/>
-        </LinearLayout>
-
-        <ng.max.vams.customview.ProgressButton
-            android:id="@+id/submitButton"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dimen_55dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toTopOf="@+id/guideline16"
-            app:text="Continue"
-            app:textColor="@color/very_dark_gray" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vehicleStatusContainer">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/dimen_36dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dimen_24dp">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/dimen_36dp" />
+                <LinearLayout
+                    android:id="@+id/reasonLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline14"
+                    app:layout_constraintStart_toStartOf="@+id/guideline13"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".85" />
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/movement_reason_label"
+                        tools:ignore="TextContrastCheck" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/reasonInputLayout"
+                        style="@style/textInputLayout.ExposedDroppedDown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:tag="@{reasonModel.keyReason}"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/reasonEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/select_movement_reason_hint"
+                            android:inputType="none"
+                            android:text="@={reasonModel.reason}"
+                            tools:ignore="TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/subReasonLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline14"
+                    app:layout_constraintStart_toStartOf="@+id/guideline13"
+                    app:layout_constraintTop_toBottomOf="@+id/reasonLayout">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/movement_sub_reason_label"
+                        tools:ignore="TextContrastCheck" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/subReasonInputLayout"
+                        style="@style/textInputLayout.ExposedDroppedDown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:tag="@{reasonModel.keySubReason}"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/subReasonEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/select_movement_sub_reason_hint"
+                            android:inputType="none"
+                            android:text="@={reasonModel.subreason}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/amountDefaultedLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline14"
+                    app:layout_constraintStart_toStartOf="@+id/guideline13"
+                    app:layout_constraintTop_toBottomOf="@+id/subReasonLayout">
+
+                    <TextView
+                        style="@style/formTextHint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amount_defaulted_header"
+                        tools:ignore="TextContrastCheck" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/amountDefaultInputLayout"
+                        style="@style/textInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:tag="@{reasonModel.keyAmountDefaulted}"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/amountDefaultedEditText"
+                            style="@style/formEditTextHint"
+                            android:layout_width="match_parent"
+                            android:hint="@string/enter_amount_defaulted_hint"
+                            android:inputType="number|numberDecimal"
+                            android:text="@={reasonModel.amountDefaulted}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/retrievedItemsContainer"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:background="@drawable/retrieved_items_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_8dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline14"
+                    app:layout_constraintStart_toStartOf="@+id/guideline13"
+                    app:layout_constraintTop_toBottomOf="@+id/amountDefaultedLayout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ttcommons_medium"
+                        android:text="@string/items_retrieve_label"
+                        android:textColor="@color/very_dark_gray"
+                        android:textSize="@dimen/dimen_14sp"
+                        tools:ignore="TextContrastCheck" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/retrievedItemsRv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2" >
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/dimen_36dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/dimen_36dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent=".87" />
+
+                <ng.max.vams.customview.ProgressButton
+                    android:id="@+id/submitButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen_55dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline14"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/guideline13"
+                    app:layout_constraintTop_toBottomOf="@+id/guideline16"
+                    app:text="Continue"
+                    app:textColor="@color/very_dark_gray" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
