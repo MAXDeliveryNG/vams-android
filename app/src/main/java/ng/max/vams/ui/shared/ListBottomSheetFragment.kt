@@ -95,13 +95,13 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
                         val reasonList = arrayListOf<Reason>()
                         for (items in reasons.value){
                             if (args.movementType == "entry"){
-                                if(items.name == "Activated" || items.name == "Transfer"){
+                                if(items.slug == "activated" || items.slug == "transfer"){
                                     continue
                                 }else{
                                     reasonList.add(items)
                                 }
                             }else{
-                                if(items.name == "New"){
+                                if(items.slug == "new"){
                                     continue
                                 }else{
                                     reasonList.add(items)
@@ -118,7 +118,23 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
             if (args.fromSource == "SUBREASON") {
                 getSubReasonsResponse.observe(viewLifecycleOwner, { subReasons ->
                     if(subReasons.isNotEmpty()){
-                        formListItemAdapter.adapterList = subReasons
+                        val subReasonList = arrayListOf<SubReason>()
+                        for(subItems in subReasons){
+                            if(subItems.slug == "theft"){
+                                continue
+                            }
+                            if(args.movementType == "entry"){
+                                if(subItems.slug == "rescheduled"){
+                                    continue
+                                }else{
+                                    subReasonList.add(subItems)
+                                }
+                            }else{
+                                subReasonList.add(subItems)
+                            }
+                        }
+
+                        formListItemAdapter.adapterList = subReasonList
                     }
 //                    formListItemAdapter.adapterList = subReasons
 //                    if (!args.selectedItem.isNullOrEmpty()) {
