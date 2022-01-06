@@ -125,7 +125,7 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
 //                        formListItemAdapter.selectedItemPosition =
 //                            subReasons.indexOf(subReasons.find { subreason ->
 //                                subreason.slug == args.selectedItem
-//                       })
+//                            })
 //                    }
                 })
             } else{
