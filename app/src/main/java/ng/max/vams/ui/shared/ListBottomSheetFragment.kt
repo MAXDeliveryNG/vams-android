@@ -118,30 +118,14 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
             if (args.fromSource == "SUBREASON") {
                 getSubReasonsResponse.observe(viewLifecycleOwner, { subReasons ->
                     if(subReasons.isNotEmpty()){
-                        val subReasonList = arrayListOf<SubReason>()
-                        for(subItems in subReasons){
-                            if(subItems.slug == "theft"){
-                                continue
-                            }
-                            if(args.movementType == "entry"){
-                                if(subItems.slug == "rescheduled"){
-                                    continue
-                                }else{
-                                    subReasonList.add(subItems)
-                                }
-                            }else{
-                                subReasonList.add(subItems)
-                            }
-                        }
-
-                        formListItemAdapter.adapterList = subReasonList
+                        formListItemAdapter.adapterList = subReasons
                     }
 //                    formListItemAdapter.adapterList = subReasons
 //                    if (!args.selectedItem.isNullOrEmpty()) {
 //                        formListItemAdapter.selectedItemPosition =
 //                            subReasons.indexOf(subReasons.find { subreason ->
 //                                subreason.slug == args.selectedItem
-//                            })
+//                       })
 //                    }
                 })
             } else{
