@@ -190,6 +190,7 @@ dependencies {
     implementation platform("com.google.firebase:firebase-bom:$firebase_version")
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation "com.google.firebase:firebase-analytics-ktx"
+    implementation 'com.google.firebase:firebase-firestore-ktx'
     // For instrumentation tests
 //    androidTestImplementation  "com.google.dagger:hilt-android-testing:$hilt_version"
 //    kaptAndroidTest "com.google.dagger:hilt-compiler:$hilt_version"
