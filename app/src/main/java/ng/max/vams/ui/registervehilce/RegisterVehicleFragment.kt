@@ -431,10 +431,10 @@ class RegisterVehicleFragment : Fragment() {
         if (_captureData.movementType == "entry" && args.parentReasonName == "Transfer"){
             bnd.backButton.setImageResource(R.drawable.ic_home)
             bnd.movementTypeIcon.setImageResource(R.drawable.ic_location)
-            bnd.movementTypeHeaderTv.text = "Transfer Details"
-            bnd.registerVehicleHeaderTv.text = "CONFIRM VEHICLE TRANSFER ENTRY"
-            bnd.rowOneLabel.text = "From"
-            bnd.rowTwoLabel.text = "Destination"
+            bnd.movementTypeHeaderTv.text = getString(R.string.transfer_details_header)
+            bnd.registerVehicleHeaderTv.text = getString(R.string.confirm_vehicle_transfer_entry_header)
+            bnd.rowOneLabel.text = getString(R.string.from_label)
+            bnd.rowTwoLabel.text = getString(R.string.destination_label)
             bnd.timeOfExitTv.text = _captureData.vehicle.lastVehicleMovement!!.createdAt.formatDate()
             bnd.transferAgentTv.text = _captureData.vehicle.lastVehicleMovement.creatorName
             bnd.movementTypeRowThree.show()
