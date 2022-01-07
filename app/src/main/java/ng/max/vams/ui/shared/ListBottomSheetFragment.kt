@@ -95,13 +95,13 @@ class ListBottomSheetFragment : BottomSheetDialogFragment() {
                         val reasonList = arrayListOf<Reason>()
                         for (items in reasons.value){
                             if (args.movementType == "entry"){
-                                if(items.name == "Activated" || items.name == "Transfer"){
+                                if(items.slug == "activated" || items.slug == "transfer"){
                                     continue
                                 }else{
                                     reasonList.add(items)
                                 }
                             }else{
-                                if(items.name == "New"){
+                                if(items.slug == "new"){
                                     continue
                                 }else{
                                     reasonList.add(items)

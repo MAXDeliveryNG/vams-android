@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import ng.max.vams.R
 import ng.max.vams.adapter.BaseAdapter
@@ -257,7 +259,7 @@ class HomeFragment : Fragment() {
 
         bnd.retryButton.setOnClickListener {
 //            homeViewModel.actionGetMovementStat()
-            user?.let { homeViewModel.actionGetFullMovementStat(it.id) }
+            user?.let { homeViewModel.actionGetFullMovementStat(it.id, Firebase.firestore) }
         }
     }
 
@@ -363,90 +365,90 @@ class HomeFragment : Fragment() {
                         bnd.apply {
 
                             //Card Count Update
-                            bnd.totalEntryHeader.setCount(result.value.totalVehicleEntryCount.toString())
-                            bnd.entryByNameHeader.setCount(result.value.totalVehicleEntryByAgent.toString())
-                            bnd.entryByDateHeader.setCount(result.value.totalVehicleEntryByAgentToday.toString())
-                            bnd.totalExitHeader.setCount(result.value.totalVehicleExitCount.toString())
-                            bnd.exitByNameHeader.setCount(result.value.totalVehicleExitByAgent.toString())
-                            bnd.exitByDateHeader.setCount(result.value.totalVehicleExitByAgentToday.toString())
-                            bnd.totalTransferHeader.setCount(result.value.totalVehicleTransferCount.toString())
-                            bnd.transferByNameHeader.setCount(result.value.totalVehicleTransferByAgent.toString())
-                            bnd.transferByDateHeader.setCount(result.value.totalVehicleTransferByAgentToday.toString())
+                            bnd.totalEntryHeader.setCount(result.value.totalEntry.total.toString())
+                            bnd.entryByNameHeader.setCount(result.value.entryByAgentName.total.toString())
+                            bnd.entryByDateHeader.setCount(result.value.entryByDate.total.toString())
+                            bnd.totalExitHeader.setCount(result.value.totalExit.total.toString())
+                            bnd.exitByNameHeader.setCount(result.value.exitByAgentName.total.toString())
+                            bnd.exitByDateHeader.setCount(result.value.exitByDate.total.toString())
+                            bnd.totalTransferHeader.setCount(result.value.totalTransfer.total.toString())
+                            bnd.transferByNameHeader.setCount(result.value.transferByAgentName.total.toString())
+                            bnd.transferByDateHeader.setCount(result.value.transferByDate.total.toString())
 
 
 
                             //Card Detail Count Update
-                            totalEntryMotorcycleView.setData(result.value.vehiclesEntrySummary[0].count.toString())
-                            totalEntryTricycleView.setData(result.value.vehiclesEntrySummary[1].count.toString())
-                            totalEntryCarView.setData(result.value.vehiclesEntrySummary[2].count.toString())
-                            totalEntryMiniBusView.setData(result.value.vehiclesEntrySummary[3].count.toString())
-                            totalEntryEMotorcycleView.setData(result.value.vehiclesEntrySummary[4].count.toString())
-                            totalEntryETricycleView.setData(result.value.vehiclesEntrySummary[5].count.toString())
-                            totalEntryVanView.setData(result.value.vehiclesEntrySummary[6].count.toString())
+                            totalEntryMotorcycleView.setData(result.value.totalEntry.motorcycle.toString())
+                            totalEntryTricycleView.setData(result.value.totalEntry.tricycle.toString())
+                            totalEntryCarView.setData(result.value.totalEntry.car.toString())
+                            totalEntryMiniBusView.setData(result.value.totalEntry.minibus.toString())
+                            totalEntryEMotorcycleView.setData(result.value.totalEntry.emotorcycle.toString())
+                            totalEntryETricycleView.setData(result.value.totalEntry.etricycle.toString())
+                            totalEntryVanView.setData(result.value.totalEntry.van.toString())
 
-                            entryByNameMotorcycleView.setData(result.value.agentVehicleEntrySummary[0].count.toString())
-                            entryByNameTricycleView.setData(result.value.agentVehicleEntrySummary[1].count.toString())
-                            entryByNameCarView.setData(result.value.agentVehicleEntrySummary[2].count.toString())
-                            entryByNameMiniBusView.setData(result.value.agentVehicleEntrySummary[3].count.toString())
-                            entryByNameEMotorcycleView.setData(result.value.agentVehicleEntrySummary[4].count.toString())
-                            entryByNameETricycleView.setData(result.value.agentVehicleEntrySummary[5].count.toString())
-                            entryByNameVanView.setData(result.value.agentVehicleEntrySummary[6].count.toString())
+                            entryByNameMotorcycleView.setData(result.value.entryByAgentName.motorcycle.toString())
+                            entryByNameTricycleView.setData(result.value.entryByAgentName.tricycle.toString())
+                            entryByNameCarView.setData(result.value.entryByAgentName.car.toString())
+                            entryByNameMiniBusView.setData(result.value.entryByAgentName.minibus.toString())
+                            entryByNameEMotorcycleView.setData(result.value.entryByAgentName.emotorcycle.toString())
+                            entryByNameETricycleView.setData(result.value.entryByAgentName.etricycle.toString())
+                            entryByNameVanView.setData(result.value.entryByAgentName.van.toString())
 
-                            entryByDateMotorcycleView.setData(result.value.agentVehicleEntrySummaryToday[0].count.toString())
-                            entryByDateTricycleView.setData(result.value.agentVehicleEntrySummaryToday[1].count.toString())
-                            entryByDateCarView.setData(result.value.agentVehicleEntrySummaryToday[2].count.toString())
-                            entryByDateMiniBusView.setData(result.value.agentVehicleEntrySummaryToday[3].count.toString())
-                            entryByDateEMotorcycleView.setData(result.value.agentVehicleEntrySummaryToday[4].count.toString())
-                            entryByDateETricycleView.setData(result.value.agentVehicleEntrySummaryToday[5].count.toString())
-                            entryByDateVanView.setData(result.value.agentVehicleEntrySummaryToday[6].count.toString())
+                            entryByDateMotorcycleView.setData(result.value.entryByDate.motorcycle.toString())
+                            entryByDateTricycleView.setData(result.value.entryByDate.tricycle.toString())
+                            entryByDateCarView.setData(result.value.entryByDate.car.toString())
+                            entryByDateMiniBusView.setData(result.value.entryByDate.minibus.toString())
+                            entryByDateEMotorcycleView.setData(result.value.entryByDate.emotorcycle.toString())
+                            entryByDateETricycleView.setData(result.value.entryByDate.etricycle.toString())
+                            entryByDateVanView.setData(result.value.entryByDate.van.toString())
 
-                            totalExitMotorcycleView.setData(result.value.vehiclesExitSummary[0].count.toString())
-                            totalExitTricycleView.setData(result.value.vehiclesExitSummary[1].count.toString())
-                            totalExitCarView.setData(result.value.vehiclesExitSummary[2].count.toString())
-                            totalExitMiniBusView.setData(result.value.vehiclesExitSummary[3].count.toString())
-                            totalExitEMotorcycleView.setData(result.value.vehiclesExitSummary[4].count.toString())
-                            totalExitETricycleView.setData(result.value.vehiclesExitSummary[5].count.toString())
-                            totalExitVanView.setData(result.value.vehiclesExitSummary[6].count.toString())
+                            totalExitMotorcycleView.setData(result.value.totalExit.motorcycle.toString())
+                            totalExitTricycleView.setData(result.value.totalExit.tricycle.toString())
+                            totalExitCarView.setData(result.value.totalExit.car.toString())
+                            totalExitMiniBusView.setData(result.value.totalExit.minibus.toString())
+                            totalExitEMotorcycleView.setData(result.value.totalExit.emotorcycle.toString())
+                            totalExitETricycleView.setData(result.value.totalExit.etricycle.toString())
+                            totalExitVanView.setData(result.value.totalExit.van.toString())
 
-                            exitByNameMotorcycleView.setData(result.value.agentVehicleExitSummary[0].count.toString())
-                            exitByNameTricycleView.setData(result.value.agentVehicleExitSummary[1].count.toString())
-                            exitByNameCarView.setData(result.value.agentVehicleExitSummary[2].count.toString())
-                            exitByNameMiniBusView.setData(result.value.agentVehicleExitSummary[3].count.toString())
-                            exitByNameEMotorcycleView.setData(result.value.agentVehicleExitSummary[4].count.toString())
-                            exitByNameETricycleView.setData(result.value.agentVehicleExitSummary[5].count.toString())
-                            exitByNameVanView.setData(result.value.agentVehicleExitSummary[6].count.toString())
+                            exitByNameMotorcycleView.setData(result.value.exitByAgentName.motorcycle.toString())
+                            exitByNameTricycleView.setData(result.value.exitByAgentName.tricycle.toString())
+                            exitByNameCarView.setData(result.value.exitByAgentName.car.toString())
+                            exitByNameMiniBusView.setData(result.value.exitByAgentName.minibus.toString())
+                            exitByNameEMotorcycleView.setData(result.value.exitByAgentName.emotorcycle.toString())
+                            exitByNameETricycleView.setData(result.value.exitByAgentName.etricycle.toString())
+                            exitByNameVanView.setData(result.value.exitByAgentName.van.toString())
 
-                            exitByDateMotorcycleView.setData(result.value.agentVehicleExitSummaryToday[0].count.toString())
-                            exitByDateTricycleView.setData(result.value.agentVehicleExitSummaryToday[1].count.toString())
-                            exitByDateCarView.setData(result.value.agentVehicleExitSummaryToday[2].count.toString())
-                            exitByDateMiniBusView.setData(result.value.agentVehicleExitSummaryToday[3].count.toString())
-                            exitByDateEMotorcycleView.setData(result.value.agentVehicleExitSummaryToday[4].count.toString())
-                            exitByDateETricycleView.setData(result.value.agentVehicleExitSummaryToday[5].count.toString())
-                            exitByDateVanView.setData(result.value.agentVehicleExitSummaryToday[6].count.toString())
+                            exitByDateMotorcycleView.setData(result.value.exitByDate.motorcycle.toString())
+                            exitByDateTricycleView.setData(result.value.exitByDate.tricycle.toString())
+                            exitByDateCarView.setData(result.value.exitByDate.car.toString())
+                            exitByDateMiniBusView.setData(result.value.exitByDate.minibus.toString())
+                            exitByDateEMotorcycleView.setData(result.value.exitByDate.emotorcycle.toString())
+                            exitByDateETricycleView.setData(result.value.exitByDate.etricycle.toString())
+                            exitByDateVanView.setData(result.value.exitByDate.van.toString())
 
-                            totalTransferMotorcycleView.setData(result.value.vehiclesTransferSummary[0].count.toString())
-                            totalTransferTricycleView.setData(result.value.vehiclesTransferSummary[1].count.toString())
-                            totalTransferCarView.setData(result.value.vehiclesTransferSummary[2].count.toString())
-                            totalTransferMiniBusView.setData(result.value.vehiclesTransferSummary[3].count.toString())
-                            totalTransferEMotorcycleView.setData(result.value.vehiclesTransferSummary[4].count.toString())
-                            totalTransferETricycleView.setData(result.value.vehiclesTransferSummary[5].count.toString())
-                            totalTransferVanView.setData(result.value.vehiclesTransferSummary[6].count.toString())
+                            totalTransferMotorcycleView.setData(result.value.totalTransfer.motorcycle.toString())
+                            totalTransferTricycleView.setData(result.value.totalTransfer.tricycle.toString())
+                            totalTransferCarView.setData(result.value.totalTransfer.car.toString())
+                            totalTransferMiniBusView.setData(result.value.totalTransfer.minibus.toString())
+                            totalTransferEMotorcycleView.setData(result.value.totalTransfer.emotorcycle.toString())
+                            totalTransferETricycleView.setData(result.value.totalTransfer.etricycle.toString())
+                            totalTransferVanView.setData(result.value.totalTransfer.van.toString())
 
-                            transferByNameMotorcycleView.setData(result.value.agentVehicleTransferSummary[0].count.toString())
-                            transferByNameTricycleView.setData(result.value.agentVehicleTransferSummary[1].count.toString())
-                            transferByNameCarView.setData(result.value.agentVehicleTransferSummary[2].count.toString())
-                            transferByNameMiniBusView.setData(result.value.agentVehicleTransferSummary[3].count.toString())
-                            transferByNameEMotorcycleView.setData(result.value.agentVehicleTransferSummary[4].count.toString())
-                            transferByNameETricycleView.setData(result.value.agentVehicleTransferSummary[5].count.toString())
-                            transferByNameVanView.setData(result.value.agentVehicleTransferSummary[6].count.toString())
+                            transferByNameMotorcycleView.setData(result.value.transferByAgentName.motorcycle.toString())
+                            transferByNameTricycleView.setData(result.value.transferByAgentName.tricycle.toString())
+                            transferByNameCarView.setData(result.value.transferByAgentName.car.toString())
+                            transferByNameMiniBusView.setData(result.value.transferByAgentName.minibus.toString())
+                            transferByNameEMotorcycleView.setData(result.value.transferByAgentName.emotorcycle.toString())
+                            transferByNameETricycleView.setData(result.value.transferByAgentName.etricycle.toString())
+                            transferByNameVanView.setData(result.value.transferByAgentName.van.toString())
 
-                            transferByDateMotorcycleView.setData(result.value.agentVehicleTransferSummaryToday[0].count.toString())
-                            transferByDateTricycleView.setData(result.value.agentVehicleTransferSummaryToday[1].count.toString())
-                            transferByDateCarView.setData(result.value.agentVehicleTransferSummaryToday[2].count.toString())
-                            transferByDateMiniBusView.setData(result.value.agentVehicleTransferSummaryToday[3].count.toString())
-                            transferByDateEMotorcycleView.setData(result.value.agentVehicleTransferSummaryToday[4].count.toString())
-                            transferByDateETricycleView.setData(result.value.agentVehicleTransferSummaryToday[5].count.toString())
-                            transferByDateVanView.setData(result.value.agentVehicleTransferSummaryToday[6].count.toString())
+                            transferByDateMotorcycleView.setData(result.value.transferByDate.motorcycle.toString())
+                            transferByDateTricycleView.setData(result.value.transferByDate.tricycle.toString())
+                            transferByDateCarView.setData(result.value.transferByDate.car.toString())
+                            transferByDateMiniBusView.setData(result.value.transferByDate.minibus.toString())
+                            transferByDateEMotorcycleView.setData(result.value.transferByDate.emotorcycle.toString())
+                            transferByDateETricycleView.setData(result.value.transferByDate.etricycle.toString())
+                            transferByDateVanView.setData(result.value.transferByDate.van.toString())
 
 
                         }
@@ -794,7 +796,7 @@ class HomeFragment : Fragment() {
                 }
             })
 
-            user?.let { homeViewModel.actionGetFullMovementStat(it.id) }
+            user?.let { homeViewModel.actionGetFullMovementStat(it.id, Firebase.firestore) }
             user?.let { homeViewModel.getUserRole(it.id) }
 
 
