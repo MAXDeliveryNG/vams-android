@@ -36,6 +36,7 @@ class VehicleRepository @Inject constructor(
                     saveVehicles(vehicles)
                 }
             }
+            else -> {}
         }
 
         return dbData
