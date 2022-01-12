@@ -7,35 +7,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:289250806293:android:d03841226e24b23def1c1c",
-        "android_client_info": {
-          "package_name": "ng.max.vams"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "289250806293-uhmd4m4r6koktdm5auto5pj0v42crrua.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBzWP1cUGO0kmGWyBwVpmvQYi_EgeUlGmg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "289250806293-uhmd4m4r6koktdm5auto5pj0v42crrua.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:289250806293:android:f17619b7de5b9d67ef1c1c",
         "android_client_info": {
           "package_name": "ng.max.vams.staging"
@@ -65,7 +36,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:289250806293:android:659175db561b45c9ef1c1c",
+        "mobilesdk_app_id": "1:289250806293:android:497d61b91888ab0fef1c1c",
         "android_client_info": {
           "package_name": "ng.max.vams.staging.debug"
         }
