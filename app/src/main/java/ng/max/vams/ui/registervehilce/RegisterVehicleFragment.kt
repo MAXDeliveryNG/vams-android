@@ -271,6 +271,34 @@ class RegisterVehicleFragment : Fragment() {
     }
 
     private fun setupViewModel() {
+
+        with(sharedRegistrationViewModel){
+            getRegisterMovementResponse.observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Result.Error -> {
+                        bnd.submitButton.loaded()
+                        showDialog("Error", result.message)
+                    }
+                    Result.Loading -> {
+                    }
+                    is Result.Success -> {
+                        bnd.submitButton.loaded()
+                        val action = RegisterVehicleFragmentDirections
+                            .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
+                                result.value.vehicleMovement!!, result.value.maxVehicleId, transferStatus
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+
+            getCaptureMovementDataResponse.observe(viewLifecycleOwner){
+                captureMovementData = it
+                populateView(it)
+
+            }
+        }
+
         with(registerVehicleViewModel) {
 
             getLocationsResponse.observe(viewLifecycleOwner) { result ->
@@ -314,30 +342,6 @@ class RegisterVehicleFragment : Fragment() {
             actionGetRetrievalChecklist()
         }
 
-        sharedRegistrationViewModel.getRegisterMovementResponse.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Error -> {
-                    bnd.submitButton.loaded()
-                    showDialog("Error", result.message)
-                }
-                Result.Loading -> {
-                }
-                is Result.Success -> {
-                    bnd.submitButton.loaded()
-                    val action = RegisterVehicleFragmentDirections
-                        .actionRegisterVehicleFragmentToCompleteRegistrationFragment(
-                            result.value.vehicleMovement!!, result.value.maxVehicleId, transferStatus
-                        )
-                    findNavController().navigate(action)
-                }
-            }
-        }
-
-        sharedRegistrationViewModel.getCaptureMovementDataResponse.observe(viewLifecycleOwner, {
-            captureMovementData = it
-            populateView(it)
-
-        })
 
         sharedViewModel.getConfirmationResponse.observe(viewLifecycleOwner, { hasConfirm ->
             if (hasConfirm) {
