@@ -36,6 +36,7 @@ class VehicleListUseCase @Inject constructor(private val vehicleDao: VehicleDao,
                     saveVehicles(vehicles)
                 }
             }
+            else -> {}
         }
 
         return dbData
