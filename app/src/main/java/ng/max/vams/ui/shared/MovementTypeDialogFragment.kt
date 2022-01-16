@@ -29,6 +29,7 @@ class MovementTypeDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.setCanceledOnTouchOutside(true) //Allows touching outside window's bound to close dialog
         entryView.setOnClickListener {
             val action = MovementTypeDialogFragmentDirections.actionMovementTypeDialogFragmentToPlateNumberSearchFragment("entry")
             findNavController().navigate(action)

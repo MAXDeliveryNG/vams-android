@@ -3,6 +3,8 @@
     <attr name="title" format="string"/>
     <attr name="subTitle" format="string"/>
     <attr name="icon" format="reference"/>
+    <attr name="count" format="string"/>
+    <attr name="countColor" format="color"/>
 
     <declare-styleable name="ProgressButton">
         <attr name="text" format="string"/>
@@ -18,8 +20,8 @@
     <declare-styleable name="MovementTypeCardView">
         <attr name="title"/>
         <attr name="subTitle"/>
-        <attr name="count" format="string"/>
-        <attr name="countColor" format="color"/>
+        <attr name="count"/>
+        <attr name="countColor"/>
     </declare-styleable>
 
     <declare-styleable name="ProfileOptionView">
@@ -30,6 +32,18 @@
     <declare-styleable name="VehicleDataView">
         <attr name="title"/>
         <attr name="subtitle"/>
+    </declare-styleable>
+
+    <declare-styleable name="DashboardStatDataView">
+        <attr name="title"/>
+        <attr name="count"/>
+    </declare-styleable>
+
+    <declare-styleable name="DashboardStatHeaderDataView">
+        <attr name="title"/>
+        <attr name="subtitle"/>
+        <attr name="count"/>
+        <attr name="countColor"/>
     </declare-styleable>
 
 </resources>

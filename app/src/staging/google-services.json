@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "289250806293",
+    "project_id": "fir-staging-b0673",
+    "storage_bucket": "fir-staging-b0673.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289250806293:android:f17619b7de5b9d67ef1c1c",
+        "android_client_info": {
+          "package_name": "ng.max.vams.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289250806293-uhmd4m4r6koktdm5auto5pj0v42crrua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzWP1cUGO0kmGWyBwVpmvQYi_EgeUlGmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289250806293-uhmd4m4r6koktdm5auto5pj0v42crrua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289250806293:android:497d61b91888ab0fef1c1c",
+        "android_client_info": {
+          "package_name": "ng.max.vams.staging.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289250806293-uhmd4m4r6koktdm5auto5pj0v42crrua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzWP1cUGO0kmGWyBwVpmvQYi_EgeUlGmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289250806293-uhmd4m4r6koktdm5auto5pj0v42crrua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

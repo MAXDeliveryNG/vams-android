@@ -6,11 +6,13 @@ import ng.max.vams.data.remote.response.ApiResponse
 import ng.max.vams.data.remote.response.LoginData
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface UserService {
 
-    @POST("accounts/auth/login")
+    @Headers("Service-Agent: VAMS-USER")
+    @POST("vehicles/v1/user-managment/login")
     suspend fun login(@Body loginBody: LoginBody) : Response<ApiResponse<LoginData>>
 
     @POST("accounts/auth/forgot-password")

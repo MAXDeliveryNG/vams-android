@@ -10,8 +10,8 @@ import ng.max.vams.data.local.DbVehicle
 @Dao
 interface VehicleDao {
 
-    @Query("SELECT * from DbVehicle WHERE movementType = :movementType")
-    fun getAllVehicles(movementType: String): Flow<List<DbVehicle>>
+    @Query("SELECT * from DbVehicle")
+    fun getAllVehicles(): Flow<List<DbVehicle>>
 
     @Query("SELECT * from DbVehicle WHERE id = :id")
     fun getVehicleById(id: String): DbVehicle

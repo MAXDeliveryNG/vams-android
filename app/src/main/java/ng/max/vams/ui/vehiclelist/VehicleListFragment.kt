@@ -80,8 +80,9 @@ class VehicleListFragment : Fragment() {
         vehicleAdapter.viewType = 0
         vehicleAdapter.setOnItemClickListener { position ->
             val vehicle = vehicleAdapter.adapterList[position] as DbVehicle
-            val action = VehicleListFragmentDirections.actionVehicleListFragmentToVehicleDetailFragment(vehicle.id)
-            findNavController().navigate(action)
+//            val action = VehicleListFragmentDirections.actionVehicleListFragmentToVehicleDetailFragment(remoteVehicle.id)
+//            findNavController().navigate(action)
+
         }
         bnd.vehicleRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -96,7 +97,7 @@ class VehicleListFragment : Fragment() {
             override fun onTextChanged(input: CharSequence?, start: Int, before: Int, count: Int) {
                 if (input.toString().isNotEmpty()){
                     searchQuery.value = input.toString()
-                    vehicleListViewModel.search(searchQuery, args.movementType)
+//                    vehicleListViewModel.search(searchQuery, args.movementType)
                 }
             }
 

@@ -6,17 +6,16 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementReasonRepository
+import ng.max.vams.data.RetrievalChecklistRepository
 import ng.max.vams.data.VehicleTypeRepository
 import ng.max.vams.data.local.AppDatabase
-import ng.max.vams.data.local.dao.LocationDao
-import ng.max.vams.data.local.dao.ReasonDao
-import ng.max.vams.data.local.dao.VehicleDao
-import ng.max.vams.data.local.dao.VehicleTypeDao
+import ng.max.vams.data.local.dao.*
 import ng.max.vams.data.remote.RemoteDataSource
 import ng.max.vams.data.remote.services.UserService
 import ng.max.vams.data.remote.services.VehicleService
 import ng.max.vams.usecase.login.LoginUseCase
 import ng.max.vams.usecase.search.SearchUseCase
+import ng.max.vams.usecase.userrole.UserRoleUseCase
 import ng.max.vams.usecase.vehiclelist.VehicleListUseCase
 import ng.max.vams.usecase.vehiclemovement.RegisterVehicleMovementUseCase
 import retrofit2.Retrofit
@@ -61,6 +60,11 @@ object DataSourceModule{
     }
 
     @Provides
+    fun providesRetrievalChecklistDao(appDatabase: AppDatabase): RetrievalChecklistDao {
+        return appDatabase.retrivalChecklistDao()
+    }
+
+    @Provides
     fun provideLoginUseCase(userService: UserService): LoginUseCase =
         LoginUseCase(userService)
 
@@ -77,6 +81,10 @@ object DataSourceModule{
         RegisterVehicleMovementUseCase(remoteDataSource)
 
     @Provides
+    fun provideUserRoleUseCase(remoteDataSource: RemoteDataSource): UserRoleUseCase =
+        UserRoleUseCase(remoteDataSource)
+
+    @Provides
     fun provideMovementReasonRepository(reasonDao: ReasonDao, remoteData: RemoteDataSource): MovementReasonRepository =
         MovementReasonRepository(reasonDao, remoteData)
 
@@ -89,8 +97,9 @@ object DataSourceModule{
     fun provideVehicleTypeRepository(vehicleTypeDao: VehicleTypeDao, remoteDataSource: RemoteDataSource): VehicleTypeRepository =
         VehicleTypeRepository(vehicleTypeDao, remoteDataSource)
 
-
-
+    @Provides
+    fun provideRetrievalChecklistRepository(retrievalChecklistDao: RetrievalChecklistDao, remoteDataSource: RemoteDataSource) : RetrievalChecklistRepository =
+        RetrievalChecklistRepository(retrievalChecklistDao, remoteDataSource)
 
 
 }

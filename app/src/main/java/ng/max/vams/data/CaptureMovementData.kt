@@ -1,6 +1,6 @@
 package ng.max.vams.data
 
-import ng.max.vams.data.remote.response.Vehicle
+import ng.max.vams.data.local.DbVehicle
 
-data class CaptureMovementData (val movementType: String, val  vehicle: Vehicle
+    data class CaptureMovementData (val movementType: String, val  vehicle: DbVehicle
 )

@@ -1,96 +1,1196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_80dp"
+        android:background="#FFFFFF"
+        android:elevation="@dimen/dimen_2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextAppearance="@style/toolbarText">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_80dp"
-            android:background="#FFFFFF"
-            app:titleTextAppearance="@style/toolbarText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/dimen_16dp">
+
+            <ImageView
+                android:id="@+id/profileIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_icon_placeholder"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/notification"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/profileIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Dashboard"
+                    android:textColor="@color/very_dark_gray_very_black"
+                    android:textSize="@dimen/dimen_18sp" />
+
+                <TextView
+                    android:id="@+id/dateTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ttcommons_medium"
+                    android:textColor="@color/very_dark_gray_very_black_50"
+                    android:textSize="@dimen/dimen_14sp"
+                    tools:text="Today, 6th April, 2021" />
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/dimen_16dp">
+                android:id="@+id/notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/profileIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/profileIcon">
 
                 <ImageView
-                    android:id="@+id/profileIcon"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/ic_icon_placeholder"
-                    android:clickable="true"
+                    android:id="@+id/notificationBellIcon"
+                    android:layout_width="@dimen/dimen_20dp"
+                    android:layout_height="@dimen/dimen_24dp"
+                    android:background="@drawable/ic_notification"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="@string/overview_label"
-                    android:textColor="@color/very_dark_gray_very_black"
-                    android:textSize="@dimen/dimen_18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/profileIcon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                <ImageView
+                    android:id="@+id/notificationIcon"
+                    android:layout_width="@dimen/dimen_14dp"
+                    android:layout_height="@dimen/dimen_14dp"
+                    android:layout_marginStart="@dimen/dimen_4dp"
+                    android:background="@drawable/ic_notification_icon"
+                    app:layout_constraintEnd_toStartOf="@id/notificationBellIcon"
+                    app:layout_constraintStart_toStartOf="@id/notificationBellIcon"
+                    app:layout_constraintTop_toTopOf="@id/notificationBellIcon" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/light_grayish_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <ScrollView
             android:id="@+id/dataView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ng.max.vams.customview.MovementTypeCardView
-                android:id="@+id/entryCard"
-                android:layout_width="@dimen/dimen_0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:count="0"
-                app:countColor="@color/very_light_green"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="@string/entry_label" />
-
-            <ng.max.vams.customview.MovementTypeCardView
-                android:id="@+id/exitCard"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dataWrap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:count="0"
-                app:countColor="@color/very_light_red"
+                android:paddingBottom="@dimen/dimen_132dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/entryCard"
-                app:title="@string/exit_label" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/divider_entry"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_1dp"
+                    android:layout_marginTop="@dimen/dimen_24dp"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:background="@color/very_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/entryBatch" />
+
+                <View
+                    android:id="@+id/divider_exit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_1dp"
+                    android:layout_marginTop="@dimen/dimen_24dp"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:background="@color/very_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/exitBatch" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/entryBatch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageViewentry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_8dp"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:src="@drawable/ic_checkin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:orientation="vertical"
+                        android:weightSum="3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewentry">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/totalEntryCardOverall"
+                            style="@style/DetailCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
+                            app:cardCornerRadius="@dimen/dimen_4dp"
+                            app:count="0">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <LinearLayout
+                                    android:id="@+id/totalEntryDetailWrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_48dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/totalEntryLineDivider">
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalEntryMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalEntryTricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalEntryCarView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_car" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalEntryMiniBusView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_minibus" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalEntryEMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalEntryETricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalEntryVanView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_van" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/totalEntryLineDivider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dimen_1dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_16dp"
+                                    android:background="@color/very_light_gray"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/totalEntryHeader" />
+
+                                <ng.max.vams.customview.DashboardStatHeaderDataView
+                                    android:id="@+id/totalEntryHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:count="@string/initial_count"
+                                    app:countColor="@color/very_light_green"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:subtitle="@string/overall_card"
+                                    app:title="Total Entries" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/entryByNameCard"
+                            style="@style/DetailCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
+                            app:cardCornerRadius="@dimen/dimen_4dp"
+                            app:count="0">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:id="@+id/entryByNameDetailWrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_48dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/entryByNameLineDivider">
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByNameMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByNameTricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByNameCarView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_car" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByNameMiniBusView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_minibus" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByNameEMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByNameETricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByNameVanView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_van" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/entryByNameLineDivider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dimen_1dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_16dp"
+                                    android:background="@color/very_light_gray"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/entryByNameHeader" />
+
+                                <ng.max.vams.customview.DashboardStatHeaderDataView
+                                    android:id="@+id/entryByNameHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:count="@string/initial_count"
+                                    app:countColor="@color/very_light_green"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:title="@string/entries_card" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/entryByDateCard"
+                            style="@style/DetailCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
+                            app:cardCornerRadius="@dimen/dimen_4dp"
+                            app:count="0">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <LinearLayout
+                                    android:id="@+id/entryByDateDetailWrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_48dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/entryByDateLinedivider">
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByDateMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByDateTricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByDateCarView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_car" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByDateMiniBusView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_minibus" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByDateEMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByDateETricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/entryByDateVanView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_van" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/entryByDateLinedivider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dimen_1dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_16dp"
+                                    android:background="@color/very_light_gray"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/entryByDateHeader" />
+
+                                <ng.max.vams.customview.DashboardStatHeaderDataView
+                                    android:id="@+id/entryByDateHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:count="@string/initial_count"
+                                    app:countColor="@color/very_light_green"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:title="@string/entries_card" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/exitBatch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_entry">
+
+                    <ImageView
+                        android:id="@+id/imageViewexit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_8dp"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:layout_marginBottom="@dimen/dimen_16dp"
+                        android:src="@drawable/ic_checkout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:orientation="vertical"
+                        android:weightSum="3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewexit">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/totalExitCardOverall"
+                            style="@style/DetailCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
+                            app:cardCornerRadius="@dimen/dimen_4dp"
+                            app:count="0">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <LinearLayout
+                                    android:id="@+id/exitDetailWrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_48dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/exitLinedivider">
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalExitMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalExitTricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalExitCarView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_car" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalExitMiniBusView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_minibus" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalExitEMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalExitETricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalExitVanView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_van" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/exitLinedivider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dimen_1dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_16dp"
+                                    android:background="@color/very_light_gray"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/totalExitHeader" />
+
+                                <ng.max.vams.customview.DashboardStatHeaderDataView
+                                    android:id="@+id/totalExitHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:count="@string/initial_count"
+                                    app:countColor="@color/very_light_red"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:subtitle="@string/overall_card"
+                                    app:title="Total Exits" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/exitByNameCard"
+                            style="@style/DetailCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
+                            app:cardCornerRadius="@dimen/dimen_4dp"
+                            app:count="0">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <LinearLayout
+                                    android:id="@+id/exitnameDetailWrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_48dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/exitnamelinedivider">
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByNameMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByNameTricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByNameCarView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_car" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByNameMiniBusView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_minibus" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByNameEMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByNameETricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByNameVanView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_van" />
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/exitnamelinedivider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dimen_1dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_16dp"
+                                    android:background="@color/very_light_gray"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/exitByNameHeader" />
+
+                                <ng.max.vams.customview.DashboardStatHeaderDataView
+                                    android:id="@+id/exitByNameHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:count="@string/initial_count"
+                                    app:countColor="@color/very_light_red"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:title="Exits" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/exitByDateCard"
+                            style="@style/DetailCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
+                            app:cardCornerRadius="@dimen/dimen_4dp"
+                            app:count="0">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <LinearLayout
+                                    android:id="@+id/exitdateDetailWrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_48dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/exitdateLinedivider">
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByDateMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByDateTricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByDateCarView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_car" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByDateMiniBusView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_minibus" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByDateEMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByDateETricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/exitByDateVanView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_van" />
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/exitdateLinedivider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dimen_1dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_16dp"
+                                    android:background="@color/very_light_gray"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/exitByDateHeader" />
+
+                                <ng.max.vams.customview.DashboardStatHeaderDataView
+                                    android:id="@+id/exitByDateHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:count="@string/initial_count"
+                                    app:countColor="@color/very_light_red"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:title="Exits" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/transferBatch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_exit">
+
+                    <ImageView
+                        android:id="@+id/imageViewTransfer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_8dp"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:layout_marginBottom="@dimen/dimen_16dp"
+                        android:src="@drawable/ic_transfer"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_16dp"
+                        android:orientation="vertical"
+                        android:weightSum="3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewTransfer">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/totalTransferCardOverall"
+                            style="@style/DetailCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
+                            app:cardCornerRadius="@dimen/dimen_4dp"
+                            app:count="0">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <LinearLayout
+                                    android:id="@+id/transferDetailWrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_48dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/transferLinedivider">
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalTransferMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalTransferTricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalTransferCarView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_car" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalTransferMiniBusView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_minibus" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalTransferEMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalTransferETricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/totalTransferVanView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_van" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/transferLinedivider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dimen_1dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_16dp"
+                                    android:background="@color/very_light_gray"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/totalTransferHeader" />
+
+                                <ng.max.vams.customview.DashboardStatHeaderDataView
+                                    android:id="@+id/totalTransferHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:count="@string/initial_count"
+                                    app:countColor="@color/vivid_orange"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:subtitle="@string/overall_card"
+                                    app:title="Total Transfers" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/transferByNameCard"
+                            style="@style/DetailCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
+                            app:cardCornerRadius="@dimen/dimen_4dp"
+                            app:count="0">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <LinearLayout
+                                    android:id="@+id/transfernameDetailWrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_48dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/transfernamelinedivider">
+
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByNameMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByNameTricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByNameCarView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_car" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByNameMiniBusView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_minibus" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByNameEMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByNameETricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByNameVanView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_van" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/transfernamelinedivider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dimen_1dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_16dp"
+                                    android:background="@color/very_light_gray"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/transferByNameHeader" />
+
+                                <ng.max.vams.customview.DashboardStatHeaderDataView
+                                    android:id="@+id/transferByNameHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:count="@string/initial_count"
+                                    app:countColor="@color/vivid_orange"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:title="Transfers" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/transferByDateCard"
+                            style="@style/DetailCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_weight="1"
+                            android:paddingTop="@dimen/dimen_8dp"
+                            android:paddingBottom="@dimen/dimen_8dp"
+                            app:cardCornerRadius="@dimen/dimen_4dp"
+                            app:count="0">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <LinearLayout
+                                    android:id="@+id/transferdateDetailWrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginTop="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_48dp"
+                                    android:layout_marginBottom="@dimen/dimen_16dp"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/transferdateLinedivider">
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByDateMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByDateTricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByDateCarView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_car" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByDateMiniBusView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_minibus" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByDateEMotorcycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_motorcycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByDateETricycleView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_E_tricycle" />
+
+                                    <ng.max.vams.customview.DashboardStatDataView
+                                        android:id="@+id/transferByDateVanView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:title="@string/dashboard_van" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/transferdateLinedivider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dimen_1dp"
+                                    android:layout_marginStart="@dimen/dimen_16dp"
+                                    android:layout_marginEnd="@dimen/dimen_16dp"
+                                    android:background="@color/very_light_gray"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/transferByDateHeader" />
+
+                                <ng.max.vams.customview.DashboardStatHeaderDataView
+                                    android:id="@+id/transferByDateHeader"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:count="@string/initial_count"
+                                    app:countColor="@color/vivid_orange"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:title="Transfers" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/errorView"
@@ -165,7 +1265,7 @@
             android:id="@+id/fab"
             android:layout_width="@dimen/dimen_80dp"
             android:layout_height="@dimen/dimen_80dp"
-            android:src="@drawable/ic_arrow_up"
+            android:src="@drawable/ic_add"
             app:backgroundTint="@color/vivid_yellow"
             app:fabCustomSize="@dimen/dimen_80dp"
             app:fabSize="normal"

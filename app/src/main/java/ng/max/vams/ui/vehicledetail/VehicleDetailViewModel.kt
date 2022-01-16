@@ -27,7 +27,7 @@ class VehicleDetailViewModel @Inject constructor(private val vehicleDao: Vehicle
                     val vehicle = vehicleDao.getVehicleById(vehicleId)
                     vehicleResponse.postValue(Result.Success(vehicle))
                 }catch (ex: Exception){
-                    vehicleResponse.postValue(Result.Error("Error getting vehicle detail"))
+                    vehicleResponse.postValue(Result.Error("Error getting remoteVehicle detail"))
                 }
             }
 

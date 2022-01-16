@@ -15,26 +15,28 @@ import javax.inject.Inject
 class VehicleListUseCase @Inject constructor(private val vehicleDao: VehicleDao,
                                              private val remoteDataSource: RemoteDataSource) {
 
-    suspend fun invoke(movementType: String): Flow<Result<List<DbVehicle>>> {
-        var dbData: Flow<Result<List<DbVehicle>>> = vehicleDao.getAllVehicles(movementType).map {
+    suspend fun invoke(): Flow<Result<List<DbVehicle>>> {
+        var dbData: Flow<Result<List<DbVehicle>>> = vehicleDao.getAllVehicles().map {
             Result.Success(it)
         }
 
 
-        when (val response = remoteDataSource.getVehicles(movementType)){
+        when (val response = remoteDataSource.getUnconfirmedVehicles()){
             is Result.Error -> {
                 dbData = flow {
                 emit(Result.Error(response.message))
                 }
             }
             is Result.Success -> {
-                val vehicles = response.value.vehicles.map {
+                val vehicles = response.value.remoteVehicles.map {
                     DataMapper().invoke(it)
                 }
                 withContext(Dispatchers.IO){
+                    vehicleDao.deleteVehicles() //remove on next deployment
                     saveVehicles(vehicles)
                 }
             }
+            else -> {}
         }
 
         return dbData
