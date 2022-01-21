@@ -805,7 +805,10 @@ class HomeFragment : Fragment() {
                 AppManager.setVehicleTableFlag(-1)
             }
 
-
+            if (AppManager.getReasonTableFlag() == 0) {
+                homeViewModel.clearReasonTable()
+                AppManager.setReasonTableFlag(-1)
+            }
 
             actionGetAssetReasons()
             actionGetLocations()

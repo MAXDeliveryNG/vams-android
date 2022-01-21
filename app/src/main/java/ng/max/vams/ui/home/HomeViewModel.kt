@@ -12,15 +12,13 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ng.max.vams.data.*
 import ng.max.vams.data.local.DbVehicle
-import ng.max.vams.data.remote.RemoteDataSource
 import ng.max.vams.data.remote.response.RoleData
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.usecase.userrole.UserRoleUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val remoteDataSource:
-                                        RemoteDataSource,
+class HomeViewModel @Inject constructor(
                                         private val vehicleRepo: VehicleRepository,
                                         private val locationRepo: LocationRepository,
                                         private val vehicleTypeRepo: VehicleTypeRepository,
@@ -278,6 +276,12 @@ class HomeViewModel @Inject constructor(private val remoteDataSource:
     fun clearVehicleTable() {
         viewModelScope.launch(Dispatchers.IO) {
             vehicleRepo.deleteVehicleData()
+        }
+    }
+
+    fun clearReasonTable() {
+        viewModelScope.launch(Dispatchers.IO) {
+            movementReasonRepo.deleteReasonData()
         }
     }
 
