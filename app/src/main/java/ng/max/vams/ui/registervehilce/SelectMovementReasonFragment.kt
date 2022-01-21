@@ -258,11 +258,7 @@ class SelectMovementReasonFragment : Fragment() {
                     subReasonId = getSubReasonId(movementData.subreason),
                     recoveredItems = lastVehicleMovement?.checkListItems?: emptyList(),
                     retrievalAgent = lastVehicleMovement?.retrievalAgent,
-                    amountDefaulted = if(movementData.amountDefaulted?.toInt() == 0){
-                        "-1".toDouble()
-                    }else{
-                        movementData.amountDefaulted?.toDouble()
-                    }
+                    amountDefaulted = movementData.amountDefaulted?.toDouble()
                 )
                 sharedRegistrationViewModel.registerMovementFromReasonScreen(
                     movementBody
@@ -303,11 +299,7 @@ class SelectMovementReasonFragment : Fragment() {
                 amountDefaulted = if (movementData.subreason != "Financial Default"){
                     null
                 }else{
-                    if (movementData.amountDefaulted?.toInt() == 0){
-                        "-1"
-                    }else{
-                        movementData.amountDefaulted
-                    }
+                    movementData.amountDefaulted
                 }
             )
 

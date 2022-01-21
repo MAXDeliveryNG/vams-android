@@ -21,4 +21,7 @@ interface ReasonDao {
 
     @Query("SELECT * from Reason WHERE name = :reasonName")
     fun getReasonItem(reasonName: String): List<Reason>
+
+    @Query("DELETE from reason")
+    suspend fun deleteAllReasons()
 }
