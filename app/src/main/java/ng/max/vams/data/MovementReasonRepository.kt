@@ -63,4 +63,8 @@ class MovementReasonRepository @Inject constructor(
         return  dbData
     }
 
+    suspend fun deleteReasonData() {
+        reasonDao.deleteAllReasons()
+    }
+
 }
