@@ -162,52 +162,6 @@ class RemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun getMovementStat(): Result<MovementStat> {
-        try {
-            val response = vehicleService.getMovementStat()
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    return Result.Success(body.getData()!!)
-                }
-            }
-
-            val errorResponse = response.errorBody()?.string()!!
-            return try {
-                val message =
-                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
-                Result.Error(message)
-            } catch (ex: Exception) {
-                return Result.Error("Error getting Stats ${response.code()}")
-            }
-        } catch (ex: Exception) {
-            return Result.Error(ex.localizedMessage!!)
-        }
-
-    }
-
-    suspend fun getFullMovementStat(userId: String): Result<FullMovementStat> {
-        try {
-            val response = vehicleService.getFullMovementStat(userId)
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    return Result.Success(body.getData()!!)
-                }
-            }
-            val errorResponse = response.errorBody()?.string()!!
-            return try {
-                val message =
-                    Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
-                Result.Error(message)
-            } catch (ex: Exception) {
-                Result.Error("Error getting Vehicle Types ${response.code()}")
-            }
-        } catch (ex: Exception) {
-            return Result.Error(ex.localizedMessage!!)
-        }
-    }
-
     suspend fun getVehicleType(): Result<List<VehicleType>> {
         try {
             val response = vehicleService.getVehicleType()
@@ -276,29 +230,6 @@ class RemoteDataSource @Inject constructor(
         }
     }
 
-//    suspend fun getSearchVehicleWithReasonResult(term: String, movementType: String): Flow<Result<List<RemoteVehicle>>> {
-//        try {
-//            val response = vehicleService.searchVehicleWithReason(term, movementType)
-//            if (response.isSuccessful) {
-//                val body = response.body()
-//                if (body != null) {
-//                    return flow { emit(Result.Success(body.getData()?.remoteVehicles!!)) }
-//                }
-//            }
-//
-//            val errorResponse = response.errorBody()?.string()!!
-//            return try {
-//                val message =
-//                        Gson().fromJson(errorResponse, DefaultErrorResponse::class.java).message
-//                flow { emit(Result.Error(message)) }
-//            } catch (ex: Exception) {
-//                flow { emit(Result.Error("Error getting search result ${response.code()}")) }
-//            }
-//        } catch (ex: Exception) {
-//            return flow { emit(Result.Error(ex.localizedMessage!!)) }
-//        }
-//    }
-
     suspend fun registerMovement(movementBody: MovementBody): Result<RemoteVehicle> {
         try {
             val response = vehicleService.registerVehicleMovement(movementBody)
@@ -355,4 +286,18 @@ class RemoteDataSource @Inject constructor(
             return Result.Error(ex.localizedMessage!!)
         }
     }
+
+    suspend fun saveTokenToServer(tokenBody: HashMap<String, String>): Result<ApiResponse<Any>> {
+        return try {
+            val response = vehicleService.saveToken(tokenBody)
+            if (response.isSuccessful) {
+                Result.Success(response.body()!!)
+            }else{
+                Result.Error("Something went wrong")
+            }
+        } catch (ex: Exception) {
+            Result.Error(ex.localizedMessage!!)
+        }
+    }
+
 }

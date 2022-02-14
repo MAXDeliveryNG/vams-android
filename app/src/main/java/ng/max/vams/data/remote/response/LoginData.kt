@@ -7,5 +7,5 @@ data class LoginData(
     @SerializedName("access_token")
     val accessToken: String,
     @SerializedName("user")
-    val user: User
+    val user: User,
 )

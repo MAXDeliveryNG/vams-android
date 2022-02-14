@@ -29,5 +29,7 @@ data class User(
     @SerializedName("status")
     val status: Int,
     @SerializedName("uuid")
-    val uuid: String
+    val uuid: String,
+    @SerializedName("city_name")
+    val city: String?
 )
