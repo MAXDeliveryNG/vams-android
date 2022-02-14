@@ -43,4 +43,10 @@ interface VehicleService {
     @GET("vehicles/v1/vehicle/movement/summary")
     suspend fun getFullMovementStat(@Query("agent_id")userId: String): Response<ApiResponse<FullMovementStat>>
 
+    @POST("vehicles/v1/vams-notification/save-location")
+    suspend fun saveUserLocation(@Body locationBody: HashMap<String, Any>): Response<ApiResponse<Any>>
+
+    @POST("vehicles/v1/vams-notification/save-registration-token")
+    suspend fun saveToken(@Body token: HashMap<String, String>): Response<ApiResponse<Any>>
+
 }

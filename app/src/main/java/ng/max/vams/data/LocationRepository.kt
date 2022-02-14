@@ -6,13 +6,17 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import ng.max.vams.data.local.dao.LocationDao
 import ng.max.vams.data.remote.RemoteDataSource
+import ng.max.vams.data.remote.response.ApiResponse
 import ng.max.vams.data.remote.response.Location
+import ng.max.vams.data.remote.services.VehicleService
 import ng.max.vams.data.wrapper.Result
+import java.util.*
 import javax.inject.Inject
 
 class LocationRepository @Inject constructor(
         private val locationDao: LocationDao,
-        private val remoteDataSource: RemoteDataSource) {
+        private val remoteDataSource: RemoteDataSource,
+        private val vehicleService: VehicleService) {
 
     suspend fun getLocations(): Flow<Result<List<Location>>>{
         var dbData = locationDao.getAllLocation().map {
@@ -55,5 +59,18 @@ class LocationRepository @Inject constructor(
             dbData = locationDao.getLocationByName(name).first()
         }
         return  dbData
+    }
+
+    suspend fun saveLocationToServer(locationBody: HashMap<String, Any>): Result<ApiResponse<Any>> {
+        return try {
+            val response = vehicleService.saveUserLocation(locationBody)
+            if (response.isSuccessful) {
+                Result.Success(response.body()!!)
+            }else{
+                Result.Error("Something went wrong")
+            }
+        } catch (ex: Exception) {
+            Result.Error(ex.localizedMessage!!)
+        }
     }
 }
