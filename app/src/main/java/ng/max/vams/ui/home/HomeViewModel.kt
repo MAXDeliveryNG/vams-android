@@ -1,5 +1,6 @@
 package ng.max.vams.ui.home
 
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,12 +14,14 @@ import kotlinx.coroutines.launch
 import ng.max.vams.data.*
 import ng.max.vams.data.local.DbVehicle
 import ng.max.vams.data.remote.response.RoleData
+import ng.max.vams.data.remote.services.VehicleService
 import ng.max.vams.data.wrapper.Result
 import ng.max.vams.usecase.userrole.UserRoleUseCase
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(private val vehicleService: VehicleService,
                                         private val vehicleRepo: VehicleRepository,
                                         private val locationRepo: LocationRepository,
                                         private val vehicleTypeRepo: VehicleTypeRepository,
@@ -243,10 +246,6 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-
-//        viewModelScope.launch {
-//            fullMovementStatResponse.value = remoteDataSource.getFullMovementStat(userId)
-//        }
     }
 
     fun actionGetAssetReasons() {
@@ -288,6 +287,62 @@ class HomeViewModel @Inject constructor(
     fun getUserRole(userId: String){
         viewModelScope.launch {
             userRoleResponse.value = userRoleUseCase.invokeRole(userId)
+        }
+    }
+
+    fun registerTokenToServer(tokenBody: HashMap<String, String>) {
+        viewModelScope.launch {
+            try {
+                val response = vehicleService.saveToken(tokenBody)
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
+                }else{
+                    Result.Error("Something went wrong")
+                }
+            } catch (ex: Exception) {
+                Result.Error("Error saving token to server")
+            }
+        }
+    }
+
+    fun getSavedUserLocation(userId: String, userCity: String, location: Location, fireStoreDB: FirebaseFirestore){
+        val collectionRef = fireStoreDB.collection("Location")
+
+        collectionRef.get().addOnCompleteListener {
+            if (it.exception != null){
+                return@addOnCompleteListener
+            }
+
+            if (it.isSuccessful)
+            {
+                try {
+                    val document = it.result.documents.find {document->
+                        document.getDocumentReference(userId) != null
+                    }
+                    if (document == null){
+                        saveLocationToServer(userId, location, userCity)
+                    }
+                }catch (ex: NoSuchElementException){
+                    saveLocationToServer(userId, location, userCity)
+                }
+            }
+        }
+    }
+
+    private fun saveLocationToServer(
+        userId: String,
+        location: Location,
+        userCity: String
+    ) {
+        val locationBody = HashMap<String, Any>().apply {
+            this["user_id"] = userId
+            this["longitude"] = location.longitude
+            this["latitude"] = location.latitude
+            this["city_name"] = userCity
+        }
+
+        viewModelScope.launch {
+            locationRepo.saveLocationToServer(locationBody)
         }
     }
 }

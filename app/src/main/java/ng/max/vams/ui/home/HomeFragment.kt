@@ -1,16 +1,22 @@
 package ng.max.vams.ui.home
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
 import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.content.IntentSender
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -21,6 +27,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +50,9 @@ import ng.max.vams.util.Helper.Companion.formatUserRole
 import ng.max.vams.util.gone
 import ng.max.vams.util.show
 import ng.max.vams.util.showDialog
+import java.util.*
 
+private const val ARG_PARAM = "notification"
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -48,13 +60,20 @@ class HomeFragment : Fragment() {
     private val loginViewModel: LoginViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
     private val sharedViewModel: SharedRegistrationViewModel by activityViewModels()
-    private lateinit var bnd : HomeFragmentBinding
-    private var user: User? = null
+    private lateinit var bnd: HomeFragmentBinding
+    private var user: User? = UserManager.getUser()
     private val notificationItemAdapter = BaseAdapter()
     private lateinit var navController: NavController
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(requireContext())
+    }
+
+    private lateinit var resolutionForResult : ActivityResultLauncher<IntentSenderRequest>
+    private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
+    private var cancellationTokenSource = CancellationTokenSource()
 
     //    private var clicked = false
-    var cardControl = mutableMapOf(
+    private var cardControl = mutableMapOf(
         "A" to false,
         "B" to false,
         "C" to false,
@@ -66,6 +85,38 @@ class HomeFragment : Fragment() {
         "I" to false
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        resolutionForResult =
+            registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { activityResult ->
+                if (activityResult.resultCode == RESULT_OK){
+                    getCurrentLocationSettings()
+                }
+            }
+
+        locationPermissionRequest =
+            registerForActivityResult(
+                ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissions ->
+                when {
+                    permissions[Manifest.permission.ACCESS_FINE_LOCATION]!!
+                            && permissions[Manifest.permission.ACCESS_COARSE_LOCATION]!! -> {
+                    }
+                    else -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Please enable permissions for location based notifications",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+
+                    }
+                }
+            }
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,9 +127,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         navController = findNavController()
-        loginViewModel.getLoggedInUser().observe(viewLifecycleOwner){ _user ->
-            if (_user == null){
+        loginViewModel.getLoggedInUser().observe(viewLifecycleOwner) { _user ->
+            if (_user == null) {
                 val options = NavOptions.Builder()
                     .setEnterAnim(R.anim.slide_in_right)
                     .setExitAnim(R.anim.slide_out_left)
@@ -86,24 +138,101 @@ class HomeFragment : Fragment() {
                     .setPopExitAnim(R.anim.slide_out_right)
                     .build()
                 navController.navigate(R.id.loginFragment, null, options)
-            }else{
+            } else {
                 user = _user
                 setupViews()
                 setupViewModel()
+                getCurrentLocationSettings()
             }
+        }
+
+
+    }
+
+
+    private fun getCurrentLocationSettings() {
+        val locationRequest = LocationRequest.create().apply {
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+
+        val client: SettingsClient = LocationServices.getSettingsClient(requireActivity())
+        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
+
+        task.addOnSuccessListener {
+            getUserCurrentLocation()
+        }
+
+        task.addOnFailureListener { exception ->
+            if (exception is ResolvableApiException) {
+                try {
+                    val intentSenderRequest =
+                        IntentSenderRequest.Builder(exception.resolution).build()
+                    resolutionForResult.launch(intentSenderRequest)
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    // Ignore the error.
+                }
+            }
+        }
+
+    }
+
+    private fun getUserCurrentLocation() {
+        if ((ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) ==
+                    PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) ==
+                    PackageManager.PERMISSION_GRANTED)
+        ) {
+            val currentLocationTask = fusedLocationClient.getCurrentLocation(
+                LocationRequest.PRIORITY_HIGH_ACCURACY, cancellationTokenSource.token
+            )
+
+            currentLocationTask.addOnCompleteListener { task: Task<Location> ->
+                if (task.isSuccessful) {
+                    val result: Location = task.result
+                    user?.let {
+                        homeViewModel.getSavedUserLocation(
+                            it.id,
+                            it.city!!,
+                            result,
+                            Firebase.firestore
+                        )
+                    }
+                } else {
+                    val exception = task.exception
+                    Toast.makeText(
+                        requireContext(),
+                        "Location Error : $exception",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+
+            }
+        } else {
+            getLocationPermission()
         }
     }
 
-    private fun setupViews(){
-        user?.let { user->
-            if (user.photo != null){
-                bnd.profileIcon.load(user.photo){
+    private fun setupViews() {
+        user?.let { user ->
+            if (user.photo != null) {
+                bnd.profileIcon.load(user.photo) {
                     placeholder(R.drawable.ic_icon_placeholder)
                         .transformations(CircleCropTransformation())
                 }
-            }else{
-                bnd.profileIcon.load(R.drawable.ic_icon_placeholder){
-                        transformations(CircleCropTransformation())
+            } else {
+                bnd.profileIcon.load(R.drawable.ic_icon_placeholder) {
+                    transformations(CircleCropTransformation())
                 }
             }
 
@@ -258,7 +387,6 @@ class HomeFragment : Fragment() {
 
 
         bnd.retryButton.setOnClickListener {
-//            homeViewModel.actionGetMovementStat()
             user?.let { homeViewModel.actionGetFullMovementStat(it.id, Firebase.firestore) }
         }
     }
@@ -284,7 +412,7 @@ class HomeFragment : Fragment() {
 
         usernameTextView.text = user?.fullName
         emailTextView.text = user?.email
-        if(user?.role?.isEmpty() == true){
+        if (user?.role?.isEmpty() == true) {
             user?.let { homeViewModel.getUserRole(it.id) }
         }
         roleTextView.text = formatUserRole(UserManager.getUserRole())
@@ -302,6 +430,10 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun displayNotificationPopup() {
+
+        if(notificationItemAdapter.adapterList.isEmpty()){
+            homeViewModel.actionGetUnconfirmedVehicles()
+        }
         val inflater =
             requireContext().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.layout_notification_view, null)
@@ -323,7 +455,7 @@ class HomeFragment : Fragment() {
         }
 
         notificationItemAdapter.viewType = 4
-        notificationItemAdapter.setOnItemClickListener { position->
+        notificationItemAdapter.setOnItemClickListener { position ->
             popupWindow.dismiss()
             val vehicle = notificationItemAdapter.adapterList[position] as DbVehicle
 
@@ -347,7 +479,14 @@ class HomeFragment : Fragment() {
 
 
     private fun setupViewModel() {
-        with(homeViewModel){
+        with(homeViewModel) {
+            AppManager.getMessagingServiceToken()?.let {token ->
+                val tokenBody = HashMap<String, String>().apply {
+                    this["user_id"] = UserManager.getUser()!!.id
+                    this["registration_token"] = token
+                }
+                registerTokenToServer(tokenBody)
+            }
             getFullMovementStatResponse.observe(viewLifecycleOwner, { result ->
                 when (result) {
                     is Result.Error -> {
@@ -374,7 +513,6 @@ class HomeFragment : Fragment() {
                             bnd.totalTransferHeader.setCount(result.value.totalTransfer.total.toString())
                             bnd.transferByNameHeader.setCount(result.value.transferByAgentName.total.toString())
                             bnd.transferByDateHeader.setCount(result.value.transferByDate.total.toString())
-
 
 
                             //Card Detail Count Update
@@ -777,7 +915,7 @@ class HomeFragment : Fragment() {
                 }
             })
 
-            getUnconfirmedVehicleResponse.observe(viewLifecycleOwner, {result ->
+            getUnconfirmedVehicleResponse.observe(viewLifecycleOwner, { result ->
                 when (result) {
                     is Result.Error -> {
 
@@ -786,9 +924,9 @@ class HomeFragment : Fragment() {
 
                     }
                     is Result.Success -> {
-                        if (result.value.isEmpty()){
+                        if (result.value.isEmpty()) {
                             bnd.notificationIcon.gone()
-                        }else{
+                        } else {
                             bnd.notificationIcon.show()
                         }
                         notificationItemAdapter.adapterList = result.value
@@ -825,11 +963,29 @@ class HomeFragment : Fragment() {
             bnd.errorView.show()
             bnd.dataView.gone()
             bnd.bottomView.gone()
-        }else{
+        } else {
             bnd.errorView.gone()
             bnd.dataView.show()
             bnd.bottomView.show()
         }
     }
 
+    private fun getLocationPermission() {
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param: Boolean) =
+            HomeFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(ARG_PARAM, param)
+                }
+            }
+    }
 }

@@ -10,6 +10,7 @@ class UserManager {
         private const val userTag = "user"
         private const val tokenTag = "token"
         private const val userRoleTag = "user_role"
+        private const val userCityTag = "user_city"
 
 
         fun initPrefsManager(pref: SharedPrefsManager){
@@ -20,6 +21,7 @@ class UserManager {
             Pair(userTag, userTag),
             Pair(tokenTag, tokenTag),
             Pair(userRoleTag, userRoleTag),
+            Pair(userCityTag, userCityTag)
         )
 
 
