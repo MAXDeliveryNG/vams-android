@@ -6,6 +6,7 @@ class AppManager {
         private lateinit var prefsManager: SharedPrefsManager
         private const val vehicleTableTag = "VEHICLE"
         private const val reasonTableTag = "REASON"
+        private const val notificationTag = "NOTIFICATION"
 
         fun initPrefsManager(pref: SharedPrefsManager){
             prefsManager = pref
@@ -26,6 +27,12 @@ class AppManager {
         fun setReasonTableFlag(flag: Int){
             prefsManager.saveInt(reasonTableTag, flag)
         }
+
+        fun saveMessagingServiceToken(token: String) {
+            prefsManager.saveString(notificationTag, token)
+        }
+
+        fun getMessagingServiceToken(): String? = prefsManager.getString(notificationTag)
 
     }
 }

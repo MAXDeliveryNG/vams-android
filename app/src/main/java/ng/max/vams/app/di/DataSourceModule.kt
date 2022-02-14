@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import ng.max.vams.data.LocationRepository
 import ng.max.vams.data.MovementReasonRepository
 import ng.max.vams.data.RetrievalChecklistRepository
@@ -23,16 +24,6 @@ import retrofit2.Retrofit
 @Module
 @InstallIn(ViewModelComponent::class)
 object DataSourceModule{
-
-    @Provides
-    fun provideUserService(retrofitClient: Retrofit): UserService {
-        return retrofitClient.create(UserService::class.java)
-    }
-
-    @Provides
-    fun provideVehicleService(retrofitClient: Retrofit): VehicleService {
-        return retrofitClient.create(VehicleService::class.java)
-    }
 
     @Provides
     fun provideRemoteDataSource(userService: UserService, vehicleService: VehicleService): RemoteDataSource {
@@ -89,8 +80,8 @@ object DataSourceModule{
         MovementReasonRepository(reasonDao, remoteData)
 
     @Provides
-    fun provideLocationRepository(locationDao: LocationDao, remoteDataSource: RemoteDataSource): LocationRepository =
-        LocationRepository(locationDao, remoteDataSource)
+    fun provideLocationRepository(locationDao: LocationDao, remoteDataSource: RemoteDataSource, vehicleService: VehicleService): LocationRepository =
+        LocationRepository(locationDao, remoteDataSource, vehicleService)
 
 
     @Provides
@@ -101,5 +92,22 @@ object DataSourceModule{
     fun provideRetrievalChecklistRepository(retrievalChecklistDao: RetrievalChecklistDao, remoteDataSource: RemoteDataSource) : RetrievalChecklistRepository =
         RetrievalChecklistRepository(retrievalChecklistDao, remoteDataSource)
 
+
+}
+
+
+@Module
+@InstallIn(SingletonComponent::class)
+object SingletonSourceModule{
+
+    @Provides
+    fun provideUserService(retrofitClient: Retrofit): UserService {
+        return retrofitClient.create(UserService::class.java)
+    }
+
+    @Provides
+    fun provideVehicleService(retrofitClient: Retrofit): VehicleService {
+        return retrofitClient.create(VehicleService::class.java)
+    }
 
 }
