@@ -49,7 +49,6 @@ import ng.max.vams.util.Helper
 import ng.max.vams.util.Helper.Companion.formatUserRole
 import ng.max.vams.util.gone
 import ng.max.vams.util.show
-import ng.max.vams.util.showDialog
 import java.util.*
 
 private const val ARG_PARAM = "notification"
@@ -102,6 +101,7 @@ class HomeFragment : Fragment() {
                 when {
                     permissions[Manifest.permission.ACCESS_FINE_LOCATION]!!
                             && permissions[Manifest.permission.ACCESS_COARSE_LOCATION]!! -> {
+                                getUserCurrentLocation()
                     }
                     else -> {
                         Toast.makeText(
@@ -196,16 +196,25 @@ class HomeFragment : Fragment() {
                 LocationRequest.PRIORITY_HIGH_ACCURACY, cancellationTokenSource.token
             )
 
-            currentLocationTask.addOnCompleteListener { task: Task<Location> ->
+            currentLocationTask.addOnCompleteListener { task: Task<Location?> ->
                 if (task.isSuccessful) {
-                    val result: Location = task.result
-                    user?.let {
-                        homeViewModel.getSavedUserLocation(
-                            it.id,
-                            it.city!!,
-                            result,
-                            Firebase.firestore
+                    try {
+                        val result: Location? = task.result
+                        result?.let {_location ->
+                            user?.let {_user->
+                                homeViewModel.getSavedUserLocation(
+                                    _user.id,
+                                    _user.city!!,
+                                    _location,
+                                    Firebase.firestore
+                                )
+                            }
+                        }
+                    }catch (ex: Exception){
+                        Toast.makeText(requireContext(), "Failed to get user location.", Toast.LENGTH_LONG
                         )
+                            .show()
+                        getLocationPermission()
                     }
                 } else {
                     val exception = task.exception
@@ -215,6 +224,7 @@ class HomeFragment : Fragment() {
                         Toast.LENGTH_LONG
                     )
                         .show()
+                    getLocationPermission()
                 }
 
             }
@@ -490,9 +500,8 @@ class HomeFragment : Fragment() {
             getFullMovementStatResponse.observe(viewLifecycleOwner, { result ->
                 when (result) {
                     is Result.Error -> {
-                        bnd.errorTv.text = getString(R.string.error_message)
+                        bnd.errorTv.text = result.message
                         showErrorView(true)
-                        showDialog("Error", result.message)
                     }
                     is Result.Loading -> {
                         showErrorView(false)

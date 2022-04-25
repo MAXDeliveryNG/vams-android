@@ -19,14 +19,13 @@ android {
         }
     }
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "ng.max.vams"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 10
-        versionName "2.1.0"
+        versionCode 11
+        versionName "2.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -172,9 +171,8 @@ dependencies {
 
     // <chuck>
     // chuck release implementation
-    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuck_version"
-    // chuck debug implementations
-    debugImplementation "com.readystatesoftware.chuck:library:$chuck_version"
+    debugImplementation "com.github.chuckerteam.chucker:library:$chucker_version"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:$chucker_version"
     // </chuck>
 
     //HILT
