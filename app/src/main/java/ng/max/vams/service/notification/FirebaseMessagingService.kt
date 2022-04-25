@@ -162,7 +162,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
         private const val TAG = "FirebaseMessaging"
-        const val FIREBASE_CHANNEL_ID = "ai.maxdrive.doms.firebase_messaging_service"
+        const val FIREBASE_CHANNEL_ID = "ai.maxdrive.vams.firebase_messaging_service"
         const val FIREBASE_NOTIFICATION_ID = 1022
         const val FIREBASE_NOTIFICATION_CHANNEL_NAME_TAG = "Notification"
         const val NOTIFICATION = "NOTIFICATION"
