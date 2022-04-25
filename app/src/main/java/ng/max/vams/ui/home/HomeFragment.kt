@@ -196,17 +196,19 @@ class HomeFragment : Fragment() {
                 LocationRequest.PRIORITY_HIGH_ACCURACY, cancellationTokenSource.token
             )
 
-            currentLocationTask.addOnCompleteListener { task: Task<Location> ->
+            currentLocationTask.addOnCompleteListener { task: Task<Location?> ->
                 if (task.isSuccessful) {
                     try {
-                        val result: Location = task.result
-                        user?.let {
-                            homeViewModel.getSavedUserLocation(
-                                it.id,
-                                it.city!!,
-                                result,
-                                Firebase.firestore
-                            )
+                        val result: Location? = task.result
+                        result?.let {_location ->
+                            user?.let {_user->
+                                homeViewModel.getSavedUserLocation(
+                                    _user.id,
+                                    _user.city!!,
+                                    _location,
+                                    Firebase.firestore
+                                )
+                            }
                         }
                     }catch (ex: Exception){
                         Toast.makeText(requireContext(), "Failed to get user location.", Toast.LENGTH_LONG
