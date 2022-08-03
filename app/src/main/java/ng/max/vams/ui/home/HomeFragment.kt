@@ -49,7 +49,6 @@ import ng.max.vams.util.Helper
 import ng.max.vams.util.Helper.Companion.formatUserRole
 import ng.max.vams.util.gone
 import ng.max.vams.util.show
-import java.util.*
 
 private const val ARG_PARAM = "notification"
 
@@ -497,7 +496,7 @@ class HomeFragment : Fragment() {
                 }
                 registerTokenToServer(tokenBody)
             }
-            getFullMovementStatResponse.observe(viewLifecycleOwner, { result ->
+            getFullMovementStatResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Error -> {
                         bnd.errorTv.text = result.message
@@ -601,9 +600,9 @@ class HomeFragment : Fragment() {
                         }
                     }
                 }
-            })
+            }
 
-            getcardControlResponse.observe(viewLifecycleOwner, {
+            getcardControlResponse.observe(viewLifecycleOwner) {
                 when {
                     !it.containsKey("A") -> {
                         bnd.entryByNameLineDivider.gone()
@@ -912,9 +911,9 @@ class HomeFragment : Fragment() {
                         bnd.transferByNameHeader.rotateArrow(0f)
                     }
                 }
-            })
+            }
 
-            getUserRoleResponse.observe(viewLifecycleOwner, { fullRole ->
+            getUserRoleResponse.observe(viewLifecycleOwner) { fullRole ->
                 when (fullRole) {
                     is Result.Error -> {}
                     is Result.Loading -> {}
@@ -922,9 +921,9 @@ class HomeFragment : Fragment() {
                         UserManager.saveUserRole(fullRole.value.role.name)
                     }
                 }
-            })
+            }
 
-            getUnconfirmedVehicleResponse.observe(viewLifecycleOwner, { result ->
+            getUnconfirmedVehicleResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Error -> {
 
@@ -941,7 +940,7 @@ class HomeFragment : Fragment() {
                         notificationItemAdapter.adapterList = result.value
                     }
                 }
-            })
+            }
 
             user?.let { homeViewModel.actionGetFullMovementStat(it.id, Firebase.firestore) }
             user?.let { homeViewModel.getUserRole(it.id) }
