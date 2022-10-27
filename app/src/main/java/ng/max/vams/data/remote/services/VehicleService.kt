@@ -27,7 +27,8 @@ interface VehicleService {
     suspend fun getVehicleType(): Response<ApiResponse<List<VehicleType>>>
 
     @GET("vehicles/v1/vehicle")
-    suspend fun search(@Query("search_query") term: String,
+    suspend fun search(@Query("search_value") term: String,
+                       @Query("search_column") searchColumnTitle: String = "plate_number",
                        @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
                        @Query("include_defined_relations") relations: String = "champion,vehicle_status,manufacturer"): Response<ApiResponse<VehicleListData>>
 

@@ -49,8 +49,6 @@ import ng.max.vams.util.Helper
 import ng.max.vams.util.Helper.Companion.formatUserRole
 import ng.max.vams.util.gone
 import ng.max.vams.util.show
-import ng.max.vams.util.showDialog
-import java.util.*
 
 private const val ARG_PARAM = "notification"
 
@@ -102,6 +100,7 @@ class HomeFragment : Fragment() {
                 when {
                     permissions[Manifest.permission.ACCESS_FINE_LOCATION]!!
                             && permissions[Manifest.permission.ACCESS_COARSE_LOCATION]!! -> {
+                                getUserCurrentLocation()
                     }
                     else -> {
                         Toast.makeText(
@@ -196,16 +195,25 @@ class HomeFragment : Fragment() {
                 LocationRequest.PRIORITY_HIGH_ACCURACY, cancellationTokenSource.token
             )
 
-            currentLocationTask.addOnCompleteListener { task: Task<Location> ->
+            currentLocationTask.addOnCompleteListener { task: Task<Location?> ->
                 if (task.isSuccessful) {
-                    val result: Location = task.result
-                    user?.let {
-                        homeViewModel.getSavedUserLocation(
-                            it.id,
-                            it.city!!,
-                            result,
-                            Firebase.firestore
+                    try {
+                        val result: Location? = task.result
+                        result?.let {_location ->
+                            user?.let {_user->
+                                homeViewModel.getSavedUserLocation(
+                                    _user.id,
+                                    _user.city!!,
+                                    _location,
+                                    Firebase.firestore
+                                )
+                            }
+                        }
+                    }catch (ex: Exception){
+                        Toast.makeText(requireContext(), "Failed to get user location.", Toast.LENGTH_LONG
                         )
+                            .show()
+                        getLocationPermission()
                     }
                 } else {
                     val exception = task.exception
@@ -215,6 +223,7 @@ class HomeFragment : Fragment() {
                         Toast.LENGTH_LONG
                     )
                         .show()
+                    getLocationPermission()
                 }
 
             }
@@ -487,12 +496,11 @@ class HomeFragment : Fragment() {
                 }
                 registerTokenToServer(tokenBody)
             }
-            getFullMovementStatResponse.observe(viewLifecycleOwner, { result ->
+            getFullMovementStatResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Error -> {
-                        bnd.errorTv.text = getString(R.string.error_message)
+                        bnd.errorTv.text = result.message
                         showErrorView(true)
-                        showDialog("Error", result.message)
                     }
                     is Result.Loading -> {
                         showErrorView(false)
@@ -592,9 +600,9 @@ class HomeFragment : Fragment() {
                         }
                     }
                 }
-            })
+            }
 
-            getcardControlResponse.observe(viewLifecycleOwner, {
+            getcardControlResponse.observe(viewLifecycleOwner) {
                 when {
                     !it.containsKey("A") -> {
                         bnd.entryByNameLineDivider.gone()
@@ -903,9 +911,9 @@ class HomeFragment : Fragment() {
                         bnd.transferByNameHeader.rotateArrow(0f)
                     }
                 }
-            })
+            }
 
-            getUserRoleResponse.observe(viewLifecycleOwner, { fullRole ->
+            getUserRoleResponse.observe(viewLifecycleOwner) { fullRole ->
                 when (fullRole) {
                     is Result.Error -> {}
                     is Result.Loading -> {}
@@ -913,9 +921,9 @@ class HomeFragment : Fragment() {
                         UserManager.saveUserRole(fullRole.value.role.name)
                     }
                 }
-            })
+            }
 
-            getUnconfirmedVehicleResponse.observe(viewLifecycleOwner, { result ->
+            getUnconfirmedVehicleResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Error -> {
 
@@ -932,7 +940,7 @@ class HomeFragment : Fragment() {
                         notificationItemAdapter.adapterList = result.value
                     }
                 }
-            })
+            }
 
             user?.let { homeViewModel.actionGetFullMovementStat(it.id, Firebase.firestore) }
             user?.let { homeViewModel.getUserRole(it.id) }

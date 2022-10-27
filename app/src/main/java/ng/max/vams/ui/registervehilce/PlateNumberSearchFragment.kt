@@ -60,7 +60,7 @@ class PlateNumberSearchFragment : Fragment() {
                     if (result.value.isEmpty()) {
                         showDialog(
                             "Error",
-                            "RemoteVehicle with ${plateNumberEditText.text.toString()} not found."
+                            "Vehicle with ${plateNumberEditText.text.toString()} not found."
                         )
                     } else {
                         navigateToVehicleDetail(result.value.first())
