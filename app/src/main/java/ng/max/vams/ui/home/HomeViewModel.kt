@@ -1,7 +1,6 @@
 package ng.max.vams.ui.home
 
 import android.location.Location
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -77,50 +76,54 @@ class HomeViewModel @Inject constructor(private val vehicleService: VehicleServi
             }
 
             if (querySnapshot != null){
-                for (document in querySnapshot.documents){
-                    val path = document.reference.path
+                try {
+                    for (document in querySnapshot.documents){
+                        val path = document.reference.path
 
-                    if (path.contains("entry", ignoreCase = true)){
-                        dashboardStat.totalEntry = DashboardStatData(
-                            total = document.data?.get("total") as Long,
-                            car = document.data?.get("car") as Long,
-                            motorcycle = document.data?.get("motorcycle") as Long,
-                            van = document.data?.get("van") as Long,
-                            etricycle = document.data?.get("etricycle") as Long,
-                            minibus = document.data?.get("minibus") as Long,
-                            tricycle = document.data?.get("tricycle") as Long,
-                            emotorcycle = document.data?.get("emotorcycle") as Long
-                        )
+                        if (path.contains("entry", ignoreCase = true)){
+                            dashboardStat.totalEntry = DashboardStatData(
+                                total = document.data?.get("total") as Long,
+                                car = document.data?.get("car") as Long,
+                                motorcycle = document.data?.get("motorcycle") as Long,
+                                van = document.data?.get("van") as Long,
+                                etricycle = document.data?.get("etricycle") as Long,
+                                minibus = document.data?.get("minibus") as Long,
+                                tricycle = document.data?.get("tricycle") as Long,
+                                emotorcycle = document.data?.get("emotorcycle") as Long
+                            )
 
+                        }
+
+                        if (path.contains("exit", ignoreCase = true)){
+                            dashboardStat.totalExit = DashboardStatData(
+                                total = document.data?.get("total") as Long,
+                                car = document.data?.get("car") as Long,
+                                motorcycle = document.data?.get("motorcycle") as Long,
+                                van = document.data?.get("van") as Long,
+                                etricycle = document.data?.get("etricycle") as Long,
+                                minibus = document.data?.get("minibus") as Long,
+                                tricycle = document.data?.get("tricycle") as Long,
+                                emotorcycle = document.data?.get("emotorcycle") as Long
+                            )
+                        }
+
+                        if (path.contains("transfer", ignoreCase = true)){
+                            dashboardStat.totalTransfer = DashboardStatData(
+                                total = document.data?.get("total") as Long,
+                                car = document.data?.get("car") as Long,
+                                motorcycle = document.data?.get("motorcycle") as Long,
+                                van = document.data?.get("van") as Long,
+                                etricycle = document.data?.get("etricycle") as Long,
+                                minibus = document.data?.get("minibus") as Long,
+                                tricycle = document.data?.get("tricycle") as Long,
+                                emotorcycle = document.data?.get("emotorcycle") as Long
+                            )
+                        }
                     }
-
-                    if (path.contains("exit", ignoreCase = true)){
-                        dashboardStat.totalExit = DashboardStatData(
-                            total = document.data?.get("total") as Long,
-                            car = document.data?.get("car") as Long,
-                            motorcycle = document.data?.get("motorcycle") as Long,
-                            van = document.data?.get("van") as Long,
-                            etricycle = document.data?.get("etricycle") as Long,
-                            minibus = document.data?.get("minibus") as Long,
-                            tricycle = document.data?.get("tricycle") as Long,
-                            emotorcycle = document.data?.get("emotorcycle") as Long
-                        )
-                    }
-
-                    if (path.contains("transfer", ignoreCase = true)){
-                        dashboardStat.totalTransfer = DashboardStatData(
-                            total = document.data?.get("total") as Long,
-                            car = document.data?.get("car") as Long,
-                            motorcycle = document.data?.get("motorcycle") as Long,
-                            van = document.data?.get("van") as Long,
-                            etricycle = document.data?.get("etricycle") as Long,
-                            minibus = document.data?.get("minibus") as Long,
-                            tricycle = document.data?.get("tricycle") as Long,
-                            emotorcycle = document.data?.get("emotorcycle") as Long
-                        )
-                    }
+                    fullMovementStatResponse.value = Result.Success(dashboardStat)
+                }catch (ex: Exception){
+                    fullMovementStatResponse.value = Result.Error(ex.localizedMessage?: "Something went wrong.")
                 }
-                fullMovementStatResponse.value = Result.Success(dashboardStat)
             }
         }
 
@@ -131,37 +134,40 @@ class HomeViewModel @Inject constructor(private val vehicleService: VehicleServi
             }
 
             if (agentQuerySnapshot != null){
-                Log.d("TAG", "Current data: ${agentQuerySnapshot.documents}")
-                for (document in agentQuerySnapshot.documents){
-                    val path = document.reference.path
+                try{
+                    for (document in agentQuerySnapshot.documents){
+                        val path = document.reference.path
 
-                    if (path.contains("total", ignoreCase = true)){
-                        dashboardStat.entryByAgentName = DashboardStatData(
-                            total = document.data?.get("total") as Long,
-                            car = document.data?.get("car") as Long,
-                            motorcycle = document.data?.get("motorcycle") as Long,
-                            van = document.data?.get("van") as Long,
-                            etricycle = document.data?.get("etricycle") as Long,
-                            minibus = document.data?.get("minibus") as Long,
-                            tricycle = document.data?.get("tricycle") as Long,
-                            emotorcycle = document.data?.get("emotorcycle") as Long
-                        )
-                    }
+                        if (path.contains("total", ignoreCase = true)){
+                            dashboardStat.entryByAgentName = DashboardStatData(
+                                total = document.data?.get("total") as Long,
+                                car = document.data?.get("car") as Long,
+                                motorcycle = document.data?.get("motorcycle") as Long,
+                                van = document.data?.get("van") as Long,
+                                etricycle = document.data?.get("etricycle") as Long,
+                                minibus = document.data?.get("minibus") as Long,
+                                tricycle = document.data?.get("tricycle") as Long,
+                                emotorcycle = document.data?.get("emotorcycle") as Long
+                            )
+                        }
 
-                    if (path.contains("today", ignoreCase = true)){
-                        dashboardStat.entryByDate = DashboardStatData(
-                            total = document.data?.get("total") as Long,
-                            car = document.data?.get("car") as Long,
-                            motorcycle = document.data?.get("motorcycle") as Long,
-                            van = document.data?.get("van") as Long,
-                            etricycle = document.data?.get("etricycle") as Long,
-                            minibus = document.data?.get("minibus") as Long,
-                            tricycle = document.data?.get("tricycle") as Long,
-                            emotorcycle = document.data?.get("emotorcycle") as Long
-                        )
+                        if (path.contains("today", ignoreCase = true)){
+                            dashboardStat.entryByDate = DashboardStatData(
+                                total = document.data?.get("total") as Long,
+                                car = document.data?.get("car") as Long,
+                                motorcycle = document.data?.get("motorcycle") as Long,
+                                van = document.data?.get("van") as Long,
+                                etricycle = document.data?.get("etricycle") as Long,
+                                minibus = document.data?.get("minibus") as Long,
+                                tricycle = document.data?.get("tricycle") as Long,
+                                emotorcycle = document.data?.get("emotorcycle") as Long
+                            )
+                        }
                     }
+                    fullMovementStatResponse.value = Result.Success(dashboardStat)
+                }catch (ex: Exception){
+                    fullMovementStatResponse.value = Result.Error(ex.localizedMessage?: "Something went wrong.")
                 }
-                fullMovementStatResponse.value = Result.Success(dashboardStat)
             }
         }
 
@@ -172,37 +178,40 @@ class HomeViewModel @Inject constructor(private val vehicleService: VehicleServi
             }
 
             if (agentQuerySnapshot != null){
-                Log.d("TAG", "Current data: ${agentQuerySnapshot.documents}")
-                for (document in agentQuerySnapshot.documents){
-                    val path = document.reference.path
+                try {
+                    for (document in agentQuerySnapshot.documents){
+                        val path = document.reference.path
 
-                    if (path.contains("total", ignoreCase = true)){
-                        dashboardStat.exitByAgentName = DashboardStatData(
-                            total = document.data?.get("total") as Long,
-                            car = document.data?.get("car") as Long,
-                            motorcycle = document.data?.get("motorcycle") as Long,
-                            van = document.data?.get("van") as Long,
-                            etricycle = document.data?.get("etricycle") as Long,
-                            minibus = document.data?.get("minibus") as Long,
-                            tricycle = document.data?.get("tricycle") as Long,
-                            emotorcycle = document.data?.get("emotorcycle") as Long
-                        )
-                    }
+                        if (path.contains("total", ignoreCase = true)){
+                            dashboardStat.exitByAgentName = DashboardStatData(
+                                total = document.data?.get("total") as Long,
+                                car = document.data?.get("car") as Long,
+                                motorcycle = document.data?.get("motorcycle") as Long,
+                                van = document.data?.get("van") as Long,
+                                etricycle = document.data?.get("etricycle") as Long,
+                                minibus = document.data?.get("minibus") as Long,
+                                tricycle = document.data?.get("tricycle") as Long,
+                                emotorcycle = document.data?.get("emotorcycle") as Long
+                            )
+                        }
 
-                    if (path.contains("today", ignoreCase = true)){
-                        dashboardStat.exitByDate = DashboardStatData(
-                            total = document.data?.get("total") as Long,
-                            car = document.data?.get("car") as Long,
-                            motorcycle = document.data?.get("motorcycle") as Long,
-                            van = document.data?.get("van") as Long,
-                            etricycle = document.data?.get("etricycle") as Long,
-                            minibus = document.data?.get("minibus") as Long,
-                            tricycle = document.data?.get("tricycle") as Long,
-                            emotorcycle = document.data?.get("emotorcycle") as Long
-                        )
+                        if (path.contains("today", ignoreCase = true)){
+                            dashboardStat.exitByDate = DashboardStatData(
+                                total = document.data?.get("total") as Long,
+                                car = document.data?.get("car") as Long,
+                                motorcycle = document.data?.get("motorcycle") as Long,
+                                van = document.data?.get("van") as Long,
+                                etricycle = document.data?.get("etricycle") as Long,
+                                minibus = document.data?.get("minibus") as Long,
+                                tricycle = document.data?.get("tricycle") as Long,
+                                emotorcycle = document.data?.get("emotorcycle") as Long
+                            )
+                        }
                     }
+                    fullMovementStatResponse.value = Result.Success(dashboardStat)
+                }catch (ex: Exception){
+                    fullMovementStatResponse.value = Result.Error(ex.localizedMessage?: "Something went wrong.")
                 }
-                fullMovementStatResponse.value = Result.Success(dashboardStat)
             }
         }
 
@@ -213,36 +222,40 @@ class HomeViewModel @Inject constructor(private val vehicleService: VehicleServi
             }
 
             if (agentQuerySnapshot != null){
-                for (document in agentQuerySnapshot.documents){
-                    val path = document.reference.path
+                try {
+                    for (document in agentQuerySnapshot.documents){
+                        val path = document.reference.path
 
-                    if (path.contains("total", ignoreCase = true)){
-                        dashboardStat.transferByAgentName = DashboardStatData(
-                            total = document.data?.get("total") as Long,
-                            car = document.data?.get("car") as Long,
-                            motorcycle = document.data?.get("motorcycle") as Long,
-                            van = document.data?.get("van") as Long,
-                            etricycle = document.data?.get("etricycle") as Long,
-                            minibus = document.data?.get("minibus") as Long,
-                            tricycle = document.data?.get("tricycle") as Long,
-                            emotorcycle = document.data?.get("emotorcycle") as Long
-                        )
-                    }
+                        if (path.contains("total", ignoreCase = true)){
+                            dashboardStat.transferByAgentName = DashboardStatData(
+                                total = document.data?.get("total") as Long,
+                                car = document.data?.get("car") as Long,
+                                motorcycle = document.data?.get("motorcycle") as Long,
+                                van = document.data?.get("van") as Long,
+                                etricycle = document.data?.get("etricycle") as Long,
+                                minibus = document.data?.get("minibus") as Long,
+                                tricycle = document.data?.get("tricycle") as Long,
+                                emotorcycle = document.data?.get("emotorcycle") as Long
+                            )
+                        }
 
-                    if (path.contains("today", ignoreCase = true)){
-                        dashboardStat.transferByDate = DashboardStatData(
-                            total = document.data?.get("total") as Long,
-                            car = document.data?.get("car") as Long,
-                            motorcycle = document.data?.get("motorcycle") as Long,
-                            van = document.data?.get("van") as Long,
-                            etricycle = document.data?.get("etricycle") as Long,
-                            minibus = document.data?.get("minibus") as Long,
-                            tricycle = document.data?.get("tricycle") as Long,
-                            emotorcycle = document.data?.get("emotorcycle") as Long
-                        )
+                        if (path.contains("today", ignoreCase = true)){
+                            dashboardStat.transferByDate = DashboardStatData(
+                                total = document.data?.get("total") as Long,
+                                car = document.data?.get("car") as Long,
+                                motorcycle = document.data?.get("motorcycle") as Long,
+                                van = document.data?.get("van") as Long,
+                                etricycle = document.data?.get("etricycle") as Long,
+                                minibus = document.data?.get("minibus") as Long,
+                                tricycle = document.data?.get("tricycle") as Long,
+                                emotorcycle = document.data?.get("emotorcycle") as Long
+                            )
+                        }
                     }
+                    fullMovementStatResponse.value = Result.Success(dashboardStat)
+                }catch (ex: Exception){
+                    fullMovementStatResponse.value = Result.Error(ex.localizedMessage?: "Something went wrong.")
                 }
-                fullMovementStatResponse.value = Result.Success(dashboardStat)
             }
         }
 

@@ -1,7 +1,9 @@
 package ng.max.vams.app.di
 
 import android.content.Context
-import com.readystatesoftware.chuck.ChuckInterceptor
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.chuckerteam.chucker.api.RetentionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,7 +51,7 @@ object DataSourceComponentModule {
 
     @Suppress("ConstantConditionIf")
     @Provides
-    fun provideOkHttpClient(authInterceptor: AuthInterceptor, chuckInterceptor: ChuckInterceptor): OkHttpClient {
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor, chuckInterceptor: ChuckerInterceptor): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient.Builder()
             .connectTimeout(30L, TimeUnit.SECONDS)
             .readTimeout(30L, TimeUnit.SECONDS)
@@ -86,8 +88,20 @@ object DataSourceComponentModule {
     }
 
     @Provides
-    fun provideChuckInterceptor(@ApplicationContext appContext: Context): ChuckInterceptor {
-        return ChuckInterceptor(appContext).showNotification(true)
+    fun provideChuckerInterceptor(@ApplicationContext appContext: Context): ChuckerInterceptor {
+        // Create the Collector
+        val chuckerCollector = ChuckerCollector(
+            context = appContext,
+            showNotification = true,
+            retentionPeriod = RetentionManager.Period.ONE_HOUR
+        )
+
+        return ChuckerInterceptor.Builder(appContext)
+            .collector(chuckerCollector)
+            .maxContentLength(250_000L)
+            .redactHeaders("Auth-Token", "Bearer")
+            .alwaysReadResponseBody(true)
+            .build()
     }
 }
 
