@@ -230,9 +230,9 @@ class RemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun registerMovement(movementBody: MovementBody): Result<RemoteVehicle> {
+    suspend fun registerMovement(changeOption: String, movementBody: MovementBody): Result<RemoteVehicle> {
         try {
-            val response = vehicleService.registerVehicleMovement(movementBody)
+            val response = vehicleService.registerVehicleMovement(changeOption, movementBody)
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {

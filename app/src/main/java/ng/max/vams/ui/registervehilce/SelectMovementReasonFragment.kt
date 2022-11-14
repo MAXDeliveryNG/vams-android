@@ -47,6 +47,7 @@ class SelectMovementReasonFragment : Fragment() {
     private lateinit var captureMovementData: CaptureMovementData
     var retrievedReason: Reason? = null
     var retrievedItems: List<String> = emptyList()
+    var checkOption: String = " "
 
     private var valueMap: HashMap<String, String> = HashMap()
 
@@ -122,23 +123,23 @@ class SelectMovementReasonFragment : Fragment() {
                                         bnd.submitButton.setButtonText("Continue")
                                     }
                                     //Reset sub reason field
-                                    if(bnd.subReasonEditText.text.toString().isNotEmpty()){
+                                    if (bnd.subReasonEditText.text.toString().isNotEmpty()) {
                                         bnd.subReasonEditText.text = null
                                     }
-                                    if (bnd.amountDefaultedLayout.isVisible){
+                                    if (bnd.amountDefaultedLayout.isVisible) {
                                         bnd.amountDefaultedLayout.gone()
                                         bnd.amountDefaultedEditText.text = null
                                     }
                                 }
 
-                                if (fieldKey == "subreason"){
-                                    if ((value != "Inter City" || value != "Intra City")  && captureMovementData.movementType == "exit") {
+                                if (fieldKey == "subreason") {
+                                    if ((value != "Inter City" || value != "Intra City") && captureMovementData.movementType == "exit") {
                                         bnd.retrievedItemsContainer.show()
-                                    }else{
+                                    } else {
                                         bnd.retrievedItemsContainer.gone()
                                     }
 
-                                    if (value == "Financial Default" ) {
+                                    if (value == "Financial Default") {
                                         bnd.amountDefaultedLayout.show()
                                     } else {
                                         bnd.amountDefaultedLayout.gone()
@@ -196,10 +197,12 @@ class SelectMovementReasonFragment : Fragment() {
 
     private fun getRequiredKeys(): List<String> {
         return movementData.let { movementData ->
-            val requiredKeys = mutableListOf(movementData.keyReason,
-                movementData.keySubReason)
+            val requiredKeys = mutableListOf(
+                movementData.keyReason,
+                movementData.keySubReason
+            )
 
-            if (movementData.subreason == "Financial Default"){
+            if (movementData.subreason == "Financial Default") {
                 requiredKeys.add(movementData.keyAmountDefaulted)
             }
             return@let requiredKeys
@@ -247,28 +250,30 @@ class SelectMovementReasonFragment : Fragment() {
             }
         }
 
-        sharedVehicleConfirmationViewModel.getConfirmationResponse.observe(viewLifecycleOwner, { hasConfirm ->
+        sharedVehicleConfirmationViewModel.getConfirmationResponse.observe(viewLifecycleOwner) { hasConfirm ->
             if (hasConfirm) {
                 val lastVehicleMovement = captureMovementData.vehicle.lastVehicleMovement
                 val movementBody = MovementBody(
                     vehicleId = captureMovementData.vehicle.id,
                     locationFromId = lastVehicleMovement?.locationFromId,
-                    locationToId = lastVehicleMovement?.locationToId,
-                    odormeter = lastVehicleMovement?.odometer,
+                    null,
                     subReasonId = getSubReasonId(movementData.subreason),
-                    recoveredItems = lastVehicleMovement?.checkListItems?: emptyList(),
+                    recoveredItems = lastVehicleMovement?.checkListItems ?: emptyList(),
                     retrievalAgent = lastVehicleMovement?.retrievalAgent,
-                    amountDefaulted = movementData.amountDefaulted?.toDouble()
+                    null,
+                    transferStatus = lastVehicleMovement?.transferStatus,
+                    null,
+                    null
                 )
                 sharedRegistrationViewModel.registerMovementFromReasonScreen(
-                    movementBody
+                    movementBody, "checkout"
                 )
-            }else{
+            } else {
                 bnd.submitButton.loaded()
             }
-        })
+        }
 
-        viewModel.getReasonByNameResponse.observe(viewLifecycleOwner, { result ->
+        viewModel.getReasonByNameResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Error -> {
                 }
@@ -278,13 +283,13 @@ class SelectMovementReasonFragment : Fragment() {
                     retrievedReason = result.value.find { it.name == selectedReasonName }!!
                 }
             }
-        })
+        }
 
     }
 
 
     private fun getSubReasonId(subreason: String?): String {
-        return retrievedReason?.subReasons?.filter {_subReason->
+        return retrievedReason?.subReasons?.filter { _subReason ->
             subreason == _subReason.name
         }!!.first().id
     }
@@ -296,13 +301,12 @@ class SelectMovementReasonFragment : Fragment() {
                 subReasonId = getSubReasonId(movementData.subreason),
                 subReasonName = movementData.subreason!!,
                 parentReasonName = movementData.reason!!,
-                amountDefaulted = if (movementData.subreason != "Financial Default"){
+                amountDefaulted = if (movementData.subreason != "Financial Default") {
                     null
-                }else{
+                } else {
                     movementData.amountDefaulted
                 }
             )
-
         navigate(action)
     }
 
@@ -315,9 +319,9 @@ class SelectMovementReasonFragment : Fragment() {
             bnd.vehicleDetailHeaderTv.text = getString(R.string.dialog_exit_label).uppercase()
         }
 
-        if (_captureData.movementType == "exit"){
+        if (_captureData.movementType == "exit") {
             _captureData.vehicle.lastVehicleMovement?.let {
-                it.checkListItems?.let { checkedList->
+                it.checkListItems?.let { checkedList ->
                     retrievedItems = checkedList
                     val itemsAdapter = BaseAdapter()
                     itemsAdapter.viewType = 3

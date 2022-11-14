@@ -2,9 +2,11 @@ package ng.max.vams.ui.registervehilce
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
@@ -53,6 +55,8 @@ class RegisterVehicleFragment : Fragment() {
     private var locations = listOf<Location>()
     private var recochecklist = listOf<RetrivalChecklistItem>()
     private var transferStatus: String? = null
+    private var changeOption: String = " "
+
 
 
     override fun onCreateView(
@@ -343,24 +347,30 @@ class RegisterVehicleFragment : Fragment() {
         }
 
 
-        sharedViewModel.getConfirmationResponse.observe(viewLifecycleOwner, { hasConfirm ->
+        sharedViewModel.getConfirmationResponse.observe(viewLifecycleOwner) { hasConfirm ->
             if (hasConfirm) {
+                val lastVehicleMovement = captureMovementData.vehicle.lastVehicleMovement
                 movementData.apply {
                     this.amountDefaulted = args.amountDefaulted
+                    this.transferStatus = lastVehicleMovement?.transferStatus.toString()
                 }
+
                 sharedRegistrationViewModel.registerMovement(
                     movementData, captureMovementData.vehicle.id,
                     args.subReasonId,
-                    if (args.parentReasonName == "Transfer"){
+                    if (args.parentReasonName == "Transfer") {
+                        movementData.vehicleMovement = captureMovementData.movementType
+                        changeOption = "transfer"
                         locations.first { it.name == movementData.destLocation }.id
-                    }else{
+                    } else {
+                        movementData.vehicleMovement = null
+                        changeOption = "checkin"
                         null
-                    }
-                )
-            }else{
+                    },changeOption)
+            } else {
                 bnd.submitButton.loaded()
             }
-        })
+        }
 
         with(sharedBottomSheetViewModel) {
             getSelectedItemResponse.observe(viewLifecycleOwner) { selectedItem ->
@@ -373,15 +383,19 @@ class RegisterVehicleFragment : Fragment() {
             }
 
             getCheckInTransferActionResponse.observe(viewLifecycleOwner){
+
                 transferStatus = it
                 sharedRegistrationViewModel.registerMovement(
                     movementData, captureMovementData.vehicle.id,
                     args.subReasonId,
                     if (args.parentReasonName == "Transfer"){
+                        changeOption = "transfer"
                         locations.first {location ->  location.name == movementData.destLocation }.id
                     }else{
+                        changeOption = "checkin"
                         null
-                    }, it
+                    }, changeOption,
+                    it
                 )
             }
         }
