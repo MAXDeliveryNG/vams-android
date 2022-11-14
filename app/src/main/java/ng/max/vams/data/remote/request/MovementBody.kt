@@ -9,8 +9,6 @@ data class MovementBody (
     var locationFromId: String?,
     @SerializedName("location_to_id")
     var locationToId: String?,
-    @SerializedName("odometer")
-    var odormeter: Double?,
     @SerializedName("sub_reason_id")
     var subReasonId: String,
     @SerializedName("recovered_items")
@@ -20,5 +18,9 @@ data class MovementBody (
     @SerializedName("amount_defaulted")
     var amountDefaulted: Double?,
     @SerializedName("transfer_status")
-    var transferStatus: String? = null
+    var transferStatus: String? = null,
+    @SerializedName("vehicle_movement")
+    var vehicleMovement: String? = null,
+    @SerializedName("odometer")
+    var odormeter: Double?
     )

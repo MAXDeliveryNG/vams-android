@@ -81,6 +81,22 @@ class MovementData : BaseObservable() {
             notifyPropertyChanged(BR.recoveredItems)
         }
 
+    @Bindable
+    @SerializedName("transfer_status")
+    var transferStatus: String? = null
+        set(value){
+            field = value
+            notifyPropertyChanged(BR.transferStatus)
+        }
+
+    @Bindable
+    @SerializedName("vehicle_movement")
+    var vehicleMovement: String? = null
+        set(value){
+            field = value
+            notifyPropertyChanged(BR.vehicleMovement)
+        }
+
     fun toMovementBody(): MovementBody {
         return Gson().fromJson(toJson(), MovementBody::class.java)
     }

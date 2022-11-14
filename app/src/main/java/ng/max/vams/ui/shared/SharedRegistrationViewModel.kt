@@ -36,8 +36,7 @@ class SharedRegistrationViewModel @Inject constructor(
     }
 
     fun registerMovement(
-        movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: String?, transferStatus: String? = null
-    ) {
+        movementData: MovementData, vehicleId: String, subReasonId: String, locationToId: String?, changeOption: String, transferStatus: String? = null) {
         registerMovementResponse.value = Result.Loading
         viewModelScope.launch {
             val movementBody = movementData.toMovementBody()
@@ -46,24 +45,27 @@ class SharedRegistrationViewModel @Inject constructor(
                 locationRepo.getLocationByName(name)
             }?.id
             movementBody.vehicleId = vehicleId
+            movementBody.retrievalAgent = movementData.retrievalAgent
+            movementBody.vehicleMovement = movementData.vehicleMovement
             movementBody.subReasonId = subReasonId
             movementBody.locationToId = locationToId
             movementBody.transferStatus = transferStatus
 
-            registerMovementResponse.value = registerVehicleMovementUseCase.invoke(movementBody)
+            registerMovementResponse.value = registerVehicleMovementUseCase.invoke(changeOption, movementBody)
 
         }
     }
 
     fun registerMovementFromReasonScreen(
-        movementBody: MovementBody
+        movementBody: MovementBody,
+        changeOption: String
     ) {
         registerMovementResponse.value = Result.Loading
         viewModelScope.launch {
             movementBody.apply {
                 recoveredItems = getRecoveredItemsIds(movementBody.recoveredItems)
             }
-            registerMovementResponse.value = registerVehicleMovementUseCase.invoke(movementBody)
+            registerMovementResponse.value = registerVehicleMovementUseCase.invoke(changeOption, movementBody)
 
         }
     }
