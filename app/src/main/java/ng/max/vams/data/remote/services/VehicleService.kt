@@ -37,7 +37,7 @@ interface VehicleService {
         @Path("movement_option")changeOption: String,
         @Body movementBody: MovementBody): Response<ApiResponse<RemoteVehicle>>
 
-    @GET("vehicles/v1/checklist")
+    @GET("vehicles/v1/checklist/firestore")
     suspend fun recoveredItemsChecklist(): Response<ApiResponse<List<RetrivalChecklistItem>>>
 
     @GET("vehicles/v1/user-managment/getUser/{user_id}")

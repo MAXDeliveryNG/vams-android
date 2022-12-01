@@ -24,8 +24,8 @@ android {
         applicationId "ng.max.vams"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 13
-        versionName "2.1.3"
+        versionCode 15
+        versionName "2.1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
