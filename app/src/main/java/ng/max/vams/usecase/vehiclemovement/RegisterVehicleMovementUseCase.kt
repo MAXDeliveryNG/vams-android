@@ -9,7 +9,7 @@ import javax.inject.Inject
 class RegisterVehicleMovementUseCase @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) {
-    suspend fun invoke(movementBody: MovementBody): Result<RemoteVehicle> {
-        return remoteDataSource.registerMovement(movementBody)
+    suspend fun invoke(changeOption: String, movementBody: MovementBody): Result<RemoteVehicle> {
+        return remoteDataSource.registerMovement(changeOption, movementBody)
     }
 }

@@ -32,10 +32,12 @@ interface VehicleService {
                        @Query("include_vehicle_movement_and_last_reason") withReason: Boolean = true,
                        @Query("include_defined_relations") relations: String = "champion,vehicle_status,manufacturer"): Response<ApiResponse<VehicleListData>>
 
-    @POST("vehicles/v1/vehicle/movement/change")
-    suspend fun registerVehicleMovement(@Body movementBody: MovementBody): Response<ApiResponse<RemoteVehicle>>
+    @POST("vehicles/v1/vehicle/movement/{movement_option}")
+    suspend fun registerVehicleMovement(
+        @Path("movement_option")changeOption: String,
+        @Body movementBody: MovementBody): Response<ApiResponse<RemoteVehicle>>
 
-    @GET("vehicles/v1/checklist")
+    @GET("vehicles/v1/checklist/firestore")
     suspend fun recoveredItemsChecklist(): Response<ApiResponse<List<RetrivalChecklistItem>>>
 
     @GET("vehicles/v1/user-managment/getUser/{user_id}")
